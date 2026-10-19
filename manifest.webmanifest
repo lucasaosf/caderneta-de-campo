@@ -1,14 +1,15 @@
 {
   "name": "Caderneta de Campo",
   "short_name": "Caderneta",
-  "description": "Listas de espécies avistadas, com contagem, GPS e exportação para Excel.",
+  "description": "Listas de espécies avistadas, com contagem, GPS e exportação para Excel. Pesquisa & Soluções Ambientais — criado por Lucas Aøsf.",
   "lang": "pt-BR",
+  "id": "./",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#ECF0EB",
-  "theme_color": "#17603F",
+  "background_color": "#0E2515",
+  "theme_color": "#0E2515",
   "icons": [
     {"src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},
     {"src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"},
