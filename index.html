@@ -7,6 +7,8 @@
 <link rel="icon" href="favicon.png" type="image/png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <meta name="mobile-web-app-capable" content="yes">
+<meta name="application-name" content="Caderneta de Campo by Lucas Aøsf">
+<meta name="apple-mobile-web-app-title" content="Caderneta de Campo by Lucas Aøsf">
 <style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1553,7 +1555,7 @@ probeGps();
 renderHome();
 go('cover');
 (function(){
-  var V = '2', seen = LS.get('appVersion', null);
+  var V = '3', seen = LS.get('appVersion', null);
   if (seen !== V){ if (seen || Object.keys(S.lists).length) setTimeout(function(){ toast('App atualizado — versão ' + V); }, 600); LS.set('appVersion', V); }
 })();
 updateWatch();
