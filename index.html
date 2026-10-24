@@ -1,14 +1,18 @@
 <!doctype html><html lang="pt-BR"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Caderneta de Campo</title>
+<title>Lista de Campo</title>
 <meta name="theme-color" content="#0E2515">
 <meta name="description" content="Caderneta de campo para listas de espécies avistadas">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="favicon.png" type="image/png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="application-name" content="Lucas Aøsf App">
-<meta name="apple-mobile-web-app-title" content="Lucas Aøsf App">
+<meta name="application-name" content="Lista de Campo">
+<meta name="apple-mobile-web-app-title" content="Lista de Campo">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="apple-touch-startup-image" href="capa.jpg">
+<script>(function(){try{var t=localStorage.getItem("caderneta.v1.theme");t=t?JSON.parse(t):"dark";document.documentElement.setAttribute("data-theme",t);}catch(e){document.documentElement.setAttribute("data-theme","dark");}})();</script>
 <style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -264,6 +268,8 @@ a.btn{color:var(--ink)}
 /* toast */
 .toast{position:fixed;left:50%;transform:translateX(-50%);width:max-content;bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:60;display:flex;align-items:center;gap:12px;max-width:calc(100% - 32px);padding:10px 12px 10px 16px;border-radius:12px;background:var(--ink);color:var(--bg);box-shadow:var(--shadow);font-size:15px}
 .toast button{color:var(--tally);font-weight:700;min-height:36px;padding:0 6px}
+.toast{pointer-events:none}.toast button{pointer-events:auto}
+body.sheet-open .toast{bottom:auto;top:calc(env(safe-area-inset-top,0px) + 14px)}
 
 
 /* ---------- capa ---------- */
@@ -311,6 +317,35 @@ a.btn{color:var(--ink)}
 .lp-acts .btn .ico{color:var(--accent)}
 .lp-acts .btn-danger .ico{color:currentColor}
 
+/* ---------- seleção: planilha do campo ---------- */
+.sel-panel{margin-top:18px;background:var(--surface);border:1.5px solid var(--accent);border-radius:16px;padding:14px 16px;display:grid;gap:12px;box-shadow:var(--shadow)}
+.sel-panel h2{font-family:var(--display);font-size:24px;font-weight:600}
+.sel-panel p{margin:0;font-size:14px;color:var(--muted)}
+.sel-range{display:grid;grid-template-columns:1fr 1fr;gap:8px;align-items:end}
+.sel-range .btn{grid-column:1 / -1}
+.sel-range label{display:grid;gap:4px;font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--bronze)}
+.sel-range input{min-height:44px;border-radius:10px;border:1.5px solid var(--line);background:var(--surface-2);padding:0 10px;font-size:15px;min-width:0;width:100%}
+.sel-range .btn{min-height:44px;padding:6px 14px}
+.sel-quick{display:flex;flex-wrap:wrap;gap:8px}
+.sel-quick .chip{color:var(--ink)}
+.hl-row.sel{grid-template-columns:28px 48px minmax(0,1fr) auto}
+.ck{width:24px;height:24px;border-radius:7px;border:2px solid var(--line);display:grid;place-items:center;background:var(--surface)}
+.ck svg{width:16px;height:16px;stroke:var(--on-accent);stroke-width:3;fill:none;opacity:0}
+.hl-row.sel[aria-checked="true"]{background:var(--accent-soft)}
+.hl-row.sel[aria-checked="true"] .ck{background:var(--accent);border-color:var(--accent)}
+.hl-row.sel[aria-checked="true"] .ck svg{opacity:1}
+.sec-row{display:flex;align-items:baseline;justify-content:space-between;gap:8px}
+.sec-row .link{font-size:13px;min-height:36px}
+.open-tag{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--bronze)}
+.sel-bar{position:fixed;left:0;right:0;bottom:0;z-index:45;background:var(--surface);border-top:1px solid var(--line);box-shadow:0 -6px 20px rgba(0,0,0,.12);padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px))}
+.sel-bar-in{max-width:640px;margin:0 auto;display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:8px;align-items:center}
+.sel-bar-info{font-size:14px;color:var(--muted);line-height:1.3}
+.sel-bar-info b{color:var(--ink);font-size:16px}
+.sel-bar .btn{min-height:46px;padding:8px 14px}
+.sel-bar .btn-primary[disabled]{opacity:.45}
+body.selecting .toast{bottom:calc(92px + env(safe-area-inset-bottom,0px))}
+body.selecting .wm{display:none}
+
 /* ---------- marca d'água ---------- */
 .wm{position:fixed;left:0;right:0;bottom:calc(env(safe-area-inset-bottom,0px) + 8px);z-index:35;pointer-events:none;text-align:center;
   font-family:var(--display);font-style:italic;font-weight:600;font-size:22px;color:var(--ink);opacity:.12;letter-spacing:.02em}
@@ -319,23 +354,121 @@ a.btn{color:var(--ink)}
 .update-bar{position:fixed;left:16px;right:16px;top:calc(env(safe-area-inset-top,0px) + 10px);z-index:70;display:flex;align-items:center;justify-content:space-between;gap:10px;max-width:520px;margin:0 auto;padding:10px 10px 10px 16px;border-radius:14px;background:var(--forest);color:#F3EEE3;box-shadow:var(--shadow);font-size:15px}
 .update-bar button{background:#F3EEE3;color:#0E2515;font-weight:600;border-radius:10px;min-height:40px;padding:0 14px}
 
+
+/* ---------- tema: botões, capa clara ---------- */
+.cover-top{position:absolute;left:0;right:0;top:calc(env(safe-area-inset-top,0px) + 10px);display:flex;align-items:center;justify-content:space-between;gap:8px;padding:0 14px;z-index:2}
+#cover-install{flex:1;display:flex;justify-content:center}
+.theme-btn{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;flex:none;background:rgba(14,37,21,.55);color:#F3EEE3;border:1.5px solid rgba(242,235,221,.4);font-size:20px;line-height:1}
+.theme-btn.small{width:40px;height:40px;background:var(--surface);color:var(--ink);border-color:var(--line);font-size:18px}
+.theme-btn .ico{width:20px;height:20px}
+.t-moon{display:none}
+:root[data-theme="light"] .t-sun{display:none}
+:root[data-theme="light"] .t-moon{display:inline}
+.install-chip{display:inline-flex;align-items:center;gap:6px;min-height:36px;padding:4px 12px;border-radius:999px;background:rgba(14,37,21,.55);color:#F3EEE3;border:1.5px solid rgba(242,235,221,.4);font-size:13px;font-weight:600}
+.logo-light{display:none}
+:root[data-theme="light"] .cover{background:#F3EEE3 url("capa-clara.jpg") center bottom / cover no-repeat;color:#13301A}
+:root[data-theme="light"] .logo-dark{display:none}
+:root[data-theme="light"] .logo-light{display:block}
+:root[data-theme="light"] .cover-tag{color:#5B675A}
+:root[data-theme="light"] .cover h1{color:#13301A}
+:root[data-theme="light"] .cover-sub{color:#86602E}
+:root[data-theme="light"] .cover-stat{color:#3B4A3E}
+:root[data-theme="light"] .cover-btn.primary{background:#13301A;color:#F3EEE3}
+:root[data-theme="light"] .cover-btn.ghost{background:rgba(251,248,241,.78);color:#13301A;border-color:rgba(19,48,26,.35)}
+:root[data-theme="light"] .cover-sign{color:rgba(19,48,26,.7)}
+:root[data-theme="light"] .cover-sign b{color:#13301A}
+:root[data-theme="light"] .cover .theme-btn,:root[data-theme="light"] .install-chip{background:rgba(251,248,241,.85);color:#13301A;border-color:rgba(19,48,26,.3)}
+.home-head{align-items:center}
+.home-tools{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.chip-home{color:var(--ink);font-weight:600}
+.chip-home .ico{width:16px;height:16px}
+
+/* ---------- V / A ---------- */
+.sp{grid-template-columns:minmax(0,1fr) auto}
+.ctr{gap:5px}
+.va{display:grid;grid-template-rows:1fr 1fr;width:30px;height:50px;border-radius:9px;overflow:hidden;border:1.5px solid var(--line);flex:none}
+.va button{font-family:var(--body);font-weight:700;font-size:12px;color:var(--muted);background:var(--surface)}
+.va button[aria-pressed="true"]{background:var(--accent);color:var(--on-accent)}
+.sp-meta .va-n{font-family:var(--body);font-weight:600;color:var(--bronze);white-space:nowrap}
+.sp-sci{display:block;font-family:var(--display);font-style:italic;font-size:15px;color:var(--muted);line-height:1.2}
+.sp-name i{font-family:var(--display);font-size:19px;font-weight:600}
+.sp-tag{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--bronze);margin-left:4px}
+.sugg .s-sci{font-family:var(--display);font-style:italic;font-size:16px}
+.sugg .s-pt{display:block;font-size:12px;color:var(--muted);font-weight:400}
+.sugg .s-cls{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--bronze)}
+.sugg .s-alias{font-size:11px;color:var(--accent);font-weight:700}
+.va-edit{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.va-edit .big-ctr input{font-size:20px}
+.alias-box{display:grid;gap:8px;padding:12px;border-radius:12px;background:var(--surface-2);border:1px solid var(--line)}
+.alias-box b{font-family:var(--display);font-size:18px}
+.alias-chips{display:flex;flex-wrap:wrap;gap:6px}
+.alias-chip{display:inline-flex;align-items:center;gap:4px;min-height:34px;padding:2px 4px 2px 12px;border-radius:999px;background:var(--accent-soft);color:var(--accent-strong);font-weight:600;font-size:14px}
+.alias-chip button{width:28px;height:28px;border-radius:50%;display:grid;place-items:center}
+.alias-chip .ico{width:14px;height:14px}
+.link-res{list-style:none;margin:0;padding:0;display:grid;gap:4px;max-height:280px;overflow:auto}
+.link-res button{width:100%;text-align:left;padding:8px 10px;border-radius:10px;min-height:48px;background:var(--surface)}
+.link-res button:active{background:var(--accent-soft)}
+.inline-row{display:flex;gap:8px}
+.inline-row input{flex:1;min-width:0}
+.fmt-list{display:grid;gap:10px}
+.fmt-list .btn{justify-content:flex-start;text-align:left;min-height:64px;padding:10px 16px}
+.fmt-list .btn small{display:block;font-weight:400;font-size:13px;color:var(--muted)}
+.fmt-list .btn .ico{color:var(--accent)}
+.proj-chips{display:flex;flex-wrap:wrap;gap:8px}
+.meta-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+.meta-tag{font-size:12px;font-weight:600;padding:2px 8px;border-radius:6px;background:var(--surface-2);color:var(--muted);border:1px solid var(--line)}
+
+/* ---------- modo bolso ---------- */
+.pocket{position:fixed;inset:0;z-index:90;background:#000;color:#5c5c5c;display:flex;align-items:center;justify-content:center;touch-action:none;user-select:none;-webkit-user-select:none}
+.pocket-in{display:grid;gap:8px;justify-items:center;text-align:center;font-size:15px}
+.pocket-in b{color:#7a7a7a;font-weight:600}
+.pocket-in small{margin-top:24px;font-size:12px}
+.pocket .rec-dot{background:#7a1f17}
+
+/* ---------- atualização ---------- */
+.update-bar{flex-direction:column;align-items:stretch}
+.update-bar[hidden]{display:none!important}
+.update-bar .ub-row{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.update-bar ul{margin:6px 0 2px;padding-left:18px;font-size:13px;opacity:.9}
+.update-bar .ub-later{background:transparent;color:#F3EEE3;border:1px solid rgba(242,235,221,.4)}
+.news ul{margin:0 0 12px;padding-left:20px;display:grid;gap:6px}
+.steps{margin:0 0 12px;padding-left:22px;display:grid;gap:8px}
+.acct-card{display:grid;gap:10px;padding:14px;border-radius:14px;background:var(--surface-2);border:1px solid var(--line)}
+.acct-card .who{font-weight:700}
+.btn-google{background:#fff;color:#1f1f1f;border-color:#dadce0}
+.divider{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:13px}
+.divider:before,.divider:after{content:"";flex:1;height:1px;background:var(--line)}
+:root[data-theme="light"] .cover-logo{filter:drop-shadow(0 4px 12px rgba(19,48,26,.18))}
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:4px;border-radius:12px;background:var(--surface-2);border:1px solid var(--line)}
+.seg button{min-height:42px;border-radius:9px;font-weight:600;color:var(--muted)}
+.seg button[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:var(--shadow)}
+.acct-sec{margin:18px 0 8px;font-family:var(--display);font-size:21px;font-weight:600}
+.acct-foot{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;justify-content:center;margin-top:16px;font-size:13px;color:var(--muted)}
+.acct-foot a,.acct-foot button{color:var(--accent);font-weight:600;text-decoration:underline;text-underline-offset:3px}
+.auth-err{margin:0;color:var(--rec);font-size:14px}
+.ios-share{display:inline-block;width:22px;height:22px;vertical-align:-5px;stroke:var(--accent)}
+.pocket-btn{margin-top:8px;width:100%}
+
 @media (min-width:560px){ h1{font-size:44px} .sp-name{font-size:18px} }
 @media (prefers-reduced-motion: reduce){ *{animation:none!important;transition:none!important} }
 </style>
 
 <!-- CAPA -->
-<section id="cover" class="cover" aria-label="Caderneta de Campo">
-  <img class="cover-logo" src="logo-creme.png" alt="Logo Pesquisa &amp; Soluções Ambientais" width="168" height="168">
+<section id="cover" class="cover" aria-label="Lista de Campo">
+  <div class="cover-top"><button class="theme-btn" data-act="theme" aria-label="Trocar modo claro ou escuro"><span class="t-sun" aria-hidden="true">☀︎</span><span class="t-moon" aria-hidden="true">☾</span></button><span id="cover-install"></span><button class="theme-btn acct-btn" data-act="account" aria-label="Conta e backup" id="cover-acct"><svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg></button></div>
+  <img class="cover-logo logo-dark" src="logo-creme.png" alt="Logo Pesquisa &amp; Soluções Ambientais" width="168" height="168"><img class="cover-logo logo-light" src="logo-verde.png" alt="Logo Pesquisa &amp; Soluções Ambientais" width="168" height="168">
   <p class="cover-tag">Pesquisa &amp; Soluções Ambientais</p>
   <hr class="cover-rule">
-  <h1>Caderneta<br>de Campo</h1>
+  <h1>Lista<br>de Campo</h1>
   <p class="cover-sub">Listas de espécies · contagem · GPS</p>
   <p class="cover-stat" id="cover-stat"></p>
   <div class="cover-actions" id="cover-actions"></div>
   <p class="cover-sign">criado por <b>Lucas Aøsf</b></p>
 </section>
 
-<div class="wm" aria-hidden="true"><small>Caderneta de Campo</small>Lucas Aøsf</div>
+<div class="wm" aria-hidden="true"><small>Lista de Campo</small>Lucas Aøsf</div>
+<div class="pocket" id="pocket" hidden><div class="pocket-in"><span class="rec-dot"></span><b>Gravando a trilha</b><span id="pocket-info"></span><small>Deslize para cima para voltar</small></div></div>
+<div class="update-bar" id="update-bar" hidden></div>
 
 <div class="app">
   <!-- HOME -->
@@ -344,11 +477,15 @@ a.btn{color:var(--ink)}
       <div class="brand">
         <button class="home-logo" data-act="cover" aria-label="Voltar para a capa"><img src="logo-creme.png" alt=""></button>
         <div class="brand-text">
-          <span class="eyebrow">Caderneta de Campo</span>
+          <span class="eyebrow">Lista de Campo</span>
           <h1>Minhas listas</h1>
         </div>
       </div>
-      <button class="chip" id="sync-chip" data-act="backup" data-state="idle"><span class="dot"></span><span id="sync-text">Abrindo…</span></button>
+      <div class="home-tools">
+        <button class="chip chip-home" data-act="cover"><svg class="ico" viewBox="0 0 24 24"><path d="M3 11l9-7 9 7M5 10v10h14V10"/></svg>Início</button>
+        <button class="theme-btn small" data-act="theme" aria-label="Trocar modo claro ou escuro"><span class="t-sun" aria-hidden="true">☀︎</span><span class="t-moon" aria-hidden="true">☾</span></button>
+        <button class="chip" id="sync-chip" data-act="account" data-state="idle"><span class="dot"></span><span id="sync-text">Abrindo…</span></button>
+      </div>
     </header>
     <button class="btn-new" data-act="new-list">
       <span class="plus-mark" aria-hidden="true">+</span>
@@ -394,6 +531,7 @@ a.btn{color:var(--ink)}
           <option value="old">Na ordem em que vi</option>
           <option value="az">A–Z</option>
           <option value="count">Mais indivíduos</option>
+          <option value="tax">Ordem taxonômica</option>
         </select>
       </label>
     </div>
@@ -422,6 +560,9 @@ a.btn{color:var(--ink)}
     </details>
     <label class="vh" for="name-filter">Buscar nos meus nomes</label>
     <input class="filter" id="name-filter" type="search" placeholder="Buscar nos meus nomes">
+    <h2 class="sec">Meus apelidos</h2>
+    <ul class="nl" id="alias-list"></ul>
+    <h2 class="sec">Nomes livres usados</h2>
     <ul class="nl" id="name-list"></ul>
   </section>
 </div>
@@ -430,7 +571,12 @@ a.btn{color:var(--ink)}
   <div class="sheet-bg" data-act="close-sheet"></div>
   <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-h"><div class="grab" aria-hidden="true"></div><div id="sheet-body"></div></div>
 </div>
+<div class="sel-bar" id="sel-bar" hidden></div>
 <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+<datalist id="dl-proj"></datalist><datalist id="dl-camp"></datalist><datalist id="dl-ua"></datalist><datalist id="dl-met"></datalist>
+<script src="especies.js?v=6"></script>
+<script src="planilha.js?v=6"></script>
+<script src="firebase-config.js?v=6"></script>
 
 <script>
 (function(){
@@ -442,6 +588,9 @@ var clean = function(s){ return String(s||'').replace(/\s+/g,' ').trim(); };
 var rid = function(p){ return p + Date.now().toString(36) + Math.random().toString(36).slice(2,7); };
 var clone = function(o){ return JSON.parse(JSON.stringify(o)); };
 var FRAMED = (function(){ try { return window.top !== window; } catch(e){ return true; } })();
+var NATIVE = !!(window.Capacitor && typeof window.Capacitor.isNativePlatform === 'function' && window.Capacitor.isNativePlatform());
+var NP = {};
+if (NATIVE){ try { ['BackgroundGeolocation','Filesystem','Share','AppUpdate','AppIcon'].forEach(function(n){ NP[n] = window.Capacitor.registerPlugin(n); }); } catch(e){} }
 
 var ICO = {
   pin:'<svg class="ico" viewBox="0 0 24 24"><path d="M12 21s-7-6.1-7-11a7 7 0 0 1 14 0c0 4.9-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>',
@@ -487,12 +636,50 @@ var S = {
   cloud:null, cloudState:'pending', sync:'idle', downloads:null,
   gps:'unknown', pos:null, watchId:null, wake:null,
   screen:'cover', cur:null, sort:LS.get('sort','recent'), trackPref:LS.get('trackPref', true),
-  sugg:[], suggIdx:0, undo:null, sheetClose:null, editingName:null, demo:3
+  sugg:[], suggIdx:0, undo:null, sheetClose:null, editingName:null, demo:3,
+  alias:{}, defMode:LS.get('defMode', 'V'), theme:LS.get('theme', 'dark')
 };
+var APP_V = 6;
+var NOVIDADES = [
+  'Banco com 4.903 espécies do Brasil (SBMz, CBRO, SBH): sugestões pelo nome científico ou popular.',
+  'Apelidos: toque numa espécie e use “Apelidar”. O apelido vira o nome científico nas planilhas.',
+  'Botões V (visual) e A (auditivo) ao lado do contador.',
+  'Planilha de análises com a identidade da marca: riqueza, abundância, diversidade, rarefação, similaridade, IPA e gráficos. Também em CSV.',
+  'Projeto, campanha, unidade amostral e método em cada lista; planilha cumulativa por projeto.',
+  'Modo claro e escuro, botão Início e aviso de nova versão dentro do app.'
+];
+
+/* ---------- banco de espécies ---------- */
+var DB = {n:{}, list:[]};
+(function(){
+  var arr = window.ESPECIES || [];
+  arr.forEach(function(r){
+    var k = norm(r.n); DB.n[k] = r;
+    var pts = (r.pt || '').split(/\s*,\s*/).filter(Boolean);
+    DB.list.push({r:r, kn:k, kw:k.split(' '), kp:pts.map(norm)});
+  });
+})();
+function dbGet(sci){ return sci ? DB.n[norm(sci)] || null : null; }
+var CLS = {'Mamífero':'mamífero','Ave':'ave','Réptil':'réptil','Anfíbio':'anfíbio'};
+function aliasOf(name){ var a = S.alias[norm(name)]; return a ? a.n : null; }
+function aliasesFor(sci){ var k = norm(sci); return Object.keys(S.alias).filter(function(x){ return norm(S.alias[x].n) === k; }).map(function(x){ return S.alias[x].a; }).sort(); }
+function resolveSci(name){ var a = aliasOf(name); if (a) return a; var d = DB.n[norm(name)]; return d ? d.n : ''; }
+function spLabel(s){ return s.name; }
+function spCount(s){ return s.count; }
+function spLegacy(s){ return Math.max(0, s.count - (s.cv || 0) - (s.ca || 0)); }
+function setAlias(alias, sci){ alias = clean(alias); if (!alias) return; S.alias[norm(alias)] = {a:alias, n:sci}; touchNames(); }
+function delAlias(alias){ delete S.alias[norm(alias)]; touchNames(); }
 
 function fixList(c){
   c.species = Array.isArray(c.species) ? c.species : [];
-  c.species.forEach(function(s){ s.count = Math.max(0, parseInt(s.count,10) || 0); s.note = s.note || ''; if (!s.id) s.id = rid('s'); if (!s.first) s.first = c.start; });
+  c.species.forEach(function(s){
+    s.count = Math.max(0, parseInt(s.count,10) || 0); s.note = s.note || ''; if (!s.id) s.id = rid('s'); if (!s.first) s.first = c.start;
+    s.cv = Math.max(0, parseInt(s.cv,10) || 0); s.ca = Math.max(0, parseInt(s.ca,10) || 0);
+    if (s.cv + s.ca > s.count) s.count = s.cv + s.ca;
+    if (s.mode !== 'A') s.mode = 'V';
+    if (s.sci === undefined) s.sci = resolveSci(s.name);
+  });
+  c.projeto = c.projeto || ''; c.campanha = c.campanha || ''; c.ua = c.ua || ''; c.metodo = c.metodo || '';
   c.track = c.track || {};
   c.track.pts = Array.isArray(c.track.pts) ? c.track.pts : [];
   c.track.dist = c.track.dist || 0; c.track.on = !!c.track.on; c.track.t0 = c.track.t0 || 0;
@@ -503,10 +690,10 @@ function fixList(c){
   return c;
 }
 function loadLocal(){
+  var nm = LS.get('names', null);
+  if (nm){ S.names = Array.isArray(nm.names) ? nm.names : []; S.alias = nm.alias && typeof nm.alias === 'object' ? nm.alias : {}; S.namesUpdated = nm.updated || 0; S.namesSynced = nm.synced || 0; }
   var idx = LS.get('index', []);
   idx.forEach(function(id){ var c = LS.get('list.'+id, null); if (c && c.id) S.lists[id] = fixList(c); });
-  var nm = LS.get('names', null);
-  if (nm){ S.names = Array.isArray(nm.names) ? nm.names : []; S.namesUpdated = nm.updated || 0; S.namesSynced = nm.synced || 0; }
   S.tomb = LS.get('tomb', []);
 }
 var localTimers = {};
@@ -515,7 +702,7 @@ function saveLocal(id, delay){
   localTimers[id] = setTimeout(function(){ delete localTimers[id]; writeLocal(id); }, delay);
 }
 function writeLocal(id){
-  if (id === '__names'){ LS.set('names', {names:S.names, updated:S.namesUpdated, synced:S.namesSynced}); return; }
+  if (id === '__names'){ LS.set('names', {names:S.names, alias:S.alias, updated:S.namesUpdated, synced:S.namesSynced}); return; }
   var c = S.lists[id];
   if (!c) LS.del('list.'+id);
   else if (!LS.set('list.'+id, c) && !S.cloud) toast('O navegador ficou sem espaço. Baixe um backup e apague listas antigas.');
@@ -547,7 +734,7 @@ function anyPending(){ return Object.keys(cTimers).length > 0 || Object.keys(inf
 function doPush(id){
   if (id === '__names'){
     var u = S.namesUpdated;
-    return S.cloud.col.doc('nomes').set({kind:'names', names:S.names.slice(), updated:u}).then(function(){ S.namesSynced = u; saveLocal('__names', 500); });
+    return S.cloud.col.doc('nomes').set({kind:'names', names:S.names.slice(), alias:clone(S.alias), updated:u}).then(function(){ S.namesSynced = u; saveLocal('__names', 500); });
   }
   var c = S.lists[id], ref = S.cloud.col.doc(id);
   if (!c) return ref.delete().then(function(){ S.tomb = S.tomb.filter(function(x){ return x !== id; }); LS.set('tomb', S.tomb); });
@@ -556,6 +743,7 @@ function doPush(id){
 }
 function push(id, attempt){
   if (!S.cloud) return;
+  if (S.cloud.fb && navigator.onLine === false){ setSync('offline'); return; }
   if (inflight[id]){ again[id] = true; return; }
   inflight[id] = true; setSync('saving');
   doPush(id).then(function(){
@@ -586,7 +774,7 @@ function mergeRemote(docs){
     var r = d.data(); if (!r) return;
     if (d.id === 'nomes'){
       var ru0 = r.updated || 0;
-      if (ru0 > S.namesUpdated){ S.names = Array.isArray(r.names) ? r.names.slice() : []; S.namesUpdated = ru0; }
+      if (ru0 > S.namesUpdated){ S.names = Array.isArray(r.names) ? r.names.slice() : []; S.alias = r.alias && typeof r.alias === 'object' ? clone(r.alias) : S.alias; S.namesUpdated = ru0; }
       S.namesSynced = ru0; writeLocal('__names');
       return;
     }
@@ -604,6 +792,7 @@ function mergeRemote(docs){
 }
 function initCloud(){
   var cl = window.claude;
+  if (AUTH.ready()){ AUTH.init(); return; }
   if (!cl || typeof cl.use !== 'function'){ S.cloudState = 'none'; renderSync(); return; }
   Promise.all([cl.use('db'), cl.use('user'), cl.use('downloads')].map(function(p){ return Promise.resolve(p).catch(function(){ return null; }); }))
   .then(function(r){
@@ -622,6 +811,131 @@ function initCloud(){
     });
   }).catch(function(){ S.cloudState = 'none'; renderSync(); });
 }
+/* ---------- login: Google, Apple e e-mail/senha (Firebase) ---------- */
+var FBV = '10.14.1';
+function loadScript(src){ return new Promise(function(ok, no){ var s = document.createElement('script'); s.src = src; s.onload = ok; s.onerror = no; document.head.appendChild(s); }); }
+function fbCol(db, uid){
+  var col = db.collection('users').doc(uid).collection('docs');
+  var MAP = {'resource-exhausted':'quota_exceeded', 'invalid-argument':'invalid_argument', 'permission-denied':'not_granted', 'unauthenticated':'not_granted', 'deadline-exceeded':'unavailable'};
+  var bad = function(e){ var c = (e && e.code) || ''; throw {code: MAP[c] || c, message: e && e.message}; };
+  return {
+    fb: true,
+    doc: function(id){ var r = col.doc(id); return {
+      set: function(body){ return r.set({updated: body.updated || 0, json: JSON.stringify(body)}).catch(bad); },
+      delete: function(){ return r.delete().catch(bad); }
+    }; },
+    get: function(){ return col.get().then(function(snap){ return {docs: snap.docs.map(function(d){
+      var raw = d.data() || {}, val = null; try { val = raw.json ? JSON.parse(raw.json) : raw; } catch(e){}
+      return {id: d.id, exists: !!val, data: function(){ return val; }};
+    })}; }, bad); },
+    wipe: function(){ return col.get().then(function(snap){ return Promise.all(snap.docs.map(function(d){ return d.ref.delete(); })); }); }
+  };
+}
+var AUTH = {
+  user: null, fb: null,
+  ready: function(){ var c = window.FIREBASE_CONFIG; return !!(c && c.apiKey && c.projectId) && !FRAMED; },
+  apple_on: function(){ return !!(window.FIREBASE_CONFIG && window.FIREBASE_CONFIG.apple); },
+  load: function(){
+    if (AUTH._p) return AUTH._p;
+    var base = 'https://www.gstatic.com/firebasejs/' + FBV + '/';
+    AUTH._p = loadScript(base + 'firebase-app-compat.js').then(function(){ return Promise.all([loadScript(base + 'firebase-auth-compat.js'), loadScript(base + 'firebase-firestore-compat.js')]); })
+      .then(function(){ if (!firebase.apps.length) firebase.initializeApp(window.FIREBASE_CONFIG); AUTH.fb = firebase; return firebase; });
+    AUTH._p.catch(function(){ AUTH._p = null; });
+    return AUTH._p;
+  },
+  init: function(){
+    S.cloudState = 'pending'; renderSync();
+    AUTH.load().then(function(fb){
+      fb.auth().getRedirectResult().catch(function(e){ AUTH.err(e); });
+      fb.auth().onAuthStateChanged(function(u){ AUTH.user = u || null; AUTH.attach(); if (!$('#sheet').hidden && $('#au-email, .acct-card')) openAccount(); });
+    }).catch(function(){ S.cloudState = 'none'; renderSync(); });
+  },
+  attach: function(){
+    var u = AUTH.user;
+    if (!u){ S.cloud = null; S.cloudState = 'none'; renderAll(); return; }
+    var last = LS.get('cloudUid', null);
+    if (last && last !== u.uid){ Object.keys(S.lists).forEach(function(id){ delete S.lists[id].synced; writeLocal(id); }); S.namesSynced = 0; S.tomb = []; LS.set('tomb', S.tomb); }
+    LS.set('cloudUid', u.uid);
+    var col = fbCol(AUTH.fb.firestore(), u.uid);
+    S.cloud = col; S.cloudState = 'on'; renderSync();
+    var pull = function(){
+      return col.get().then(function(snap){
+        if (S.cloud !== col) return;
+        mergeRemote(snap.docs);
+        if (S.screen === 'list' && !S.lists[S.cur]) go('home');
+        renderAll(); retryAll(); updateWatch();
+      });
+    };
+    pull().catch(function(){ setSync('offline'); var once = function(){ window.removeEventListener('online', once); if (S.cloud === col) pull().catch(function(){}); }; window.addEventListener('online', once); });
+  },
+  err: function(e){
+    var c = (e && e.code) || '', m = {
+      'auth/invalid-email':'E-mail inválido.', 'auth/missing-password':'Digite a senha.', 'auth/weak-password':'A senha precisa ter pelo menos 6 caracteres.',
+      'auth/email-already-in-use':'Esse e-mail já tem conta. Toque em Entrar.', 'auth/invalid-credential':'E-mail ou senha incorretos.', 'auth/wrong-password':'E-mail ou senha incorretos.',
+      'auth/user-not-found':'Não há conta com esse e-mail. Toque em Criar conta.', 'auth/too-many-requests':'Muitas tentativas. Espere um pouco e tente de novo.',
+      'auth/network-request-failed':'Sem internet. Para entrar, conecte-se e tente de novo.', 'auth/popup-closed-by-user':'', 'auth/cancelled-popup-request':'',
+      'auth/unauthorized-domain':'Este endereço ainda não foi liberado no login do app.', 'auth/operation-not-allowed':'Esse tipo de login ainda não foi ativado no app.'
+    }[c];
+    if (m === '') return;
+    m = m || 'Não deu para entrar agora. Tente de novo.';
+    var el = $('#au-err'); if (el){ el.textContent = m; el.hidden = false; } else toast(m);
+  },
+  provider: function(fb, kind){
+    if (kind === 'google'){ var g = new fb.auth.GoogleAuthProvider(); g.setCustomParameters({prompt:'select_account'}); return g; }
+    var a = new fb.auth.OAuthProvider('apple.com'); a.addScope('email'); a.addScope('name'); a.setCustomParameters({locale:'pt_BR'}); return a;
+  },
+  social: function(kind){
+    if (!navigator.onLine){ AUTH.err({code:'auth/network-request-failed'}); return; }
+    AUTH.load().then(function(fb){
+      var p = AUTH.provider(fb, kind);
+      if (STANDALONE && IOS) return fb.auth().signInWithRedirect(p);
+      return fb.auth().signInWithPopup(p).catch(function(e){
+        if (e && (e.code === 'auth/popup-blocked' || e.code === 'auth/operation-not-supported-in-this-environment')) return fb.auth().signInWithRedirect(p);
+        throw e;
+      });
+    }).then(function(r){ if (r && r.user){ closeSheet(); toast('Conectado. Suas listas vão para a conta.'); } }, AUTH.err);
+  },
+  google: function(){ AUTH.social('google'); },
+  apple: function(){ AUTH.social('apple'); },
+  email: function(create){
+    var em = clean(($('#au-email') || {}).value), pw = ($('#au-pass') || {}).value || '';
+    if (!em){ AUTH.err({code:'auth/invalid-email'}); return; }
+    if (!pw){ AUTH.err({code:'auth/missing-password'}); return; }
+    AUTH.load().then(function(fb){ var a = fb.auth(); return create ? a.createUserWithEmailAndPassword(em, pw) : a.signInWithEmailAndPassword(em, pw); })
+      .then(function(){ closeSheet(); toast(create ? 'Conta criada. Suas listas vão para a conta.' : 'Conectado.'); }, AUTH.err);
+  },
+  reset: function(){
+    var em = clean(($('#au-email') || {}).value);
+    if (!em){ AUTH.err({code:'auth/invalid-email'}); var i = $('#au-email'); if (i) i.focus(); return; }
+    AUTH.load().then(function(fb){ fb.auth().languageCode = 'pt'; return fb.auth().sendPasswordResetEmail(em); })
+      .then(function(){ toast('Enviamos um e-mail para criar uma nova senha.'); }, AUTH.err);
+  },
+  logout: function(){
+    flushLocal();
+    if (!AUTH.fb) return;
+    AUTH.fb.auth().signOut().then(function(){ closeSheet(); toast('Você saiu. As listas continuam neste aparelho.'); });
+  },
+  remove: function(){
+    var u = AUTH.user; if (!u || !S.cloud) return;
+    var age = Date.now() - new Date(u.metadata && u.metadata.lastSignInTime || 0).getTime();
+    if (age > 4 * 60000){
+      openSheet('<h2 id="sheet-h">Confirme quem é você</h2><p>Por segurança, saia e entre de novo na conta. Depois, toque outra vez em <b>Excluir minha conta</b>.</p><div class="sheet-actions"><button class="btn" data-act="close-sheet">Cancelar</button><button class="btn btn-primary" data-act="auth-logout">Sair agora</button></div>');
+      return;
+    }
+    var col = S.cloud;
+    S.cloud = null; S.cloudState = 'none';
+    Object.keys(S.lists).forEach(function(id){ delete S.lists[id].synced; writeLocal(id); });
+    S.namesSynced = 0; LS.set('cloudUid', null);
+    col.wipe().then(function(){ return u.delete(); }).then(function(){
+      closeSheet(); renderAll(); toast('Conta excluída. As listas continuam só neste aparelho.');
+    }, function(e){
+      if (e && e.code === 'auth/requires-recent-login'){ AUTH.fb.auth().signOut(); toast('Saia e entre de novo para concluir a exclusão.'); }
+      else toast('Não deu para excluir agora. Verifique a internet e tente de novo.');
+      AUTH.attach();
+    });
+  }
+};
+
 function setSync(st){ S.sync = st; renderSync(); }
 function renderSync(){
   var chip = $('#sync-chip'), dot = $('#sync-dot'), txt, st;
@@ -629,7 +943,7 @@ function renderSync(){
   else if (S.cloud){
     st = S.sync === 'idle' ? 'ok' : S.sync;
     txt = st === 'saving' ? 'Salvando…' : st === 'offline' ? 'Sem conexão · salvo no aparelho' : 'Salvo na sua conta';
-  } else { txt = 'Salvo neste aparelho'; st = 'local'; }
+  } else { txt = AUTH.ready() ? 'Entrar · salvo no aparelho' : 'Salvo neste aparelho'; st = 'local'; }
   chip.dataset.state = st; $('#sync-text').textContent = txt;
   dot.dataset.state = st; dot.setAttribute('aria-label', txt); dot.title = txt;
 }
@@ -655,12 +969,16 @@ function sorted(c){
   var a = c.species.slice();
   var byFirst = function(x, y){ return x.first < y.first ? -1 : x.first > y.first ? 1 : 0; };
   if (S.sort === 'old') a.sort(byFirst);
-  else if (S.sort === 'az') a.sort(function(x, y){ return norm(x.name).localeCompare(norm(y.name), 'pt'); });
+  else if (S.sort === 'az') a.sort(function(x, y){ return norm(x.sci || x.name).localeCompare(norm(y.sci || y.name), 'pt'); });
+  else if (S.sort === 'tax') a.sort(function(x, y){ var dx = dbGet(x.sci) || {}, dy = dbGet(y.sci) || {}; return ((dx.c || '~') + (dx.o || '~') + (dx.f || '~') + (x.sci || x.name)).localeCompare((dy.c || '~') + (dy.o || '~') + (dy.f || '~') + (y.sci || y.name), 'pt'); });
   else if (S.sort === 'count') a.sort(function(x, y){ return (y.count - x.count) || byFirst(x, y); });
   else a.sort(function(x, y){ return byFirst(y, x); });
   return a;
 }
-function findSp(c, name){ var k = norm(name); return c.species.filter(function(s){ return norm(s.name) === k; })[0]; }
+function findSp(c, name, sci){
+  var k = norm(name), ks = sci ? norm(sci) : '';
+  return c.species.filter(function(s){ return (ks && s.sci && norm(s.sci) === ks) || norm(s.name) === k; })[0];
+}
 function parseEntry(q){
   q = clean(q); var m;
   if ((m = q.match(/^(\d{1,5})\s*[x×]?\s+(.+)$/i))) return {name:clean(m[2]), n:parseInt(m[1],10)};
@@ -670,23 +988,31 @@ function parseEntry(q){
 function freshPos(){ return S.pos && (Date.now() - S.pos.t) < 120000 ? S.pos : null; }
 
 /* ---------- species actions ---------- */
-function addEntry(c, name, n){
+function addEntry(c, name, n, sci){
   name = clean(name); if (!name) return;
   n = Math.max(1, n || 1);
-  var before = clone(c.species), sp = findSp(c, name), msg;
-  if (sp){ sp.count += n; msg = '+' + n + ' ' + sp.name + ' (' + sp.count + ')'; }
+  if (sci === undefined) sci = resolveSci(name);
+  var before = clone(c.species), sp = findSp(c, name, sci), msg, isNew = false;
+  if (sp){ sp.count += n; if (sp.mode === 'A') sp.ca += n; else sp.cv += n; if (!sp.sci && sci) sp.sci = sci; msg = '+' + n + ' ' + sp.name + ' (' + sp.count + ')'; }
   else {
-    var p = c.end ? null : freshPos();
-    sp = {id:rid('s'), name:name, count:n, first:new Date().toISOString(), note:''};
+    var p = c.end ? null : freshPos(), mode = S.defMode === 'A' ? 'A' : 'V';
+    sp = {id:rid('s'), name:name, sci:sci || '', count:n, cv:mode === 'V' ? n : 0, ca:mode === 'A' ? n : 0, mode:mode, first:new Date().toISOString(), note:''};
     if (p){ sp.lat = +fCoord(p.lat); sp.lon = +fCoord(p.lon); }
-    c.species.push(sp); learnName(name);
+    c.species.push(sp); if (!sci) learnName(name); isNew = true;
     msg = 'Nova: ' + name + (n > 1 ? ' (' + n + ')' : '');
   }
   touch(c); renderSpecies(sp.id); renderNav();
-  toast(msg, function(){ c.species = before; touch(c); renderSpecies(); renderNav(); });
+  var sid = sp.id;
+  toast(msg, function(){ c.species = before; touch(c); renderSpecies(); renderNav(); },
+    isNew && sp.sci && norm(sp.name) === norm(sp.sci) ? {label:'Apelidar', fn:function(){ openSpEdit(sid, 'alias'); }} : (isNew && !sp.sci ? {label:'Ligar', fn:function(){ openSpEdit(sid, 'link'); }} : null));
 }
 function bump(c, sid, d){
   var sp = c.species.filter(function(s){ return s.id === sid; })[0]; if (!sp) return;
+  if (d > 0){ if (sp.mode === 'A') sp.ca += d; else sp.cv += d; }
+  else if (sp.count > 0){
+    var key = sp.mode === 'A' ? 'ca' : 'cv', other = key === 'ca' ? 'cv' : 'ca';
+    if (sp[key] > 0) sp[key]--; else if (spLegacy(sp) === 0 && sp[other] > 0) sp[other]--;
+  }
   sp.count = Math.max(0, sp.count + d);
   try { if (navigator.vibrate) navigator.vibrate(d > 0 ? 8 : 18); } catch(e){}
   touch(c); renderSpecies(sid); renderNav();
@@ -700,6 +1026,7 @@ function removeSp(c, sid){
 
 /* ---------- GPS ---------- */
 function probeGps(){
+  if (NATIVE) return;
   if (!('geolocation' in navigator)){ S.gps = 'unsupported'; return; }
   try {
     if (navigator.permissions && navigator.permissions.query){
@@ -765,10 +1092,31 @@ function onPosErr(e){
 }
 function startWatch(){
   if (S.watchId != null || !gpsUsable()) return;
+  if (NATIVE && NP.BackgroundGeolocation){
+    S.watchId = 'pending';
+    NP.BackgroundGeolocation.addWatcher({
+      backgroundTitle:'Lista de Campo', backgroundMessage:'Gravando a trilha da lista',
+      requestPermissions:true, stale:false, distanceFilter:5
+    }, function(loc, err){
+      if (err){
+        if (err.code === 'NOT_AUTHORIZED'){ onPosErr({code:1}); toast('Libere a localização do app nas configurações do celular.'); }
+        return;
+      }
+      if (!loc) return;
+      onPos({coords:{latitude:loc.latitude, longitude:loc.longitude, accuracy:loc.accuracy}});
+    }).then(function(id){ if (S.watchId === 'pending') S.watchId = id; else NP.BackgroundGeolocation.removeWatcher({id:id}); }, function(){ S.watchId = null; });
+    if (!LS.get('batteryTip', false)){ LS.set('batteryTip', true); setTimeout(function(){ toast('Dica: deixe a bateria do app como “Sem restrições” para a trilha não parar.'); }, 1500); }
+    return;
+  }
   try { S.watchId = navigator.geolocation.watchPosition(onPos, onPosErr, {enableHighAccuracy:true, maximumAge:5000, timeout:30000}); } catch(e){ S.watchId = null; }
   requestWake();
 }
 function stopWatch(){
+  if (NATIVE && NP.BackgroundGeolocation && S.watchId != null){
+    var wid = S.watchId; S.watchId = null;
+    if (wid !== 'pending'){ try { NP.BackgroundGeolocation.removeWatcher({id:wid}); } catch(e){} }
+    flushLocal(); return;
+  }
   if (S.watchId != null){ try { navigator.geolocation.clearWatch(S.watchId); } catch(e){} S.watchId = null; }
   releaseWake();
 }
@@ -794,9 +1142,10 @@ function pauseTrack(c){ c.track.on = false; S.trackPref = false; LS.set('trackPr
 function renderGpsBits(){ if (S.screen === 'list'){ renderLoc(); renderTrack(); } }
 
 /* ---------- navigation ---------- */
-function go(screen, id){
+function go(screen, id, noHist){
   if (screen !== 'list' || id !== S.cur) S.unlocked = null;
   S.screen = screen; if (id) S.cur = id;
+  if (screen !== 'home'){ S.sel = null; var sb = $('#sel-bar'); if (sb) sb.hidden = true; document.body.classList.remove('selecting'); }
   $('#cover').hidden = screen !== 'cover';
   $('#home').hidden = screen !== 'home';
   $('#list').hidden = screen !== 'list';
@@ -807,12 +1156,29 @@ function go(screen, id){
   if (screen === 'list') renderList();
   if (screen === 'names') renderNames();
   window.scrollTo(0, 0);
-  if (!FRAMED){ try {
-    if (screen !== 'home' && screen !== 'cover' && history.state !== 'sub') history.pushState('sub', '');
-    else if ((screen === 'home' || screen === 'cover') && history.state === 'sub') history.replaceState(null, '');
-  } catch(e){} }
+  if (!noHist) histSync(screen);
 }
-window.addEventListener('popstate', function(){ if (S.screen !== 'home' && S.screen !== 'cover'){ closeSheet(); go('home'); } });
+/* Voltar do celular: lista → Minhas listas → capa → sai do app */
+var DEPTH = {cover:0, home:1, list:2, names:2};
+function histDepth(){ var st = history.state; return st && typeof st.d === 'number' ? st.d : 0; }
+function histSync(screen){
+  if (FRAMED) return;
+  try {
+    var want = DEPTH[screen] || 0, have = histDepth();
+    while (have < want){ have++; history.pushState({d:have}, ''); }
+    if (have > want) history.go(want - have);
+  } catch(e){}
+}
+window.addEventListener('popstate', function(){
+  if (FRAMED) return;
+  var d = histDepth(), now = DEPTH[S.screen] || 0;
+  if (d === now) return;
+  if (pocketOn()){ pocketOff(); try { history.pushState({d:now}, ''); } catch(e){} return; }
+  closeSheet();
+  if (d <= 0) go('cover', null, true);
+  else if (d === 1) go('home', null, true);
+  else { try { history.replaceState({d:now}, ''); } catch(e){} }
+});
 
 /* ---------- capa ---------- */
 function renderCover(){
@@ -839,6 +1205,8 @@ function renderHome(){
   $('#new-sub').textContent = 'começa agora · ' + fDay(now) + ', ' + fTime(now);
   var all = Object.keys(S.lists).map(function(k){ return S.lists[k]; }).sort(function(a, b){ return new Date(b.start) - new Date(a.start); });
   var open = all.filter(function(c){ return !c.end; }), done = all.filter(function(c){ return c.end; });
+  if (S.sel){ renderSelect(all); return; }
+  $('#sel-bar').hidden = true; document.body.classList.remove('selecting');
   $('#home-open').innerHTML = (open.length ? '<h2 class="sec-title">Em andamento<span class="num">' + open.length + '</span></h2>' : '') + open.map(function(c){
     var t = totals(c);
     return '<article class="open-card" data-id="' + c.id + '"><div class="row"><span class="pill">' + (c.track.on ? '<span class="rec-dot"></span>' : '') + 'Em andamento</span><span class="meta num">' + fDur(elapsed(c)) + '</span></div>' +
@@ -853,7 +1221,7 @@ function renderHome(){
       '<ul class="tips"><li>Digite “12 quero-quero” para já somar 12.</li><li>Nome que você já usou aparece como sugestão. Toque nele e ele soma +1.</li><li>Errou para mais? O − desconta.</li><li>Ao finalizar, a lista fica guardada aqui e entra na planilha Excel.</li></ul></div>';
   } else if (done.length){
     var lastKey = '';
-    h = '<div class="done-head"><h2>Listas finalizadas<span class="num">' + done.length + '</span></h2><button class="btn" data-act="export-all-xlsx">' + ICO.table + 'Exportar Excel</button></div>';
+    h = '<div class="done-head"><h2>Listas finalizadas<span class="num">' + done.length + '</span></h2><button class="btn" data-act="sel-start">' + ICO.table + 'Planilha do campo</button></div>';
     h += done.map(function(c){
       var d = new Date(c.start), key = d.getFullYear() + '-' + d.getMonth(), t = totals(c), head = '';
       if (key !== lastKey){ head = (lastKey ? '</ul>' : '') + '<h2 class="sec">' + MOL[d.getMonth()] + ' de ' + d.getFullYear() + '</h2><ul class="hl">'; lastKey = key; }
@@ -863,14 +1231,60 @@ function renderHome(){
         '<span class="hl-sp"><b>' + t.sp + '</b><small>' + (t.sp === 1 ? 'espécie' : 'espécies') + '</small></span></button></li>';
     }).join('') + '</ul>';
   }
+  if (!done.length && open.length) h += '<div class="done-head"><span></span><button class="btn" data-act="sel-start">' + ICO.table + 'Planilha do campo</button></div>';
   if (all.length) h += '<p class="lp-hint">' + ICO.hand + 'Segure uma lista para exportar, editar ou excluir.</p>';
   $('#home-lists').innerHTML = h;
   $('#names-count').textContent = S.names.length ? '(' + S.names.length + ')' : '';
   renderSync();
 }
+var CHECK = '<svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7"/></svg>';
+function dayKey(d){ d = new Date(d); return d.getFullYear() + '-' + p2(d.getMonth()+1) + '-' + p2(d.getDate()); }
+function selLists(){ return Object.keys(S.sel).filter(function(id){ return S.sel[id] && S.lists[id]; }).map(function(id){ return S.lists[id]; }).sort(function(a, b){ return a.start < b.start ? -1 : 1; }); }
+function renderSelect(all){
+  $('#home-open').innerHTML = '';
+  var first = all.length ? dayKey(all[all.length-1].start) : '', last = all.length ? dayKey(all[0].start) : '';
+  var h = '<section class="sel-panel" aria-label="Planilha do campo"><h2>Planilha do campo</h2>' +
+    '<p>Marque as listas que entram numa planilha só, com o dia e as anotações de cada registro.</p>' +
+    '<div class="sel-range"><label>De<input type="date" id="sel-from" value="' + (S.selFrom || '') + '" min="' + first + '" max="' + last + '"></label>' +
+    '<label>Até<input type="date" id="sel-to" value="' + (S.selTo || '') + '" min="' + first + '" max="' + last + '"></label>' +
+    '<button class="btn" data-act="sel-range">Marcar</button></div>' +
+    '<div class="sel-quick"><button class="chip" data-act="sel-all">Marcar todas</button><button class="chip" data-act="sel-none">Desmarcar</button></div>' + projChips(all) + '</section>';
+  var lastKey = '';
+  h += all.map(function(c){
+    var d = new Date(c.start), key = d.getFullYear() + '-' + d.getMonth(), t = totals(c), head = '', on = !!S.sel[c.id];
+    if (key !== lastKey){ head = (lastKey ? '</ul>' : '') + '<div class="sec-row"><h2 class="sec">' + MOL[d.getMonth()] + ' de ' + d.getFullYear() + '</h2><button class="link" data-act="sel-month" data-k="' + key + '">Marcar o mês</button></div><ul class="hl">'; lastKey = key; }
+    var bits = [WD[d.getDay()], fTime(d), plural(t.ind, 'indivíduo', 'indivíduos')];
+    return head + '<li><button class="hl-row sel" role="checkbox" aria-checked="' + on + '" data-act="sel-toggle" data-id="' + c.id + '"><span class="ck">' + CHECK + '</span><span class="hl-date"><b>' + d.getDate() + '</b><small>' + MO[d.getMonth()] + '</small></span>' +
+      '<span class="hl-main"><span class="hl-title">' + esc(title(c)) + '</span><span class="hl-meta">' + bits.join(' · ') + (c.end ? '' : ' · <span class="open-tag">em andamento</span>') + '</span></span>' +
+      '<span class="hl-sp"><b>' + t.sp + '</b><small>' + (t.sp === 1 ? 'espécie' : 'espécies') + '</small></span></button></li>';
+  }).join('') + (all.length ? '</ul>' : '');
+  $('#home-lists').innerHTML = h;
+  renderSelBar();
+}
+function projChips(all){
+  var pj = {}, cp = {};
+  all.forEach(function(c){ if (c.projeto){ pj[c.projeto] = (pj[c.projeto] || 0) + 1; if (c.campanha){ var k = c.projeto + '\u0001' + c.campanha; cp[k] = (cp[k] || 0) + 1; } } });
+  var ks = Object.keys(pj); if (!ks.length) return '<p class="small-meta" style="margin:0">Dica: preencha <b>Projeto</b> e <b>Campanha</b> nos detalhes de cada lista para juntar todas as campanhas de um mesmo campo numa planilha cumulativa.</p>';
+  return '<div class="field"><span>Planilha cumulativa — marcar todas as campanhas de um projeto</span><div class="proj-chips">' + ks.sort().map(function(k){ return '<button class="chip" data-act="sel-proj" data-p="' + encodeURIComponent(k) + '">' + esc(k) + ' (' + pj[k] + ')</button>'; }).join('') + '</div></div>' +
+    '<div class="field"><span>Ou só uma campanha</span><div class="proj-chips">' + Object.keys(cp).sort().map(function(k){ var x = k.split('\u0001'); return '<button class="chip" data-act="sel-camp" data-k="' + encodeURIComponent(k) + '">' + esc(x[1]) + ' · ' + esc(x[0]) + '</button>'; }).join('') + '</div></div>';
+}
+function renderSelBar(){
+  var ls = selLists(), sp = {}, ind = 0;
+  ls.forEach(function(c){ liveSpecies(c).forEach(function(s){ sp[norm(s.name)] = 1; ind += s.count; }); });
+  var n = Object.keys(sp).length, days = {}; ls.forEach(function(c){ days[dayKey(c.start)] = 1; });
+  var bar = $('#sel-bar'); bar.hidden = false; document.body.classList.add('selecting');
+  bar.innerHTML = '<div class="sel-bar-in"><span class="sel-bar-info"><b>' + plural(ls.length, 'lista', 'listas') + '</b><br>' +
+    (ls.length ? plural(Object.keys(days).length, 'dia', 'dias') + ' · ' + plural(n, 'espécie', 'espécies') : 'Nenhuma marcada') + '</span>' +
+    '<button class="btn" data-act="sel-cancel">Cancelar</button>' +
+    '<button class="btn btn-primary" data-act="sel-export"' + (ls.length ? '' : ' disabled') + '>' + ICO.table + 'Gerar planilha</button></div>';
+}
+function setSel(fn){ Object.keys(S.lists).forEach(function(id){ S.sel[id] = fn(S.lists[id]); }); renderHome(); }
+
 function newList(){
   var now = new Date();
-  var c = fixList({id:rid('c'), title:'', start:now.toISOString(), end:null, observers:1, place:'', lat:null, lon:null, acc:null, notes:'', species:[], track:{on:false, pts:[], dist:0, t0:0}, updated:Date.now()});
+  var prev = Object.keys(S.lists).map(function(k){ return S.lists[k]; }).sort(function(a, b){ return a.start < b.start ? 1 : -1; })[0];
+  var c = fixList({id:rid('c'), title:'', start:now.toISOString(), end:null, observers:prev ? prev.observers : 1, place:'', lat:null, lon:null, acc:null, notes:'', species:[], track:{on:false, pts:[], dist:0, t0:0}, updated:Date.now(),
+    projeto:prev ? prev.projeto : '', campanha:prev ? prev.campanha : '', ua:'', metodo:prev ? prev.metodo : ''});
   S.lists[c.id] = c; touch(c); go('list', c.id);
   if (gpsUsable()){
     if (S.trackPref) startTrack(c);
@@ -900,6 +1314,7 @@ function renderNav(){
   $('#nav-title').textContent = title(c);
   var bits = [fDay(c.start), fTime(c.start), fDur(elapsed(c))];
   if (c.track.dist > 0) bits.push(fDist(c.track.dist));
+  if (c.ua) bits.push(c.ua);
   $('#nav-meta').textContent = bits.join(' · ');
   $('#tot').innerHTML = '<b>' + t.sp + '</b> ' + (t.sp === 1 ? 'espécie' : 'espécies') + ' · <b>' + t.ind + '</b> ' + (t.ind === 1 ? 'indivíduo' : 'indivíduos');
 }
@@ -922,22 +1337,30 @@ function renderTrack(){
   } else if (tr.on){
     h = '<div class="trk" data-on="1">' + ICO.route + '<span class="trk-text"><b><span class="rec-dot"></span> Gravando trilha</b><small>' + info + '</small></span><button class="btn" data-act="track-pause">Pausar</button></div>';
     if (S.gps === 'error') h += '<p class="trk-warn" style="margin:0">Sem sinal de GPS no momento. A trilha continua quando o sinal voltar.</p>';
-    else h += '<p class="trk-warn" style="margin:0">Deixe a tela ligada: com o celular bloqueado o navegador para de registrar a trilha.</p>';
+    else if (!NATIVE) h += '<p class="trk-warn" style="margin:0">No navegador a trilha para se a tela bloquear. Use o <b>Modo bolso</b>: a tela fica preta, gasta pouca bateria e ignora toques no bolso.</p><button class="btn pocket-btn" data-act="pocket">Modo bolso</button>';
   } else {
     h = '<div class="trk">' + ICO.route + '<span class="trk-text"><b>' + (n ? 'Trilha pausada' : 'Trilha desligada') + '</b><small>' + (n ? info : 'Grava o caminho e a distância.') + '</small></span><button class="btn" data-act="track-start">' + (n ? 'Retomar' : 'Gravar') + '</button></div>';
   }
   $('#cl-trk').innerHTML = h;
 }
+function spNameHtml(s){
+  var d = dbGet(s.sci);
+  if (s.sci && norm(s.name) === norm(s.sci)) return '<span class="sp-name"><i>' + esc(s.sci) + '</i></span>' + (d && d.pt ? '<span class="sp-meta">' + esc(d.pt.split(',')[0]) + '</span>' : '');
+  if (s.sci) return '<span class="sp-name">' + esc(s.name) + '</span><span class="sp-sci">' + esc(s.sci) + '</span>';
+  return '<span class="sp-name">' + esc(s.name) + '</span>';
+}
 function spRow(s, demo, ro){
-  var meta = demo ? 'primeiro às ' + fTime(s.first) : 'primeiro às <span class="num">' + fTime(s.first) + '</span>' + (s.note ? ' · ' + esc(s.note.length > 60 ? s.note.slice(0, 58) + '…' : s.note) : '');
+  var vaTxt = demo ? '' : [s.cv ? '<span class="va-n">' + s.cv + ' V</span>' : '', s.ca ? '<span class="va-n">' + s.ca + ' A</span>' : ''].filter(Boolean).join(' · ');
+  var meta = demo ? 'primeiro às ' + fTime(s.first) : 'primeiro às <span class="num">' + fTime(s.first) + '</span>' + (vaTxt ? ' · ' + vaTxt : '') + (s.note ? ' · ' + esc(s.note.length > 60 ? s.note.slice(0, 58) + '…' : s.note) : '');
   var nm = esc(s.name), a = demo ? 'demo-' : '';
-  if (ro) return '<li class="sp ro' + (s.count === 0 ? ' is-zero' : '') + '" data-sid="' + s.id + '"><div class="sp-main"><span class="sp-name">' + nm + '</span><span class="sp-meta">' + meta + '</span></div>' +
+  var va = demo ? '' : '<div class="va" role="group" aria-label="Tipo de registro"><button data-act="mode" data-m="V" data-sid="' + s.id + '" aria-pressed="' + (s.mode !== 'A') + '" aria-label="Visual">V</button><button data-act="mode" data-m="A" data-sid="' + s.id + '" aria-pressed="' + (s.mode === 'A') + '" aria-label="Auditivo">A</button></div>';
+  if (ro) return '<li class="sp ro' + (s.count === 0 ? ' is-zero' : '') + '" data-sid="' + s.id + '"><div class="sp-main">' + (demo ? '<span class="sp-name">' + nm + '</span>' : spNameHtml(s)) + '<span class="sp-meta">' + meta + '</span></div>' +
     '<div class="ctr"><span class="cnt" aria-label="' + s.count + ' ' + nm + '">' + s.count + '</span></div></li>';
   var minus = s.count > 0 ? '<button class="minus" data-act="' + a + 'minus" data-sid="' + s.id + '" aria-label="Menos um ' + nm + '">−</button>'
     : '<button class="minus del" data-act="' + a + 'remove" data-sid="' + s.id + '" aria-label="Remover ' + nm + ' da lista">' + ICO.trash + '</button>';
   return '<li class="sp' + (s.count === 0 ? ' is-zero' : '') + '" data-sid="' + s.id + '">' +
-    '<button class="sp-main" data-act="' + (demo ? 'noop' : 'edit-sp') + '" data-sid="' + s.id + '"><span class="sp-name">' + nm + '</span><span class="sp-meta">' + meta + '</span></button>' +
-    '<div class="ctr">' + minus + '<button class="cnt" data-act="' + (demo ? 'noop' : 'edit-sp') + '" data-sid="' + s.id + '" aria-label="' + s.count + ' ' + nm + '. Toque para editar">' + s.count + '</button>' +
+    '<button class="sp-main" data-act="' + (demo ? 'noop' : 'edit-sp') + '" data-sid="' + s.id + '">' + (demo ? '<span class="sp-name">' + nm + '</span>' : spNameHtml(s)) + '<span class="sp-meta">' + meta + '</span></button>' +
+    '<div class="ctr">' + va + minus + '<button class="cnt" data-act="' + (demo ? 'noop' : 'edit-sp') + '" data-sid="' + s.id + '" aria-label="' + s.count + ' ' + nm + '. Toque para editar">' + s.count + '</button>' +
     '<button class="plus" data-act="' + a + 'plus" data-sid="' + s.id + '" aria-label="Mais um ' + nm + '">+</button></div></li>';
 }
 function renderSpecies(flashId){
@@ -964,7 +1387,7 @@ function renderExport(){
   var c = cur(); if (!c) return;
   var h = '<h2 class="sec">Resumo e exportação</h2>' + trackSvg(c) + '<div class="ex-grid">' +
     '<button class="btn" data-act="copy-summary">' + ICO.copy + 'Copiar resumo</button>' +
-    '<button class="btn" data-act="xlsx">' + ICO.table + 'Planilha Excel</button>';
+    '<button class="btn" data-act="xlsx">' + ICO.table + 'Planilha / CSV</button>';
   if (c.track.pts.length >= 2) h += '<button class="btn" data-act="gpx">' + ICO.route + 'Trilha (GPX)</button>';
   if (c.lat != null) h += '<a class="btn" href="https://www.google.com/maps/search/?api=1&query=' + c.lat + ',' + c.lon + '" target="_blank" rel="noopener">' + ICO.map + 'Abrir no mapa</a>';
   $('#cl-export').innerHTML = h + '</div>';
@@ -1012,13 +1435,29 @@ function buildSugg(raw){
     if (n.indexOf(q) >= 0) return 30; return 0;
   };
   var use = nameUse(), map = {};
-  c.species.forEach(function(s){ var sc = score(s.name); if (sc) map[norm(s.name)] = {name:s.name, sc:sc + 6, sp:s}; });
-  S.names.forEach(function(nm){ var k = norm(nm); if (map[k]) return; var sc = score(nm); if (sc) map[k] = {name:nm, sc:sc}; });
+  c.species.forEach(function(s){ var sc = Math.max(score(s.name), s.sci ? score(s.sci) : 0); if (sc) map['r:' + s.id] = {name:s.name, sci:s.sci || '', sc:sc + 8, sp:s}; });
+  var inRow = function(sci){ return sci && c.species.some(function(s){ return s.sci && norm(s.sci) === norm(sci); }); };
+  Object.keys(S.alias).forEach(function(k){ var al = S.alias[k], sc = score(al.a); if (sc && !inRow(al.n) && !map['a:' + k]) map['a:' + k] = {name:al.a, sci:al.n, sc:sc + 6, alias:true}; });
+  S.names.forEach(function(nm){ var k = norm(nm); if (map['a:' + k] || c.species.some(function(s){ return norm(s.name) === k; })) return; var sc = score(nm); if (sc) map['n:' + k] = {name:nm, sci:resolveSci(nm), sc:sc}; });
+  if (q.length >= 2){
+    var hits = [];
+    for (var i = 0; i < DB.list.length; i++){
+      var it = DB.list[i], sc2 = 0;
+      if (it.kn === q) sc2 = 100; else if (it.kn.indexOf(q) === 0) sc2 = 75;
+      else if (it.kw.some(function(w){ return w.indexOf(q) === 0; })) sc2 = 58;
+      else if (toks.length > 1 && toks.every(function(t){ return it.kw.some(function(w){ return w.indexOf(t) === 0; }); })) sc2 = 54;
+      if (!sc2) for (var j = 0; j < it.kp.length; j++){ var pk = it.kp[j]; if (pk === q){ sc2 = 70; break; } if (pk.indexOf(q) === 0){ sc2 = Math.max(sc2, 52); } else if (pk.split(/[\s\-]+/).some(function(w){ return w.indexOf(q) === 0; })) sc2 = Math.max(sc2, 40); }
+      if (sc2 && !inRow(it.r.n)) hits.push({name:it.r.n, sci:it.r.n, sc:sc2, db:it.r});
+    }
+    hits.sort(function(a, b){ return (b.sc - a.sc) || a.name.localeCompare(b.name); });
+    hits.slice(0, 8).forEach(function(h){ if (!map['d:' + h.sci]) map['d:' + h.sci] = h; });
+  }
   var out = Object.keys(map).map(function(k){ return map[k]; }).sort(function(a, b){
     return (b.sc - a.sc) || ((use[norm(b.name)] || 0) - (use[norm(a.name)] || 0)) || a.name.localeCompare(b.name, 'pt');
-  }).slice(0, 7);
+  }).slice(0, 9);
   out.forEach(function(o){ o.n = e.n; });
-  if (!map[q]) out.push({name:e.name, n:e.n, isNew:true});
+  var exact = out.some(function(o){ return norm(o.name) === q; });
+  if (!exact) out.push({name:e.name, n:e.n, isNew:true});
   return out;
 }
 function renderSugg(){
@@ -1029,15 +1468,22 @@ function renderSugg(){
   ul.innerHTML = S.sugg.map(function(o, i){
     var side = o.isNew ? '<span class="s-add">+' + o.n + ' nova</span>'
       : (o.sp ? '<span class="s-cnt" title="Já na lista">' + o.sp.count + '</span>' : '') + '<span class="s-add">+' + o.n + '</span>';
+    var d = o.db || dbGet(o.sci), label;
+    if (o.isNew) label = 'Adicionar “' + esc(o.name) + '” <span class="s-pt">nome livre — dá para ligar a uma espécie depois</span>';
+    else if (o.db) label = '<span class="s-sci">' + hl(o.name, q) + '</span> <span class="s-cls">' + (CLS[d.c] || '') + '</span>' + (d.pt ? '<span class="s-pt">' + esc(d.pt.split(',').slice(0, 2).join(', ')) + '</span>' : '');
+    else if (o.sci && norm(o.sci) !== norm(o.name)) label = hl(o.name, q) + (o.alias ? ' <span class="s-alias">apelido</span>' : '') + '<span class="s-pt"><i>' + esc(o.sci) + '</i></span>';
+    else if (o.sci) label = '<span class="s-sci">' + hl(o.name, q) + '</span>' + (d && d.pt ? '<span class="s-pt">' + esc(d.pt.split(',')[0]) + '</span>' : '');
+    else label = hl(o.name, q);
     return '<li><button type="button" role="option" class="' + (o.isNew ? 's-new' : '') + '" data-act="pick" data-i="' + i + '" aria-selected="' + (i === 0) + '">' +
-      '<span class="s-name">' + (o.isNew ? 'Adicionar “' + esc(o.name) + '”' : hl(o.name, q)) + '</span><span class="s-side">' + side + '</span></button></li>';
+      '<span class="s-name">' + label + '</span><span class="s-side">' + side + '</span></button></li>';
   }).join('');
   ul.hidden = false; inp.setAttribute('aria-expanded', 'true');
 }
 function hideSugg(){ var ul = $('#sugg'); ul.hidden = true; ul.innerHTML = ''; S.sugg = []; $('#add-input').setAttribute('aria-expanded', 'false'); }
 function pick(i){
   var o = S.sugg[i], c = cur(); if (!o || !c) return;
-  addEntry(c, o.name, o.n);
+  if (o.sp) addEntry(c, o.sp.name, o.n, o.sp.sci || '');
+  else addEntry(c, o.name, o.n, o.isNew ? resolveSci(o.name) : (o.sci || ''));
   var inp = $('#add-input'); inp.value = ''; hideSugg();
 }
 function moveSugg(d){
@@ -1049,13 +1495,13 @@ function moveSugg(d){
 /* ---------- sheets ---------- */
 function openSheet(html, onClose){
   $('#sheet-body').innerHTML = html; $('#sheet').hidden = false; S.sheetClose = onClose || null;
-  document.body.style.overflow = 'hidden';
+  document.body.style.overflow = 'hidden'; document.body.classList.add('sheet-open');
 }
 function closeSheet(){
   if ($('#sheet').hidden) return;
   var f = S.sheetClose; S.sheetClose = null;
   if (f) f();
-  $('#sheet').hidden = true; $('#sheet-body').innerHTML = ''; document.body.style.overflow = '';
+  $('#sheet').hidden = true; $('#sheet-body').innerHTML = ''; document.body.style.overflow = ''; document.body.classList.remove('sheet-open');
 }
 function dateVal(d){ d = new Date(d); return d.getFullYear() + '-' + p2(d.getMonth()+1) + '-' + p2(d.getDate()); }
 function openDetails(){
@@ -1064,18 +1510,33 @@ function openDetails(){
     '<label class="field"><span>Título</span><input id="d-title" value="' + esc(c.title) + '" placeholder="' + esc(c.place || ('Lista de ' + fDay(c.start))) + '"></label>' +
     '<div class="row2"><label class="field"><span>Data</span><input id="d-date" type="date" value="' + dateVal(c.start) + '"></label><label class="field"><span>Início</span><input id="d-start" type="time" value="' + fTime(c.start) + '"></label></div>' +
     (c.end ? '<label class="field"><span>Fim</span><input id="d-end" type="time" value="' + fTime(c.end) + '"></label>' : '') +
+    '<label class="field"><span>Projeto / área de estudo</span><input id="d-proj" list="dl-proj" value="' + esc(c.projeto) + '" placeholder="Ex.: PCH Cayman, Fazenda Boa Vista" autocapitalize="sentences"></label>' +
+    '<div class="row2"><label class="field"><span>Campanha</span><input id="d-camp" list="dl-camp" value="' + esc(c.campanha) + '" placeholder="Ex.: 7ª Campanha"></label><label class="field"><span>Unidade amostral</span><input id="d-ua" list="dl-ua" value="' + esc(c.ua) + '" placeholder="Ex.: A01, P3"></label></div>' +
+    '<label class="field"><span>Método</span><input id="d-met" list="dl-met" value="' + esc(c.metodo) + '" placeholder="Busca ativa, pitfall, ponto de escuta…"></label>' +
     '<label class="field"><span>Observadores</span><input id="d-obs" type="number" min="1" inputmode="numeric" value="' + c.observers + '"></label>' +
     '<label class="field"><span>Local</span><input id="d-place" value="' + esc(c.place) + '" placeholder="Ex.: Trilha do Rio, Parque Estadual" autocapitalize="sentences"></label>' +
     '<div class="row2"><label class="field"><span>Latitude</span><input id="d-lat" inputmode="decimal" value="' + (c.lat != null ? fCoord(c.lat) : '') + '" placeholder="-23.55052"></label><label class="field"><span>Longitude</span><input id="d-lon" inputmode="decimal" value="' + (c.lon != null ? fCoord(c.lon) : '') + '" placeholder="-46.63331"></label></div>' +
     (gpsUsable() ? '<button class="btn" data-act="gps-now">' + ICO.pin + 'Usar minha posição agora</button>' : '<p class="small-meta" style="margin:0">' + (FRAMED ? 'GPS indisponível dentro do app do Claude. Digite as coordenadas, se quiser.' : 'Localização bloqueada neste navegador.') + '</p>') +
     '<label class="field"><span>Comentários</span><textarea id="d-notes" placeholder="Clima, condições, observações gerais">' + esc(c.notes) + '</textarea></label></div>' +
     '<div class="sheet-actions"><button class="btn btn-danger" data-act="delete-list">' + ICO.trash + 'Excluir lista</button><button class="btn btn-primary" data-act="close-sheet">Pronto</button></div>';
+  fillDatalists();
   openSheet(h, function(){ renderList(); });
+}
+var METODOS = ['Busca ativa', 'Busca ativa limitada por tempo', 'Pitfall (armadilha de queda)', 'Ponto de escuta', 'Transecto', 'Censo visual', 'Armadilha fotográfica', 'Rede de neblina', 'Armadilha Sherman/Tomahawk', 'Encontro ocasional', 'Playback', 'Gravação (bioacústica)', 'Busca em sítio reprodutivo', 'Vestígios (pegadas, fezes)'];
+function fillDatalists(){
+  var vals = {proj:{}, camp:{}, ua:{}, met:{}};
+  Object.keys(S.lists).forEach(function(id){ var L = S.lists[id]; if (L.projeto) vals.proj[L.projeto] = 1; if (L.campanha) vals.camp[L.campanha] = 1; if (L.ua) vals.ua[L.ua] = 1; if (L.metodo) vals.met[L.metodo] = 1; });
+  METODOS.forEach(function(m){ vals.met[m] = 1; });
+  ['proj', 'camp', 'ua', 'met'].forEach(function(k){ var dl = $('#dl-' + k); if (dl) dl.innerHTML = Object.keys(vals[k]).sort(function(a, b){ return a.localeCompare(b, 'pt', {numeric:true}); }).map(function(v){ return '<option value="' + esc(v) + '">'; }).join(''); });
 }
 function applyDetails(target){
   var c = cur(); if (!c) return;
   var id = target.id, v = target.value;
   if (id === 'd-title') c.title = clean(v);
+  else if (id === 'd-proj') c.projeto = clean(v);
+  else if (id === 'd-camp') c.campanha = clean(v);
+  else if (id === 'd-ua') c.ua = clean(v);
+  else if (id === 'd-met') c.metodo = clean(v);
   else if (id === 'd-place') c.place = clean(v);
   else if (id === 'd-notes') c.notes = v;
   else if (id === 'd-obs') c.observers = Math.max(1, parseInt(v, 10) || 1);
@@ -1101,33 +1562,88 @@ function applyDetails(target){
   else return;
   touch(c); renderNav();
 }
-function openSpEdit(sid){
+function openSpEdit(sid, focus){
   var c = cur(); var s = c && c.species.filter(function(x){ return x.id === sid; })[0]; if (!s) return;
   var where = s.lat != null ? ' · ' + fCoord(s.lat) + ', ' + fCoord(s.lon) : '';
+  var leg = spLegacy(s), d = dbGet(s.sci);
+  var taxo = d ? '<p class="small-meta" style="margin:0"><i>' + esc(d.n) + '</i> ' + esc(d.a || '') + ' · ' + esc([CLS[d.c], d.o, d.f].filter(Boolean).join(' · ')) + (d.pt ? ' · ' + esc(d.pt.split(',')[0]) : '') + '</p>' : '';
   var h = '<h2 id="sheet-h">Editar espécie</h2><div class="form">' +
-    '<label class="field"><span>Nome</span><input id="e-name" value="' + esc(s.name) + '" autocapitalize="sentences" spellcheck="false"></label>' +
-    '<div class="field"><span id="e-count-l">Quantidade</span><div class="big-ctr"><button class="minus" data-act="e-step" data-d="-1" aria-label="Menos um">−</button><input id="e-count" type="number" min="0" inputmode="numeric" value="' + s.count + '" aria-labelledby="e-count-l"><button class="plus" data-act="e-step" data-d="1" aria-label="Mais um">+</button></div></div>' +
+    '<label class="field"><span>Nome na lista</span><input id="e-name" value="' + esc(s.name) + '" autocapitalize="sentences" spellcheck="false"></label>' + taxo +
+    '<div class="va-edit">' +
+      '<div class="field"><span id="e-cv-l">Visual (V)</span><div class="big-ctr"><button class="minus" data-act="e-step" data-t="e-cv" data-d="-1" aria-label="Menos um visual">−</button><input id="e-cv" type="number" min="0" inputmode="numeric" value="' + s.cv + '" aria-labelledby="e-cv-l"><button class="plus" data-act="e-step" data-t="e-cv" data-d="1" aria-label="Mais um visual">+</button></div></div>' +
+      '<div class="field"><span id="e-ca-l">Auditivo (A)</span><div class="big-ctr"><button class="minus" data-act="e-step" data-t="e-ca" data-d="-1" aria-label="Menos um auditivo">−</button><input id="e-ca" type="number" min="0" inputmode="numeric" value="' + s.ca + '" aria-labelledby="e-ca-l"><button class="plus" data-act="e-step" data-t="e-ca" data-d="1" aria-label="Mais um auditivo">+</button></div></div>' +
+    '</div>' +
+    (leg ? '<div class="field"><span id="e-lg-l">Sem tipo (registros antigos)</span><div class="big-ctr"><button class="minus" data-act="e-step" data-t="e-lg" data-d="-1" aria-label="Menos um">−</button><input id="e-lg" type="number" min="0" inputmode="numeric" value="' + leg + '" aria-labelledby="e-lg-l"><button class="plus" data-act="e-step" data-t="e-lg" data-d="1" aria-label="Mais um">+</button></div></div>' : '') +
+    (s.sci ? aliasBox(s) : linkBox(s)) +
     '<label class="field"><span>Observação</span><textarea id="e-note" placeholder="Comportamento, idade, sexo, plumagem…">' + esc(s.note) + '</textarea></label>' +
     '<p class="small-meta">Primeiro registro às ' + fTime(s.first) + where + '</p></div>' +
     '<div class="sheet-actions"><button class="btn btn-danger" data-act="e-remove">' + ICO.trash + 'Remover da lista</button><button class="btn btn-primary" data-act="close-sheet">Pronto</button></div>';
   var removed = false;
   S.spRemove = function(){ removed = true; };
+  S.spEditing = sid;
   openSheet(h, function(){
-    S.spRemove = null;
+    S.spRemove = null; S.spEditing = null;
     if (removed){ removeSp(c, sid); return; }
-    var name = clean($('#e-name').value) || s.name, cnt = Math.max(0, parseInt($('#e-count').value, 10) || 0), note = $('#e-note').value.trim();
-    var other = c.species.filter(function(x){ return x.id !== sid && norm(x.name) === norm(name); })[0];
+    var name = clean($('#e-name').value) || s.name, cv = Math.max(0, parseInt($('#e-cv').value, 10) || 0), ca = Math.max(0, parseInt($('#e-ca').value, 10) || 0);
+    var lg = $('#e-lg') ? Math.max(0, parseInt($('#e-lg').value, 10) || 0) : 0, note = $('#e-note').value.trim(), cnt = cv + ca + lg;
+    var sci = s.sci || resolveSci(name);
+    var other = c.species.filter(function(x){ return x.id !== sid && ((sci && x.sci && norm(x.sci) === norm(sci)) || norm(x.name) === norm(name)); })[0];
     if (other){
-      other.count += cnt; if (note) other.note = other.note ? other.note + ' / ' + note : note; if (s.first < other.first) other.first = s.first;
+      other.count += cnt; other.cv += cv; other.ca += ca; if (note) other.note = other.note ? other.note + ' / ' + note : note; if (s.first < other.first) other.first = s.first;
       c.species = c.species.filter(function(x){ return x.id !== sid; });
       touch(c); renderSpecies(other.id); renderNav(); toast('Somado a ' + other.name);
       return;
     }
-    var changed = name !== s.name || cnt !== s.count || note !== s.note;
-    if (name !== s.name) learnName(name);
-    s.name = name; s.count = cnt; s.note = note;
+    var changed = name !== s.name || cnt !== s.count || cv !== s.cv || ca !== s.ca || note !== s.note || sci !== s.sci;
+    if (name !== s.name && !sci) learnName(name);
+    s.name = name; s.count = cnt; s.cv = cv; s.ca = ca; s.note = note; s.sci = sci;
     if (changed){ touch(c); renderSpecies(sid); renderNav(); }
   });
+  setTimeout(function(){ var f = focus === 'alias' ? $('#al-input') : focus === 'link' ? $('#lk-input') : null; if (f){ f.focus(); f.scrollIntoView({block:'center'}); } }, 120);
+}
+function aliasBox(s){
+  var al = aliasesFor(s.sci);
+  return '<div class="alias-box" id="alias-box"><span class="field"><span>Apelidos de <i>' + esc(s.sci) + '</i></span></span>' +
+    (al.length ? '<div class="alias-chips">' + al.map(function(a){ return '<span class="alias-chip">' + esc(a) + '<button data-act="al-del" data-a="' + encodeURIComponent(a) + '" aria-label="Apagar apelido ' + esc(a) + '">' + ICO.x + '</button></span>'; }).join('') + '</div>' : '<span class="small-meta">Nenhum apelido ainda. Ex.: “jussu” para <i>Bothrops jararacussu</i>.</span>') +
+    '<div class="inline-row"><label class="vh" for="al-input">Novo apelido</label><input id="al-input" class="filter" style="margin:0" placeholder="Novo apelido" autocapitalize="none" spellcheck="false"><button class="btn btn-primary" data-act="al-add">Apelidar</button></div>' +
+    '<span class="small-meta">Quando você digitar o apelido, a lista registra a espécie certa e a planilha sai com o nome científico.</span></div>';
+}
+function linkBox(s){
+  return '<div class="alias-box" id="link-box"><span class="field"><span>Ligar a uma espécie do banco</span></span>' +
+    '<span class="small-meta">“' + esc(s.name) + '” ainda é um nome livre. Escolha a espécie para a planilha sair com o nome correto — “' + esc(s.name) + '” vira apelido dela.</span>' +
+    '<label class="vh" for="lk-input">Buscar espécie</label><input id="lk-input" class="filter" style="margin:0" placeholder="Nome científico ou popular" autocapitalize="none" spellcheck="false">' +
+    '<ul class="link-res" id="lk-res"></ul></div>';
+}
+function dbSearch(q, max){
+  q = norm(q); if (q.length < 2) return [];
+  var toks = q.split(/[\s\-]+/).filter(Boolean), hits = [];
+  DB.list.forEach(function(it){
+    var sc = it.kn === q ? 100 : it.kn.indexOf(q) === 0 ? 75 : it.kw.some(function(w){ return w.indexOf(q) === 0; }) ? 58 : (toks.length > 1 && toks.every(function(t){ return it.kw.some(function(w){ return w.indexOf(t) === 0; }); })) ? 54 : 0;
+    if (!sc) it.kp.forEach(function(pk){ if (pk === q) sc = Math.max(sc, 70); else if (pk.indexOf(q) === 0) sc = Math.max(sc, 52); else if (pk.split(/[\s\-]+/).some(function(w){ return w.indexOf(q) === 0; })) sc = Math.max(sc, 40); });
+    if (sc) hits.push({r:it.r, sc:sc});
+  });
+  return hits.sort(function(a, b){ return (b.sc - a.sc) || a.r.n.localeCompare(b.r.n); }).slice(0, max || 12).map(function(h){ return h.r; });
+}
+function renderLinkRes(){
+  var inp = $('#lk-input'), ul = $('#lk-res'); if (!inp || !ul) return;
+  var res = dbSearch(inp.value, 12);
+  ul.innerHTML = res.map(function(r){ return '<li><button data-act="lk-pick" data-n="' + encodeURIComponent(r.n) + '"><i class="s-sci">' + esc(r.n) + '</i> <span class="s-cls">' + (CLS[r.c] || '') + '</span>' + (r.pt ? '<span class="s-pt">' + esc(r.pt.split(',').slice(0, 2).join(', ')) + '</span>' : '') + '</button></li>'; }).join('') || (norm(inp.value).length >= 2 ? '<li class="small-meta">Nada encontrado nas listas do Brasil.</li>' : '');
+}
+function linkSpecies(sid, sci){
+  var c = cur(); var s = c && c.species.filter(function(x){ return x.id === sid; })[0]; if (!s) return;
+  var free = s.name, kf = norm(free), n = 0;
+  if (norm(free) !== norm(sci)) setAlias(free, sci);
+  Object.keys(S.lists).forEach(function(id){
+    var L = S.lists[id], hit = false;
+    L.species.forEach(function(x){ if (!x.sci && norm(x.name) === kf){ x.sci = sci; hit = true; } });
+    if (hit){
+      var merged = [], by = {};
+      L.species.forEach(function(x){ var k = x.sci ? 's:' + norm(x.sci) : 'n:' + norm(x.name); if (by[k]){ by[k].count += x.count; by[k].cv += x.cv; by[k].ca += x.ca; if (x.first < by[k].first) by[k].first = x.first; if (x.note) by[k].note = by[k].note ? by[k].note + ' / ' + x.note : x.note; } else { by[k] = x; merged.push(x); } });
+      L.species = merged; touch(L); n++;
+    }
+  });
+  S.sheetClose = null; closeSheet(); renderSpecies(); renderNav();
+  toast('“' + free + '” agora é ' + sci + (n > 1 ? ' em ' + plural(n, 'lista', 'listas') : ''));
 }
 function openGpsInfo(){
   var h = '<h2 id="sheet-h">GPS e trilha</h2>' + (FRAMED
@@ -1143,19 +1659,193 @@ function openBackup(){
     : (S.cloudState === 'pending' ? 'Conectando à sua conta…' : 'Suas listas ficam salvas só neste navegador. Baixe um backup de vez em quando para não perder nada.');
   var h = '<h2 id="sheet-h">Backup e exportação</h2><p class="store-note">' + note + '</p><div class="form">' +
     '<button class="btn" data-act="export-json">Baixar backup completo (.json)</button>' +
-    (n ? '<button class="btn" data-act="export-all-xlsx">Planilha Excel com todas as listas (.xlsx)</button>' : '') +
+    (n ? '<button class="btn" data-act="export-all-xlsx">Planilha com todas as listas (Excel ou CSV)</button>' : '') +
     '<label class="btn" for="import-file">Importar backup (.json)</label><input class="vh" id="import-file" type="file" accept=".json,application/json">' +
     '<p class="small-meta" style="margin:0">Ao importar, listas que já existem ficam com a versão mais recente.</p></div>' +
     '<div class="sheet-actions"><button class="btn btn-primary" data-act="close-sheet">Fechar</button></div>';
   openSheet(h);
 }
+/* ---------- tema ---------- */
+function applyTheme(t){
+  t = t === 'light' ? 'light' : 'dark';
+  S.theme = t; LS.set('theme', t);
+  document.documentElement.setAttribute('data-theme', t);
+  var m = document.querySelector('meta[name="theme-color"]'); if (m) m.setAttribute('content', t === 'light' ? '#F3EEE3' : '#0E2515');
+  var f = document.querySelector('link[rel="icon"]'); if (f) f.setAttribute('href', t === 'light' ? 'icon-claro-192.png' : 'favicon.png');
+  if (NATIVE && NP.AppIcon){ try { NP.AppIcon.set({name: t}).catch(function(){}); } catch(e){} }
+}
+
+/* ---------- conta, backup e aparência ---------- */
+function openAccount(){
+  var n = Object.keys(S.lists).length, u = AUTH.user, h = '<h2 id="sheet-h">Conta e backup</h2>';
+  if (u){
+    h += '<div class="acct-card"><span>Conectado como</span><span class="who">' + esc(u.email || u.displayName || 'sua conta') + '</span>' +
+      '<p class="small-meta" style="margin:0">Suas listas e apelidos ficam salvos na conta e aparecem em qualquer celular em que você entrar. Sem internet, tudo continua salvo no aparelho e sobe quando a conexão voltar.</p>' +
+      '<div class="inline-row"><button class="btn" data-act="auth-logout">Sair</button><button class="btn" data-act="auth-delete">Excluir minha conta</button></div></div>';
+  } else if (AUTH.ready()){
+    h += '<p class="store-note">Entrar é opcional. Com uma conta, suas listas e apelidos ficam guardados na nuvem e aparecem em outro celular. Sem conta, tudo fica salvo só neste aparelho.</p>' +
+      '<div class="form">' + (NATIVE ? '' : '<button class="btn btn-google" data-act="auth-google"><svg class="ico" viewBox="0 0 24 24" style="stroke:none"><path fill="#4285F4" d="M22 12.2c0-.7-.1-1.4-.2-2H12v3.8h5.6a4.8 4.8 0 0 1-2.1 3.1v2.6h3.4c2-1.8 3.1-4.5 3.1-7.5z"/><path fill="#34A853" d="M12 22c2.8 0 5.2-.9 6.9-2.5l-3.4-2.6c-.9.6-2.1 1-3.5 1-2.7 0-5-1.8-5.8-4.3H2.7v2.7A10 10 0 0 0 12 22z"/><path fill="#FBBC05" d="M6.2 13.6a6 6 0 0 1 0-3.8V7.1H2.7a10 10 0 0 0 0 8.9z"/><path fill="#EA4335" d="M12 6c1.5 0 2.9.5 4 1.5l3-3A10 10 0 0 0 2.7 7.1l3.5 2.7C7 7.8 9.3 6 12 6z"/></svg>Entrar com Google</button>') +
+      (AUTH.apple_on() && !NATIVE ? '<button class="btn" data-act="auth-apple"> Entrar com Apple</button>' : '') +
+      '<div class="divider">ou com e-mail</div>' +
+      '<label class="field"><span>E-mail</span><input id="au-email" type="email" autocomplete="email" inputmode="email"></label>' +
+      '<label class="field"><span>Senha</span><input id="au-pass" type="password" autocomplete="current-password" minlength="6"></label>' +
+      '<p class="auth-err" id="au-err" hidden></p>' +
+      '<div class="inline-row"><button class="btn btn-primary" data-act="auth-login">Entrar</button><button class="btn" data-act="auth-signup">Criar conta</button></div>' +
+      '<button class="link" data-act="auth-reset" style="justify-self:start">Esqueci a senha</button></div>';
+  } else {
+    h += '<p class="store-note">' + (S.cloud ? 'Suas listas ficam salvas na sua conta e aparecem em qualquer aparelho em que você abrir este app.' : 'Suas listas ficam salvas neste aparelho. Baixe um backup de vez em quando para não perder nada.') + '</p>';
+  }
+  h += '<h3 class="acct-sec">Backup e exportação</h3><div class="form">' +
+    '<button class="btn" data-act="export-json">Baixar backup completo (.json)</button>' +
+    (n ? '<button class="btn" data-act="export-all-xlsx">Planilha com todas as listas (Excel ou CSV)</button>' : '') +
+    '<label class="btn" for="import-file">Importar backup (.json)</label><input class="vh" id="import-file" type="file" accept=".json,application/json">' +
+    '<p class="small-meta" style="margin:0">Ao importar, listas que já existem ficam com a versão mais recente.</p></div>' +
+    '<h3 class="acct-sec">Aparência</h3><div class="seg" role="group" aria-label="Tema">' +
+    '<button data-act="theme-set" data-t="dark" aria-pressed="' + (S.theme !== 'light') + '">☾ Escuro</button><button data-act="theme-set" data-t="light" aria-pressed="' + (S.theme === 'light') + '">☀︎ Claro</button></div>' +
+    '<div class="acct-foot"><span>Versão ' + APP_V + '</span><button data-act="news">Novidades</button><a href="privacidade.html" target="_blank" rel="noopener">Política de privacidade</a></div>' +
+    '<div class="sheet-actions"><button class="btn btn-primary" data-act="close-sheet">Fechar</button></div>';
+  openSheet(h);
+}
+function openNews(){
+  openSheet('<h2 id="sheet-h">Novidades da versão ' + APP_V + '</h2><div class="news"><ul>' + NOVIDADES.map(function(x){ return '<li>' + esc(x) + '</li>'; }).join('') + '</ul></div>' +
+    '<div class="sheet-actions"><button class="btn btn-primary" data-act="close-sheet">Entendi</button></div>');
+}
+
+/* ---------- instalar (Android e iPhone) ---------- */
+var IOS = /iP(hone|ad|od)/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+var STANDALONE = (function(){ try { return window.matchMedia('(display-mode: standalone)').matches || navigator.standalone === true; } catch(e){ return false; } })();
+var INSTALL = {evt:null};
+window.addEventListener('beforeinstallprompt', function(e){ e.preventDefault(); INSTALL.evt = e; renderInstall(); });
+window.addEventListener('appinstalled', function(){ INSTALL.evt = null; STANDALONE = true; renderInstall(); toast('App instalado. Procure o ícone Lista de Campo.'); });
+function renderInstall(){
+  var el = $('#cover-install'); if (!el) return;
+  var show = !NATIVE && !FRAMED && !STANDALONE && (INSTALL.evt || IOS);
+  el.innerHTML = show ? '<button class="install-chip" data-act="install"><svg class="ico" viewBox="0 0 24 24" style="width:16px;height:16px"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>Instalar app</button>' : '';
+}
+function doInstall(){
+  if (INSTALL.evt){ var e = INSTALL.evt; INSTALL.evt = null; e.prompt(); (e.userChoice || Promise.resolve()).then(function(){ renderInstall(); }); return; }
+  var share = '<svg class="ios-share" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M8 7l4-4 4 4"/><path d="M6 11H5v10h14V11h-1"/></svg>';
+  var h = IOS
+    ? '<h2 id="sheet-h">Instalar no iPhone</h2><ol class="steps">' +
+      '<li>Abra este endereço no <b>Safari</b>.</li>' +
+      '<li>Toque em <b>Compartilhar</b> ' + share + ' (na barra de baixo ou de cima).</li>' +
+      '<li>Role e toque em <b>Adicionar à Tela de Início</b>.</li>' +
+      '<li>Toque em <b>Adicionar</b>. O ícone <b>Lista de Campo</b> aparece na tela.</li></ol>' +
+      '<p class="small-meta">Abra sempre pelo ícone: assim o app funciona sem internet e as listas ficam guardadas. No iPhone, as planilhas saem pelo botão <b>Compartilhar</b>, onde dá para salvar em Arquivos ou mandar por WhatsApp e e-mail.</p>'
+    : '<h2 id="sheet-h">Instalar o app</h2><ol class="steps"><li>No Chrome, toque nos <b>três pontinhos</b> ⋮.</li><li>Toque em <b>Instalar app</b> ou <b>Adicionar à tela inicial</b>.</li><li>Confirme. O ícone <b>Lista de Campo</b> aparece na tela.</li></ol>';
+  openSheet(h + '<div class="sheet-actions"><button class="btn btn-primary" data-act="close-sheet">Entendi</button></div>');
+}
+
+/* ---------- arquivos no iPhone: compartilhar ---------- */
+var READY = null;
+function shareReady(){
+  var r = READY; if (!r) return;
+  var file;
+  try { file = new File([r.blob], r.name, {type:r.mime}); } catch(e){ file = null; }
+  if (file && navigator.canShare && navigator.canShare({files:[file]})){
+    navigator.share({files:[file], title:r.label || r.name}).then(function(){ closeSheet(); }, function(e){ if (!(e && e.name === 'AbortError')) toast('Não deu para compartilhar. Tente “Abrir arquivo”.'); });
+  } else {
+    var url = URL.createObjectURL(r.blob), a = document.createElement('a');
+    a.href = url; a.download = r.name; document.body.appendChild(a); a.click();
+    setTimeout(function(){ URL.revokeObjectURL(url); a.remove(); }, 8000);
+  }
+}
+function openReady(filename, content, mime, label){
+  READY = {name:filename, blob: content instanceof Blob ? content : new Blob([content], {type:mime}), mime:mime, label:label};
+  openSheet('<h2 id="sheet-h">Arquivo pronto</h2><p class="store-note"><b>' + esc(filename) + '</b></p>' +
+    '<p class="small-meta">Toque em Compartilhar para salvar em Arquivos, abrir no Excel ou enviar por WhatsApp e e-mail.</p>' +
+    '<div class="sheet-actions"><button class="btn" data-act="close-sheet">Fechar</button><button class="btn btn-primary" data-act="share-file">Compartilhar</button></div>', function(){ READY = null; });
+}
+
+/* ---------- modo bolso (navegador) ---------- */
+var PK = {y:0, t:0};
+function pocketOn(){ return !$('#pocket').hidden; }
+function pocketInfo(){
+  var c = Object.keys(S.lists).map(function(k){ return S.lists[k]; }).filter(function(x){ return x.track.on && !x.end; })[0];
+  $('#pocket-info').textContent = c ? fDist(c.track.dist) + ' · ' + plural(c.track.pts.length, 'ponto', 'pontos') : 'Trilha pausada';
+}
+function pocketOnNow(){
+  requestWake();
+  try { if (document.documentElement.requestFullscreen) document.documentElement.requestFullscreen().catch(function(){}); } catch(e){}
+  pocketInfo(); $('#pocket').hidden = false;
+  S.pocketT = setInterval(pocketInfo, 15000);
+}
+function pocketOff(){
+  $('#pocket').hidden = true; clearInterval(S.pocketT);
+  try { if (document.fullscreenElement && document.exitFullscreen) document.exitFullscreen().catch(function(){}); } catch(e){}
+  if (S.screen === 'list') renderList();
+}
+(function(){
+  var pk = $('#pocket');
+  pk.addEventListener('touchstart', function(e){ PK.y = e.touches[0].clientY; PK.t = Date.now(); }, {passive:true});
+  pk.addEventListener('touchend', function(e){ var t = e.changedTouches[0]; if (PK.y - t.clientY > Math.min(220, window.innerHeight * 0.3) && Date.now() - PK.t < 1500) pocketOff(); });
+  pk.addEventListener('pointerdown', function(e){ if (e.pointerType === 'mouse'){ PK.y = e.clientY; PK.t = Date.now(); } });
+  pk.addEventListener('pointerup', function(e){ if (e.pointerType === 'mouse' && PK.y - e.clientY > 120) pocketOff(); });
+  pk.addEventListener('contextmenu', function(e){ e.preventDefault(); });
+})();
+
+/* ---------- aviso de nova versão ---------- */
+var UPD = {last:0, remote:null};
+function checkUpdate(force){
+  if (FRAMED) return;
+  if (!force && Date.now() - UPD.last < 20 * 60000) return;
+  UPD.last = Date.now();
+  if (NATIVE){
+    var AU = NP.AppUpdate; if (!AU) return;
+    AU.getAppUpdateInfo().then(function(i){ if (i && (i.updateAvailability === 2 || i.updateAvailability === 'UPDATE_AVAILABLE')) showUpdate({nome: i.availableVersionName || i.availableVersion || '', novidades: []}); }).catch(function(){});
+    return;
+  }
+  if (!navigator.onLine) return;
+  fetch('version.json?t=' + Date.now(), {cache:'no-store'}).then(function(r){ return r.ok ? r.json() : null; }).then(function(v){
+    if (v && +v.v > APP_V) showUpdate(v);
+  }).catch(function(){});
+}
+function showUpdate(v){
+  UPD.remote = v;
+  if (S.updLater && Date.now() - S.updLater < 6 * 3600000) return;
+  var bar = $('#update-bar'), notes = (v.novidades || []).slice(0, 4);
+  bar.innerHTML = '<div class="ub-row"><span><b>Nova versão' + (v.nome ? ' ' + esc(v.nome) : '') + ' disponível</b></span><span style="display:flex;gap:6px"><button class="ub-later" data-act="upd-later">Depois</button><button data-act="upd-now">Atualizar</button></span></div>' +
+    (notes.length ? '<ul>' + notes.map(function(x){ return '<li>' + esc(x) + '</li>'; }).join('') + '</ul>' : '');
+  bar.hidden = false;
+}
+function applyUpdate(){
+  if (NATIVE && NP.AppUpdate){
+    var AU = NP.AppUpdate;
+    AU.performImmediateUpdate().catch(function(){ return AU.openAppStore(); }).catch(function(){ toast('Abra a Play Store para atualizar.'); });
+    return;
+  }
+  var rec = Object.keys(S.lists).some(function(id){ var c = S.lists[id]; return c.track.on && !c.end; });
+  flushLocal();
+  if (rec) toast('Atualizando… a trilha continua gravando depois.');
+  var go2 = function(){ location.reload(); };
+  if (!('serviceWorker' in navigator)) return go2();
+  navigator.serviceWorker.getRegistration().then(function(reg){
+    if (!reg) return go2();
+    return reg.update().then(function(){
+      var w = reg.installing || reg.waiting;
+      if (!w) return go2();
+      if (w.state === 'activated') return go2();
+      w.addEventListener('statechange', function(){ if (w.state === 'activated' || w.state === 'redundant') go2(); });
+      setTimeout(go2, 8000);
+    });
+  }).catch(go2);
+}
+
 function openCopySheet(text, label){
   openSheet('<h2 id="sheet-h">' + esc(label || 'Copiar') + '</h2><p>Selecione o texto e copie.</p><label class="vh" for="copy-area">Texto</label><textarea class="copy-area" id="copy-area" readonly>' + esc(text) + '</textarea><div class="sheet-actions"><button class="btn btn-primary" data-act="close-sheet">Fechar</button></div>');
   var ta = $('#copy-area'); try { ta.focus(); ta.select(); } catch(e){}
 }
 
 /* ---------- names screen ---------- */
+function renderAliases(){
+  var box = $('#alias-list'); if (!box) return;
+  var f = norm($('#name-filter').value || '');
+  var keys = Object.keys(S.alias).sort(function(a, b){ return a.localeCompare(b, 'pt'); }).filter(function(k){ return !f || k.indexOf(f) >= 0 || norm(S.alias[k].n).indexOf(f) >= 0; });
+  if (!Object.keys(S.alias).length){ box.innerHTML = '<li><span class="n-meta" style="padding:14px 0">Nenhum apelido ainda. Numa lista, toque na espécie e use “Apelidar”.</span></li>'; return; }
+  box.innerHTML = keys.map(function(k){ var a = S.alias[k], d = dbGet(a.n); return '<li><span><span class="n-name">' + esc(a.a) + '</span><br><span class="n-meta"><i>' + esc(a.n) + '</i>' + (d && d.pt ? ' · ' + esc(d.pt.split(',')[0]) : '') + '</span></span><span class="n-acts"><button class="icon-btn" data-act="al-del-n" data-a="' + encodeURIComponent(a.a) + '" aria-label="Apagar apelido ' + esc(a.a) + '">' + ICO.x + '</button></span></li>'; }).join('') || '<li><span class="n-meta" style="padding:14px 0">Nenhum apelido encontrado.</span></li>';
+}
 function renderNames(){
+  renderAliases();
   var use = nameUse(), f = norm($('#name-filter').value || '');
   var list = S.names.slice().sort(function(a, b){ return norm(a).localeCompare(norm(b), 'pt'); }).filter(function(n){ return !f || norm(n).indexOf(f) >= 0; });
   var ul = $('#name-list');
@@ -1196,11 +1886,12 @@ function renameName(oldN, newN, everywhere){
 function liveSpecies(c){ return c.species.filter(function(s){ return s.count > 0; }).sort(function(a, b){ return a.first < b.first ? -1 : 1; }); }
 function summary(c){
   var t = totals(c), L = [title(c), fLong(c.start) + ' · início ' + fTime(c.start)];
+  var pc = [c.projeto, c.campanha, c.ua, c.metodo].filter(Boolean); if (pc.length) L.push(pc.join(' · '));
   var b = ['Duração ' + fDur(elapsed(c))]; if (c.track.dist > 0) b.push(fDist(c.track.dist)); b.push(plural(c.observers, 'observador', 'observadores'));
   L.push(b.join(' · '));
   if (c.place || c.lat != null) L.push('Local: ' + [c.place, c.lat != null ? fCoord(c.lat) + ', ' + fCoord(c.lon) : ''].filter(Boolean).join(' — '));
   L.push(plural(t.sp, 'espécie', 'espécies') + ' · ' + plural(t.ind, 'indivíduo', 'indivíduos'), '');
-  liveSpecies(c).forEach(function(s){ L.push(s.count + ' ' + s.name + (s.note ? ' (' + s.note + ')' : '')); });
+  liveSpecies(c).forEach(function(s){ var va = [s.cv ? s.cv + 'V' : '', s.ca ? s.ca + 'A' : ''].filter(Boolean).join(' '); L.push(s.count + ' ' + (s.sci || s.name) + (s.sci && norm(s.sci) !== norm(s.name) ? ' [' + s.name + ']' : '') + (va ? ' — ' + va : '') + (s.note ? ' (' + s.note + ')' : '')); });
   if (c.notes.trim()) L.push('', 'Comentários: ' + c.notes.trim());
   return L.join('\n');
 }
@@ -1320,7 +2011,20 @@ function zipFiles(files, mime){
   end.setUint32(0, 0x06054b50, true); end.setUint16(8, files.length, true); end.setUint16(10, files.length, true); end.setUint32(12, cdSize, true); end.setUint32(16, off, true);
   return new Blob(parts.concat(central, [end.buffer]), {type:mime || 'application/zip'});
 }
+function nativeShare(filename, content, mime, label){
+  var blob = content instanceof Blob ? content : new Blob([content], {type:mime});
+  var fr = new FileReader();
+  fr.onload = function(){
+    var b64 = String(fr.result).split(',')[1] || '';
+    NP.Filesystem.writeFile({path:filename, data:b64, directory:'CACHE'}).then(function(r){
+      return NP.Share.share({title:label || filename, dialogTitle:'Salvar ou enviar ' + (label || 'arquivo'), url:r.uri});
+    }).catch(function(e){ var m = String(e && (e.message || e)); if (!/cancel/i.test(m)) toast('Não deu para salvar o arquivo.'); });
+  };
+  fr.onerror = function(){ toast('Não deu para salvar o arquivo.'); };
+  fr.readAsDataURL(blob);
+}
 function offerFile(filename, content, mime, label){
+  if (NATIVE && NP.Filesystem && NP.Share){ nativeShare(filename, content, mime, label); return; }
   if (S.downloads){
     S.downloads.save({filename:filename, data:content}).then(function(r){ if (r && r.status === 'saved') toast('Arquivo salvo'); }, function(e){
       var code = e && e.code;
@@ -1331,6 +2035,7 @@ function offerFile(filename, content, mime, label){
     return;
   }
   if (FRAMED && typeof content === 'string'){ openCopySheet(content, label); return; }
+  if (IOS && navigator.canShare){ openReady(filename, content, mime, label); return; }
   try {
     var blob = content instanceof Blob ? content : new Blob([content], {type:mime});
     var url = URL.createObjectURL(blob), a = document.createElement('a');
@@ -1355,9 +2060,60 @@ function importBackup(file){
       if (!loc || (r.updated || 0) > (loc.updated || 0)){ var c = fixList(clone(r)); delete c.synced; c.updated = Math.max(c.updated || 0, Date.now()); S.lists[c.id] = c; touch(c); n++; }
     });
     (data.names || []).forEach(function(nm){ learnName(nm); });
+    if (data.alias && typeof data.alias === 'object'){ Object.keys(data.alias).forEach(function(k){ var a = data.alias[k]; if (a && a.a && a.n && !S.alias[k]) S.alias[k] = a; }); touchNames(); }
     closeSheet(); go('home'); toast(n ? plural(n, 'lista importada', 'listas importadas') : 'Nada novo para importar');
   };
   rd.readAsText(file);
+}
+
+/* ---------- planilha de análises (planilha.js) ---------- */
+var LOGO = null;
+function loadLogo(){
+  if (LOGO !== null) return Promise.resolve(LOGO);
+  try { return fetch('logo-planilha.png').then(function(r){ return r.ok ? r.arrayBuffer() : null; }).then(function(b){ LOGO = b ? new Uint8Array(b) : false; return LOGO; }, function(){ LOGO = false; return false; }); }
+  catch(e){ LOGO = false; return Promise.resolve(false); }
+}
+function planInput(ls, titulo){
+  var proj = {}; ls.forEach(function(c){ if (c.projeto) proj[c.projeto] = 1; });
+  var pj = Object.keys(proj);
+  return {
+    titulo: titulo || (pj.length === 1 ? pj[0] : (ls.length === 1 ? title(ls[0]) : 'Levantamento de fauna')),
+    projeto: pj.join(', '),
+    especie: function(n){ return dbGet(n); },
+    fontes: window.ESPECIES_FONTES || {},
+    logo: LOGO || null,
+    listas: ls.map(function(c){
+      return { titulo:title(c), inicio:c.start, fim:c.end || new Date().toISOString(), campanha:c.campanha, projeto:c.projeto, ua:c.ua || c.place, metodo:c.metodo,
+        lat:c.lat, lon:c.lon, observadores:c.observers, distKm:c.track.dist ? c.track.dist / 1000 : 0, durMin:Math.round(elapsed(c) / 60000),
+        registros: c.species.filter(function(s){ return s.count > 0; }).map(function(s){ var d = dbGet(s.sci); return { sci:d ? d.n : '', nome:d ? d.n : s.name, v:s.cv, a:s.ca, outro:spLegacy(s), hora:s.first, lat:s.lat, lon:s.lon, obs:s.note }; }) };
+    })
+  };
+}
+function exportLists(ls, base, label, fmt){
+  if (!ls.length){ toast('Nada para exportar'); return; }
+  if (!window.Planilha){ toast('Gerador de planilha indisponível. Atualize o app.'); return; }
+  toast('Gerando…');
+  loadLogo().then(function(){
+    var inp = planInput(ls), data, name, mime;
+    try {
+      if (fmt === 'csv'){ data = Planilha.csvRegistros(inp); name = base + '-registros.csv'; mime = 'text/csv'; }
+      else if (fmt === 'csvzip'){ data = new Blob([Planilha.csvZip(inp, base)], {type:'application/zip'}); name = base + '-csv.zip'; mime = 'application/zip'; }
+      else { data = new Blob([Planilha.gerar(inp)], {type:XLSX_MIME}); name = base + '.xlsx'; mime = XLSX_MIME; }
+    } catch(e){ console.error(e); toast('Não deu para gerar a planilha.'); return; }
+    $('#toast').hidden = true;
+    offerFile(name, data, mime, label);
+  });
+}
+function openFormat(ls, base, label){
+  S.fmtJob = {ls:ls, base:base, label:label};
+  var n = ls.length, camps = {}; ls.forEach(function(c){ if (c.campanha) camps[c.campanha] = 1; });
+  var h = '<h2 id="sheet-h">' + esc(label) + '</h2><p class="small-meta">' + plural(n, 'lista', 'listas') + (Object.keys(camps).length > 1 ? ' · ' + plural(Object.keys(camps).length, 'campanha', 'campanhas') + ' (cumulativa)' : '') + '</p>' +
+    '<div class="fmt-list">' +
+    '<button class="btn" data-act="fmt" data-f="xlsx">' + ICO.table + '<span>Excel com análises (.xlsx)<small>Tabela de espécies, riqueza e abundância, diversidade, rarefação, similaridade, IPA, gráficos e dados brutos.</small></span></button>' +
+    '<button class="btn" data-act="fmt" data-f="csv">' + ICO.copy + '<span>CSV — registros (.csv)<small>Uma linha por espécie em cada lista. Abre no Excel, R ou planilhas Google.</small></span></button>' +
+    '<button class="btn" data-act="fmt" data-f="csvzip">' + ICO.copy + '<span>CSV completo (.zip)<small>Registros, tabela de espécies e matriz para EstimateS.</small></span></button>' +
+    '</div><div class="sheet-actions"><button class="btn" data-act="close-sheet">Cancelar</button></div>';
+  openSheet(h);
 }
 
 /* ---------- excluir / segurar a lista ---------- */
@@ -1379,7 +2135,7 @@ function openListMenu(id){
   openSheet('<div class="lp-head"><span class="eyebrow">' + (c.end ? 'Lista finalizada' : 'Em andamento') + '</span><h2 id="sheet-h">' + esc(title(c)) + '</h2>' +
     '<p class="meta" style="margin:0">' + fDay(c.start) + ' · ' + fTime(c.start) + ' · ' + plural(t.sp, 'espécie', 'espécies') + ' · ' + plural(t.ind, 'indivíduo', 'indivíduos') + '</p></div>' +
     '<div class="lp-acts">' +
-    '<button class="btn" data-act="lp-xlsx" data-id="' + id + '">' + ICO.table + 'Exportar planilha Excel</button>' +
+    '<button class="btn" data-act="lp-xlsx" data-id="' + id + '">' + ICO.table + 'Exportar planilha (Excel ou CSV)</button>' +
     '<button class="btn" data-act="lp-summary" data-id="' + id + '">' + ICO.copy + 'Copiar resumo em texto</button>' +
     '<button class="btn" data-act="lp-edit" data-id="' + id + '">' + ICO.pencil + (c.end ? 'Editar (corrigir) lista' : 'Abrir e editar lista') + '</button>' +
     '<button class="btn btn-danger" data-act="lp-delete" data-id="' + id + '">' + ICO.trash + 'Excluir lista</button>' +
@@ -1387,7 +2143,7 @@ function openListMenu(id){
 }
 var LP = {t:null, el:null, x:0, y:0, fired:false, until:0, type:''};
 function lpCancel(){ clearTimeout(LP.t); LP.t = null; if (LP.el) LP.el.classList.remove('pressing'); LP.el = null; }
-function lpTarget(e){ var el = e.target.closest && e.target.closest('.hl-row[data-id], .open-card[data-id]'); return el && el.closest('#home') ? el : null; }
+function lpTarget(e){ if (S.sel) return null; var el = e.target.closest && e.target.closest('.hl-row[data-id], .open-card[data-id]'); return el && el.closest('#home') ? el : null; }
 document.addEventListener('pointerdown', function(e){
   var el = lpTarget(e); if (!el || e.button > 0) return;
   lpCancel(); LP.el = el; LP.x = e.clientX; LP.y = e.clientY; LP.fired = false; LP.type = e.pointerType;
@@ -1413,11 +2169,11 @@ document.addEventListener('click', function(e){
 
 /* ---------- toast ---------- */
 var toastT;
-function toast(msg, undo){
+function toast(msg, undo, extra){
   var t = $('#toast');
-  t.innerHTML = '<span>' + esc(msg) + '</span>' + (undo ? '<button data-act="undo">Desfazer</button>' : '');
-  t.hidden = false; S.undo = undo || null;
-  clearTimeout(toastT); toastT = setTimeout(function(){ t.hidden = true; S.undo = null; }, undo ? 4500 : 2600);
+  t.innerHTML = '<span>' + esc(msg) + '</span>' + (extra ? '<button data-act="toast-extra">' + esc(extra.label) + '</button>' : '') + (undo ? '<button data-act="undo">Desfazer</button>' : '');
+  t.hidden = false; S.undo = undo || null; S.toastExtra = extra ? extra.fn : null;
+  clearTimeout(toastT); toastT = setTimeout(function(){ t.hidden = true; S.undo = null; S.toastExtra = null; }, extra ? 6500 : undo ? 4500 : 2600);
 }
 
 /* ---------- events ---------- */
@@ -1430,11 +2186,27 @@ function arm(b, label, fn){
 var A = {
   'new-list': newList,
   'open': function(b){ go('list', b.dataset.id); },
-  'home': function(){ if (!FRAMED && history.state === 'sub'){ try { history.back(); return; } catch(e){} } go('home'); },
+  'home': function(){ go('home'); },
+  'theme': function(){ applyTheme(S.theme === 'light' ? 'dark' : 'light'); },
+  'theme-set': function(b){ applyTheme(b.dataset.t); if (!$('#sheet').hidden) openAccount(); },
+  'account': function(){ openAccount(); },
+  'news': function(){ openNews(); },
+  'install': function(){ doInstall(); },
+  'pocket': function(){ pocketOnNow(); },
+  'upd-now': function(){ applyUpdate(); },
+  'upd-later': function(){ $('#update-bar').hidden = true; S.updLater = Date.now(); },
+  'share-file': function(){ shareReady(); },
+  'auth-google': function(){ AUTH.google(); },
+  'auth-apple': function(){ AUTH.apple(); },
+  'auth-login': function(){ AUTH.email(false); },
+  'auth-signup': function(){ AUTH.email(true); },
+  'auth-reset': function(){ AUTH.reset(); },
+  'auth-logout': function(){ AUTH.logout(); },
+  'auth-delete': function(b){ arm(b, 'Toque de novo para excluir a conta', function(){ AUTH.remove(); }); },
   'open-names': function(){ S.editingName = null; go('names'); },
   'details': openDetails,
   'close-sheet': closeSheet,
-  'backup': openBackup,
+  'backup': function(){ openAccount(); },
   'gps-info': openGpsInfo,
   'pick': function(b){ pick(+b.dataset.i); },
   'plus': function(b){ bump(cur(), b.dataset.sid, 1); },
@@ -1445,7 +2217,22 @@ var A = {
   'demo-minus': function(){ S.demo = Math.max(0, S.demo - 1); renderHome(); },
   'demo-remove': function(){ S.demo = 1; renderHome(); toast('No exemplo nada é apagado.'); },
   'noop': function(){},
-  'e-step': function(b){ var i = $('#e-count'); i.value = Math.max(0, (parseInt(i.value, 10) || 0) + (+b.dataset.d)); },
+  'e-step': function(b){ var i = $('#' + (b.dataset.t || 'e-count')); i.value = Math.max(0, (parseInt(i.value, 10) || 0) + (+b.dataset.d)); },
+  'mode': function(b){ var c = cur(), sp = c && c.species.filter(function(x){ return x.id === b.dataset.sid; })[0]; if (!sp || readOnly(c)) return; sp.mode = b.dataset.m === 'A' ? 'A' : 'V'; S.defMode = sp.mode; LS.set('defMode', S.defMode); touch(c); renderSpecies(); },
+  'toast-extra': function(){ var f = S.toastExtra; S.toastExtra = null; $('#toast').hidden = true; if (f) f(); },
+  'al-add': function(){
+    var c = cur(), s = c && c.species.filter(function(x){ return x.id === S.spEditing; })[0], inp = $('#al-input'); if (!s || !inp) return;
+    var a = clean(inp.value); if (!a) return;
+    var ex = S.alias[norm(a)];
+    if (ex && norm(ex.n) !== norm(s.sci) && !inp.dataset.confirm){ inp.dataset.confirm = '1'; toast('“' + a + '” já é apelido de ' + ex.n + '. Toque em Apelidar de novo para trocar.'); return; }
+    if (DB.n[norm(a)] && norm(DB.n[norm(a)].n) !== norm(s.sci)){ toast('“' + a + '” é o nome de outra espécie. Escolha outro apelido.'); return; }
+    setAlias(a, s.sci); inp.value = ''; delete inp.dataset.confirm;
+    if (norm(s.name) === norm(s.sci)){ s.name = a; $('#e-name').value = a; touch(c); }
+    $('#alias-box').outerHTML = aliasBox(s); renderSpecies(); toast('Apelido salvo: ' + a + ' → ' + s.sci);
+  },
+  'al-del': function(b){ var a = decodeURIComponent(b.dataset.a), c = cur(), s = c && c.species.filter(function(x){ return x.id === S.spEditing; })[0]; delAlias(a); if (s && $('#alias-box')) $('#alias-box').outerHTML = aliasBox(s); toast('Apelido apagado: ' + a); },
+  'al-del-n': function(b){ var a = decodeURIComponent(b.dataset.a), before = clone(S.alias); delAlias(a); renderNames(); toast('Apelido apagado: ' + a, function(){ S.alias = before; touchNames(); renderNames(); }); },
+  'lk-pick': function(b){ if (S.spEditing) linkSpecies(S.spEditing, decodeURIComponent(b.dataset.n)); },
   'e-remove': function(b){ arm(b, 'Toque de novo para remover', function(){ if (S.spRemove) S.spRemove(); closeSheet(); }); },
   'delete-list': function(b){ arm(b, 'Toque de novo para excluir', function(){
     var c = cur(); if (!c) return; var id = c.id;
@@ -1453,15 +2240,38 @@ var A = {
     deleteList(id); go('home'); toastDeleted(c);
   }); },
   'cover': function(){ go('cover'); },
+  'sel-start': function(){ S.sel = {}; S.selFrom = ''; S.selTo = ''; renderHome(); window.scrollTo(0, 0); },
+  'sel-cancel': function(){ S.sel = null; renderHome(); },
+  'sel-toggle': function(b){ var id = b.dataset.id; S.sel[id] = !S.sel[id]; b.setAttribute('aria-checked', String(!!S.sel[id])); renderSelBar(); },
+  'sel-all': function(){ setSel(function(){ return true; }); },
+  'sel-none': function(){ setSel(function(){ return false; }); },
+  'sel-month': function(b){ var k = b.dataset.k, ids = Object.keys(S.lists).filter(function(id){ var d = new Date(S.lists[id].start); return d.getFullYear() + '-' + d.getMonth() === k; });
+    var allOn = ids.every(function(id){ return S.sel[id]; }); ids.forEach(function(id){ S.sel[id] = !allOn; }); renderHome(); },
+  'sel-range': function(){
+    var f = $('#sel-from').value, t = $('#sel-to').value; S.selFrom = f; S.selTo = t;
+    if (!f && !t){ toast('Escolha a data de início e a de fim'); return; }
+    if (f && t && f > t){ var x = f; f = t; t = x; S.selFrom = f; S.selTo = t; }
+    var n = 0; setSel(function(c){ var k = dayKey(c.start), on = (!f || k >= f) && (!t || k <= t); if (on) n++; return on; });
+    toast(n ? plural(n, 'lista marcada', 'listas marcadas') : 'Nenhuma lista nesse período');
+  },
+  'sel-export': function(){
+    var ls = selLists(); if (!ls.length) return;
+    var a = dayKey(ls[0].start), z = dayKey(ls[ls.length-1].start), pj = {}; ls.forEach(function(c){ if (c.projeto) pj[c.projeto] = 1; });
+    var pk = Object.keys(pj);
+    openFormat(ls, (pk.length === 1 ? slug(pk[0]) + '-' : 'campo-') + a + (z !== a ? '_a_' + z : ''), 'Planilha do campo');
+  },
+  'sel-proj': function(b){ var p = decodeURIComponent(b.dataset.p), n = 0; setSel(function(c){ var on = c.projeto === p; if (on) n++; return on; }); toast(plural(n, 'lista marcada', 'listas marcadas') + ' · ' + p); },
+  'sel-camp': function(b){ var x = decodeURIComponent(b.dataset.k).split('\u0001'), n = 0; setSel(function(c){ var on = c.projeto === x[0] && c.campanha === x[1]; if (on) n++; return on; }); toast(plural(n, 'lista marcada', 'listas marcadas')); },
+  'fmt': function(b){ var j = S.fmtJob; if (!j) return; closeSheet(); exportLists(j.ls, j.base, j.label, b.dataset.f); },
   'to-home': function(){ go('home'); },
-  'lp-xlsx': function(b){ var c = S.lists[b.dataset.id]; if (!c) return; closeSheet(); offerFile(fileBase(c) + '.xlsx', workbook([c], false), XLSX_MIME, 'Planilha Excel'); },
+  'lp-xlsx': function(b){ var c = S.lists[b.dataset.id]; if (!c) return; closeSheet(); openFormat([c], fileBase(c), 'Exportar lista'); },
   'lp-summary': function(b){ var c = S.lists[b.dataset.id]; if (!c) return; closeSheet(); copyText(summary(c)); },
   'lp-edit': function(b){ var id = b.dataset.id, c = S.lists[id]; if (!c) return; closeSheet(); go('list', id); if (c.end){ S.unlocked = id; renderList(); } },
   'lp-delete': function(b){ arm(b, 'Toque de novo para excluir', function(){
     var id = b.dataset.id, c = S.lists[id]; if (!c) return;
     S.sheetClose = null; closeSheet(); deleteList(id); renderHome(); toastDeleted(c);
   }); },
-  'reload-app': function(){ location.reload(); },
+  'reload-app': function(){ applyUpdate(); },
   'track-start': function(){ startTrack(cur()); },
   'track-pause': function(){ pauseTrack(cur()); },
   'gps-now': function(b){
@@ -1478,13 +2288,13 @@ var A = {
   'unlock': function(){ var c = cur(); if (!c) return; S.unlocked = c.id; renderList(); },
   'lock': function(){ S.unlocked = null; renderList(); toast('Correções salvas'); },
   'copy-summary': function(){ copyText(summary(cur())); },
-  'xlsx': function(){ var c = cur(); offerFile(fileBase(c) + '.xlsx', workbook([c], false), XLSX_MIME, 'Planilha Excel'); },
+  'xlsx': function(){ var c = cur(); openFormat([c], fileBase(c), 'Exportar lista'); },
   'gpx': function(){ var c = cur(), g = gpx(c), base = fileBase(c); if (S.downloads) offerFile(base + '.zip', zipFiles([{name:base + '.gpx', data:g}]), 'application/zip'); else offerFile(base + '.gpx', g, 'application/gpx+xml', 'Trilha (GPX)'); },
-  'export-json': function(){ var d = {app:'caderneta-de-campo', version:1, exported:new Date().toISOString(), names:S.names, lists:Object.keys(S.lists).map(function(k){ var c = clone(S.lists[k]); delete c.synced; return c; })}; offerFile('caderneta-backup-' + dateVal(new Date()) + '.json', JSON.stringify(d), 'application/json', 'Backup'); },
+  'export-json': function(){ var d = {app:'caderneta-de-campo', version:1, exported:new Date().toISOString(), names:S.names, alias:S.alias, lists:Object.keys(S.lists).map(function(k){ var c = clone(S.lists[k]); delete c.synced; return c; })}; offerFile('caderneta-backup-' + dateVal(new Date()) + '.json', JSON.stringify(d), 'application/json', 'Backup'); },
   'export-all-xlsx': function(){
     var all = Object.keys(S.lists).map(function(k){ return S.lists[k]; }).sort(function(a, b){ return a.start < b.start ? -1 : 1; });
     if (!all.length){ toast('Ainda não há listas para exportar'); return; }
-    offerFile('caderneta-' + dateVal(new Date()) + '.xlsx', workbook(all, true), XLSX_MIME, 'Planilha Excel');
+    closeSheet(); openFormat(all, 'lista-de-campo-' + dateVal(new Date()), 'Todas as listas');
   },
   'undo': function(){ var f = S.undo; S.undo = null; $('#toast').hidden = true; if (f) f(); },
   'bulk-add': function(){ var ta = $('#name-bulk'), n = 0; ta.value.split(/\r?\n/).forEach(function(l){ l = clean(l.replace(/^[-•*\d.)\s]+(?=\D)/, '')); if (l && learnName(l)) n++; }); ta.value = ''; renderNames(); renderHome(); toast(n ? plural(n, 'nome adicionado', 'nomes adicionados') : 'Esses nomes já estavam salvos'); },
@@ -1522,7 +2332,11 @@ $('#add-form').addEventListener('submit', function(e){
 });
 $('.add-go').addEventListener('pointerdown', function(e){ if (document.activeElement === addInp) e.preventDefault(); });
 $('#sort-sel').addEventListener('change', function(e){ S.sort = e.target.value; LS.set('sort', S.sort); renderSpecies(); });
-$('#sheet').addEventListener('input', function(e){ if (e.target.id && e.target.id.indexOf('d-') === 0) applyDetails(e.target); });
+$('#sheet').addEventListener('input', function(e){ if (e.target.id === 'lk-input') renderLinkRes(); else if (e.target.id && e.target.id.indexOf('d-') === 0) applyDetails(e.target); });
+$('#sheet').addEventListener('keydown', function(e){
+  if (e.target.id === 'al-input' && e.key === 'Enter'){ e.preventDefault(); A['al-add'](); }
+  if ((e.target.id === 'au-pass' || e.target.id === 'au-email') && e.key === 'Enter'){ e.preventDefault(); A['auth-login'](); }
+});
 $('#sheet').addEventListener('change', function(e){
   if (e.target.id === 'import-file' && e.target.files && e.target.files[0]) importBackup(e.target.files[0]);
   else if (e.target.id && e.target.id.indexOf('d-') === 0) applyDetails(e.target);
@@ -1539,45 +2353,38 @@ $('#name-list').addEventListener('keydown', function(e){
   else if (e.key === 'Escape'){ S.editingName = null; renderNames(); }
 });
 document.addEventListener('visibilitychange', function(){
-  if (document.visibilityState === 'visible'){ if (S.watchId != null) requestWake(); retryAll(); tick(); }
+  if (document.visibilityState === 'visible'){ if (S.watchId != null) requestWake(); retryAll(); tick(); checkUpdate(false); }
   else flushLocal();
 });
 window.addEventListener('pagehide', flushLocal);
 window.addEventListener('online', retryAll);
-function tick(){ if (S.screen === 'list') renderNav(); else if (S.screen === 'home') renderHome(); else if (S.screen === 'cover') renderCover(); }
+function tick(){ if (S.screen === 'list') renderNav(); else if (S.screen === 'home'){ if (!S.sel) renderHome(); } else if (S.screen === 'cover') renderCover(); }
 setInterval(tick, 20000);
 
 function renderAll(){ if (S.screen === 'cover') renderCover(); else if (S.screen === 'home') renderHome(); else if (S.screen === 'list') renderList(); else renderNames(); renderSync(); }
 
 /* ---------- boot ---------- */
 loadLocal();
+applyTheme(S.theme);
 probeGps();
 renderHome();
-go('cover');
+if (!FRAMED){ try { var d0 = histDepth(); if (d0 > 0) history.go(-d0); } catch(e){} }
+go('cover', null, true);
+renderInstall();
 (function(){
-  var V = '4', seen = LS.get('appVersion', null);
-  if (seen !== V){ if (seen || Object.keys(S.lists).length) setTimeout(function(){ toast('App atualizado — versão ' + V); }, 600); LS.set('appVersion', V); }
+  var seen = +LS.get('appVersion', 0) || 0;
+  if (seen !== APP_V){ if (seen || Object.keys(S.lists).length) setTimeout(openNews, 700); LS.set('appVersion', APP_V); }
 })();
+setTimeout(function(){ checkUpdate(true); }, 2500);
 updateWatch();
 initCloud();
 })();
 </script>
 
 <script>
-if ('serviceWorker' in navigator){
+if ('serviceWorker' in navigator && !(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform())){
   window.addEventListener('load', function(){
-    var hadController = !!navigator.serviceWorker.controller;
     navigator.serviceWorker.register('sw.js').then(function(reg){
-      function offer(){
-        if (document.getElementById('update-bar')) return;
-        var d = document.createElement('div'); d.id = 'update-bar'; d.className = 'update-bar'; d.setAttribute('role', 'status');
-        d.innerHTML = '<span>Nova versão do app pronta.</span><button data-act="reload-app">Atualizar</button>';
-        document.body.appendChild(d);
-      }
-      reg.addEventListener('updatefound', function(){
-        var w = reg.installing; if (!w) return;
-        w.addEventListener('statechange', function(){ if (w.state === 'activated' && hadController) offer(); });
-      });
       document.addEventListener('visibilitychange', function(){ if (document.visibilityState === 'visible') reg.update().catch(function(){}); });
     }).catch(function(){});
   });
