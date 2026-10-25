@@ -1,0 +1,105 @@
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Como usar · Lista de Campo</title>
+<meta name="description" content="Vídeo e passo a passo do app Lista de Campo: listas de espécies, apelidos, V/A, trilha GPS e planilhas de análise.">
+<meta name="theme-color" content="#0E2515">
+<link rel="icon" href="favicon.png" type="image/png">
+<meta property="og:title" content="Lista de Campo · Como usar">
+<meta property="og:description" content="Listas de espécies para o trabalho de campo, com planilhas de análise automáticas.">
+<meta property="og:image" content="https://lucasaosf.github.io/caderneta-de-campo/docs/banner.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,500&family=Jost:wght@400;500;600&display=swap">
+<script>(function(){try{var t=localStorage.getItem("caderneta.v1.theme");t=t?JSON.parse(t):"dark";document.documentElement.setAttribute("data-theme",t);}catch(e){document.documentElement.setAttribute("data-theme","dark");}})();</script>
+<style>
+:root{--bg:#F3EEE3;--surface:#FBF8F1;--surface-2:#EEE8DA;--ink:#1D2A1F;--muted:#5B675A;--line:#DDD5C3;--accent:#173A1E;--on-accent:#F3EEE3;--bronze:#86602E;--gold:#B08854}
+:root[data-theme="dark"]{--bg:#0E2515;--surface:#132F1C;--surface-2:#183B23;--ink:#F2EBDD;--muted:#B2C2A5;--line:#24502F;--accent:#B2C2A5;--on-accent:#0E2515;--bronze:#D4B277;--gold:#D4B277;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.6 "Jost",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+a{color:var(--accent);font-weight:600}
+.wrap{max-width:1040px;margin:0 auto;padding:0 16px}
+header{padding:40px 0 8px;display:flex;align-items:center;gap:18px}
+header img{width:72px;height:72px;border-radius:50%;background:#0E2515;padding:6px}
+.eyebrow{font-size:12px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--bronze);margin:0}
+h1{font-family:"Cormorant Garamond",Georgia,serif;font-weight:600;font-size:clamp(38px,7vw,58px);line-height:1;margin:4px 0 0}
+h2{font-family:"Cormorant Garamond",Georgia,serif;font-weight:600;font-size:32px;line-height:1.1;margin:48px 0 12px}
+.lead{color:var(--muted);max-width:640px;margin:14px 0 0}
+.cta{display:flex;flex-wrap:wrap;gap:10px;margin:22px 0 0}
+.btn{display:inline-flex;align-items:center;gap:8px;min-height:48px;padding:10px 20px;border-radius:12px;text-decoration:none;font-weight:600;border:1.5px solid var(--line);color:var(--ink);background:var(--surface)}
+.btn.primary{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
+.video{display:grid;grid-template-columns:minmax(0,380px) minmax(0,1fr);gap:32px;align-items:start;margin-top:32px}
+video{width:100%;aspect-ratio:9/16;border-radius:22px;background:#0E2515;border:2px solid #967a4e;box-shadow:0 18px 50px rgba(0,0,0,.35);display:block}
+.chapters{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.chapters button{width:100%;text-align:left;display:grid;grid-template-columns:54px 1fr;gap:10px;align-items:baseline;padding:9px 12px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:inherit;cursor:pointer}
+.chapters button:hover{border-color:var(--gold)}
+.chapters b{font-variant-numeric:tabular-nums;color:var(--bronze);font-weight:600}
+.steps{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:22px}
+.step{margin:0}
+.step img{width:100%;border-radius:18px;border:1.5px solid var(--line);display:block}
+.step figcaption{margin-top:10px;font-size:15px;color:var(--muted)}
+.step figcaption b{display:block;color:var(--ink);font-size:16px}
+.wide{width:100%;border-radius:14px;border:1px solid var(--line);display:block}
+.install{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px 20px}
+.card h3{margin:0 0 6px;font-family:"Cormorant Garamond",Georgia,serif;font-size:24px;font-weight:600}
+.card ol{margin:0;padding-left:20px}
+footer{margin:56px 0 40px;padding-top:18px;border-top:1px solid var(--line);color:var(--muted);font-size:14px;display:flex;flex-wrap:wrap;gap:8px 18px;justify-content:space-between}
+footer i{font-family:"Cormorant Garamond",Georgia,serif;font-size:19px}
+@media (max-width:720px){.video{grid-template-columns:1fr}.video video{max-width:380px;margin:0 auto}}
+</style></head><body><div class="wrap">
+
+<header><img src="logo-creme.png" alt=""><div><p class="eyebrow">Pesquisa &amp; Soluções Ambientais</p><h1>Lista de Campo</h1></div></header>
+<p class="lead">Listas de espécies para o trabalho de campo: nomes do seu jeito, contagem com − e +, registro visual ou auditivo, trilha GPS e planilha de análises pronta ao final do campo.</p>
+<div class="cta"><a class="btn primary" href="./">Abrir o app</a><a class="btn" href="#instalar">Como instalar</a></div>
+
+<section class="video" aria-label="Vídeo tutorial">
+  <video id="v" controls playsinline preload="metadata" poster="docs/video-capa.jpg" src="docs/tutorial.mp4"></video>
+  <div>
+    <h2 style="margin-top:0">Vídeo de 2 minutos</h2>
+    <ol class="chapters" id="ch">
+      <li><button data-t="3"><b>0:03</b>Capa e Minhas listas</button></li>
+      <li><button data-t="13"><b>0:13</b>Nova lista: data, hora e GPS automáticos</button></li>
+      <li><button data-t="16"><b>0:16</b>Busca no banco de 4.903 espécies</button></li>
+      <li><button data-t="20.5"><b>0:20</b>Apelidos ligados ao nome científico</button></li>
+      <li><button data-t="35"><b>0:35</b>Somar vários de uma vez</button></li>
+      <li><button data-t="43"><b>0:43</b>V (visual) e A (auditivo)</button></li>
+      <li><button data-t="47"><b>0:47</b>Projeto, campanha, unidade amostral e método</button></li>
+      <li><button data-t="55"><b>0:55</b>Trilha GPS e modo bolso</button></li>
+      <li><button data-t="62.2"><b>1:02</b>Finalizar e exportar (Excel ou CSV)</button></li>
+      <li><button data-t="69.5"><b>1:09</b>Planilha do campo (cumulativa)</button></li>
+      <li><button data-t="80.7"><b>1:20</b>Segurar a lista, modo claro e Início</button></li>
+      <li><button data-t="96"><b>1:36</b>A planilha de análises</button></li>
+    </ol>
+  </div>
+</section>
+
+<h2>Passo a passo</h2>
+<div class="steps">
+  <figure class="step"><img src="docs/prints/capa.jpg" alt="Capa do app Lista de Campo" loading="lazy"><figcaption><b>1. Capa</b>Continue a lista em andamento, comece uma nova ou veja suas listas.</figcaption></figure>
+  <figure class="step"><img src="docs/prints/sugestoes.jpg" alt="Sugestões de espécies ao digitar" loading="lazy"><figcaption><b>2. Digite a espécie</b>Nome popular, científico ou seu apelido. “4 quero-quero” já soma 4.</figcaption></figure>
+  <figure class="step"><img src="docs/prints/lista.jpg" alt="Lista com contadores e botões V e A" loading="lazy"><figcaption><b>3. Conte</b>− e + em cada espécie; V para visual e A para auditivo.</figcaption></figure>
+  <figure class="step"><img src="docs/prints/apelido.jpg" alt="Editor da espécie com apelidos" loading="lazy"><figcaption><b>4. Apelide</b>Toque na espécie e crie apelidos. Na planilha sai sempre o nome científico.</figcaption></figure>
+  <figure class="step"><img src="docs/prints/trilha.jpg" alt="Lista finalizada com a trilha GPS" loading="lazy"><figcaption><b>5. Trilha e fim</b>A trilha grava o caminho e a distância. Finalize quando terminar.</figcaption></figure>
+  <figure class="step"><img src="docs/prints/exportar.jpg" alt="Escolha do formato de exportação" loading="lazy"><figcaption><b>6. Exporte</b>Excel com análises, CSV de registros ou CSV completo.</figcaption></figure>
+  <figure class="step"><img src="docs/prints/planilha-do-campo.jpg" alt="Seleção de listas para a planilha do campo" loading="lazy"><figcaption><b>7. Planilha do campo</b>Junte as listas de uma campanha ou de todas as campanhas do projeto.</figcaption></figure>
+  <figure class="step"><img src="docs/prints/modo-claro.jpg" alt="Minhas listas no modo claro" loading="lazy"><figcaption><b>8. Modo claro</b>Troque entre escuro e claro no ☀︎/☾ de qualquer tela.</figcaption></figure>
+</div>
+
+<h2>A planilha de análises</h2>
+<p class="lead" style="margin-top:0">Tabela de espécies com autor em coluna separada, nome popular, V/A, abundância relativa, frequência de ocorrência e as informações das listas oficiais (ameaça, endemismo, biomas…), além de riqueza acumulada, diversidade, rarefação, estimadores, similaridade e IPA, com gráficos.</p>
+<img class="wide" src="docs/planilha.png" alt="Exemplo da planilha de análises gerada pelo app" loading="lazy">
+
+<h2 id="instalar">Como instalar</h2>
+<div class="install">
+  <div class="card"><h3>Android</h3><ol><li>Abra <a href="./">o app</a> no <b>Chrome</b>.</li><li>Toque em <b>Instalar app</b> (ou ⋮ → <b>Adicionar à tela inicial</b>).</li><li>Abra sempre pelo ícone <b>Lista de Campo</b>.</li></ol></div>
+  <div class="card"><h3>iPhone</h3><ol><li>Abra <a href="./">o app</a> no <b>Safari</b>.</li><li>Toque em <b>Compartilhar</b> → <b>Adicionar à Tela de Início</b>.</li><li>Abra sempre pelo ícone <b>Lista de Campo</b>.</li></ol></div>
+  <div class="card"><h3>Sem internet</h3><p style="margin:0">Depois de aberto uma vez, o app funciona offline. As listas ficam salvas no celular; faça um backup de vez em quando em <b>Conta e backup</b>.</p></div>
+</div>
+
+<footer><span><i>criado por Lucas Aøsf</i> · Pesquisa &amp; Soluções Ambientais</span><span><a href="privacidade.html">Política de privacidade</a></span></footer>
+</div>
+<script>
+document.getElementById('ch').addEventListener('click', function(e){
+  var b = e.target.closest('button'); if (!b) return;
+  var v = document.getElementById('v'); v.currentTime = +b.dataset.t; v.play().catch(function(){}); v.scrollIntoView({behavior:'smooth', block:'center'});
+});
+</script>
+</body></html>
