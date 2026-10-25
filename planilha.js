@@ -361,8 +361,8 @@
         var key = r.sci || r.nome; if (!key) return;
         var e = spMap[key];
         if (!e) {
-          var d = r.sci ? db(r.sci) : null;
-          e = spMap[key] = { key: key, sci: r.sci || '', nome: r.sci || r.nome, livre: !r.sci, d: d || {}, autor: d ? d.a : '', N: 0, v: 0, a: 0, o: 0 };
+          var d = r.sci ? db(r.sci) : (r.info || null);
+          e = spMap[key] = { key: key, sci: r.sci || '', nome: r.sci || r.nome, livre: !r.sci, d: d || {}, autor: d && r.sci ? d.a : '', N: 0, v: 0, a: 0, o: 0 };
           spList.push(e);
         }
         var tot = (r.v || 0) + (r.a || 0) + (r.outro || 0);
@@ -400,6 +400,17 @@
     var Ntot = spList.reduce(function (s, e) { return s + e.N; }, 0);
     return { listas: listas, sp: spList, registros: registros, uas: uas, camps: camps, mets: mets, byUA: byUA, byCamp: byCamp, byList: byList, byMet: byMet, N: Ntot, input: input };
   }
+  /* taxonomia derivada do nome: gênero, epíteto e ano */
+  function genero(e) { if (e.sci) return e.sci.split(' ')[0].replace(/"/g, ''); return e.d.g || ''; }
+  function epiteto(e) { return e.sci ? e.sci.split(' ').slice(1).join(' ') : ''; }
+  function anoDe(a) { var m = /(\d{4})/.exec(a || ''); return m ? +m[1] : null; }
+  function nivel(e) {
+    if (e.sci) return 'Espécie';
+    var nv = e.d.nivel; if (!nv) return 'Não identificado no banco';
+    return 'Até ' + nv + (e.d.cand ? ' (nome popular de ' + e.d.cand + ' espécies)' : '');
+  }
+  function nomePop(e) { var d = e.d; return d.pt ? d.pt.split(',')[0].trim() : (e.livre && e.key !== e.nome ? e.key : ''); }
+  var FONTE_CURTA = { 'Mamífero': 'SBMz 2025-1 (Abreu-Jr. et al.)', 'Ave': 'CBRO 2021 (Pacheco et al.)', 'Réptil': 'SBH 2026 (Costa et al.)', 'Anfíbio': 'SBH 2026 (Drummond et al.)' };
   function estimativa(pct) { return pct >= 5 ? 'M' : pct >= 1 ? 'A' : 'P'; }
   function constancia(fo) { return fo >= 50 ? 'Constante' : fo >= 25 ? 'Acessória' : 'Acidental'; }
   function tipoReg(e) { var t = []; if (e.v) t.push('V'); if (e.a) t.push('A'); if (!t.length && e.o) t.push('—'); return t.join(', '); }
@@ -446,9 +457,9 @@
     R.set(r, 0, 'Ameaça e endemismo vêm das listas de referência (veja a aba Legenda e fontes). Aves, répteis e anfíbios não têm grau de ameaça nessas listas.', S.nota); R.merge(r, 0, r + 1, 5, S.nota);
 
     /* ---------- 2. Espécies ---------- */
-    var E = B.sheet('Espécies', { landscape: true, freeze: { r: 5, c: 4 }, printTitles: [3, 4], fitW: 2 });
+    var E = B.sheet('Espécies', { landscape: true, freeze: { r: 5, c: 6 }, printTitles: [3, 4], fitW: 2 });
     var uaCols = D.uas.length;
-    var headE = ['Classe', 'Ordem', 'Família', 'Espécie', 'Autor', 'Nome popular', 'Tipo de registro'];
+    var headE = ['Classe', 'Ordem', 'Família', 'Subfamília', 'Gênero', 'Espécie', 'Autor', 'Nome popular', 'Tipo de registro'];
     var after = ['N.T', 'Abund. rel. (%)', 'Estimativa', 'F.O. (%)', 'Constância', 'Unidades amostrais', 'Origem', 'Endêmica BR', 'Ocorrência (aves)', 'IUCN', 'MMA', 'CITES', 'Dieta', 'Locomoção', 'UF de ocorrência', 'Biomas'];
     var c0 = headE.length, cAfter = c0 + uaCols * 2;
     r = E.title(0, 'Tabela de espécies registradas', titulo + ' · ' + periodo + ' · V: visual; A: auditivo; N.T: número total de indivíduos; F.O.: frequência de ocorrência nas listas.', Math.min(cAfter + after.length, 14));
@@ -460,8 +471,8 @@
     D.sp.forEach(function (e) {
       var d = e.d, pct = D.N ? 100 * e.N / D.N : 0, fo = nL ? 100 * D.byList.filter(function (l) { return l[e.i] > 0; }).length / nL : 0;
       var uaPres = D.uas.filter(function (u, k) { return D.byUA[k].t[e.i] > 0; }).map(function (u) { return u.nome; }).join(', ');
-      var vals = [CLASSE_NOME[d.c] || '—', d.o || '—', d.f || '—', e.nome, e.autor || '', d.pt ? d.pt.split(',')[0].trim() : (e.livre && e.key !== e.nome ? e.key : ''), tipoReg(e)];
-      vals.forEach(function (v, i) { E.set(r, i, v, i === 3 ? S.sp : i === 0 || i === 6 ? S.td : S.tdl); });
+      var vals = [CLASSE_NOME[d.c] || '—', d.o || '—', d.f || '—', d.sf || '', genero(e) || '—', e.nome, e.autor || '', nomePop(e), tipoReg(e)];
+      vals.forEach(function (v, i) { E.set(r, i, v, i === 4 || i === 5 ? S.sp : i === 0 || i === 8 ? S.td : S.tdl); });
       D.uas.forEach(function (u, k) { var v = D.byUA[k].v[e.i], a = D.byUA[k].a[e.i] + (D.byUA[k].t[e.i] - D.byUA[k].v[e.i] - D.byUA[k].a[e.i]); E.set(r, c0 + k * 2, v || null, st('td', { nf: '0' })); E.set(r, c0 + k * 2 + 1, a || null, st('td', { nf: '0' })); });
       var sumF = uaCols ? 'SUM(' + A1(r, c0) + ':' + A1(r, c0 + uaCols * 2 - 1) + ')' : null;
       E.set(r, cAfter, e.N, st('td', { nf: '0' }), sumF);
@@ -477,9 +488,28 @@
     D.uas.forEach(function (u, k) { E.set(r, c0 + k * 2, D.byUA[k].t.filter(Boolean).length, st('tot', { nf: '0' })); E.merge(r, c0 + k * 2, r, c0 + k * 2 + 1, S.tot); });
     E.set(r, cAfter, nS, st('tot', { nf: '0' })); E.fill(r, cAfter + 1, r, cAfter + after.length - 1, S.tot); r += 2;
     E.set(r, 0, 'Estimativa de abundância: M – muito abundante (≥ 5% dos indivíduos); A – abundante (1 a 5%); P – pouco abundante (< 1%). Constância (Dajoz): constante ≥ 50% das listas; acessória 25–50%; acidental < 25%. Dieta e locomoção: códigos da SBMz (ver Legenda e fontes).', S.legenda); E.merge(r, 0, r + 2, 12, S.legenda);
-    [10, 15, 16, 26, 22, 20, 9].forEach(function (w, i) { E.width(i, w); });
+    [10, 15, 16, 15, 13, 26, 22, 20, 9].forEach(function (w, i) { E.width(i, w); });
     for (var k2 = 0; k2 < uaCols * 2; k2++) E.width(c0 + k2, 5.5);
     [6, 8, 8, 7, 10, 18, 10, 9, 18, 6, 6, 7, 8, 8, 26, 30].forEach(function (w, i) { E.width(cAfter + i, w); });
+
+    /* ---------- 2b. Ficha das espécies: taxonomia completa e todas as informações das listas ---------- */
+    var Fi = B.sheet('Ficha das espécies', { landscape: true, freeze: { r: 3, c: 0 }, printTitles: [2, 2], fitW: 3 });
+    var headF = ['Classe', 'Infraclasse', 'Magnordem', 'Superordem', 'Ordem', 'Subordem', 'Infraordem', 'Família', 'Subfamília', 'Tribo', 'Gênero', 'Subgênero', 'Epíteto',
+      'Espécie', 'Autor', 'Ano', 'Nome popular', 'Outros nomes populares', 'Grupo', 'Identificação', 'Origem', 'Endêmica do Brasil', 'Endêmica de bioma', 'Ocorrência no Brasil (aves)',
+      'Status CBRO', 'IUCN', 'MMA', 'CITES', 'Dieta', 'Locomoção', 'UF de ocorrência', 'Biomas', 'Lista de referência'];
+    r = Fi.title(0, 'Ficha das espécies registradas', titulo + ' · taxonomia completa e informações das listas oficiais de cada grupo (SBMz, CBRO e SBH).', 12);
+    headF.forEach(function (h, i) { Fi.set(r, i, h, S.th); }); Fi.height(r, 30); r++;
+    D.sp.forEach(function (e) {
+      var d = e.d, pts = (d.pt || '').split(',').map(function (x) { return x.trim(); }).filter(Boolean);
+      var row = [CLASSE_NOME[d.c] || '', d.ic || '', d.mo || '', d.su || '', d.o || '', d.so || '', d.io || '', d.f || '', d.sf || '', d.tr || '', genero(e), d.sg || '', epiteto(e),
+        e.nome, e.autor || '', anoDe(e.autor), pts[0] || (e.livre && e.key !== e.nome ? e.key : ''), pts.slice(1).join(', '), d.gr || '', nivel(e), d.og || '', d.e || '', d.eb || '', d.oc || '',
+        d.st || '', d.iucn || '', d.mma || '', d.cites && d.cites !== '-' ? d.cites : '', d.die || '', d.loc || '', d.uf || '', d.bio || '', FONTE_CURTA[d.c] || ''];
+      row.forEach(function (v, i) { Fi.set(r, i, v === '' ? null : v, i === 10 || i === 11 || i === 12 || i === 13 ? S.sp : i === 15 ? st('td', { nf: '0' }) : S.tdl); });
+      r++;
+    });
+    r++;
+    Fi.set(r, 0, 'Gênero, epíteto e ano saem do nome científico. Infraclasse a tribo, subgênero e endemismo por bioma vêm da lista da SBMz (mamíferos); subfamília vem das listas do CBRO (aves) e da SBH (répteis e anfíbios). Nomes anotados só até gênero (ex.: Turdus sp.) recebem a taxonomia do gênero.', S.legenda); Fi.merge(r, 0, r + 1, 14, S.legenda);
+    [10, 12, 13, 15, 16, 16, 14, 16, 16, 14, 14, 13, 14, 26, 22, 7, 22, 30, 11, 36, 10, 10, 18, 22, 12, 7, 7, 7, 9, 10, 26, 30, 26].forEach(function (w, i) { Fi.width(i, w); });
 
     /* ---------- 3. Unidades amostrais (riqueza e abundância) ---------- */
     var U = B.sheet('Unidades amostrais', { landscape: true });
@@ -678,15 +708,15 @@
     /* ---------- 10. Registros (dados brutos) ---------- */
     var Rg = B.sheet('Registros', { landscape: true, freeze: { r: 3, c: 0 }, printTitles: [2, 2] });
     r = Rg.title(0, 'Registros de campo', titulo + ' · um registro por espécie em cada lista.', 12);
-    var headR = ['Data', 'Hora', 'Campanha', 'Unidade amostral', 'Método', 'Lista', 'Classe', 'Ordem', 'Família', 'Espécie', 'Autor', 'Visual', 'Auditivo', 'Sem tipo', 'Total', 'Latitude', 'Longitude', 'Observação'];
+    var headR = ['Data', 'Hora', 'Campanha', 'Unidade amostral', 'Método', 'Lista', 'Classe', 'Ordem', 'Família', 'Subfamília', 'Gênero', 'Espécie', 'Autor', 'Nome popular', 'Visual', 'Auditivo', 'Sem tipo', 'Total', 'Latitude', 'Longitude', 'Observação'];
     headR.forEach(function (h, i) { Rg.set(r, i, h, S.th); }); Rg.height(r, 24); r++;
     D.registros.slice().sort(function (a, b) { return (a.r.hora || a.L.inicio) < (b.r.hora || b.L.inicio) ? -1 : 1; }).forEach(function (x) {
       var d = x.e.d, t = x.r.hora || x.L.inicio;
-      var row = [dayOnly(t), timeOnly(t), x.L.campanha, x.L.ua, x.L.metodo, x.L.titulo || '', CLASSE_NOME[d.c] || '', d.o || '', d.f || '', x.e.nome, x.e.autor || '', x.r.v || 0, x.r.a || 0, x.r.outro || 0, x.tot, x.r.lat != null ? x.r.lat : x.L.lat, x.r.lon != null ? x.r.lon : x.L.lon, x.r.obs || ''];
-      row.forEach(function (v, i) { Rg.set(r, i, v == null ? null : v, i === 0 ? st('td', { nf: 'dd/mm/yyyy' }) : i === 1 ? st('td', { nf: 'hh:mm' }) : i === 9 ? S.sp : i >= 11 && i <= 14 ? st('td', { nf: '0' }) : i === 15 || i === 16 ? st('td', { nf: '0.00000' }) : i === 17 || i === 5 ? S.tdl : S.td); });
+      var row = [dayOnly(t), timeOnly(t), x.L.campanha, x.L.ua, x.L.metodo, x.L.titulo || '', CLASSE_NOME[d.c] || '', d.o || '', d.f || '', d.sf || '', genero(x.e), x.e.nome, x.e.autor || '', nomePop(x.e), x.r.v || 0, x.r.a || 0, x.r.outro || 0, x.tot, x.r.lat != null ? x.r.lat : x.L.lat, x.r.lon != null ? x.r.lon : x.L.lon, x.r.obs || ''];
+      row.forEach(function (v, i) { Rg.set(r, i, v == null || v === '' ? null : v, i === 0 ? st('td', { nf: 'dd/mm/yyyy' }) : i === 1 ? st('td', { nf: 'hh:mm' }) : i === 10 || i === 11 ? S.sp : i >= 14 && i <= 17 ? st('td', { nf: '0' }) : i === 18 || i === 19 ? st('td', { nf: '0.00000' }) : i === 20 || i === 5 || i === 13 ? S.tdl : S.td); });
       r++;
     });
-    [11, 7, 14, 14, 14, 18, 10, 15, 16, 26, 22, 7, 8, 8, 7, 11, 11, 30].forEach(function (w, i) { Rg.width(i, w); });
+    [11, 7, 14, 14, 14, 18, 10, 15, 16, 15, 13, 26, 22, 20, 7, 8, 8, 7, 11, 11, 30].forEach(function (w, i) { Rg.width(i, w); });
 
     /* ---------- 11. EstimateS (matriz) ---------- */
     var Es = B.sheet('Matriz EstimateS', { landscape: true, freeze: { r: 3, c: 1 } });
@@ -726,6 +756,8 @@
       ['Locomoção (SBMz)', 'Aq – aquático; Ar – arborícola; Fs – fossorial; SA – semiaquático; Sc – escansorial; SF – semifossorial; Te – terrestre; Vo – voador.'],
       ['Ocorrência (aves)', 'CBRO: Residente – residente ou migrante reprodutivo; Visitante – visitante sazonal não reprodutivo (N: norte; S: sul; E: leste; W: oeste); Vagante – ocorrência irregular; presumido – status não confirmado.'],
       ['UF de ocorrência', 'Mamíferos: SBMz. Répteis: Costa et al. (2026), tabela 3.'],
+      ['Taxonomia (Ficha das espécies)', 'Classe, ordem, família, subfamília, gênero, epíteto, autor e ano de cada espécie. Mamíferos trazem também infraclasse, magnordem, superordem, subordem, infraordem, tribo, subgênero e endemismo por bioma (SBMz). Nomes populares digitados são ligados sozinhos à espécie quando pertencem a uma só espécie do banco.'],
+      ['Identificação', 'Espécie – ligada ao banco. Até gênero – anotada só até gênero (ex.: Turdus sp.), recebe a taxonomia do gênero. Nome popular de várias espécies (ex.: cutia, morcego) – recebe a taxonomia que todas essas espécies têm em comum (gênero, família ou ordem). Não identificado no banco – nome livre que não corresponde a nenhuma espécie, gênero ou nome popular.'],
       ['Espécies sem classe', 'Nomes escritos livremente no app e ainda não ligados a uma espécie do banco. No app, toque no nome e use "Ligar a uma espécie".']];
     leg.forEach(function (x) { Lg.set(r, 0, x[0], S.totl); Lg.set(r, 1, x[1], st('tdl', { wrap: true })); Lg.height(r, Math.max(15, 13 * Math.ceil(x[1].length / 85))); r++; });
     r++; Lg.set(r, 0, 'Fontes das listas de espécies', S.secao); Lg.set(r, 1, null, S.secao); r++;
@@ -741,15 +773,15 @@
   function csvCell(v) { if (v == null) return ''; if (typeof v === 'number') return String(Math.round(v * 1e6) / 1e6).replace('.', ','); var s = String(v); return /[;"\n\r]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s; }
   function csvRows(rows) { return '﻿' + rows.map(function (r) { return r.map(csvCell).join(';'); }).join('\r\n') + '\r\n'; }
   function csvRegistros(input) {
-    var D = preparar(input), rows = [['Data', 'Hora', 'Campanha', 'Unidade amostral', 'Método', 'Lista', 'Classe', 'Ordem', 'Família', 'Espécie', 'Autor', 'Visual', 'Auditivo', 'Sem tipo', 'Total', 'Latitude', 'Longitude', 'Observação']];
-    D.registros.forEach(function (x) { var d = x.e.d, t = x.r.hora || x.L.inicio, dt = new Date(t); rows.push([fmtDate(t), pad(dt.getHours()) + ':' + pad(dt.getMinutes()), x.L.campanha, x.L.ua, x.L.metodo, x.L.titulo || '', CLASSE_NOME[d.c] || '', d.o || '', d.f || '', x.e.nome, x.e.autor || '', x.r.v || 0, x.r.a || 0, x.r.outro || 0, x.tot, x.r.lat != null ? x.r.lat : x.L.lat, x.r.lon != null ? x.r.lon : x.L.lon, x.r.obs || '']); });
+    var D = preparar(input), rows = [['Data', 'Hora', 'Campanha', 'Unidade amostral', 'Método', 'Lista', 'Classe', 'Ordem', 'Família', 'Subfamília', 'Gênero', 'Espécie', 'Autor', 'Nome popular', 'Visual', 'Auditivo', 'Sem tipo', 'Total', 'Latitude', 'Longitude', 'Observação']];
+    D.registros.forEach(function (x) { var d = x.e.d, t = x.r.hora || x.L.inicio, dt = new Date(t); rows.push([fmtDate(t), pad(dt.getHours()) + ':' + pad(dt.getMinutes()), x.L.campanha, x.L.ua, x.L.metodo, x.L.titulo || '', CLASSE_NOME[d.c] || '', d.o || '', d.f || '', d.sf || '', genero(x.e), x.e.nome, x.e.autor || '', nomePop(x.e), x.r.v || 0, x.r.a || 0, x.r.outro || 0, x.tot, x.r.lat != null ? x.r.lat : x.L.lat, x.r.lon != null ? x.r.lon : x.L.lon, x.r.obs || '']); });
     return csvRows(rows);
   }
   function csvEspecies(input) {
-    var D = preparar(input), nL = D.listas.length, rows = [['Classe', 'Ordem', 'Família', 'Espécie', 'Autor', 'Nome popular', 'Tipo de registro'].concat(D.uas.map(function (u) { return u.nome + ' (V)'; }), D.uas.map(function (u) { return u.nome + ' (A)'; }), ['N.T', 'Abund. rel. (%)', 'Estimativa', 'F.O. (%)', 'Constância', 'Origem', 'Endêmica BR', 'Ocorrência (aves)', 'IUCN', 'MMA', 'CITES', 'Dieta', 'Locomoção', 'UF de ocorrência', 'Biomas'])];
+    var D = preparar(input), nL = D.listas.length, rows = [['Classe', 'Infraclasse', 'Magnordem', 'Superordem', 'Ordem', 'Subordem', 'Infraordem', 'Família', 'Subfamília', 'Tribo', 'Gênero', 'Subgênero', 'Epíteto', 'Espécie', 'Autor', 'Ano', 'Nome popular', 'Grupo', 'Identificação', 'Tipo de registro'].concat(D.uas.map(function (u) { return u.nome + ' (V)'; }), D.uas.map(function (u) { return u.nome + ' (A)'; }), ['N.T', 'Abund. rel. (%)', 'Estimativa', 'F.O. (%)', 'Constância', 'Origem', 'Endêmica BR', 'Endêmica de bioma', 'Ocorrência (aves)', 'Status CBRO', 'IUCN', 'MMA', 'CITES', 'Dieta', 'Locomoção', 'UF de ocorrência', 'Biomas', 'Lista de referência'])];
     D.sp.forEach(function (e) {
       var d = e.d, pct = D.N ? 100 * e.N / D.N : 0, fo = nL ? 100 * D.byList.filter(function (l) { return l[e.i] > 0; }).length / nL : 0;
-      rows.push([CLASSE_NOME[d.c] || '', d.o || '', d.f || '', e.nome, e.autor || '', d.pt ? d.pt.split(',')[0].trim() : '', tipoReg(e)].concat(D.uas.map(function (u, k) { return D.byUA[k].v[e.i]; }), D.uas.map(function (u, k) { return D.byUA[k].t[e.i] - D.byUA[k].v[e.i]; }), [e.N, round(pct, 2), estimativa(pct), round(fo, 1), constancia(fo), d.og || '', d.e || '', d.oc || '', d.iucn || '', d.mma || '', d.cites || '', d.die || '', d.loc || '', d.uf || '', d.bio || '']));
+      rows.push([CLASSE_NOME[d.c] || '', d.ic || '', d.mo || '', d.su || '', d.o || '', d.so || '', d.io || '', d.f || '', d.sf || '', d.tr || '', genero(e), d.sg || '', epiteto(e), e.nome, e.autor || '', anoDe(e.autor) || '', nomePop(e), d.gr || '', nivel(e), tipoReg(e)].concat(D.uas.map(function (u, k) { return D.byUA[k].v[e.i]; }), D.uas.map(function (u, k) { return D.byUA[k].t[e.i] - D.byUA[k].v[e.i]; }), [e.N, round(pct, 2), estimativa(pct), round(fo, 1), constancia(fo), d.og || '', d.e || '', d.eb || '', d.oc || '', d.st || '', d.iucn || '', d.mma || '', d.cites || '', d.die || '', d.loc || '', d.uf || '', d.bio || '', FONTE_CURTA[d.c] || '']));
     });
     return csvRows(rows);
   }

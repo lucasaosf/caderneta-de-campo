@@ -595,9 +595,9 @@ body.selecting .wm{display:none}
 <div class="sel-bar" id="sel-bar" hidden></div>
 <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 <datalist id="dl-proj"></datalist><datalist id="dl-camp"></datalist><datalist id="dl-ua"></datalist><datalist id="dl-met"></datalist>
-<script src="especies.js?v=8"></script>
-<script src="planilha.js?v=8"></script>
-<script src="firebase-config.js?v=8"></script>
+<script src="especies.js?v=9"></script>
+<script src="planilha.js?v=9"></script>
+<script src="firebase-config.js?v=9"></script>
 
 <script>
 (function(){
@@ -660,28 +660,53 @@ var S = {
   sugg:[], suggIdx:0, undo:null, sheetClose:null, editingName:null, demo:3,
   alias:{}, defMode:LS.get('defMode', 'V'), theme:LS.get('theme', 'dark')
 };
-var APP_V = 8;
+var APP_V = 9;
 var NOVIDADES = [
-  'Meu perfil: com a conta conectada, toque no ícone de pessoa, no canto de cima, para pôr sua foto (da galeria ou da câmera) e o nome.',
-  'Sua foto aparece no lugar do ícone de login e no selo de Minhas listas, e vai junto para qualquer celular em que você entrar.',
-  'O perfil mostra quantas listas, espécies e registros você já tem.'
+  'Planilha com a taxonomia completa de cada espécie: classe, ordem, família, subfamília, gênero, epíteto, autor e ano. Nos mamíferos, também infraclasse, superordem, subordem, infraordem, tribo, subgênero e endemismo por bioma.',
+  'Nova aba Ficha das espécies, com todas as informações das listas oficiais (SBMz, CBRO e SBH).',
+  'Nome popular digitado liga sozinho à espécie quando é de uma espécie só (ex.: bem-te-vi). “Turdus sp.” recebe a taxonomia do gênero, e nomes como “cutia” ou “morcego” recebem o que as espécies têm em comum.'
 ];
 
 /* ---------- banco de espécies ---------- */
-var DB = {n:{}, list:[]};
+var DB = {n:{}, list:[], pt:{}, gen:{}};
 (function(){
   var arr = window.ESPECIES || [];
+  var TX = ['c', 'o', 'so', 'f', 'sf', 'tr', 'gr', 'ic', 'mo', 'su', 'io'];
   arr.forEach(function(r){
     var k = norm(r.n); DB.n[k] = r;
     var pts = (r.pt || '').split(/\s*,\s*/).filter(Boolean);
     DB.list.push({r:r, kn:k, kw:k.split(' '), kp:pts.map(norm)});
+    pts.forEach(function(p){ var kp = norm(p), l = DB.pt[kp] || (DB.pt[kp] = []); if (l.indexOf(r.n) < 0) l.push(r.n); });
+    /* gênero: a taxonomia que todas as espécies do gênero têm em comum (para "Turdus sp.") */
+    var g = r.n.split(' ')[0].replace(/"/g, ''), kg = norm(g), G = DB.gen[kg];
+    if (!G){ G = DB.gen[kg] = {g:g, nivel:'gênero'}; TX.forEach(function(t){ if (r[t]) G[t] = r[t]; }); }
+    else TX.forEach(function(t){ if (G[t] && G[t] !== r[t]) delete G[t]; });
   });
 })();
 function dbGet(sci){ return sci ? DB.n[norm(sci)] || null : null; }
+/* nome popular que pertence a uma só espécie do banco */
+function byCommon(name){ var l = DB.pt[norm(name)]; return l && l.length === 1 ? l[0] : ''; }
+/* nome popular de várias espécies (ex.: "cutia", "morcego"): a taxonomia que todas elas têm em comum */
+function commonInfo(name){
+  var l = DB.pt[norm(name)]; if (!l || l.length < 2) return null;
+  var rs = l.map(function(n){ return DB.n[norm(n)]; }).filter(Boolean); if (!rs.length) return null;
+  var G = {}, TX = ['c', 'ic', 'mo', 'su', 'o', 'so', 'io', 'f', 'sf', 'tr', 'gr'];
+  TX.forEach(function(t){ var v = rs[0][t]; if (v && rs.every(function(r){ return r[t] === v; })) G[t] = v; });
+  var g = rs[0].n.split(' ')[0]; if (rs.every(function(r){ return r.n.split(' ')[0] === g; })) G.g = g;
+  if (!G.c) return null;
+  G.nivel = G.g ? 'gênero' : G.f ? 'família' : G.o ? 'ordem' : 'classe';
+  G.cand = rs.length;
+  return G;
+}
+/* "Turdus sp.", "Turdus cf.", "Turdus" -> taxonomia do gênero */
+function genusInfo(name){
+  var m = clean(name).match(/^"?([A-Za-zÀ-ÿ]+)"?(?:\s+(?:sp|spp|cf|aff|gr)\b\.?.*)?$/i);
+  return m ? DB.gen[norm(m[1])] || null : null;
+}
 var CLS = {'Mamífero':'mamífero','Ave':'ave','Réptil':'réptil','Anfíbio':'anfíbio'};
 function aliasOf(name){ var a = S.alias[norm(name)]; return a ? a.n : null; }
 function aliasesFor(sci){ var k = norm(sci); return Object.keys(S.alias).filter(function(x){ return norm(S.alias[x].n) === k; }).map(function(x){ return S.alias[x].a; }).sort(); }
-function resolveSci(name){ var a = aliasOf(name); if (a) return a; var d = DB.n[norm(name)]; return d ? d.n : ''; }
+function resolveSci(name){ var a = aliasOf(name); if (a) return a; var d = DB.n[norm(name)]; return d ? d.n : byCommon(name); }
 function spLabel(s){ return s.name; }
 function spCount(s){ return s.count; }
 function spLegacy(s){ return Math.max(0, s.count - (s.cv || 0) - (s.ca || 0)); }
@@ -695,7 +720,7 @@ function fixList(c){
     s.cv = Math.max(0, parseInt(s.cv,10) || 0); s.ca = Math.max(0, parseInt(s.ca,10) || 0);
     if (s.cv + s.ca > s.count) s.count = s.cv + s.ca;
     if (s.mode !== 'A') s.mode = 'V';
-    if (s.sci === undefined) s.sci = resolveSci(s.name);
+    if (!s.sci) s.sci = resolveSci(s.name);
   });
   c.projeto = c.projeto || ''; c.campanha = c.campanha || ''; c.ua = c.ua || ''; c.metodo = c.metodo || '';
   c.track = c.track || {};
@@ -2238,7 +2263,7 @@ function planInput(ls, titulo){
     listas: ls.map(function(c){
       return { titulo:title(c), inicio:c.start, fim:c.end || new Date().toISOString(), campanha:c.campanha, projeto:c.projeto, ua:c.ua || c.place, metodo:c.metodo,
         lat:c.lat, lon:c.lon, observadores:c.observers, distKm:c.track.dist ? c.track.dist / 1000 : 0, durMin:Math.round(elapsed(c) / 60000),
-        registros: c.species.filter(function(s){ return s.count > 0; }).map(function(s){ var d = dbGet(s.sci); return { sci:d ? d.n : '', nome:d ? d.n : s.name, v:s.cv, a:s.ca, outro:spLegacy(s), hora:s.first, lat:s.lat, lon:s.lon, obs:s.note }; }) };
+        registros: c.species.filter(function(s){ return s.count > 0; }).map(function(s){ var d = dbGet(s.sci || resolveSci(s.name)); return { sci:d ? d.n : '', nome:d ? d.n : s.name, info:d ? null : genusInfo(s.name) || commonInfo(s.name), v:s.cv, a:s.ca, outro:spLegacy(s), hora:s.first, lat:s.lat, lon:s.lon, obs:s.note }; }) };
     })
   };
 }

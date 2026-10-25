@@ -1,10 +1,10 @@
 {
-  "v": 8,
-  "nome": "8",
+  "v": 9,
+  "nome": "9",
   "data": "2026-10-25",
   "novidades": [
-    "Meu perfil: ponha sua foto e seu nome",
-    "A foto aparece no ícone de login e vai para qualquer celular em que você entrar",
-    "O perfil mostra quantas listas, espécies e registros você tem"
+    "Planilha com a taxonomia completa: ordem, família, subfamília, gênero, autor e ano",
+    "Nova aba Ficha das espécies com todas as informações das listas oficiais",
+    "Nome popular digitado liga sozinho à espécie"
   ]
 }
