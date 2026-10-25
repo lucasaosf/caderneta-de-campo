@@ -1,10 +1,10 @@
 {
-  "v": 9,
-  "nome": "9",
+  "v": 10,
+  "nome": "10",
   "data": "2026-10-25",
   "novidades": [
-    "Planilha com a taxonomia completa: ordem, família, subfamília, gênero, autor e ano",
-    "Nova aba Ficha das espécies com todas as informações das listas oficiais",
-    "Nome popular digitado liga sozinho à espécie"
+    "Página de entrada: entrar, criar conta ou entrar sem login",
+    "No cadastro com e-mail, o nome já vai para o perfil",
+    "Capa com versão, novidades, vídeo de como usar e política de privacidade"
   ]
 }

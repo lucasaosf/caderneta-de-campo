@@ -292,6 +292,55 @@ body.sheet-open .toast{bottom:auto;top:calc(env(safe-area-inset-top,0px) + 14px)
 .cover-sign{margin:18px 0 0;font-family:var(--display);font-style:italic;font-size:16px;color:rgba(242,235,221,.72);letter-spacing:.02em}
 .cover-sign b{font-weight:600;color:#F3EEE3}
 @keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.cover-foot{margin-top:12px;color:rgba(242,235,221,.75)}
+.cover-foot a,.cover-foot button{color:#F3EEE3}
+
+/* ---------- entrar (antes da capa) ---------- */
+.login{position:fixed;inset:0;z-index:42;display:flex;flex-direction:column;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;
+  background:#0E2515 url("capa.jpg") center bottom / cover no-repeat;color:#F2EBDD;text-align:center;
+  padding:calc(env(safe-area-inset-top,0px) + max(62px, 7vh)) 22px calc(env(safe-area-inset-bottom,0px) + 18px)}
+.login[hidden]{display:none}
+.login.calm *{animation:none!important}
+.login-in{flex:1 0 auto;width:100%;max-width:420px;margin:0 auto;display:flex;flex-direction:column;align-items:center}
+.login h1{font-family:var(--display);font-weight:600;line-height:.98;color:#F3EEE3;animation:rise .9s .18s ease-out both}
+.login-in.menu h1{font-size:clamp(42px,12vw,58px)}
+.login-in.menu .cover-actions{padding-top:26px}
+.login-in.form .cover-logo{width:min(20vw,76px)}
+.login-in.form .cover-tag{font-size:16px;margin-top:8px}
+.login-in.form .cover-rule{margin:12px auto 10px}
+.login-in.form h1{font-size:clamp(32px,9vw,40px)}
+.login-card{width:100%;margin-top:18px;padding:16px;border-radius:18px;background:var(--surface);color:var(--ink);border:1px solid var(--line);box-shadow:0 14px 40px rgba(0,0,0,.3);text-align:left;display:grid;gap:12px;animation:rise .6s .1s ease-out both}
+.login-tabs{display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:4px;border-radius:12px;background:var(--surface-2);border:1px solid var(--line)}
+.login-tabs button{min-height:42px;border-radius:9px;font-weight:700;font-size:15px;color:var(--muted)}
+.login-tabs button[aria-selected="true"]{background:var(--accent);color:var(--on-accent)}
+.login-card .form{gap:12px}
+.login-card .btn{width:100%}
+.login-card .link{justify-self:start;min-height:36px}
+.login-card .field small{font-size:12px;color:var(--muted)}
+.login-why{margin:0;font-size:13px;line-height:1.4;color:var(--muted)}
+.login-skip{margin-top:10px;color:#F3EEE3;font-weight:700;text-decoration:underline;text-underline-offset:3px;min-height:44px;padding:0 8px}
+.login-note{margin:12px 6px 0;font-size:13px;line-height:1.4;color:#CDD8C1}
+/* celulares de tela baixa: capa e entrada mais compactas para os botões caberem sem rolar */
+@media (max-height:720px){
+  .cover-logo{width:min(28vw,112px)}
+  .cover-tag{margin-top:10px;font-size:17px}
+  .cover-rule{margin:14px auto 12px}
+  .cover h1,.login-in.menu h1{font-size:clamp(36px,11vw,46px)}
+  .cover-stat{margin-top:10px}
+  .cover-actions{gap:8px}
+  .cover-btn{min-height:50px;font-size:16px}
+  .cover-sign{margin-top:10px}
+  .cover-foot{margin-top:8px}
+  .login-note{margin-top:8px}
+  .login-in.menu .cover-actions{padding-top:18px}
+}
+@media (max-height:600px){
+  .cover-logo{width:min(24vw,88px)}
+  .cover-sub{margin-top:8px}
+  .cover-btn{min-height:46px}
+  .cover-sign{display:none}
+  .login-note{font-size:12px}
+}
 
 /* ---------- cabeçalho das listas ---------- */
 .home-head .brand{display:flex;align-items:center;gap:12px}
@@ -377,6 +426,14 @@ body.selecting .wm{display:none}
 :root[data-theme="light"] .cover-btn.ghost{background:rgba(251,248,241,.78);color:#13301A;border-color:rgba(19,48,26,.35)}
 :root[data-theme="light"] .cover-sign{color:rgba(19,48,26,.7)}
 :root[data-theme="light"] .cover-sign b{color:#13301A}
+:root[data-theme="light"] .login{background:#F3EEE3 url("capa-clara.jpg") center bottom / cover no-repeat;color:#13301A}
+:root[data-theme="light"] .login h1{color:#13301A}
+:root[data-theme="light"] .login-note{color:#3B4A3E}
+:root[data-theme="light"] .login-skip{color:#13301A}
+:root[data-theme="light"] .login .theme-btn{background:rgba(251,248,241,.85);color:#13301A;border-color:rgba(19,48,26,.3)}
+:root[data-theme="light"] .login-card{box-shadow:0 14px 40px rgba(19,48,26,.16)}
+:root[data-theme="light"] .cover-foot{color:#3B4A3E}
+:root[data-theme="light"] .cover-foot a,:root[data-theme="light"] .cover-foot button{color:#13301A}
 :root[data-theme="light"] .cover .theme-btn,:root[data-theme="light"] .install-chip{background:rgba(251,248,241,.85);color:#13301A;border-color:rgba(19,48,26,.3)}
 .home-head{align-items:center}
 .home-tools{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
@@ -485,7 +542,11 @@ body.selecting .wm{display:none}
   <p class="cover-stat" id="cover-stat"></p>
   <div class="cover-actions" id="cover-actions"></div>
   <p class="cover-sign">criado por <b>Lucas Aøsf</b></p>
+  <div class="acct-foot cover-foot" id="cover-foot"></div>
 </section>
+
+<!-- ENTRAR: login, cadastro ou sem login -->
+<section id="login" class="login" aria-label="Entrar no Lista de Campo" hidden></section>
 
 <div class="wm" aria-hidden="true"><small>Lista de Campo</small>Lucas Aøsf</div>
 <div class="pocket" id="pocket" hidden><div class="pocket-in"><span class="rec-dot"></span><b>Gravando a trilha</b><span id="pocket-info"></span><small>Deslize para cima para voltar</small></div></div>
@@ -595,9 +656,9 @@ body.selecting .wm{display:none}
 <div class="sel-bar" id="sel-bar" hidden></div>
 <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 <datalist id="dl-proj"></datalist><datalist id="dl-camp"></datalist><datalist id="dl-ua"></datalist><datalist id="dl-met"></datalist>
-<script src="especies.js?v=9"></script>
-<script src="planilha.js?v=9"></script>
-<script src="firebase-config.js?v=9"></script>
+<script src="especies.js?v=10"></script>
+<script src="planilha.js?v=10"></script>
+<script src="firebase-config.js?v=10"></script>
 
 <script>
 (function(){
@@ -660,11 +721,11 @@ var S = {
   sugg:[], suggIdx:0, undo:null, sheetClose:null, editingName:null, demo:3,
   alias:{}, defMode:LS.get('defMode', 'V'), theme:LS.get('theme', 'dark')
 };
-var APP_V = 9;
+var APP_V = 10;
 var NOVIDADES = [
-  'Planilha com a taxonomia completa de cada espécie: classe, ordem, família, subfamília, gênero, epíteto, autor e ano. Nos mamíferos, também infraclasse, superordem, subordem, infraordem, tribo, subgênero e endemismo por bioma.',
-  'Nova aba Ficha das espécies, com todas as informações das listas oficiais (SBMz, CBRO e SBH).',
-  'Nome popular digitado liga sozinho à espécie quando é de uma espécie só (ex.: bem-te-vi). “Turdus sp.” recebe a taxonomia do gênero, e nomes como “cutia” ou “morcego” recebem o que as espécies têm em comum.'
+  'Nova página de entrada: ao abrir o app, escolha entrar na conta (Google ou e-mail), criar uma conta ou entrar sem login.',
+  'No cadastro com e-mail, o seu nome já vai para o perfil.',
+  'A capa agora mostra a versão, as novidades, o vídeo de como usar e a política de privacidade.'
 ];
 
 /* ---------- banco de espécies ---------- */
@@ -899,7 +960,12 @@ var AUTH = {
   },
   attach: function(){
     var u = AUTH.user;
-    if (!u){ S.cloud = null; S.cloudState = 'none'; renderAll(); return; }
+    if (!u){
+      S.cloud = null; S.cloudState = 'none'; renderAll();
+      LS.set('logado', false); if (!LS.get('semLogin', false)) showLogin();   /* saiu da conta: volta a pedir login */
+      return;
+    }
+    LS.set('logado', true); LS.del('semLogin'); hideLogin();
     var last = LS.get('cloudUid', null);
     if (last && last !== u.uid){ Object.keys(S.lists).forEach(function(id){ delete S.lists[id].synced; writeLocal(id); }); S.namesSynced = 0; S.tomb = []; LS.set('tomb', S.tomb); }
     LS.set('cloudUid', u.uid);
@@ -926,7 +992,7 @@ var AUTH = {
     }[c];
     if (m === '') return;
     m = m || 'Não deu para entrar agora. Tente de novo.';
-    var el = $('#au-err'); if (el){ el.textContent = m; el.hidden = false; } else toast(m);
+    var el = (loginOn() && $('#sheet').hidden) ? $('#lg-err') : $('#au-err'); if (el){ el.textContent = m; el.hidden = false; } else toast(m);
   },
   provider: function(fb, kind){
     if (kind === 'google'){ var g = new fb.auth.GoogleAuthProvider(); g.setCustomParameters({prompt:'select_account'}); return g; }
@@ -943,20 +1009,26 @@ var AUTH = {
     };
     /* Com o Firebase já carregado, a janela de login abre ainda no toque (o Safari bloqueia janelas abertas depois). */
     (AUTH.fb ? run(AUTH.fb) : AUTH.load().then(run))
-      .then(function(r){ if (r && r.user){ closeSheet(); toast('Conectado. Suas listas vão para a conta.'); } }, AUTH.err);
+      .then(function(r){ if (r && r.user){ closeSheet(); hideLogin(); toast('Conectado. Suas listas vão para a conta.'); } }, AUTH.err);
   },
   google: function(){ AUTH.social('google'); },
   apple: function(){ AUTH.social('apple'); },
-  email: function(create){
-    var em = clean(($('#au-email') || {}).value), pw = ($('#au-pass') || {}).value || '';
+  email: function(create, f){
+    f = f || {e:'#au-email', p:'#au-pass'};
+    var em = clean(($(f.e) || {}).value), pw = ($(f.p) || {}).value || '', nome = f.n ? clean(($(f.n) || {}).value).slice(0, 60) : '';
     if (!em){ AUTH.err({code:'auth/invalid-email'}); return; }
     if (!pw){ AUTH.err({code:'auth/missing-password'}); return; }
+    var e0 = $(f.e.replace('email', 'err')); if (e0) e0.hidden = true;
     AUTH.load().then(function(fb){ var a = fb.auth(); return create ? a.createUserWithEmailAndPassword(em, pw) : a.signInWithEmailAndPassword(em, pw); })
-      .then(function(){ closeSheet(); toast(create ? 'Conta criada. Suas listas vão para a conta.' : 'Conectado.'); }, AUTH.err);
+      .then(function(r){
+        if (create && nome && r && r.user) r.user.updateProfile({displayName: nome}).then(function(){ AV.key = null; renderAvatar(); }, function(){});
+        closeSheet(); hideLogin(); toast(create ? 'Conta criada. Suas listas vão para a conta.' : 'Conectado.');
+      }, AUTH.err);
   },
-  reset: function(){
-    var em = clean(($('#au-email') || {}).value);
-    if (!em){ AUTH.err({code:'auth/invalid-email'}); var i = $('#au-email'); if (i) i.focus(); return; }
+  reset: function(sel){
+    sel = sel || '#au-email';
+    var em = clean(($(sel) || {}).value);
+    if (!em){ AUTH.err({code:'auth/invalid-email'}); var i = $(sel); if (i) i.focus(); return; }
     AUTH.load().then(function(fb){ fb.auth().languageCode = 'pt'; return fb.auth().sendPasswordResetEmail(em); })
       .then(function(){ toast('Enviamos um e-mail para criar uma nova senha.'); }, AUTH.err);
   },
@@ -1337,6 +1409,7 @@ function histSync(screen){
 }
 window.addEventListener('popstate', function(){
   if (FRAMED) return;
+  if (loginOn() && LG.mode !== 'menu' && !(history.state && history.state.lg)){ loginMode('menu'); return; }
   var d = histDepth(), now = DEPTH[S.screen] || 0;
   if (d === now) return;
   if (pocketOn()){ pocketOff(); try { history.pushState({d:now}, ''); } catch(e){} return; }
@@ -1842,6 +1915,76 @@ function applyTheme(t){
 }
 
 /* ---------- conta, backup e aparência ---------- */
+var G_SVG = '<svg class="ico" viewBox="0 0 24 24" style="stroke:none"><path fill="#4285F4" d="M22 12.2c0-.7-.1-1.4-.2-2H12v3.8h5.6a4.8 4.8 0 0 1-2.1 3.1v2.6h3.4c2-1.8 3.1-4.5 3.1-7.5z"/><path fill="#34A853" d="M12 22c2.8 0 5.2-.9 6.9-2.5l-3.4-2.6c-.9.6-2.1 1-3.5 1-2.7 0-5-1.8-5.8-4.3H2.7v2.7A10 10 0 0 0 12 22z"/><path fill="#FBBC05" d="M6.2 13.6a6 6 0 0 1 0-3.8V7.1H2.7a10 10 0 0 0 0 8.9z"/><path fill="#EA4335" d="M12 6c1.5 0 2.9.5 4 1.5l3-3A10 10 0 0 0 2.7 7.1l3.5 2.7C7 7.8 9.3 6 12 6z"/></svg>';
+function footLinks(){
+  return '<span>Versão ' + APP_V + '</span><button data-act="news">Novidades</button><a href="https://lucasaosf.github.io/caderneta-de-campo/como-usar.html" target="_blank" rel="noopener">Como usar (vídeo)</a><a href="privacidade.html" target="_blank" rel="noopener">Política de privacidade</a>';
+}
+function footHTML(cls){ return '<div class="acct-foot' + (cls ? ' ' + cls : '') + '">' + footLinks() + '</div>'; }
+
+/* ---------- entrar: login, cadastro ou sem login (aparece antes da capa) ---------- */
+var LG = {mode: 'menu'};
+function loginOn(){ var el = $('#login'); return !!el && !el.hidden; }
+function showLogin(mode){
+  if (!AUTH.ready() || AUTH.user) return;
+  if (loginOn()) return;
+  LG.mode = mode || 'menu';
+  renderLogin(); $('#login').classList.remove('calm'); $('#login').hidden = false; $('#login').scrollTop = 0;
+}
+function hideLogin(){
+  if (!loginOn()) return;
+  $('#login').hidden = true; LG.mode = 'menu';
+  if (!FRAMED && history.state && history.state.lg){ try { history.back(); } catch(e){} }
+  if (S.screen === 'cover') renderCover();
+}
+function loginMode(m){
+  var was = LG.mode; if (m === was) return;
+  LG.mode = m;
+  $('#login').classList.toggle('calm', was !== 'menu' && m !== 'menu');   /* trocar Entrar/Criar conta sem repetir a animação */
+  if (was === 'menu' && m !== 'menu' && !FRAMED){ try { history.pushState({d: histDepth(), lg: 1}, ''); } catch(e){} }
+  renderLogin(); $('#login').scrollTop = 0;
+  var i = $(m === 'signup' ? '#lg-nome' : '#lg-email'); if (i && !i.value && m !== 'menu') setTimeout(function(){ try { i.focus({preventScroll: true}); } catch(e){} }, 60);
+}
+function renderLogin(){
+  var m = LG.mode, su = m === 'signup', v = function(id){ var el = $(id); return el ? el.value : ''; };
+  var keep = {e: v('#lg-email'), n: v('#lg-nome')};
+  var theme = '<button class="theme-btn" data-act="theme" aria-label="Trocar modo claro ou escuro"><span class="t-sun" aria-hidden="true">☀︎</span><span class="t-moon" aria-hidden="true">☾</span></button>';
+  var back = '<button class="theme-btn" data-act="lg-back" aria-label="Voltar"><svg class="ico" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>';
+  var brand = '<img class="cover-logo logo-dark" src="logo-creme.png" alt="Logo Pesquisa &amp; Soluções Ambientais" width="168" height="168"><img class="cover-logo logo-light" src="logo-verde.png" alt="Logo Pesquisa &amp; Soluções Ambientais" width="168" height="168">' +
+    '<p class="cover-tag">Pesquisa &amp; Soluções Ambientais</p><hr class="cover-rule">';
+  var h;
+  if (m === 'menu'){
+    h = '<div class="cover-top">' + theme + '</div><div class="login-in menu">' + brand +
+      '<h1>Lista<br>de Campo</h1><p class="cover-sub">Listas de espécies · contagem · GPS</p>' +
+      '<div class="cover-actions">' +
+        '<button class="cover-btn primary" data-act="lg-mode" data-m="login">Entrar</button>' +
+        '<button class="cover-btn ghost" data-act="lg-mode" data-m="signup">Criar conta</button>' +
+        '<button class="cover-btn ghost" data-act="lg-skip">Entrar sem login</button>' +
+      '</div>' +
+      '<p class="login-note">Com a conta, suas listas ficam guardadas na nuvem e aparecem em qualquer celular. Sem login, ficam salvas só neste aparelho.</p>' +
+      footHTML('cover-foot') + '</div>';
+  } else {
+    h = '<div class="cover-top">' + back + theme + '</div><div class="login-in form">' + brand + '<h1>Lista de Campo</h1>' +
+      '<div class="login-card">' +
+      '<div class="login-tabs" role="tablist" aria-label="Entrar ou criar conta">' +
+        '<button role="tab" aria-selected="' + !su + '" data-act="lg-mode" data-m="login">Entrar</button>' +
+        '<button role="tab" aria-selected="' + su + '" data-act="lg-mode" data-m="signup">Criar conta</button></div>' +
+      (NATIVE ? '' : '<button class="btn btn-google" data-act="auth-google">' + G_SVG + (su ? 'Criar conta com Google' : 'Entrar com Google') + '</button>' +
+        (AUTH.apple_on() ? '<button class="btn" data-act="auth-apple"> ' + (su ? 'Criar conta com Apple' : 'Entrar com Apple') + '</button>' : '') +
+        '<div class="divider">ou com e-mail</div>') +
+      '<div class="form">' +
+      (su ? '<label class="field"><span>Seu nome</span><input id="lg-nome" maxlength="60" autocomplete="name" placeholder="Como quer aparecer" value="' + esc(keep.n) + '"></label>' : '') +
+      '<label class="field"><span>E-mail</span><input id="lg-email" type="email" autocomplete="email" inputmode="email" value="' + esc(keep.e) + '"></label>' +
+      '<label class="field"><span>Senha</span><input id="lg-pass" type="password" autocomplete="' + (su ? 'new-password' : 'current-password') + '" minlength="6">' + (su ? '<small>Pelo menos 6 caracteres.</small>' : '') + '</label>' +
+      '<p class="auth-err" id="lg-err" hidden></p>' +
+      '<button class="btn btn-primary" data-act="lg-submit">' + (su ? 'Criar conta' : 'Entrar') + '</button>' +
+      (su ? '<p class="login-why">Suas listas, apelidos e foto ficam guardados na conta e aparecem em qualquer celular em que você entrar.</p>' : '<button class="link" data-act="lg-reset">Esqueci a senha</button>') +
+      '</div></div>' +
+      '<button class="login-skip" data-act="lg-skip">Entrar sem login</button>' +
+      footHTML('cover-foot') + '</div>';
+  }
+  $('#login').innerHTML = h;
+}
+
 function openAccount(){
   var n = Object.keys(S.lists).length, u = AUTH.user, h = '<h2 id="sheet-h">' + (u ? 'Meu perfil' : 'Conta e backup') + '</h2>';
   if (u){
@@ -1862,7 +2005,7 @@ function openAccount(){
       '<div class="inline-row"><button class="btn" data-act="auth-logout">Sair</button><button class="btn" data-act="auth-delete">Excluir minha conta</button></div></div>';
   } else if (AUTH.ready()){
     h += '<p class="store-note">Entrar é opcional. Com uma conta, suas listas e apelidos ficam guardados na nuvem e aparecem em outro celular. Sem conta, tudo fica salvo só neste aparelho.</p>' +
-      '<div class="form">' + (NATIVE ? '' : '<button class="btn btn-google" data-act="auth-google"><svg class="ico" viewBox="0 0 24 24" style="stroke:none"><path fill="#4285F4" d="M22 12.2c0-.7-.1-1.4-.2-2H12v3.8h5.6a4.8 4.8 0 0 1-2.1 3.1v2.6h3.4c2-1.8 3.1-4.5 3.1-7.5z"/><path fill="#34A853" d="M12 22c2.8 0 5.2-.9 6.9-2.5l-3.4-2.6c-.9.6-2.1 1-3.5 1-2.7 0-5-1.8-5.8-4.3H2.7v2.7A10 10 0 0 0 12 22z"/><path fill="#FBBC05" d="M6.2 13.6a6 6 0 0 1 0-3.8V7.1H2.7a10 10 0 0 0 0 8.9z"/><path fill="#EA4335" d="M12 6c1.5 0 2.9.5 4 1.5l3-3A10 10 0 0 0 2.7 7.1l3.5 2.7C7 7.8 9.3 6 12 6z"/></svg>Entrar com Google</button>') +
+      '<div class="form">' + (NATIVE ? '' : '<button class="btn btn-google" data-act="auth-google">' + G_SVG + 'Entrar com Google</button>') +
       (AUTH.apple_on() && !NATIVE ? '<button class="btn" data-act="auth-apple"> Entrar com Apple</button>' : '') +
       '<div class="divider">ou com e-mail</div>' +
       '<label class="field"><span>E-mail</span><input id="au-email" type="email" autocomplete="email" inputmode="email"></label>' +
@@ -1880,7 +2023,7 @@ function openAccount(){
     '<p class="small-meta" style="margin:0">Ao importar, listas que já existem ficam com a versão mais recente.</p></div>' +
     '<h3 class="acct-sec">Aparência</h3><div class="seg" role="group" aria-label="Tema">' +
     '<button data-act="theme-set" data-t="dark" aria-pressed="' + (S.theme !== 'light') + '">☾ Escuro</button><button data-act="theme-set" data-t="light" aria-pressed="' + (S.theme === 'light') + '">☀︎ Claro</button></div>' +
-    '<div class="acct-foot"><span>Versão ' + APP_V + '</span><button data-act="news">Novidades</button><a href="https://lucasaosf.github.io/caderneta-de-campo/como-usar.html" target="_blank" rel="noopener">Como usar (vídeo)</a><a href="privacidade.html" target="_blank" rel="noopener">Política de privacidade</a></div>' +
+    footHTML() +
     '<div class="sheet-actions"><button class="btn btn-primary" data-act="close-sheet">Fechar</button></div>';
   openSheet(h);
 }
@@ -2377,6 +2520,11 @@ var A = {
   'auth-google': function(){ AUTH.google(); },
   'auth-apple': function(){ AUTH.apple(); },
   'auth-login': function(){ AUTH.email(false); },
+  'lg-mode': function(b){ loginMode(b.dataset.m); },
+  'lg-back': function(){ if (!FRAMED && history.state && history.state.lg) history.back(); else loginMode('menu'); },
+  'lg-submit': function(){ AUTH.email(LG.mode === 'signup', {e:'#lg-email', p:'#lg-pass', n:'#lg-nome'}); },
+  'lg-reset': function(){ AUTH.reset('#lg-email'); },
+  'lg-skip': function(){ LS.set('semLogin', true); hideLogin(); },
   'auth-signup': function(){ AUTH.email(true); },
   'auth-reset': function(){ AUTH.reset(); },
   'auth-logout': function(){ AUTH.logout(); },
@@ -2512,6 +2660,9 @@ $('#add-form').addEventListener('submit', function(e){
 $('.add-go').addEventListener('pointerdown', function(e){ if (document.activeElement === addInp) e.preventDefault(); });
 $('#sort-sel').addEventListener('change', function(e){ S.sort = e.target.value; LS.set('sort', S.sort); renderSpecies(); });
 $('#sheet').addEventListener('input', function(e){ if (e.target.id === 'lk-input') renderLinkRes(); else if (e.target.id && e.target.id.indexOf('d-') === 0) applyDetails(e.target); });
+$('#login').addEventListener('keydown', function(e){
+  if (e.key === 'Enter' && e.target.tagName === 'INPUT'){ e.preventDefault(); A['lg-submit'](); }
+});
 $('#sheet').addEventListener('keydown', function(e){
   if (e.target.id === 'al-input' && e.key === 'Enter'){ e.preventDefault(); A['al-add'](); }
   if ((e.target.id === 'au-pass' || e.target.id === 'au-email') && e.key === 'Enter'){ e.preventDefault(); A['auth-login'](); }
@@ -2552,6 +2703,9 @@ probeGps();
 renderHome();
 if (!FRAMED){ try { var d0 = histDepth(); if (d0 > 0) history.go(-d0); } catch(e){} }
 go('cover', null, true);
+$('#cover-foot').innerHTML = footLinks();
+/* página de entrar: aparece até a pessoa entrar ou escolher "Entrar sem login" (quem já entrou antes não vê) */
+if (AUTH.ready() && !LS.get('logado', LS.get('cloudUid', null) ? true : false) && !LS.get('semLogin', false)) showLogin();
 renderInstall();
 (function(){
   var seen = +LS.get('appVersion', 0) || 0;
