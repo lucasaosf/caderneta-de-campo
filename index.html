@@ -445,6 +445,27 @@ body.selecting .wm{display:none}
 .acct-sec{margin:18px 0 8px;font-family:var(--display);font-size:21px;font-weight:600}
 .acct-foot{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;justify-content:center;margin-top:16px;font-size:13px;color:var(--muted)}
 .acct-foot a,.acct-foot button{color:var(--accent);font-weight:600;text-decoration:underline;text-underline-offset:3px}
+/* ---------- perfil: foto no ícone de login e página Meu perfil ---------- */
+.av{display:block;width:100%;height:100%;border-radius:50%;object-fit:cover;background:var(--surface-2)}
+.av-ini{display:grid;place-items:center;background:#1E472A;color:#F3EEE3;font-family:var(--display);font-weight:600;letter-spacing:.02em;line-height:1}
+.acct-btn.has-av{padding:2px;background:linear-gradient(145deg,#D4B277,#86602E);border:0;font-size:18px;box-shadow:0 2px 10px rgba(0,0,0,.25)}
+.acct-btn.has-av .av{border:2px solid rgba(14,37,21,.9)}
+.chip-av{display:none;width:24px;height:24px;margin:-2px 0 -2px -6px;border-radius:50%;flex:none;font-size:11px}
+.chip-av.on{display:block}
+.chip-av .av{border:1.5px solid var(--tally)}
+.prof{display:grid;justify-items:center;gap:4px;text-align:center;margin:-4px 0 14px}
+.prof-pic{position:relative;width:116px;height:116px;border-radius:50%;padding:3px;background:linear-gradient(145deg,#D4B277,#86602E);cursor:pointer;font-size:44px;margin-bottom:8px}
+.prof-pic .av{border:3px solid var(--surface)}
+.prof-cam{position:absolute;right:0;bottom:2px;width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:var(--accent);color:var(--on-accent);border:3px solid var(--surface)}
+.prof-cam .ico{width:18px;height:18px}
+.prof-name{font-family:var(--display);font-size:30px;font-weight:600;line-height:1.05}
+.prof-mail{font-size:14px;color:var(--muted);overflow-wrap:anywhere}
+.prof-tags{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin-top:8px}
+.prof-tags span{padding:4px 10px;border-radius:999px;background:var(--surface-2);border:1px solid var(--line);font-size:13px;color:var(--muted)}
+.prof-tags b{color:var(--ink);font-weight:600}
+.prof-photo-row{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:12px}
+.prof-photo-row .btn{min-height:40px;padding:0 14px;font-size:14px}
+.prof-busy{opacity:.55;pointer-events:none}
 .auth-err{margin:0;color:var(--rec);font-size:14px}
 .ios-share{display:inline-block;width:22px;height:22px;vertical-align:-5px;stroke:var(--accent)}
 .pocket-btn{margin-top:8px;width:100%}
@@ -484,7 +505,7 @@ body.selecting .wm{display:none}
       <div class="home-tools">
         <button class="chip chip-home" data-act="cover"><svg class="ico" viewBox="0 0 24 24"><path d="M3 11l9-7 9 7M5 10v10h14V10"/></svg>Início</button>
         <button class="theme-btn small" data-act="theme" aria-label="Trocar modo claro ou escuro"><span class="t-sun" aria-hidden="true">☀︎</span><span class="t-moon" aria-hidden="true">☾</span></button>
-        <button class="chip" id="sync-chip" data-act="account" data-state="idle"><span class="dot"></span><span id="sync-text">Abrindo…</span></button>
+        <button class="chip" id="sync-chip" data-act="account" data-state="idle"><span class="chip-av" id="chip-av" aria-hidden="true"></span><span class="dot"></span><span id="sync-text">Abrindo…</span></button>
       </div>
     </header>
     <button class="btn-new" data-act="new-list">
@@ -574,9 +595,9 @@ body.selecting .wm{display:none}
 <div class="sel-bar" id="sel-bar" hidden></div>
 <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 <datalist id="dl-proj"></datalist><datalist id="dl-camp"></datalist><datalist id="dl-ua"></datalist><datalist id="dl-met"></datalist>
-<script src="especies.js?v=7"></script>
-<script src="planilha.js?v=7"></script>
-<script src="firebase-config.js?v=7"></script>
+<script src="especies.js?v=8"></script>
+<script src="planilha.js?v=8"></script>
+<script src="firebase-config.js?v=8"></script>
 
 <script>
 (function(){
@@ -639,12 +660,11 @@ var S = {
   sugg:[], suggIdx:0, undo:null, sheetClose:null, editingName:null, demo:3,
   alias:{}, defMode:LS.get('defMode', 'V'), theme:LS.get('theme', 'dark')
 };
-var APP_V = 7;
+var APP_V = 8;
 var NOVIDADES = [
-  'Entrar na conta (opcional): toque no ícone de pessoa, no canto de cima, e entre com Google ou com e-mail e senha.',
-  'Com a conta, suas listas e apelidos ficam guardados na nuvem e aparecem em qualquer celular em que você entrar.',
-  'Sem internet, tudo continua salvo no aparelho e sobe para a conta quando a conexão voltar.',
-  'Vídeo “Como usar” no fim da tela Conta e backup.'
+  'Meu perfil: com a conta conectada, toque no ícone de pessoa, no canto de cima, para pôr sua foto (da galeria ou da câmera) e o nome.',
+  'Sua foto aparece no lugar do ícone de login e no selo de Minhas listas, e vai junto para qualquer celular em que você entrar.',
+  'O perfil mostra quantas listas, espécies e registros você já tem.'
 ];
 
 /* ---------- banco de espécies ---------- */
@@ -764,6 +784,7 @@ function retryAll(){
   Object.keys(S.lists).forEach(function(id){ var c = S.lists[id]; if (!c.synced || c.updated > c.synced) scheduleCloud(id, 300); });
   S.tomb.forEach(function(id){ scheduleCloud(id, 300); });
   if (S.namesUpdated > S.namesSynced) scheduleCloud('__names', 300);
+  if (AUTH.user) PROF.retry();
   if (!anyPending()) setSync('ok');
 }
 function mergeRemote(docs){
@@ -848,7 +869,7 @@ var AUTH = {
     S.cloudState = 'pending'; renderSync();
     AUTH.load().then(function(fb){
       fb.auth().getRedirectResult().catch(function(e){ AUTH.err(e); });
-      fb.auth().onAuthStateChanged(function(u){ AUTH.user = u || null; AUTH.attach(); if (!$('#sheet').hidden && $('#au-email, .acct-card')) openAccount(); });
+      fb.auth().onAuthStateChanged(function(u){ AUTH.user = u || null; AUTH.attach(); if (!$('#sheet').hidden && $('#au-email, .acct-card, #pf-name')) openAccount(); });
     }).catch(function(){ S.cloudState = 'none'; renderSync(); });
   },
   attach: function(){
@@ -857,6 +878,7 @@ var AUTH = {
     var last = LS.get('cloudUid', null);
     if (last && last !== u.uid){ Object.keys(S.lists).forEach(function(id){ delete S.lists[id].synced; writeLocal(id); }); S.namesSynced = 0; S.tomb = []; LS.set('tomb', S.tomb); }
     LS.set('cloudUid', u.uid);
+    PROF.pull();
     var col = fbCol(AUTH.fb.firestore(), u.uid);
     S.cloud = col; S.cloudState = 'on'; renderSync();
     var pull = function(){
@@ -916,7 +938,7 @@ var AUTH = {
   logout: function(){
     flushLocal();
     if (!AUTH.fb) return;
-    AUTH.fb.auth().signOut().then(function(){ closeSheet(); toast('Você saiu. As listas continuam neste aparelho.'); });
+    AUTH.fb.auth().signOut().then(function(){ PROF.forget(); closeSheet(); toast('Você saiu. As listas continuam neste aparelho.'); });
   },
   remove: function(){
     var u = AUTH.user; if (!u || !S.cloud) return;
@@ -929,7 +951,9 @@ var AUTH = {
     S.cloud = null; S.cloudState = 'none';
     Object.keys(S.lists).forEach(function(id){ delete S.lists[id].synced; writeLocal(id); });
     S.namesSynced = 0; LS.set('cloudUid', null);
-    col.wipe().then(function(){ return u.delete(); }).then(function(){
+    var pref = AUTH.fb.firestore().collection('users').doc(u.uid);
+    col.wipe().then(function(){ return pref.delete().catch(function(){}); }).then(function(){ return u.delete(); }).then(function(){
+      PROF.forget();
       closeSheet(); renderAll(); toast('Conta excluída. As listas continuam só neste aparelho.');
     }, function(e){
       if (e && e.code === 'auth/requires-recent-login'){ AUTH.fb.auth().signOut(); toast('Saia e entre de novo para concluir a exclusão.'); }
@@ -939,6 +963,120 @@ var AUTH = {
   }
 };
 
+/* ---------- perfil (foto e nome), guardado em users/{uid} ---------- */
+var PROF = {
+  data: LS.get('perfil', null),
+  mine: function(){ var u = AUTH.user, d = PROF.data; return u && d && d.uid === u.uid ? d : null; },
+  custom: function(){ var d = PROF.mine(); return !!(d && d.foto); },
+  foto: function(){ var d = PROF.mine(); return (d && d.foto) || (AUTH.user && AUTH.user.photoURL) || ''; },
+  nome: function(){ var d = PROF.mine(), u = AUTH.user; return clean((d && d.nome) || (u && u.displayName) || ''); },
+  ref: function(){ return AUTH.fb.firestore().collection('users').doc(AUTH.user.uid); },
+  set: function(patch){
+    var u = AUTH.user; if (!u) return;
+    var d = PROF.mine() || {uid: u.uid};
+    Object.keys(patch).forEach(function(k){ d[k] = patch[k]; });
+    d.updated = Date.now(); PROF.data = d;
+    if (!LS.set('perfil', d)) toast('Sem espaço no aparelho para guardar a foto.');
+    renderAvatar(); PROF.push();
+  },
+  push: function(){
+    var d = PROF.mine(); if (!d || !AUTH.fb || navigator.onLine === false) return;
+    var body = {foto: d.foto || null, nome: d.nome || '', updated: d.updated};
+    PROF.ref().set({updated: d.updated, json: JSON.stringify(body)}).then(function(){
+      if (PROF.data === d){ d.synced = body.updated; LS.set('perfil', d); }
+    }, function(){});
+  },
+  pull: function(){
+    var u = AUTH.user; if (!u || !AUTH.fb) return;
+    PROF.ref().get().then(function(snap){
+      if (!AUTH.user || AUTH.user.uid !== u.uid) return;
+      var r = null; try { r = snap.exists ? JSON.parse(snap.data().json) : null; } catch(e){}
+      var d = PROF.mine();
+      if (r && (r.updated || 0) > ((d && d.updated) || 0)){
+        PROF.data = {uid: u.uid, foto: r.foto || null, nome: r.nome || '', updated: r.updated || 0, synced: r.updated || 0};
+        LS.set('perfil', PROF.data); renderAvatar();
+        if ($('#pf-name')) openAccount();
+      } else PROF.retry();
+    }, function(){});
+  },
+  retry: function(){ var d = PROF.mine(); if (d && (!d.synced || d.updated > d.synced)) PROF.push(); },
+  forget: function(){ PROF.data = null; LS.del('perfil'); renderAvatar(); }
+};
+function initials(n){
+  n = clean(n).replace(/@.*/, ''); if (!n) return '';
+  var w = n.split(/[\s._-]+/).filter(Boolean);
+  return ((w[0] || '').charAt(0) + (w.length > 1 ? w[w.length - 1].charAt(0) : '')).toUpperCase();
+}
+function avatarHTML(){
+  var u = AUTH.user; if (!u) return '';
+  var f = PROF.foto(), ini = initials(PROF.nome() || u.email || '') || '?';
+  if (f) return '<img class="av" src="' + esc(f) + '" alt="" referrerpolicy="no-referrer" data-ini="' + esc(ini) + '">';
+  return '<span class="av av-ini">' + esc(ini) + '</span>';
+}
+var AV = {key: null, icon: null};
+function renderAvatar(){
+  var b = $('#cover-acct'), c = $('#chip-av'); if (!b) return;
+  if (AV.icon === null) AV.icon = b.innerHTML;
+  var u = AUTH.user, key = u ? u.uid + '|' + PROF.foto().length + PROF.foto().slice(-24) + '|' + PROF.nome() : '';
+  if (key === AV.key) return;
+  AV.key = key;
+  if (u){
+    var h = avatarHTML();
+    b.innerHTML = h; b.classList.add('has-av'); b.setAttribute('aria-label', 'Meu perfil');
+    if (c){ c.innerHTML = h; c.classList.add('on'); }
+  } else {
+    b.innerHTML = AV.icon; b.classList.remove('has-av'); b.setAttribute('aria-label', 'Conta e backup');
+    if (c){ c.innerHTML = ''; c.classList.remove('on'); }
+  }
+}
+/* foto que não carrega (sem internet, link expirado) vira as iniciais */
+document.addEventListener('error', function(e){
+  var t = e.target;
+  if (t && t.tagName === 'IMG' && t.classList.contains('av')){
+    var sp = document.createElement('span'); sp.className = 'av av-ini'; sp.textContent = t.getAttribute('data-ini') || '?';
+    t.replaceWith(sp);
+  }
+}, true);
+function photoToAvatar(file){
+  return new Promise(function(ok, no){
+    var url = URL.createObjectURL(file), img = new Image();
+    img.onload = function(){
+      var w = img.naturalWidth, h = img.naturalHeight, s = Math.min(w, h), N = 320;
+      if (!s){ URL.revokeObjectURL(url); no(); return; }
+      /* recorte quadrado no centro, reduzido em duas etapas para ficar nítido */
+      var mid = Math.min(s, N * 2), c1 = document.createElement('canvas'); c1.width = c1.height = mid;
+      var g1 = c1.getContext('2d'); g1.imageSmoothingQuality = 'high';
+      g1.drawImage(img, (w - s) / 2, (h - s) / 2, s, s, 0, 0, mid, mid);
+      var c2 = document.createElement('canvas'); c2.width = c2.height = N;
+      var g2 = c2.getContext('2d'); g2.imageSmoothingQuality = 'high';
+      g2.fillStyle = '#183B23'; g2.fillRect(0, 0, N, N);
+      g2.drawImage(c1, 0, 0, mid, mid, 0, 0, N, N);
+      URL.revokeObjectURL(url);
+      ok(c2.toDataURL('image/jpeg', 0.86));
+    };
+    img.onerror = function(){ URL.revokeObjectURL(url); no(); };
+    img.src = url;
+  });
+}
+function setProfilePhoto(file){
+  if (!file || !AUTH.user) return;
+  if (file.type && file.type.indexOf('image/') !== 0){ toast('Escolha uma imagem.'); return; }
+  var pic = $('.prof-pic'); if (pic) pic.classList.add('prof-busy');
+  photoToAvatar(file).then(function(d){
+    PROF.set({foto: d});
+    if ($('#pf-name')) openAccount();
+    toast('Foto do perfil atualizada.');
+  }, function(){
+    if (pic) pic.classList.remove('prof-busy');
+    toast('Não deu para abrir essa imagem. Tente outra foto.');
+  });
+}
+function profStats(){
+  var ids = Object.keys(S.lists), sp = {}, ind = 0;
+  ids.forEach(function(id){ (S.lists[id].species || []).forEach(function(x){ sp[norm(x.name)] = 1; ind += +x.count || 0; }); });
+  return {listas: ids.length, especies: Object.keys(sp).length, ind: ind};
+}
+
 function setSync(st){ S.sync = st; renderSync(); }
 function renderSync(){
   var chip = $('#sync-chip'), dot = $('#sync-dot'), txt, st;
@@ -947,7 +1085,7 @@ function renderSync(){
     st = S.sync === 'idle' ? 'ok' : S.sync;
     txt = st === 'saving' ? 'Salvando…' : st === 'offline' ? 'Sem conexão · salvo no aparelho' : 'Salvo na sua conta';
   } else { txt = AUTH.ready() ? 'Entrar · salvo no aparelho' : 'Salvo neste aparelho'; st = 'local'; }
-  chip.dataset.state = st; $('#sync-text').textContent = txt;
+  chip.dataset.state = st; $('#sync-text').textContent = txt; renderAvatar();
   dot.dataset.state = st; dot.setAttribute('aria-label', txt); dot.title = txt;
 }
 
@@ -1680,10 +1818,22 @@ function applyTheme(t){
 
 /* ---------- conta, backup e aparência ---------- */
 function openAccount(){
-  var n = Object.keys(S.lists).length, u = AUTH.user, h = '<h2 id="sheet-h">Conta e backup</h2>';
+  var n = Object.keys(S.lists).length, u = AUTH.user, h = '<h2 id="sheet-h">' + (u ? 'Meu perfil' : 'Conta e backup') + '</h2>';
   if (u){
-    h += '<div class="acct-card"><span>Conectado como</span><span class="who">' + esc(u.email || u.displayName || 'sua conta') + '</span>' +
-      '<p class="small-meta" style="margin:0">Suas listas e apelidos ficam salvos na conta e aparecem em qualquer celular em que você entrar. Sem internet, tudo continua salvo no aparelho e sobe quando a conexão voltar.</p>' +
+    var st = profStats(), nome = PROF.nome(), prov = (u.providerData || []).map(function(p){ return p.providerId; });
+    var via = prov.indexOf('google.com') >= 0 ? 'Google' : prov.indexOf('apple.com') >= 0 ? 'Apple' : 'e-mail e senha';
+    var cam = '<svg class="ico" viewBox="0 0 24 24"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>';
+    h += '<div class="prof">' +
+      '<label class="prof-pic" for="pf-file" aria-label="Trocar foto do perfil">' + avatarHTML() + '<span class="prof-cam">' + cam + '</span></label>' +
+      '<input class="vh" id="pf-file" type="file" accept="image/*">' +
+      '<div class="prof-name">' + esc(nome || 'Seu perfil') + '</div>' +
+      '<div class="prof-mail">' + esc(u.email || '') + (u.email ? ' · ' : '') + 'entrou com ' + via + '</div>' +
+      '<div class="prof-tags"><span><b>' + st.listas + '</b> ' + (st.listas === 1 ? 'lista' : 'listas') + '</span><span><b>' + st.especies + '</b> ' + (st.especies === 1 ? 'espécie' : 'espécies') + '</span><span><b>' + st.ind.toLocaleString('pt-BR') + '</b> ' + (st.ind === 1 ? 'registro' : 'registros') + '</span></div>' +
+      '<div class="prof-photo-row"><label class="btn" for="pf-file">' + (PROF.foto() ? 'Trocar foto' : 'Pôr foto') + '</label>' +
+      (PROF.custom() ? '<button class="btn" data-act="pf-remove">' + (u.photoURL ? 'Usar foto do Google' : 'Remover foto') + '</button>' : '') + '</div>' +
+      '</div>' +
+      '<div class="form"><label class="field"><span>Seu nome no app</span><input id="pf-name" maxlength="60" autocomplete="name" value="' + esc(nome) + '" placeholder="Como quer aparecer"></label></div>' +
+      '<div class="acct-card" style="margin-top:12px"><p class="small-meta" style="margin:0">Suas listas, apelidos e a foto ficam salvos na conta e aparecem em qualquer celular em que você entrar. Sem internet, tudo continua salvo no aparelho e sobe quando a conexão voltar.</p>' +
       '<div class="inline-row"><button class="btn" data-act="auth-logout">Sair</button><button class="btn" data-act="auth-delete">Excluir minha conta</button></div></div>';
   } else if (AUTH.ready()){
     h += '<p class="store-note">Entrar é opcional. Com uma conta, suas listas e apelidos ficam guardados na nuvem e aparecem em outro celular. Sem conta, tudo fica salvo só neste aparelho.</p>' +
@@ -2205,6 +2355,7 @@ var A = {
   'auth-signup': function(){ AUTH.email(true); },
   'auth-reset': function(){ AUTH.reset(); },
   'auth-logout': function(){ AUTH.logout(); },
+  'pf-remove': function(){ PROF.set({foto: null}); openAccount(); toast(AUTH.user && AUTH.user.photoURL ? 'Voltou a foto do Google.' : 'Foto removida.'); },
   'auth-delete': function(b){ arm(b, 'Toque de novo para excluir a conta', function(){ AUTH.remove(); }); },
   'open-names': function(){ S.editingName = null; go('names'); },
   'details': openDetails,
@@ -2339,9 +2490,12 @@ $('#sheet').addEventListener('input', function(e){ if (e.target.id === 'lk-input
 $('#sheet').addEventListener('keydown', function(e){
   if (e.target.id === 'al-input' && e.key === 'Enter'){ e.preventDefault(); A['al-add'](); }
   if ((e.target.id === 'au-pass' || e.target.id === 'au-email') && e.key === 'Enter'){ e.preventDefault(); A['auth-login'](); }
+  if (e.target.id === 'pf-name' && e.key === 'Enter'){ e.preventDefault(); e.target.blur(); }
 });
 $('#sheet').addEventListener('change', function(e){
   if (e.target.id === 'import-file' && e.target.files && e.target.files[0]) importBackup(e.target.files[0]);
+  else if (e.target.id === 'pf-file' && e.target.files && e.target.files[0]) setProfilePhoto(e.target.files[0]);
+  else if (e.target.id === 'pf-name'){ var nv = clean(e.target.value).slice(0, 60); if (nv !== PROF.nome()){ PROF.set({nome: nv}); var pn = $('.prof-name'); if (pn) pn.textContent = PROF.nome() || 'Seu perfil'; toast('Nome salvo.'); } }
   else if (e.target.id && e.target.id.indexOf('d-') === 0) applyDetails(e.target);
 });
 document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && !$('#sheet').hidden) closeSheet(); });
