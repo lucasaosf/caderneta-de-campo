@@ -744,7 +744,8 @@ function push(id, attempt){
   if (S.cloud.fb && navigator.onLine === false){ setSync('offline'); return; }
   if (inflight[id]){ again[id] = true; return; }
   inflight[id] = true; setSync('saving');
-  doPush(id).then(function(){
+  var job; try { job = doPush(id); } catch(e){ job = Promise.reject(e); }
+  job.then(function(){
     inflight[id] = false;
     if (again[id]){ again[id] = false; push(id, 0); return; }
     setSync(anyPending() ? 'saving' : 'ok');
@@ -816,7 +817,7 @@ function fbCol(db, uid){
   var col = db.collection('users').doc(uid).collection('docs');
   var MAP = {'resource-exhausted':'quota_exceeded', 'invalid-argument':'invalid_argument', 'permission-denied':'not_granted', 'unauthenticated':'not_granted', 'deadline-exceeded':'unavailable'};
   var bad = function(e){ var c = (e && e.code) || ''; throw {code: MAP[c] || c, message: e && e.message}; };
-  return {
+  var w = {
     fb: true,
     doc: function(id){ var r = col.doc(id); return {
       set: function(body){ return r.set({updated: body.updated || 0, json: JSON.stringify(body)}).catch(bad); },
@@ -828,6 +829,8 @@ function fbCol(db, uid){
     })}; }, bad); },
     wipe: function(){ return col.get().then(function(snap){ return Promise.all(snap.docs.map(function(d){ return d.ref.delete(); })); }); }
   };
+  w.col = w; /* o envio usa S.cloud.col, igual ao armazenamento do Claude */
+  return w;
 }
 var AUTH = {
   user: null, fb: null,
