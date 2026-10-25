@@ -1,11 +1,10 @@
 {
-  "v": 6,
-  "nome": "6",
-  "data": "2026-10-24",
+  "v": 7,
+  "nome": "7",
+  "data": "2026-10-25",
   "novidades": [
-    "Banco com 4.903 espécies do Brasil e apelidos ligados ao nome científico",
-    "V (visual) e A (auditivo) ao lado do contador",
-    "Planilha de análises com a identidade da marca, também em CSV",
-    "Modo claro e escuro, botão Início e aviso de nova versão"
+    "Entrar com Google ou e-mail (opcional) para guardar as listas na nuvem",
+    "Listas e apelidos aparecem em qualquer celular em que você entrar",
+    "Sem internet tudo continua salvo no aparelho"
   ]
 }

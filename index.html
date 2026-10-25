@@ -574,9 +574,9 @@ body.selecting .wm{display:none}
 <div class="sel-bar" id="sel-bar" hidden></div>
 <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 <datalist id="dl-proj"></datalist><datalist id="dl-camp"></datalist><datalist id="dl-ua"></datalist><datalist id="dl-met"></datalist>
-<script src="especies.js?v=6"></script>
-<script src="planilha.js?v=6"></script>
-<script src="firebase-config.js?v=6"></script>
+<script src="especies.js?v=7"></script>
+<script src="planilha.js?v=7"></script>
+<script src="firebase-config.js?v=7"></script>
 
 <script>
 (function(){
@@ -639,14 +639,12 @@ var S = {
   sugg:[], suggIdx:0, undo:null, sheetClose:null, editingName:null, demo:3,
   alias:{}, defMode:LS.get('defMode', 'V'), theme:LS.get('theme', 'dark')
 };
-var APP_V = 6;
+var APP_V = 7;
 var NOVIDADES = [
-  'Banco com 4.903 espécies do Brasil (SBMz, CBRO, SBH): sugestões pelo nome científico ou popular.',
-  'Apelidos: toque numa espécie e use “Apelidar”. O apelido vira o nome científico nas planilhas.',
-  'Botões V (visual) e A (auditivo) ao lado do contador.',
-  'Planilha de análises com a identidade da marca: riqueza, abundância, diversidade, rarefação, similaridade, IPA e gráficos. Também em CSV.',
-  'Projeto, campanha, unidade amostral e método em cada lista; planilha cumulativa por projeto.',
-  'Modo claro e escuro, botão Início e aviso de nova versão dentro do app.'
+  'Entrar na conta (opcional): toque no ícone de pessoa, no canto de cima, e entre com Google ou com e-mail e senha.',
+  'Com a conta, suas listas e apelidos ficam guardados na nuvem e aparecem em qualquer celular em que você entrar.',
+  'Sem internet, tudo continua salvo no aparelho e sobe para a conta quando a conexão voltar.',
+  'Vídeo “Como usar” no fim da tela Conta e backup.'
 ];
 
 /* ---------- banco de espécies ---------- */
@@ -874,7 +872,7 @@ var AUTH = {
       'auth/email-already-in-use':'Esse e-mail já tem conta. Toque em Entrar.', 'auth/invalid-credential':'E-mail ou senha incorretos.', 'auth/wrong-password':'E-mail ou senha incorretos.',
       'auth/user-not-found':'Não há conta com esse e-mail. Toque em Criar conta.', 'auth/too-many-requests':'Muitas tentativas. Espere um pouco e tente de novo.',
       'auth/network-request-failed':'Sem internet. Para entrar, conecte-se e tente de novo.', 'auth/popup-closed-by-user':'', 'auth/cancelled-popup-request':'',
-      'auth/unauthorized-domain':'Este endereço ainda não foi liberado no login do app.', 'auth/operation-not-allowed':'Esse tipo de login ainda não foi ativado no app.'
+      'auth/popup-blocked':'O celular bloqueou a janela de login. Toque de novo em Entrar com Google.', 'auth/unauthorized-domain':'Este endereço ainda não foi liberado no login do app.', 'auth/operation-not-allowed':'Esse tipo de login ainda não foi ativado no app.'
     }[c];
     if (m === '') return;
     m = m || 'Não deu para entrar agora. Tente de novo.';
@@ -886,14 +884,16 @@ var AUTH = {
   },
   social: function(kind){
     if (!navigator.onLine){ AUTH.err({code:'auth/network-request-failed'}); return; }
-    AUTH.load().then(function(fb){
+    var run = function(fb){
       var p = AUTH.provider(fb, kind);
-      if (STANDALONE && IOS) return fb.auth().signInWithRedirect(p);
       return fb.auth().signInWithPopup(p).catch(function(e){
         if (e && (e.code === 'auth/popup-blocked' || e.code === 'auth/operation-not-supported-in-this-environment')) return fb.auth().signInWithRedirect(p);
         throw e;
       });
-    }).then(function(r){ if (r && r.user){ closeSheet(); toast('Conectado. Suas listas vão para a conta.'); } }, AUTH.err);
+    };
+    /* Com o Firebase já carregado, a janela de login abre ainda no toque (o Safari bloqueia janelas abertas depois). */
+    (AUTH.fb ? run(AUTH.fb) : AUTH.load().then(run))
+      .then(function(r){ if (r && r.user){ closeSheet(); toast('Conectado. Suas listas vão para a conta.'); } }, AUTH.err);
   },
   google: function(){ AUTH.social('google'); },
   apple: function(){ AUTH.social('apple'); },
