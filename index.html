@@ -842,11 +842,13 @@ var S = {
   sugg:[], suggIdx:0, undo:null, sheetClose:null, editingName:null, demo:3,
   alias:{}, defMode:LS.get('defMode', 'V'), theme:LS.get('theme', 'dark'), filterTax:''
 };
-var APP_V = 13;
+var APP_V = 14;
 var NOVIDADES = [
-  'Curva de rarefação como a feita com o EstimateS: S(est) com IC SD (1,96 × S(est) SD) e Jackknife 1 com IC JACK (1,96 × Jack 1 SD analítico), já em colunas na aba Rarefação.',
-  'S(est) e Jackknife 1 são os recomendados; Chao 1 e 2, Jackknife 2, ACE, ICE, Bootstrap, S média, Michaelis-Menten e Coleman podem ser acrescentados ao gráfico.',
-  'Aleatorizações e curvas são escolhidas na janela de exportar, antes de gerar a planilha Excel.'
+  'Filtro de grupo faunístico antes de iniciar lista: Ornitofauna (aves), Mastofauna (mamíferos), Herpetofauna (anfíbios e répteis) e Geral.',
+  'Identificação visual nos cards de Minhas Listas com selos temáticos e rosto da onça-pintada.',
+  'Sugestões de espécies restritas exclusivamente ao grupo da lista ativa.',
+  'Exportação em padrão Darwin Core (DwC), KML (Google Earth), GeoJSON (SIG) e infográfico para WhatsApp.',
+  'Feedback háptico (vibração ao contar), comando por voz e modo noturno vermelho.'
 ];
 
 /* ---------- banco de espécies ---------- */
