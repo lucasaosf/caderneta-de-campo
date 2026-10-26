@@ -1,13 +1,13 @@
 {
-  "v": 14,
-  "nome": "14",
+  "v": 15,
+  "nome": "15",
   "data": "2026-10-26",
   "novidades": [
+    "Ícones novos: bem-te-vi (aves) e onça-pintada (mamíferos)",
     "Filtro de grupo faunístico antes de iniciar lista (Ornitofauna, Mastofauna, Herpetofauna)",
     "Identificação visual do grupo faunístico nos cards de Minhas Listas",
     "Sugestões de espécies restritas exclusivamente ao grupo da lista",
     "Exportação em padrão Darwin Core (DwC), KML (Google Earth) e GeoJSON (SIG)",
-    "Compartilhamento com card infográfico para WhatsApp",
-    "Feedback háptico (vibração), comando por voz e modo noturno vermelho"
+    "Compartilhamento com card infográfico para WhatsApp"
   ]
 }

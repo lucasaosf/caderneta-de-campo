@@ -742,9 +742,9 @@ body.selecting .wm{display:none}
 <div class="sel-bar" id="sel-bar" hidden></div>
 <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 <datalist id="dl-proj"></datalist><datalist id="dl-camp"></datalist><datalist id="dl-ua"></datalist><datalist id="dl-met"></datalist>
-<script src="especies.js?v=14"></script>
-<script src="planilha.js?v=14"></script>
-<script src="firebase-config.js?v=14"></script>
+<script src="especies.js?v=15"></script>
+<script src="planilha.js?v=15"></script>
+<script src="firebase-config.js?v=15"></script>
 
 <script>
 (function(){
@@ -842,8 +842,9 @@ var S = {
   sugg:[], suggIdx:0, undo:null, sheetClose:null, editingName:null, demo:3,
   alias:{}, defMode:LS.get('defMode', 'V'), theme:LS.get('theme', 'dark'), filterTax:''
 };
-var APP_V = 14;
+var APP_V = 15;
 var NOVIDADES = [
+  'Ícones novos dos grupos: bem-te-vi para as aves e onça-pintada para os mamíferos.',
   'Filtro de grupo faunístico antes de iniciar lista: Ornitofauna (aves), Mastofauna (mamíferos), Herpetofauna (anfíbios e répteis) e Geral.',
   'Identificação visual nos cards de Minhas Listas com selos temáticos e rosto da onça-pintada.',
   'Sugestões de espécies restritas exclusivamente ao grupo da lista ativa.',
@@ -1583,36 +1584,71 @@ function renderCover(){
 }
 
 /* ---------- grupos faunísticos e filtros taxonômicos ---------- */
+// Bem-te-vi (Pitangus sulphuratus) de perfil, pousado num galho
+function icoAve(sz){
+  var s = sz || 32;
+  return '<svg class="ico-ave" viewBox="1.5 5 61 52" width="' + s + '" height="' + s + '" style="vertical-align:middle;display:inline-block" aria-hidden="true">' +
+    // galho
+    '<path d="M6 52 C20 49 38 48 58 50" fill="none" stroke="#6B4A2B" stroke-width="3.2" stroke-linecap="round"/>' +
+    '<path d="M44 49 C47 45 50 44 53 44" fill="none" stroke="#6B4A2B" stroke-width="2" stroke-linecap="round"/>' +
+    '<ellipse cx="54.5" cy="43.5" rx="3.2" ry="1.6" transform="rotate(-25 54.5 43.5)" fill="#5E8C3A"/>' +
+    // cauda
+    '<path d="M14 40 L3 49 L7 50.5 L4.5 54 L18 45 Z" fill="#6E4A2A"/>' +
+    // corpo (barriga amarela)
+    '<path d="M16 38 C16 27 24 21 34 21 C44 21 49 28 48 36 C47 45 39 50 29 50 C22 50 16 46 16 38 Z" fill="#F5C518"/>' +
+    // asa e dorso marrons, com borda ruiva
+    '<path d="M15 39 C14 31 19 25 27 24 C33 24 37 27 37 32 C37 38 31 43 23 44 C19 44.5 16 42.5 15 39 Z" fill="#7A5230"/>' +
+    '<path d="M20 34 C24 33 30 33.5 35 31.5" fill="none" stroke="#B5763B" stroke-width="1.6" stroke-linecap="round"/>' +
+    '<path d="M18 38.5 C23 38 28 38 33 36" fill="none" stroke="#B5763B" stroke-width="1.4" stroke-linecap="round"/>' +
+    // cabeça: coroa preta
+    '<circle cx="42" cy="20" r="10.5" fill="#1C1A17"/>' +
+    // listra branca acima do olho (do bico à nuca), coroa preta por cima e máscara preta no olho
+    '<path d="M51.8 16.6 C47.5 13.9 39.5 13.6 32.6 16.4 C33 17.6 33.5 18.4 34 19 C40 16.9 46.5 17 51.8 18.9 Z" fill="#FFFFFF"/>' +
+    // garganta branca
+    '<path d="M51.6 22.9 C48.8 25 44 25.7 38.6 25.3 C37.3 27.6 39.2 31 43.6 31.4 C48.2 31.2 51.6 27.8 52.4 23.6 Z" fill="#FFFFFF"/>' +
+    // olho
+    '<circle cx="45.6" cy="20.6" r="1.9" fill="#5A3A1A"/><circle cx="45.6" cy="20.6" r="1.2" fill="#050505"/><circle cx="46.3" cy="20" r="0.55" fill="#FFFFFF"/>' +
+    // bico forte
+    '<path d="M51.4 18.6 C55 18.9 58.5 19.7 61.5 21 C58.5 22 55 22.6 51.6 23 Z" fill="#141414"/>' +
+    // pés
+    '<path d="M29 49.5 L28 51.5 M34 49 L34.5 51.5" stroke="#3A2A1A" stroke-width="1.6" stroke-linecap="round"/>' +
+  '</svg>';
+}
+// Onça-pintada (Panthera onca) de frente
 function icoOnca(sz){
   var s = sz || 32;
-  return '<svg class="ico-onca" viewBox="0 0 32 32" width="' + s + '" height="' + s + '" style="vertical-align:middle;display:inline-block" aria-hidden="true">' +
-    '<path d="M6 10 C4 5, 8 2, 11 5 Z" fill="#D4942E" stroke="#1F160C" stroke-width="0.8"/>' +
-    '<path d="M7 8 C6 5.5, 8 4, 10 6 Z" fill="#F3E9D2"/>' +
-    '<path d="M26 10 C28 5, 24 2, 21 5 Z" fill="#D4942E" stroke="#1F160C" stroke-width="0.8"/>' +
-    '<path d="M25 8 C26 5.5, 24 4, 22 6 Z" fill="#F3E9D2"/>' +
-    '<ellipse cx="16" cy="18" rx="12" ry="11" fill="#E5A128"/>' +
-    '<circle cx="16" cy="10" r="0.9" fill="#241407"/>' +
-    '<circle cx="14" cy="11.5" r="0.8" fill="#241407"/>' +
-    '<circle cx="18" cy="11.5" r="0.8" fill="#241407"/>' +
-    '<circle cx="16" cy="13" r="0.9" fill="#241407"/>' +
-    '<path d="M8 15 C7 14, 6 16, 7 17 C8 17.5, 9 16, 8 15 Z" fill="#241407"/>' +
-    '<path d="M7 19 C6 18, 5 20, 6.5 21 C8 21, 8 19.5, 7 19 Z" fill="#241407"/>' +
-    '<path d="M24 15 C25 14, 26 16, 25 17 C24 17.5, 23 16, 24 15 Z" fill="#241407"/>' +
-    '<path d="M25 19 C26 18, 27 20, 25.5 21 C24 21, 24 19.5, 25 19 Z" fill="#241407"/>' +
-    '<ellipse cx="16" cy="22.5" rx="6.5" ry="5" fill="#FBF6EC"/>' +
-    '<path d="M14.5 16 L14.5 20 L17.5 20 L17.5 16 Z" fill="#D4942E"/>' +
-    '<path d="M14 20 L18 20 L16 22 Z" fill="#B85555"/>' +
-    '<path d="M16 22 L16 24 M13.5 24.5 C14.5 25.5 16 24.5 16 24 C16 24.5 17.5 25.5 18.5 24.5" stroke="#241407" stroke-width="0.8" fill="none" stroke-linecap="round"/>' +
-    '<circle cx="13" cy="23" r="0.4" fill="#241407"/>' +
-    '<circle cx="14" cy="23.5" r="0.4" fill="#241407"/>' +
-    '<circle cx="19" cy="23.5" r="0.4" fill="#241407"/>' +
-    '<circle cx="20" cy="23" r="0.4" fill="#241407"/>' +
-    '<ellipse cx="11.5" cy="15.5" rx="2" ry="1.4" fill="#EAB308" stroke="#241407" stroke-width="0.8"/>' +
-    '<ellipse cx="11.5" cy="15.5" rx="0.8" ry="1.2" fill="#150C04"/>' +
-    '<circle cx="11.2" cy="15" r="0.4" fill="#FFFFFF"/>' +
-    '<ellipse cx="20.5" cy="15.5" rx="2" ry="1.4" fill="#EAB308" stroke="#241407" stroke-width="0.8"/>' +
-    '<ellipse cx="20.5" cy="15.5" rx="0.8" ry="1.2" fill="#150C04"/>' +
-    '<circle cx="20.2" cy="15" r="0.4" fill="#FFFFFF"/>' +
+  var ros = function(cx, cy, r, rot){ // roseta: anel aberto de manchas com ponto no meio
+    return '<g transform="translate(' + cx + ' ' + cy + ') rotate(' + (rot || 0) + ')">' +
+      '<path d="M' + (-r) + ' 0 A' + r + ' ' + r + ' 0 0 1 ' + (r * 0.3) + ' ' + (-r * 0.95) + '" fill="none" stroke="#2A1A0C" stroke-width="' + (r * 0.46) + '" stroke-linecap="round"/>' +
+      '<path d="M' + (r * 0.85) + ' ' + (-r * 0.4) + ' A' + r + ' ' + r + ' 0 0 1 ' + (-r * 0.2) + ' ' + (r * 0.98) + '" fill="none" stroke="#2A1A0C" stroke-width="' + (r * 0.46) + '" stroke-linecap="round"/>' +
+      '<circle cx="0" cy="0" r="' + (r * 0.32) + '" fill="#B8641C"/></g>';
+  };
+  return '<svg class="ico-onca" viewBox="5.5 6 53 52" width="' + s + '" height="' + s + '" style="vertical-align:middle;display:inline-block" aria-hidden="true">' +
+    // orelhas
+    '<circle cx="15" cy="17" r="8.5" fill="#D98E2B"/><circle cx="15.5" cy="17.5" r="4.6" fill="#F4E4C8"/>' +
+    '<circle cx="49" cy="17" r="8.5" fill="#D98E2B"/><circle cx="48.5" cy="17.5" r="4.6" fill="#F4E4C8"/>' +
+    '<path d="M8.5 12.5 C10 9 14 7.6 17.5 8.8" fill="none" stroke="#2A1A0C" stroke-width="2.4" stroke-linecap="round"/>' +
+    '<path d="M55.5 12.5 C54 9 50 7.6 46.5 8.8" fill="none" stroke="#2A1A0C" stroke-width="2.4" stroke-linecap="round"/>' +
+    // cabeça
+    '<path d="M32 10 C46 10 55 19 55 32 C55 46 45 56 32 56 C19 56 9 46 9 32 C9 19 18 10 32 10 Z" fill="#E3A032"/>' +
+    // bochechas mais claras
+    '<path d="M12 36 C14 46 22 53 32 53 C42 53 50 46 52 36 C47 41 40 42 32 42 C24 42 17 41 12 36 Z" fill="#EDB453"/>' +
+    // focinho e queixo brancos
+    '<path d="M32 33 C38 33 43 37 43 42.5 C43 48.5 38 52.5 32 52.5 C26 52.5 21 48.5 21 42.5 C21 37 26 33 32 33 Z" fill="#FBF3E4"/>' +
+    // rosetas na testa e bochechas
+    ros(32, 18, 3.4, 0) + ros(23.5, 22, 3, -30) + ros(40.5, 22, 3, 30) +
+    '<circle cx="27.5" cy="14.5" r="1.4" fill="#2A1A0C"/><circle cx="36.5" cy="14.5" r="1.4" fill="#2A1A0C"/><circle cx="32" cy="25.5" r="1.3" fill="#2A1A0C"/>' +
+    ros(15, 33, 2.8, -60) + ros(49, 33, 2.8, 60) +
+    '<circle cx="13" cy="41" r="1.5" fill="#2A1A0C"/><circle cx="51" cy="41" r="1.5" fill="#2A1A0C"/><circle cx="17.5" cy="45.5" r="1.2" fill="#2A1A0C"/><circle cx="46.5" cy="45.5" r="1.2" fill="#2A1A0C"/>' +
+    // olhos âmbar
+    '<path d="M19.5 29 C21.5 25.5 27 25.5 28.5 29.5 C26 31.5 21.5 31.5 19.5 29 Z" fill="#E8C33A" stroke="#2A1A0C" stroke-width="1.3"/>' +
+    '<path d="M44.5 29 C42.5 25.5 37 25.5 35.5 29.5 C38 31.5 42.5 31.5 44.5 29 Z" fill="#E8C33A" stroke="#2A1A0C" stroke-width="1.3"/>' +
+    '<ellipse cx="24.2" cy="28.9" rx="1.3" ry="2.1" fill="#120C06"/><ellipse cx="39.8" cy="28.9" rx="1.3" ry="2.1" fill="#120C06"/>' +
+    // nariz e boca
+    '<path d="M27.5 36 C29 34.6 35 34.6 36.5 36 C36 38.5 33.8 40.5 32 41 C30.2 40.5 28 38.5 27.5 36 Z" fill="#B85D4E"/>' +
+    '<path d="M32 41 L32 44 M32 44 C30.5 46 27.5 46.3 25.8 44.8 M32 44 C33.5 46 36.5 46.3 38.2 44.8" fill="none" stroke="#2A1A0C" stroke-width="1.4" stroke-linecap="round"/>' +
+    // pontos dos bigodes
+    '<circle cx="25" cy="40.5" r=".7" fill="#7A5A3A"/><circle cx="23.3" cy="42.2" r=".7" fill="#7A5A3A"/><circle cx="39" cy="40.5" r=".7" fill="#7A5A3A"/><circle cx="40.7" cy="42.2" r=".7" fill="#7A5A3A"/>' +
   '</svg>';
 }
 
@@ -1642,7 +1678,7 @@ function getCardGroup(c){
   var g = c.grupo;
   if (g && g !== 'Geral'){
     var gl = g.toLowerCase();
-    if (gl === 'ornitofauna' || gl === 'aves' || gl === 'ave') return { name: 'Aves', icon: '🦅', tax: 'Ave' };
+    if (gl === 'ornitofauna' || gl === 'aves' || gl === 'ave') return { name: 'Aves', icon: icoAve(16), tax: 'Ave' };
     if (gl === 'mastofauna' || gl === 'mamíferos' || gl === 'mamiferos' || gl === 'mamífero' || gl === 'mamifero') return { name: 'Mamíferos', icon: icoOnca(16), tax: 'Mamífero' };
     if (gl === 'herpetofauna' || gl === 'herpeto' || gl === 'anfíbios e répteis' || gl === 'anfibios e repteis') return { name: 'Herpeto', icon: '🐸', tax: 'Herpeto' };
     return { name: g, icon: '🏷️', tax: taxOfGroup(g) };
@@ -1655,7 +1691,7 @@ function getCardGroup(c){
     });
     var k = Object.keys(classes);
     if (k.length === 1){
-      if (k[0] === 'Ave') return { name: 'Aves', icon: '🦅', tax: 'Ave' };
+      if (k[0] === 'Ave') return { name: 'Aves', icon: icoAve(16), tax: 'Ave' };
       if (k[0] === 'Mamífero') return { name: 'Mamíferos', icon: icoOnca(16), tax: 'Mamífero' };
       if (k[0] === 'Anfíbio') return { name: 'Anfíbios', icon: '🐸', tax: 'Anfíbio' };
       if (k[0] === 'Réptil') return { name: 'Répteis', icon: '🦎', tax: 'Réptil' };
@@ -1758,12 +1794,12 @@ function openNewListSheet(){
     '<p class="small-meta">Selecione o grupo faunístico para orientar as sugestões:</p>' +
     '<div class="group-grid">' +
       '<button type="button" class="group-card" data-act="start-list-grp" data-grp="Ornitofauna" data-tax="Ave">' +
-        '<span class="group-icon bird-brown">🐦</span>' +
+        '<span class="group-icon">' + icoAve(40) + '</span>' +
         '<b>Ornitofauna</b>' +
         '<small>Aves</small>' +
       '</button>' +
       '<button type="button" class="group-card" data-act="start-list-grp" data-grp="Mastofauna" data-tax="Mamífero">' +
-        '<span class="group-icon">' + icoOnca(34) + '</span>' +
+        '<span class="group-icon">' + icoOnca(40) + '</span>' +
         '<b>Mastofauna</b>' +
         '<small>Mamíferos</small>' +
       '</button>' +
@@ -2129,7 +2165,7 @@ function openDetails(){
     (c.end ? '<label class="field"><span>Fim</span><input id="d-end" type="time" value="' + fTime(c.end) + '"></label>' : '') +
     '<label class="field"><span>Grupo faunístico</span><select id="d-grp">' +
       '<option value="Geral"' + (!c.grupo || c.grupo === 'Geral' ? ' selected' : '') + '>Geral (Sem filtro)</option>' +
-      '<option value="Ornitofauna"' + (c.grupo === 'Ornitofauna' ? ' selected' : '') + '>🦅 Ornitofauna (Aves)</option>' +
+      '<option value="Ornitofauna"' + (c.grupo === 'Ornitofauna' ? ' selected' : '') + '>🐦 Ornitofauna (Aves)</option>' +
       '<option value="Mastofauna"' + (c.grupo === 'Mastofauna' ? ' selected' : '') + '>🐆 Mastofauna (Mamíferos)</option>' +
       '<option value="Herpetofauna"' + (c.grupo === 'Herpetofauna' ? ' selected' : '') + '>🐸 Herpetofauna (Anfíbios e Répteis)</option>' +
     '</select></label>' +
