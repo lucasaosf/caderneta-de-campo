@@ -48,6 +48,49 @@
   --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.35);
   color-scheme:dark;
 }
+:root[data-theme="red"]{
+  --bg:#080000; --surface:#150202; --surface-2:#220505; --ink:#ff7a7a; --muted:#bd4a4a; --line:#3b0a0a;
+  --accent:#ff3b30; --accent-strong:#ff6e65; --on-accent:#080000; --accent-soft:#330606;
+  --tally:#e05a38; --on-tally:#080000; --rec:#ff1a1a; --warn:#e05a38; --warn-soft:#2b0505;
+  --bronze:#e05a38; --gold:#e05a38;
+  --shadow:0 1px 3px rgba(0,0,0,.7),0 8px 24px rgba(0,0,0,.8);
+  color-scheme:dark;
+}
+.tax-bar{display:flex;gap:6px;overflow-x:auto;padding:2px 0 6px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.tax-bar::-webkit-scrollbar{display:none}
+.tax-chip{font-family:var(--body);font-size:12px;font-weight:600;padding:3px 10px;border-radius:20px;border:1px solid var(--line);background:var(--surface);color:var(--muted);white-space:nowrap;transition:all .15s ease}
+.tax-chip:active{transform:scale(.96)}
+.tax-chip.active{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
+.status-tag{display:inline-block;font-size:9.5px;font-weight:700;font-family:var(--mono);padding:1px 5px;border-radius:4px;margin-left:5px;letter-spacing:.02em;vertical-align:middle;text-transform:uppercase;line-height:1.3}
+.status-threat{background:#A8402E;color:#fff}
+.status-exotic{background:#86602E;color:#fff}
+.status-endem{background:var(--accent-soft);color:var(--accent-strong);border:1px solid var(--line)}
+:root[data-theme="red"] .status-threat{background:#ff2222;color:#080000}
+:root[data-theme="red"] .status-exotic{background:#e05a38;color:#080000}
+:root[data-theme="red"] .status-endem{background:#330606;color:#ff7a7a;border-color:#3b0a0a}
+:root[data-theme="red"] .cover{background:#080000;color:#ff7a7a}
+:root[data-theme="red"] .cover-tag{color:#bd4a4a}
+:root[data-theme="red"] .cover h1{color:#ff7a7a}
+:root[data-theme="red"] .cover-sub{color:#e05a38}
+:root[data-theme="red"] .cover-stat{color:#bd4a4a}
+:root[data-theme="red"] .cover-btn.primary{background:#ff3b30;color:#080000}
+:root[data-theme="red"] .cover-btn.ghost{background:rgba(34,5,5,.78);color:#ff7a7a;border-color:rgba(255,59,48,.35)}
+:root[data-theme="red"] .cover-sign{color:rgba(255,122,122,.7)}
+:root[data-theme="red"] .cover-sign b{color:#ff7a7a}
+:root[data-theme="red"] .cover-foot{color:#bd4a4a}
+:root[data-theme="red"] .cover-foot a,:root[data-theme="red"] .cover-foot button{color:#ff7a7a}
+:root[data-theme="red"] .cover .theme-btn{background:rgba(34,5,5,.85);color:#ff7a7a;border-color:rgba(255,59,48,.3)}
+:root[data-theme="red"] .btn-new{background:var(--surface-2);border:1.5px solid var(--line)}
+.group-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0}
+.group-card{display:flex;flex-direction:column;align-items:center;text-align:center;padding:18px 12px;background:var(--surface);border:1.5px solid var(--line);border-radius:14px;cursor:pointer;transition:all .15s ease}
+.group-card:hover,.group-card:active{border-color:var(--accent);background:var(--surface-2);transform:scale(.98)}
+.group-icon{font-size:32px;line-height:1;margin-bottom:8px}
+.group-icon.bird-brown,.bird-brown{display:inline-block;filter:sepia(1) saturate(3.5) hue-rotate(330deg) brightness(0.85);transition:filter .15s ease}
+:root[data-theme="red"] .bird-brown{filter:sepia(1) saturate(5) hue-rotate(345deg) brightness(0.9)}
+.group-card b{font-size:15px;color:var(--ink);font-weight:700}
+.group-card small{font-size:12px;color:var(--muted);margin-top:2px}
+:root[data-theme="red"] .group-card{border-color:#3b0a0a;background:#150202}
+:root[data-theme="red"] .group-card:hover,:root[data-theme="red"] .group-card:active{border-color:#ff3b30;background:#220505}
 *{box-sizing:border-box}
 [hidden]{display:none!important}
 html,body{min-height:100%}
@@ -90,6 +133,11 @@ a.btn{color:var(--ink)}
 .btn-new small{display:block;font-size:13px;opacity:.85}
 .open-card{margin-top:14px;background:var(--surface);border:1.5px solid var(--accent);border-radius:16px;padding:14px 16px;display:grid;gap:10px;box-shadow:var(--shadow)}
 .open-card .row{display:flex;align-items:center;gap:8px;justify-content:space-between}
+.open-card-meta{display:flex;align-items:center;gap:8px}
+.grp-badge{display:inline-flex;align-items:center;gap:5px;font-family:var(--body);font-size:12px;font-weight:700;padding:2px 8px;border-radius:12px;background:var(--surface-2);border:1px solid var(--line);color:var(--ink);letter-spacing:.01em;white-space:nowrap}
+.grp-badge-sm{font-size:11px;padding:1px 6px;margin-right:2px}
+:root[data-theme="red"] .grp-badge{background:#220505;border-color:#3b0a0a;color:#ff7a7a}
+:root[data-theme="light"] .grp-badge{background:#EAE4D7;border-color:#D8D0C0;color:#2B261F}
 .open-card h3{font-size:20px;font-weight:700}
 .pill{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border-radius:6px;background:var(--accent-soft);color:var(--accent-strong)}
 .pill .rec-dot{width:7px;height:7px}
@@ -130,6 +178,10 @@ a.btn{color:var(--ink)}
 .add input{flex:1;min-width:0;height:52px;padding:0 14px;border-radius:12px;border:1.5px solid var(--line);background:var(--surface);font-size:17px}
 .add input:focus{border-color:var(--accent);outline:none;box-shadow:0 0 0 3px var(--accent-soft)}
 .add-go{width:56px;height:52px;border-radius:12px;background:var(--accent);color:var(--on-accent);font-size:28px;font-weight:700;flex:none}
+.voice-btn{width:48px;height:52px;display:grid;place-items:center;flex:none;color:var(--muted);border-radius:12px;background:var(--surface);border:1.5px solid var(--line);transition:all .15s ease}
+.voice-btn:hover{color:var(--ink);background:var(--surface-2)}
+.voice-btn:active{transform:scale(.95)}
+.voice-btn.listening{color:#fff;background:#A8402E;border-color:#A8402E;animation:pulse 1.2s infinite}
 .sugg{position:absolute;left:0;right:0;top:calc(100% + 6px);margin:0;padding:6px;list-style:none;background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);max-height:min(52vh,420px);overflow:auto;z-index:30}
 .sugg li button{width:100%;display:flex;align-items:center;gap:10px;justify-content:space-between;padding:10px 12px;min-height:48px;border-radius:10px;text-align:left}
 .sugg li button[aria-selected="true"],.sugg li button:active{background:var(--accent-soft)}
@@ -410,9 +462,16 @@ body.selecting .wm{display:none}
 .theme-btn{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;flex:none;background:rgba(14,37,21,.55);color:#F3EEE3;border:1.5px solid rgba(242,235,221,.4);font-size:20px;line-height:1}
 .theme-btn.small{width:40px;height:40px;background:var(--surface);color:var(--ink);border-color:var(--line);font-size:18px}
 .theme-btn .ico{width:20px;height:20px}
-.t-moon{display:none}
+.t-moon,.t-red{display:none}
+:root[data-theme="dark"] .t-sun{display:inline}
+:root[data-theme="dark"] .t-moon{display:none}
+:root[data-theme="dark"] .t-red{display:none}
 :root[data-theme="light"] .t-sun{display:none}
-:root[data-theme="light"] .t-moon{display:inline}
+:root[data-theme="light"] .t-moon{display:none}
+:root[data-theme="light"] .t-red{display:inline}
+:root[data-theme="red"] .t-sun{display:none}
+:root[data-theme="red"] .t-moon{display:inline}
+:root[data-theme="red"] .t-red{display:none}
 .install-chip{display:inline-flex;align-items:center;gap:6px;min-height:36px;padding:4px 12px;border-radius:999px;background:rgba(14,37,21,.55);color:#F3EEE3;border:1.5px solid rgba(242,235,221,.4);font-size:13px;font-weight:600}
 .logo-light{display:none}
 :root[data-theme="light"] .cover{background:#F3EEE3 url("capa-clara.jpg") center bottom / cover no-repeat;color:#13301A}
@@ -551,7 +610,7 @@ body.selecting .wm{display:none}
 
 <!-- CAPA -->
 <section id="cover" class="cover" aria-label="Lista de Campo">
-  <div class="cover-top"><button class="theme-btn" data-act="theme" aria-label="Trocar modo claro ou escuro"><span class="t-sun" aria-hidden="true">☀︎</span><span class="t-moon" aria-hidden="true">☾</span></button><span id="cover-install"></span><button class="theme-btn acct-btn" data-act="account" aria-label="Conta e backup" id="cover-acct"><svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg></button></div>
+  <div class="cover-top"><button class="theme-btn" data-act="theme" aria-label="Trocar modo claro, escuro ou noturno"><span class="t-sun" aria-hidden="true">☀︎</span><span class="t-moon" aria-hidden="true">☾</span><span class="t-red" aria-hidden="true">🔴</span></button><span id="cover-install"></span><button class="theme-btn acct-btn" data-act="account" aria-label="Conta e backup" id="cover-acct"><svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg></button></div>
   <img class="cover-logo logo-dark" src="logo-creme.png" alt="Logo Pesquisa &amp; Soluções Ambientais" width="168" height="168"><img class="cover-logo logo-light" src="logo-verde.png" alt="Logo Pesquisa &amp; Soluções Ambientais" width="168" height="168">
   <p class="cover-tag">Pesquisa &amp; Soluções Ambientais</p>
   <hr class="cover-rule">
@@ -583,7 +642,7 @@ body.selecting .wm{display:none}
       </div>
       <div class="home-tools">
         <button class="chip chip-home" data-act="cover"><svg class="ico" viewBox="0 0 24 24"><path d="M3 11l9-7 9 7M5 10v10h14V10"/></svg>Início</button>
-        <button class="theme-btn small" data-act="theme" aria-label="Trocar modo claro ou escuro"><span class="t-sun" aria-hidden="true">☀︎</span><span class="t-moon" aria-hidden="true">☾</span></button>
+        <button class="theme-btn small" data-act="theme" aria-label="Trocar modo claro, escuro ou noturno"><span class="t-sun" aria-hidden="true">☀︎</span><span class="t-moon" aria-hidden="true">☾</span><span class="t-red" aria-hidden="true">🔴</span></button>
         <button class="chip" id="sync-chip" data-act="account" data-state="idle"><span class="chip-av" id="chip-av" aria-hidden="true"></span><span class="dot"></span><span id="sync-text">Abrindo…</span></button>
       </div>
     </header>
@@ -611,9 +670,18 @@ body.selecting .wm{display:none}
         <span class="sync-dot" id="sync-dot" role="img" aria-label="Salvamento"></span>
         <button class="icon-btn" data-act="details" aria-label="Editar detalhes da lista"><svg class="ico" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.4"/><circle cx="12" cy="12" r="1.4"/><circle cx="19" cy="12" r="1.4"/></svg></button>
       </div>
+      <div class="tax-bar" id="tax-bar" role="group" aria-label="Filtrar por grupo">
+        <button type="button" class="tax-chip active" data-act="tax-filter" data-tax="">Todas</button>
+        <button type="button" class="tax-chip" data-act="tax-filter" data-tax="Ave">Aves</button>
+        <button type="button" class="tax-chip" data-act="tax-filter" data-tax="Mamífero">Mamíferos</button>
+        <button type="button" class="tax-chip" data-act="tax-filter" data-tax="Herpeto">Herpeto</button>
+        <button type="button" class="tax-chip" data-act="tax-filter" data-tax="Réptil">Répteis</button>
+        <button type="button" class="tax-chip" data-act="tax-filter" data-tax="Anfíbio">Anfíbios</button>
+      </div>
       <form class="add" id="add-form" autocomplete="off">
         <label class="vh" for="add-input">Adicionar espécie</label>
         <input id="add-input" type="text" enterkeyhint="done" placeholder="Espécie — ou “4 andorinha”" autocapitalize="sentences" autocorrect="off" spellcheck="false" aria-autocomplete="list" aria-controls="sugg">
+        <button type="button" class="voice-btn" id="voice-btn" data-act="voice-input" aria-label="Ditar espécie por voz" title="Ditar por voz"><svg class="ico" viewBox="0 0 24 24"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v4M8 23h8"/></svg></button>
         <button type="submit" class="add-go" aria-label="Adicionar">+</button>
         <ul id="sugg" class="sugg" role="listbox" hidden></ul>
       </form>
@@ -674,9 +742,9 @@ body.selecting .wm{display:none}
 <div class="sel-bar" id="sel-bar" hidden></div>
 <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 <datalist id="dl-proj"></datalist><datalist id="dl-camp"></datalist><datalist id="dl-ua"></datalist><datalist id="dl-met"></datalist>
-<script src="especies.js?v=13"></script>
-<script src="planilha.js?v=13"></script>
-<script src="firebase-config.js?v=13"></script>
+<script src="especies.js?v=14"></script>
+<script src="planilha.js?v=14"></script>
+<script src="firebase-config.js?v=14"></script>
 
 <script>
 (function(){
@@ -697,6 +765,9 @@ var ICO = {
   route:'<svg class="ico" viewBox="0 0 24 24"><circle cx="6" cy="19" r="2"/><circle cx="18" cy="5" r="2"/><path d="M8 19h7a3.5 3.5 0 0 0 0-7H9a3.5 3.5 0 0 1 0-7h7"/></svg>',
   trash:'<svg class="ico" viewBox="0 0 24 24"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg>',
   copy:'<svg class="ico" viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a1 1 0 0 1 1-1h10"/></svg>',
+  whatsapp:'<svg class="ico" viewBox="0 0 24 24" style="stroke:none;fill:currentColor"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2m.01 1.67c4.54 0 8.24 3.7 8.24 8.24 0 2.2-.86 4.28-2.42 5.84-1.56 1.56-3.64 2.42-5.83 2.42-1.47 0-2.91-.4-4.17-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.19 8.19 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24m-3.6 3.6c-.2 0-.52.07-.79.37-.28.3-1.05 1.03-1.05 2.52 0 1.48 1.08 2.92 1.23 3.12.15.2 2.12 3.24 5.15 4.54.72.31 1.28.49 1.72.63.72.23 1.38.2 1.9.12.58-.08 1.8-.73 2.05-1.44.25-.71.25-1.32.18-1.44-.07-.12-.27-.2-.57-.35-.3-.15-1.78-.88-2.06-.98-.28-.1-.48-.15-.68.15-.2.3-.78.98-.95 1.18-.18.2-.35.22-.65.07-.3-.15-1.27-.47-2.42-1.5-.9-.8-1.5-1.79-1.68-2.09-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.18.2-.3.3-.5.1-.2.05-.38-.02-.53-.08-.15-.68-1.65-.94-2.26-.25-.59-.5-.51-.68-.52-.18-.01-.38-.01-.58-.01z"/></svg>',
+  share:'<svg class="ico" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>',
+  gis:'<svg class="ico" viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>',
   table:'<svg class="ico" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M3 15h18M9 4v16"/></svg>',
   map:'<svg class="ico" viewBox="0 0 24 24"><path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2-6-2zM9 4v14M15 6v14"/></svg>',
   pencil:'<svg class="ico" viewBox="0 0 24 24"><path d="M4 20h4L19 9l-4-4L4 16v4z"/></svg>',
@@ -723,12 +794,44 @@ function fDist(m){
 function fCoord(v){ return (Math.round(v*1e5)/1e5).toFixed(5); }
 function plural(n, a, b){ return n + ' ' + (n === 1 ? a : b); }
 
-/* ---------- local storage (cache / standalone store) ---------- */
+/* ---------- local storage & IndexedDB (ilimitado e offline) ---------- */
 var KEY = 'caderneta.v1.';
+var IDB = {
+  db: null,
+  init: function(cb){
+    if (IDB.db){ if (cb) cb(IDB.db); return; }
+    if (typeof indexedDB === 'undefined'){ if (cb) cb(null); return; }
+    var req = indexedDB.open('caderneta_v1_store', 1);
+    req.onupgradeneeded = function(e){
+      var d = e.target.result;
+      if (!d.objectStoreNames.contains('kv')) d.createObjectStore('kv');
+    };
+    req.onsuccess = function(e){ IDB.db = e.target.result; if (cb) cb(IDB.db); };
+    req.onerror = function(){ if (cb) cb(null); };
+  },
+  set: function(k, v){
+    IDB.init(function(db){
+      if (!db) return;
+      try { var tx = db.transaction('kv', 'readwrite'); tx.objectStore('kv').put(v, k); } catch(e){}
+    });
+  },
+  del: function(k){
+    IDB.init(function(db){
+      if (!db) return;
+      try { var tx = db.transaction('kv', 'readwrite'); tx.objectStore('kv').delete(k); } catch(e){}
+    });
+  }
+};
 var LS = {
   get: function(k, d){ try { var v = localStorage.getItem(KEY+k); return v == null ? d : JSON.parse(v); } catch(e){ return d; } },
-  set: function(k, v){ try { localStorage.setItem(KEY+k, JSON.stringify(v)); return true; } catch(e){ return false; } },
-  del: function(k){ try { localStorage.removeItem(KEY+k); } catch(e){} }
+  set: function(k, v){
+    try { IDB.set(KEY+k, v); } catch(e){}
+    try { localStorage.setItem(KEY+k, JSON.stringify(v)); return true; } catch(e){ return true; }
+  },
+  del: function(k){
+    try { IDB.del(KEY+k); } catch(e){}
+    try { localStorage.removeItem(KEY+k); } catch(e){}
+  }
 };
 
 var S = {
@@ -737,7 +840,7 @@ var S = {
   gps:'unknown', pos:null, watchId:null, wake:null,
   screen:'cover', cur:null, sort:LS.get('sort','recent'), trackPref:LS.get('trackPref', true),
   sugg:[], suggIdx:0, undo:null, sheetClose:null, editingName:null, demo:3,
-  alias:{}, defMode:LS.get('defMode', 'V'), theme:LS.get('theme', 'dark')
+  alias:{}, defMode:LS.get('defMode', 'V'), theme:LS.get('theme', 'dark'), filterTax:''
 };
 var APP_V = 13;
 var NOVIDADES = [
@@ -1219,7 +1322,19 @@ function nameUse(){
 /* ---------- list helpers ---------- */
 function cur(){ return S.lists[S.cur]; }
 function title(c){ return c.title || c.place || ('Lista de ' + fDay(c.start)); }
-function totals(c){ var sp = 0, ind = 0; c.species.forEach(function(s){ if (s.count > 0){ sp++; ind += s.count; } }); return {sp:sp, ind:ind}; }
+var AMEN_MAP = {'CR':1, 'EN':1, 'VU':1};
+function isThreatened(d){ if (!d) return false; return !!((d.mma && AMEN_MAP[d.mma]) || (d.iucn && AMEN_MAP[d.iucn])); }
+function totals(c){
+  var sp = 0, ind = 0, amen = 0;
+  c.species.forEach(function(s){
+    if (s.count > 0){
+      sp++; ind += s.count;
+      var d = dbGet(s.sci || resolveSci(s.name));
+      if (isThreatened(d)) amen++;
+    }
+  });
+  return {sp:sp, ind:ind, amen:amen};
+}
 function elapsed(c){ return (c.end ? new Date(c.end) : new Date()) - new Date(c.start); }
 function sorted(c){
   var a = c.species.slice();
@@ -1258,6 +1373,7 @@ function addEntry(c, name, n, sci){
     msg = 'Nova: ' + name + (n > 1 ? ' (' + n + ')' : '');
   }
   touch(c); renderSpecies(sp.id); renderNav();
+  try { if (navigator.vibrate) navigator.vibrate([15, 30, 20]); } catch(e){}
   var sid = sp.id;
   toast(msg, function(){ c.species = before; touch(c); renderSpecies(); renderNav(); },
     isNew && sp.sci && norm(sp.name) === norm(sp.sci) ? {label:'Apelidar', fn:function(){ openSpEdit(sid, 'alias'); }} : (isNew && !sp.sci ? {label:'Ligar', fn:function(){ openSpEdit(sid, 'link'); }} : null));
@@ -1409,7 +1525,15 @@ function go(screen, id, noHist){
   hideSugg();
   if (screen === 'cover') renderCover();
   if (screen === 'home') renderHome();
-  if (screen === 'list') renderList();
+  if (screen === 'list'){
+    var cl = cur();
+    if (cl){
+      var g = getCardGroup(cl);
+      if (cl.filterTax === undefined && g.tax) cl.filterTax = g.tax;
+      S.filterTax = cl.filterTax || g.tax || '';
+    }
+    renderList();
+  }
   if (screen === 'names') renderNames();
   window.scrollTo(0, 0);
   if (!noHist) histSync(screen);
@@ -1456,6 +1580,91 @@ function renderCover(){
   $('#cover-actions').innerHTML = h;
 }
 
+/* ---------- grupos faunísticos e filtros taxonômicos ---------- */
+function icoOnca(sz){
+  var s = sz || 32;
+  return '<svg class="ico-onca" viewBox="0 0 32 32" width="' + s + '" height="' + s + '" style="vertical-align:middle;display:inline-block" aria-hidden="true">' +
+    '<path d="M6 10 C4 5, 8 2, 11 5 Z" fill="#D4942E" stroke="#1F160C" stroke-width="0.8"/>' +
+    '<path d="M7 8 C6 5.5, 8 4, 10 6 Z" fill="#F3E9D2"/>' +
+    '<path d="M26 10 C28 5, 24 2, 21 5 Z" fill="#D4942E" stroke="#1F160C" stroke-width="0.8"/>' +
+    '<path d="M25 8 C26 5.5, 24 4, 22 6 Z" fill="#F3E9D2"/>' +
+    '<ellipse cx="16" cy="18" rx="12" ry="11" fill="#E5A128"/>' +
+    '<circle cx="16" cy="10" r="0.9" fill="#241407"/>' +
+    '<circle cx="14" cy="11.5" r="0.8" fill="#241407"/>' +
+    '<circle cx="18" cy="11.5" r="0.8" fill="#241407"/>' +
+    '<circle cx="16" cy="13" r="0.9" fill="#241407"/>' +
+    '<path d="M8 15 C7 14, 6 16, 7 17 C8 17.5, 9 16, 8 15 Z" fill="#241407"/>' +
+    '<path d="M7 19 C6 18, 5 20, 6.5 21 C8 21, 8 19.5, 7 19 Z" fill="#241407"/>' +
+    '<path d="M24 15 C25 14, 26 16, 25 17 C24 17.5, 23 16, 24 15 Z" fill="#241407"/>' +
+    '<path d="M25 19 C26 18, 27 20, 25.5 21 C24 21, 24 19.5, 25 19 Z" fill="#241407"/>' +
+    '<ellipse cx="16" cy="22.5" rx="6.5" ry="5" fill="#FBF6EC"/>' +
+    '<path d="M14.5 16 L14.5 20 L17.5 20 L17.5 16 Z" fill="#D4942E"/>' +
+    '<path d="M14 20 L18 20 L16 22 Z" fill="#B85555"/>' +
+    '<path d="M16 22 L16 24 M13.5 24.5 C14.5 25.5 16 24.5 16 24 C16 24.5 17.5 25.5 18.5 24.5" stroke="#241407" stroke-width="0.8" fill="none" stroke-linecap="round"/>' +
+    '<circle cx="13" cy="23" r="0.4" fill="#241407"/>' +
+    '<circle cx="14" cy="23.5" r="0.4" fill="#241407"/>' +
+    '<circle cx="19" cy="23.5" r="0.4" fill="#241407"/>' +
+    '<circle cx="20" cy="23" r="0.4" fill="#241407"/>' +
+    '<ellipse cx="11.5" cy="15.5" rx="2" ry="1.4" fill="#EAB308" stroke="#241407" stroke-width="0.8"/>' +
+    '<ellipse cx="11.5" cy="15.5" rx="0.8" ry="1.2" fill="#150C04"/>' +
+    '<circle cx="11.2" cy="15" r="0.4" fill="#FFFFFF"/>' +
+    '<ellipse cx="20.5" cy="15.5" rx="2" ry="1.4" fill="#EAB308" stroke="#241407" stroke-width="0.8"/>' +
+    '<ellipse cx="20.5" cy="15.5" rx="0.8" ry="1.2" fill="#150C04"/>' +
+    '<circle cx="20.2" cy="15" r="0.4" fill="#FFFFFF"/>' +
+  '</svg>';
+}
+
+function taxOfGroup(grp){
+  if (!grp || grp === 'Geral') return '';
+  var g = grp.toLowerCase();
+  if (g === 'ornitofauna' || g === 'aves' || g === 'ave') return 'Ave';
+  if (g === 'mastofauna' || g === 'mamíferos' || g === 'mamiferos' || g === 'mamífero' || g === 'mamifero') return 'Mamífero';
+  if (g === 'herpetofauna' || g === 'herpeto' || g === 'anfíbios e répteis' || g === 'anfibios e repteis') return 'Herpeto';
+  return '';
+}
+
+function matchTaxFilter(cType, filter){
+  if (!filter || filter === 'all' || filter === 'Todas' || filter === 'Geral') return true;
+  if (!cType) return false;
+  var f = filter.toLowerCase();
+  if (f === 'ave' || f === 'aves' || f === 'ornitofauna') return cType === 'Ave';
+  if (f === 'mamífero' || f === 'mamifero' || f === 'mamíferos' || f === 'mamiferos' || f === 'mastofauna') return cType === 'Mamífero';
+  if (f === 'herpeto' || f === 'herpetofauna') return cType === 'Réptil' || cType === 'Anfíbio';
+  if (f === 'réptil' || f === 'reptil' || f === 'répteis' || f === 'repteis') return cType === 'Réptil';
+  if (f === 'anfíbio' || f === 'anfibio' || f === 'anfíbios' || f === 'anfibios') return cType === 'Anfíbio';
+  return cType === filter;
+}
+
+function getCardGroup(c){
+  if (!c) return { name: 'Geral', icon: '🌿', tax: '' };
+  var g = c.grupo;
+  if (g && g !== 'Geral'){
+    var gl = g.toLowerCase();
+    if (gl === 'ornitofauna' || gl === 'aves' || gl === 'ave') return { name: 'Aves', icon: '🦅', tax: 'Ave' };
+    if (gl === 'mastofauna' || gl === 'mamíferos' || gl === 'mamiferos' || gl === 'mamífero' || gl === 'mamifero') return { name: 'Mamíferos', icon: icoOnca(16), tax: 'Mamífero' };
+    if (gl === 'herpetofauna' || gl === 'herpeto' || gl === 'anfíbios e répteis' || gl === 'anfibios e repteis') return { name: 'Herpeto', icon: '🐸', tax: 'Herpeto' };
+    return { name: g, icon: '🏷️', tax: taxOfGroup(g) };
+  }
+  if (c.species && c.species.length > 0){
+    var classes = {};
+    c.species.forEach(function(s){
+      var d = dbGet(s.sci);
+      if (d && d.c) classes[d.c] = (classes[d.c] || 0) + 1;
+    });
+    var k = Object.keys(classes);
+    if (k.length === 1){
+      if (k[0] === 'Ave') return { name: 'Aves', icon: '🦅', tax: 'Ave' };
+      if (k[0] === 'Mamífero') return { name: 'Mamíferos', icon: icoOnca(16), tax: 'Mamífero' };
+      if (k[0] === 'Anfíbio') return { name: 'Anfíbios', icon: '🐸', tax: 'Anfíbio' };
+      if (k[0] === 'Réptil') return { name: 'Répteis', icon: '🦎', tax: 'Réptil' };
+    }
+    if (k.length > 1 && k.every(function(x){ return x === 'Anfíbio' || x === 'Réptil'; })){
+      return { name: 'Herpeto', icon: '🐸', tax: 'Herpeto' };
+    }
+  }
+  return { name: 'Geral', icon: '🌿', tax: '' };
+}
+
 /* ---------- home ---------- */
 function renderHome(){
   var now = new Date();
@@ -1466,8 +1675,12 @@ function renderHome(){
   $('#sel-bar').hidden = true; document.body.classList.remove('selecting');
   $('#home-open').innerHTML = (open.length ? '<h2 class="sec-title">Em andamento<span class="num">' + open.length + '</span></h2>' : '') + open.map(function(c){
     var t = totals(c);
-    return '<article class="open-card" data-id="' + c.id + '"><div class="row"><span class="pill">' + (c.track.on ? '<span class="rec-dot"></span>' : '') + 'Em andamento</span><span class="meta num">' + fDur(elapsed(c)) + '</span></div>' +
-      '<h3>' + esc(title(c)) + '</h3><p class="meta" style="margin:0">' + fDay(c.start) + ' · início ' + fTime(c.start) + ' · ' + plural(t.sp, 'espécie', 'espécies') + ' · ' + plural(t.ind, 'indivíduo', 'indivíduos') + '</p>' +
+    var grp = getCardGroup(c);
+    return '<article class="open-card" data-id="' + c.id + '"><div class="row">' +
+      '<span class="pill">' + (c.track.on ? '<span class="rec-dot"></span>' : '') + 'Em andamento</span>' +
+      '<div class="open-card-meta"><span class="grp-badge">' + grp.icon + ' ' + esc(grp.name) + '</span><span class="meta num">' + fDur(elapsed(c)) + '</span></div>' +
+      '</div>' +
+      '<h3>' + esc(title(c)) + '</h3><p class="meta" style="margin:0">' + fDay(c.start) + ' · início ' + fTime(c.start) + ' · ' + plural(t.sp, 'espécie', 'espécies') + ' · ' + plural(t.ind, 'indivíduo', 'indivíduos') + (t.amen ? ' · <span style="color:#E05A47;font-weight:600">⚠️ ' + t.amen + ' ame.</span>' : '') + '</p>' +
       '<button class="btn btn-primary" data-act="open" data-id="' + c.id + '">Continuar lista</button></article>';
   }).join('');
   var h = '';
@@ -1482,10 +1695,11 @@ function renderHome(){
     h += done.map(function(c){
       var d = new Date(c.start), key = d.getFullYear() + '-' + d.getMonth(), t = totals(c), head = '';
       if (key !== lastKey){ head = (lastKey ? '</ul>' : '') + '<h2 class="sec">' + MOL[d.getMonth()] + ' de ' + d.getFullYear() + '</h2><ul class="hl">'; lastKey = key; }
+      var grp = getCardGroup(c);
       var bits = [WD[d.getDay()], fTime(d), fDur(elapsed(c))]; if (c.track.dist > 0) bits.push(fDist(c.track.dist));
       return head + '<li><button class="hl-row" data-act="open" data-id="' + c.id + '"><span class="hl-date"><b>' + d.getDate() + '</b><small>' + MO[d.getMonth()] + '</small></span>' +
-        '<span class="hl-main"><span class="hl-title">' + esc(title(c)) + '</span><span class="hl-meta">' + bits.join(' · ') + '</span></span>' +
-        '<span class="hl-sp"><b>' + t.sp + '</b><small>' + (t.sp === 1 ? 'espécie' : 'espécies') + '</small></span></button></li>';
+        '<span class="hl-main"><span class="hl-title">' + esc(title(c)) + '</span><span class="hl-meta"><span class="grp-badge grp-badge-sm">' + grp.icon + ' ' + esc(grp.name) + '</span> · ' + bits.join(' · ') + '</span></span>' +
+        '<span class="hl-sp"><b>' + t.sp + '</b><small>' + (t.sp === 1 ? 'espécie' : 'espécies') + '</small>' + (t.amen ? '<span style="color:#E05A47;font-size:10px;font-weight:700">⚠️ ' + t.amen + ' ame.</span>' : '') + '</span></button></li>';
     }).join('') + '</ul>';
   }
   if (!done.length && open.length) h += '<div class="done-head"><span></span><button class="btn" data-act="sel-start">' + ICO.table + 'Planilha do campo</button></div>';
@@ -1537,11 +1751,42 @@ function renderSelBar(){
 }
 function setSel(fn){ Object.keys(S.lists).forEach(function(id){ S.sel[id] = fn(S.lists[id]); }); renderHome(); }
 
-function newList(){
+function openNewListSheet(){
+  var h = '<h2 id="sheet-h">Nova lista de campo</h2>' +
+    '<p class="small-meta">Selecione o grupo faunístico para orientar as sugestões:</p>' +
+    '<div class="group-grid">' +
+      '<button type="button" class="group-card" data-act="start-list-grp" data-grp="Ornitofauna" data-tax="Ave">' +
+        '<span class="group-icon bird-brown">🐦</span>' +
+        '<b>Ornitofauna</b>' +
+        '<small>Aves</small>' +
+      '</button>' +
+      '<button type="button" class="group-card" data-act="start-list-grp" data-grp="Mastofauna" data-tax="Mamífero">' +
+        '<span class="group-icon">' + icoOnca(34) + '</span>' +
+        '<b>Mastofauna</b>' +
+        '<small>Mamíferos</small>' +
+      '</button>' +
+      '<button type="button" class="group-card" data-act="start-list-grp" data-grp="Herpetofauna" data-tax="Herpeto">' +
+        '<span class="group-icon">🐸</span>' +
+        '<b>Herpetofauna</b>' +
+        '<small>Anfíbios e Répteis</small>' +
+      '</button>' +
+      '<button type="button" class="group-card" data-act="start-list-grp" data-grp="Geral" data-tax="">' +
+        '<span class="group-icon">🌿</span>' +
+        '<b>Geral / Todas</b>' +
+        '<small>Sem filtro prévio</small>' +
+      '</button>' +
+    '</div>' +
+    '<div class="sheet-actions"><button class="btn" data-act="close-sheet">Cancelar</button></div>';
+  openSheet(h);
+}
+
+function startNewList(grp, tax){
+  closeSheet();
   var now = new Date();
   var prev = Object.keys(S.lists).map(function(k){ return S.lists[k]; }).sort(function(a, b){ return a.start < b.start ? 1 : -1; })[0];
   var c = fixList({id:rid('c'), title:'', start:now.toISOString(), end:null, observers:prev ? prev.observers : 1, place:'', lat:null, lon:null, acc:null, notes:'', species:[], track:{on:false, pts:[], dist:0, t0:0}, updated:Date.now(),
-    projeto:prev ? prev.projeto : '', campanha:prev ? prev.campanha : '', ua:'', metodo:prev ? prev.metodo : ''});
+    projeto:prev ? prev.projeto : '', campanha:prev ? prev.campanha : '', ua:'', metodo:prev ? prev.metodo : '', grupo:grp || '', filterTax:tax || ''});
+  S.filterTax = tax || '';
   S.lists[c.id] = c; touch(c); go('list', c.id);
   if (gpsUsable()){
     if (S.trackPref) startTrack(c);
@@ -1549,6 +1794,7 @@ function newList(){
     renderLoc();
   }
 }
+function newList(){ openNewListSheet(); }
 
 /* ---------- checklist ---------- */
 function readOnly(c){ return !!(c && c.end && S.unlocked !== c.id); }
@@ -1556,6 +1802,28 @@ function renderList(){
   var c = cur(); if (!c){ go('home'); return; }
   var ro = readOnly(c), bar = $('#ro-bar');
   $('#add-form').hidden = ro;
+  var grp = getCardGroup(c);
+  if (!c.grupo && grp.tax && grp.name !== 'Geral'){
+    c.grupo = grp.name;
+    c.filterTax = grp.tax;
+  }
+  var listTax = c.filterTax || grp.tax || '';
+  if (listTax){
+    S.filterTax = listTax;
+  }
+  if ($('#tax-bar')){
+    $('#tax-bar').hidden = ro || !!listTax;
+    Array.prototype.forEach.call($('#tax-bar').querySelectorAll('.tax-chip'), function(chip){
+      chip.classList.toggle('active', (chip.dataset.tax || '') === (S.filterTax || ''));
+    });
+  }
+  var inp = $('#add-input');
+  if (inp){
+    if (listTax === 'Ave') inp.placeholder = 'Adicionar ave (ex: bem-te-vi, sabiá)...';
+    else if (listTax === 'Mamífero') inp.placeholder = 'Adicionar mamífero (ex: capivara, sagui)...';
+    else if (listTax === 'Herpeto' || listTax === 'Anfíbio' || listTax === 'Réptil') inp.placeholder = 'Adicionar herpeto (ex: sapo, jararaca)...';
+    else inp.placeholder = 'Espécie (ex: 4 quero-quero, jara)';
+  }
   if (c.end){
     bar.hidden = false;
     bar.innerHTML = ro
@@ -1569,11 +1837,14 @@ function renderNav(){
   var c = cur(); if (!c || S.screen !== 'list') return;
   var t = totals(c);
   $('#nav-title').textContent = title(c);
-  var bits = [fDay(c.start), fTime(c.start), fDur(elapsed(c))];
+  var bits = [];
+  if (c.grupo && c.grupo !== 'Geral') bits.push(c.grupo);
+  bits.push(fDay(c.start), fTime(c.start), fDur(elapsed(c)));
   if (c.track.dist > 0) bits.push(fDist(c.track.dist));
   if (c.ua) bits.push(c.ua);
   $('#nav-meta').textContent = bits.join(' · ');
-  $('#tot').innerHTML = '<b>' + t.sp + '</b> ' + (t.sp === 1 ? 'espécie' : 'espécies') + ' · <b>' + t.ind + '</b> ' + (t.ind === 1 ? 'indivíduo' : 'indivíduos');
+  var amenHtml = t.amen > 0 ? ' · <span class="tot-amen" style="color:#E05A47;font-weight:600">⚠️ <b>' + t.amen + '</b> ' + (t.amen === 1 ? 'ameaçada' : 'ameaçadas') + '</span>' : '';
+  $('#tot').innerHTML = '<b>' + t.sp + '</b> ' + (t.sp === 1 ? 'espécie' : 'espécies') + ' · <b>' + t.ind + '</b> ' + (t.ind === 1 ? 'indivíduo' : 'indivíduos') + amenHtml;
 }
 function renderLoc(){
   var c = cur(); if (!c) return;
@@ -1600,10 +1871,21 @@ function renderTrack(){
   }
   $('#cl-trk').innerHTML = h;
 }
+function statusBadge(d){
+  if (!d) return '';
+  var h = '';
+  var amen = {'CR':'Criticamente em Perigo','EN':'Em Perigo','VU':'Vulnerável','NT':'Quase Ameaçada'};
+  if (d.mma && amen[d.mma]) h += '<span class="status-tag status-threat" title="MMA: ' + amen[d.mma] + '">' + d.mma + ' MMA</span>';
+  else if (d.iucn && amen[d.iucn]) h += '<span class="status-tag status-threat" title="IUCN: ' + amen[d.iucn] + '">' + d.iucn + ' IUCN</span>';
+  if (d.og && (d.og === 'Exótica' || d.og === 'Introduzida')) h += '<span class="status-tag status-exotic" title="Espécie ' + esc(d.og) + '">Exótica</span>';
+  if (d.e === 'Sim') h += '<span class="status-tag status-endem" title="Endêmica do Brasil">Endêmica BR</span>';
+  return h;
+}
 function spNameHtml(s){
   var d = dbGet(s.sci);
-  if (s.sci && norm(s.name) === norm(s.sci)) return '<span class="sp-name"><i>' + esc(s.sci) + '</i></span>' + (d && d.pt ? '<span class="sp-meta">' + esc(d.pt.split(',')[0]) + '</span>' : '');
-  if (s.sci) return '<span class="sp-name">' + esc(s.name) + '</span><span class="sp-sci">' + esc(s.sci) + '</span>';
+  var badge = statusBadge(d);
+  if (s.sci && norm(s.name) === norm(s.sci)) return '<span class="sp-name"><i>' + esc(s.sci) + '</i>' + badge + '</span>' + (d && d.pt ? '<span class="sp-meta">' + esc(d.pt.split(',')[0]) + '</span>' : '');
+  if (s.sci) return '<span class="sp-name">' + esc(s.name) + badge + '</span><span class="sp-sci">' + esc(s.sci) + '</span>';
   return '<span class="sp-name">' + esc(s.name) + '</span>';
 }
 function spRow(s, demo, ro){
@@ -1642,10 +1924,19 @@ function renderEnd(){
 }
 function renderExport(){
   var c = cur(); if (!c) return;
+  var hasPts = c.species.some(function(s){ return s.lat != null && s.count > 0; });
+  var hasTrk = c.track.pts.length >= 2;
   var h = '<h2 class="sec">Resumo e exportação</h2>' + trackSvg(c) + '<div class="ex-grid">' +
     '<button class="btn" data-act="copy-summary">' + ICO.copy + 'Copiar resumo</button>' +
+    '<button class="btn" data-act="whatsapp">' + ICO.whatsapp + 'WhatsApp</button>' +
+    (typeof navigator !== 'undefined' && navigator.share ? '<button class="btn" data-act="share-summary">' + ICO.share + 'Compartilhar</button>' : '') +
     '<button class="btn" data-act="xlsx">' + ICO.table + 'Planilha / CSV</button>';
-  if (c.track.pts.length >= 2) h += '<button class="btn" data-act="gpx">' + ICO.route + 'Trilha (GPX)</button>';
+  if (hasTrk) h += '<button class="btn" data-act="gpx">' + ICO.route + 'Trilha (GPX)</button>';
+  if (hasTrk || hasPts){
+    h += '<button class="btn" data-act="kml">' + ICO.map + 'Mapa (KML)</button>';
+    h += '<button class="btn" data-act="geojson">' + ICO.gis + 'GIS (GeoJSON)</button>';
+  }
+  if (c.species.some(function(s){ return s.count > 0; })) h += '<button class="btn" data-act="dwc">' + ICO.table + 'Darwin Core (DwC)</button>';
   if (c.lat != null) h += '<a class="btn" href="https://www.google.com/maps/search/?api=1&query=' + c.lat + ',' + c.lon + '" target="_blank" rel="noopener">' + ICO.map + 'Abrir no mapa</a>';
   $('#cl-export').innerHTML = h + '</div>';
 }
@@ -1682,6 +1973,8 @@ function hl(name, q){
 function buildSugg(raw){
   var c = cur(); var e = parseEntry(raw), q = norm(e.name);
   if (!q || !c) return [];
+  var grp = getCardGroup(c);
+  var activeTax = S.filterTax || c.filterTax || grp.tax || '';
   var words = function(n){ return n.split(/[\s\-]+/); };
   var toks = q.split(/[\s\-]+/).filter(Boolean);
   var score = function(name){
@@ -1692,14 +1985,32 @@ function buildSugg(raw){
     if (n.indexOf(q) >= 0) return 30; return 0;
   };
   var use = nameUse(), map = {};
-  c.species.forEach(function(s){ var sc = Math.max(score(s.name), s.sci ? score(s.sci) : 0); if (sc) map['r:' + s.id] = {name:s.name, sci:s.sci || '', sc:sc + 8, sp:s}; });
+  c.species.forEach(function(s){
+    if (activeTax){ var d0 = dbGet(s.sci); if (d0 && !matchTaxFilter(d0.c, activeTax)) return; }
+    var sc = Math.max(score(s.name), s.sci ? score(s.sci) : 0);
+    if (sc) map['r:' + s.id] = {name:s.name, sci:s.sci || '', sc:sc + 8, sp:s};
+  });
   var inRow = function(sci){ return sci && c.species.some(function(s){ return s.sci && norm(s.sci) === norm(sci); }); };
-  Object.keys(S.alias).forEach(function(k){ var al = S.alias[k], sc = score(al.a); if (sc && !inRow(al.n) && !map['a:' + k]) map['a:' + k] = {name:al.a, sci:al.n, sc:sc + 6, alias:true}; });
-  S.names.forEach(function(nm){ var k = norm(nm); if (map['a:' + k] || c.species.some(function(s){ return norm(s.name) === k; })) return; var sc = score(nm); if (sc) map['n:' + k] = {name:nm, sci:resolveSci(nm), sc:sc}; });
+  Object.keys(S.alias).forEach(function(k){
+    var al = S.alias[k];
+    if (activeTax){ var d0 = dbGet(al.n); if (d0 && !matchTaxFilter(d0.c, activeTax)) return; }
+    var sc = score(al.a);
+    if (sc && !inRow(al.n) && !map['a:' + k]) map['a:' + k] = {name:al.a, sci:al.n, sc:sc + 6, alias:true};
+  });
+  S.names.forEach(function(nm){
+    var k = norm(nm);
+    if (map['a:' + k] || c.species.some(function(s){ return norm(s.name) === k; })) return;
+    var sci = resolveSci(nm);
+    if (activeTax && sci){ var d0 = dbGet(sci); if (d0 && !matchTaxFilter(d0.c, activeTax)) return; }
+    var sc = score(nm);
+    if (sc) map['n:' + k] = {name:nm, sci:sci, sc:sc};
+  });
   if (q.length >= 2){
     var hits = [];
     for (var i = 0; i < DB.list.length; i++){
-      var it = DB.list[i], sc2 = 0;
+      var it = DB.list[i];
+      if (activeTax && !matchTaxFilter(it.r.c, activeTax)) continue;
+      var sc2 = 0;
       if (it.kn === q) sc2 = 100; else if (it.kn.indexOf(q) === 0) sc2 = 75;
       else if (it.kw.some(function(w){ return w.indexOf(q) === 0; })) sc2 = 58;
       else if (toks.length > 1 && toks.every(function(t){ return it.kw.some(function(w){ return w.indexOf(t) === 0; }); })) sc2 = 54;
@@ -1726,10 +2037,11 @@ function renderSugg(){
     var side = o.isNew ? '<span class="s-add">+' + o.n + ' nova</span>'
       : (o.sp ? '<span class="s-cnt" title="Já na lista">' + o.sp.count + '</span>' : '') + '<span class="s-add">+' + o.n + '</span>';
     var d = o.db || dbGet(o.sci), label;
+    var badge = statusBadge(d);
     if (o.isNew) label = 'Adicionar “' + esc(o.name) + '” <span class="s-pt">nome livre — dá para ligar a uma espécie depois</span>';
-    else if (o.db) label = '<span class="s-sci">' + hl(o.name, q) + '</span> <span class="s-cls">' + (CLS[d.c] || '') + '</span>' + (d.pt ? '<span class="s-pt">' + esc(d.pt.split(',').slice(0, 2).join(', ')) + '</span>' : '');
-    else if (o.sci && norm(o.sci) !== norm(o.name)) label = hl(o.name, q) + (o.alias ? ' <span class="s-alias">apelido</span>' : '') + '<span class="s-pt"><i>' + esc(o.sci) + '</i></span>';
-    else if (o.sci) label = '<span class="s-sci">' + hl(o.name, q) + '</span>' + (d && d.pt ? '<span class="s-pt">' + esc(d.pt.split(',')[0]) + '</span>' : '');
+    else if (o.db) label = '<span class="s-sci">' + hl(o.name, q) + '</span> ' + badge + ' <span class="s-cls">' + (CLS[d.c] || '') + '</span>' + (d.pt ? '<span class="s-pt">' + esc(d.pt.split(',').slice(0, 2).join(', ')) + '</span>' : '');
+    else if (o.sci && norm(o.sci) !== norm(o.name)) label = hl(o.name, q) + badge + (o.alias ? ' <span class="s-alias">apelido</span>' : '') + '<span class="s-pt"><i>' + esc(o.sci) + '</i></span>';
+    else if (o.sci) label = '<span class="s-sci">' + hl(o.name, q) + '</span> ' + badge + (d && d.pt ? '<span class="s-pt">' + esc(d.pt.split(',')[0]) + '</span>' : '');
     else label = hl(o.name, q);
     return '<li><button type="button" role="option" class="' + (o.isNew ? 's-new' : '') + '" data-act="pick" data-i="' + i + '" aria-selected="' + (i === 0) + '">' +
       '<span class="s-name">' + label + '</span><span class="s-side">' + side + '</span></button></li>';
@@ -1737,6 +2049,52 @@ function renderSugg(){
   ul.hidden = false; inp.setAttribute('aria-expanded', 'true');
 }
 function hideSugg(){ var ul = $('#sugg'); ul.hidden = true; ul.innerHTML = ''; S.sugg = []; $('#add-input').setAttribute('aria-expanded', 'false'); }
+var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+var voiceRec = null;
+function toggleVoiceInput(){
+  if (!SR){ toast('Reconhecimento de voz não suportado neste navegador.'); return; }
+  var btn = $('#voice-btn'), inp = $('#add-input');
+  if (voiceRec){
+    try { voiceRec.stop(); } catch(e){}
+    voiceRec = null;
+    if (btn) btn.classList.remove('listening');
+    return;
+  }
+  try {
+    voiceRec = new SR();
+    voiceRec.lang = 'pt-BR';
+    voiceRec.continuous = false;
+    voiceRec.interimResults = false;
+    if (btn) btn.classList.add('listening');
+    try { if (navigator.vibrate) navigator.vibrate(40); } catch(err){}
+    toast('Ouvindo... Dite a espécie (ex: "três quero-quero")');
+    voiceRec.onresult = function(e){
+      if (btn) btn.classList.remove('listening');
+      voiceRec = null;
+      var transcript = e.results && e.results[0] && e.results[0][0] ? e.results[0][0].transcript : '';
+      if (transcript && inp){
+        inp.value = transcript;
+        inp.focus();
+        renderSugg();
+        try { if (navigator.vibrate) navigator.vibrate([20, 40, 20]); } catch(err){}
+      }
+    };
+    voiceRec.onerror = function(err){
+      if (btn) btn.classList.remove('listening');
+      voiceRec = null;
+      if (err.error !== 'no-speech') toast('Não foi possível ouvir. Tente novamente.');
+    };
+    voiceRec.onend = function(){
+      if (btn) btn.classList.remove('listening');
+      voiceRec = null;
+    };
+    voiceRec.start();
+  } catch(e){
+    if (btn) btn.classList.remove('listening');
+    voiceRec = null;
+    toast('Erro ao ativar microfone.');
+  }
+}
 function pick(i){
   var o = S.sugg[i], c = cur(); if (!o || !c) return;
   if (o.sp) addEntry(c, o.sp.name, o.n, o.sp.sci || '');
@@ -1767,6 +2125,12 @@ function openDetails(){
     '<label class="field"><span>Título</span><input id="d-title" value="' + esc(c.title) + '" placeholder="' + esc(c.place || ('Lista de ' + fDay(c.start))) + '"></label>' +
     '<div class="row2"><label class="field"><span>Data</span><input id="d-date" type="date" value="' + dateVal(c.start) + '"></label><label class="field"><span>Início</span><input id="d-start" type="time" value="' + fTime(c.start) + '"></label></div>' +
     (c.end ? '<label class="field"><span>Fim</span><input id="d-end" type="time" value="' + fTime(c.end) + '"></label>' : '') +
+    '<label class="field"><span>Grupo faunístico</span><select id="d-grp">' +
+      '<option value="Geral"' + (!c.grupo || c.grupo === 'Geral' ? ' selected' : '') + '>Geral (Sem filtro)</option>' +
+      '<option value="Ornitofauna"' + (c.grupo === 'Ornitofauna' ? ' selected' : '') + '>🦅 Ornitofauna (Aves)</option>' +
+      '<option value="Mastofauna"' + (c.grupo === 'Mastofauna' ? ' selected' : '') + '>🐆 Mastofauna (Mamíferos)</option>' +
+      '<option value="Herpetofauna"' + (c.grupo === 'Herpetofauna' ? ' selected' : '') + '>🐸 Herpetofauna (Anfíbios e Répteis)</option>' +
+    '</select></label>' +
     '<label class="field"><span>Projeto / área de estudo</span><input id="d-proj" list="dl-proj" value="' + esc(c.projeto) + '" placeholder="Ex.: PCH Cayman, Fazenda Boa Vista" autocapitalize="sentences"></label>' +
     '<div class="row2"><label class="field"><span>Campanha</span><input id="d-camp" list="dl-camp" value="' + esc(c.campanha) + '" placeholder="Ex.: 7ª Campanha"></label><label class="field"><span>Unidade amostral</span><input id="d-ua" list="dl-ua" value="' + esc(c.ua) + '" placeholder="Ex.: A01, P3"></label></div>' +
     '<label class="field"><span>Método</span><input id="d-met" list="dl-met" value="' + esc(c.metodo) + '" placeholder="Busca ativa, pitfall, ponto de escuta…"></label>' +
@@ -1790,6 +2154,14 @@ function applyDetails(target){
   var c = cur(); if (!c) return;
   var id = target.id, v = target.value;
   if (id === 'd-title') c.title = clean(v);
+  else if (id === 'd-grp'){
+    c.grupo = v;
+    if (v === 'Ornitofauna') { c.filterTax = 'Ave'; S.filterTax = 'Ave'; }
+    else if (v === 'Mastofauna') { c.filterTax = 'Mamífero'; S.filterTax = 'Mamífero'; }
+    else if (v === 'Herpetofauna') { c.filterTax = 'Herpeto'; S.filterTax = 'Herpeto'; }
+    else { c.filterTax = ''; S.filterTax = ''; }
+    renderList();
+  }
   else if (id === 'd-proj') c.projeto = clean(v);
   else if (id === 'd-camp') c.campanha = clean(v);
   else if (id === 'd-ua') c.ua = clean(v);
@@ -1924,12 +2296,12 @@ function openBackup(){
 }
 /* ---------- tema ---------- */
 function applyTheme(t){
-  t = t === 'light' ? 'light' : 'dark';
+  if (t !== 'light' && t !== 'red') t = 'dark';
   S.theme = t; LS.set('theme', t);
   document.documentElement.setAttribute('data-theme', t);
-  var m = document.querySelector('meta[name="theme-color"]'); if (m) m.setAttribute('content', t === 'light' ? '#F3EEE3' : '#0E2515');
+  var m = document.querySelector('meta[name="theme-color"]'); if (m) m.setAttribute('content', t === 'light' ? '#F3EEE3' : (t === 'red' ? '#080000' : '#0E2515'));
   var f = document.querySelector('link[rel="icon"]'); if (f) f.setAttribute('href', t === 'light' ? 'icon-claro-192.png' : 'favicon.png');
-  if (NATIVE && NP.AppIcon){ try { NP.AppIcon.set({name: t}).catch(function(){}); } catch(e){} }
+  if (NATIVE && NP.AppIcon){ try { NP.AppIcon.set({name: t === 'red' ? 'dark' : t}).catch(function(){}); } catch(e){} }
 }
 
 /* ---------- conta, backup e aparência ---------- */
@@ -1965,7 +2337,7 @@ function loginMode(m){
 function renderLogin(){
   var m = LG.mode, su = m === 'signup', v = function(id){ var el = $(id); return el ? el.value : ''; };
   var keep = {e: v('#lg-email'), n: v('#lg-nome')};
-  var theme = '<button class="theme-btn" data-act="theme" aria-label="Trocar modo claro ou escuro"><span class="t-sun" aria-hidden="true">☀︎</span><span class="t-moon" aria-hidden="true">☾</span></button>';
+  var theme = '<button class="theme-btn" data-act="theme" aria-label="Trocar modo claro, escuro ou noturno"><span class="t-sun" aria-hidden="true">☀︎</span><span class="t-moon" aria-hidden="true">☾</span><span class="t-red" aria-hidden="true">🔴</span></button>';
   var back = '<button class="theme-btn" data-act="lg-back" aria-label="Voltar"><svg class="ico" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>';
   var brand = '<img class="cover-logo logo-dark" src="logo-creme.png" alt="Logo Pesquisa &amp; Soluções Ambientais" width="168" height="168"><img class="cover-logo logo-light" src="logo-verde.png" alt="Logo Pesquisa &amp; Soluções Ambientais" width="168" height="168">' +
     '<p class="cover-tag">Pesquisa &amp; Soluções Ambientais</p><hr class="cover-rule">';
@@ -2040,7 +2412,7 @@ function openAccount(){
     '<label class="btn" for="import-file">Importar backup (.json)</label><input class="vh" id="import-file" type="file" accept=".json,application/json">' +
     '<p class="small-meta" style="margin:0">Ao importar, listas que já existem ficam com a versão mais recente.</p></div>' +
     '<h3 class="acct-sec">Aparência</h3><div class="seg" role="group" aria-label="Tema">' +
-    '<button data-act="theme-set" data-t="dark" aria-pressed="' + (S.theme !== 'light') + '">☾ Escuro</button><button data-act="theme-set" data-t="light" aria-pressed="' + (S.theme === 'light') + '">☀︎ Claro</button></div>' +
+    '<button data-act="theme-set" data-t="dark" aria-pressed="' + (S.theme === 'dark') + '">☾ Escuro</button><button data-act="theme-set" data-t="light" aria-pressed="' + (S.theme === 'light') + '">☀︎ Claro</button><button data-act="theme-set" data-t="red" aria-pressed="' + (S.theme === 'red') + '">🔴 Noturno</button></div>' +
     footHTML() +
     '<div class="sheet-actions"><button class="btn btn-primary" data-act="close-sheet">Fechar</button></div>';
   openSheet(h);
@@ -2229,10 +2601,336 @@ function summary(c){
   var b = ['Duração ' + fDur(elapsed(c))]; if (c.track.dist > 0) b.push(fDist(c.track.dist)); b.push(plural(c.observers, 'observador', 'observadores'));
   L.push(b.join(' · '));
   if (c.place || c.lat != null) L.push('Local: ' + [c.place, c.lat != null ? fCoord(c.lat) + ', ' + fCoord(c.lon) : ''].filter(Boolean).join(' — '));
-  L.push(plural(t.sp, 'espécie', 'espécies') + ' · ' + plural(t.ind, 'indivíduo', 'indivíduos'), '');
+  var amenTxt = t.amen > 0 ? ' · ' + plural(t.amen, 'espécie ameaçada', 'espécies ameaçadas') : '';
+  L.push(plural(t.sp, 'espécie', 'espécies') + ' · ' + plural(t.ind, 'indivíduo', 'indivíduos') + amenTxt, '');
   liveSpecies(c).forEach(function(s){ var va = [s.cv ? s.cv + 'V' : '', s.ca ? s.ca + 'A' : ''].filter(Boolean).join(' '); L.push(s.count + ' ' + (s.sci || s.name) + (s.sci && norm(s.sci) !== norm(s.name) ? ' [' + s.name + ']' : '') + (va ? ' — ' + va : '') + (s.note ? ' (' + s.note + ')' : '')); });
   if (c.notes.trim()) L.push('', 'Comentários: ' + c.notes.trim());
   return L.join('\n');
+}
+
+/* ---------- WhatsApp Infographic Card & Sharing ---------- */
+function roundRect(ctx, x, y, w, h, r){
+  if (ctx.roundRect){ ctx.beginPath(); ctx.roundRect(x, y, w, h, r); return; }
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.lineTo(x + w - r, y);
+  ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+  ctx.lineTo(x + w, y + h - r);
+  ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+  ctx.lineTo(x + r, y + h);
+  ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+  ctx.lineTo(x, y + r);
+  ctx.quadraticCurveTo(x, y, x + r, y);
+  ctx.closePath();
+}
+
+function drawCard(canvas, c){
+  var W = 900;
+  var pad = 42;
+  var t = totals(c);
+  var sps = liveSpecies(c);
+  var tv = c.species.reduce(function(s, x){ return s + (x.cv || 0); }, 0);
+  var ta = c.species.reduce(function(s, x){ return s + (x.ca || 0); }, 0);
+  
+  var byClass = {};
+  sps.forEach(function(s){
+    var d = dbGet(s.sci);
+    var cls = d && d.c ? d.c : 'Outros';
+    if (!byClass[cls]) byClass[cls] = { sp: 0, ind: 0 };
+    byClass[cls].sp++;
+    byClass[cls].ind += s.count;
+  });
+  var clsKeys = Object.keys(byClass).sort(function(a, b){ return byClass[b].sp - byClass[a].sp; });
+  
+  var amen = {'CR':1, 'EN':1, 'VU':1};
+  var threatened = sps.filter(function(s){ var d = dbGet(s.sci); return d && ((d.mma && amen[d.mma]) || (d.iucn && amen[d.iucn])); });
+
+  var maxShowSps = Math.min(sps.length, 12);
+  var H = 160 + 120 + (clsKeys.length ? 50 + (clsKeys.length * 36) : 0) + (maxShowSps ? 50 + (maxShowSps * 30) : 60) + 80;
+  H = Math.max(H, 660);
+  
+  canvas.width = W;
+  canvas.height = H;
+  var ctx = canvas.getContext('2d');
+  
+  var bg = ctx.createLinearGradient(0, 0, 0, H);
+  bg.addColorStop(0, '#0B1E11');
+  bg.addColorStop(0.5, '#112B18');
+  bg.addColorStop(1, '#0E2515');
+  ctx.fillStyle = bg;
+  ctx.fillRect(0, 0, W, H);
+  
+  ctx.strokeStyle = '#D4B277';
+  ctx.lineWidth = 3;
+  roundRect(ctx, 16, 16, W - 32, H - 32, 20);
+  ctx.stroke();
+  
+  ctx.strokeStyle = 'rgba(212, 178, 119, 0.25)';
+  ctx.lineWidth = 1;
+  roundRect(ctx, 22, 22, W - 44, H - 44, 16);
+  ctx.stroke();
+  
+  var y = pad + 15;
+  
+  ctx.fillStyle = '#D4B277';
+  ctx.font = '700 12px -apple-system, BlinkMacSystemFont, "Jost", sans-serif';
+  ctx.fillText('LISTA DE CAMPO · PESQUISA & SOLUÇÕES AMBIENTAIS', pad, y);
+  
+  y += 34;
+  ctx.fillStyle = '#F3EEE3';
+  ctx.font = '600 32px "Cormorant Garamond", Georgia, serif';
+  ctx.fillText(title(c), pad, y);
+  
+  y += 24;
+  ctx.fillStyle = '#B2C2A5';
+  ctx.font = '15px -apple-system, BlinkMacSystemFont, "Jost", sans-serif';
+  var sub = fLong(c.start) + ' · início às ' + fTime(c.start) + ' · Duração ' + fDur(elapsed(c)) + (c.place ? ' · ' + c.place : '');
+  ctx.fillText(sub, pad, y);
+  
+  y += 36;
+  
+  var cardW = (W - (pad * 2) - 36) / 4;
+  var cardH = 92;
+  var kpis = [
+    { num: t.sp, lbl: 'ESPÉCIES', sub: t.sp === 1 ? 'riqueza' : 'riqueza total', color: '#D4B277' },
+    { num: t.ind, lbl: 'INDIVÍDUOS', sub: 'abundância total', color: '#F3EEE3' },
+    { num: tv + ' V  ' + ta + ' A', lbl: 'REGISTROS', sub: 'visual / auditivo', color: '#B2C2A5' },
+    { num: c.track.dist > 0 ? fDist(c.track.dist) : (threatened.length ? threatened.length + ' sp' : plural(c.observers, 'observador', 'observadores')), lbl: c.track.dist > 0 ? 'TRILHA GPS' : (threatened.length ? 'AMEAÇADAS' : 'EQUIPE'), sub: c.track.dist > 0 ? 'distância' : (threatened.length ? 'MMA / IUCN' : 'em campo'), color: threatened.length && !c.track.dist ? '#E05A47' : '#D4B277' }
+  ];
+  
+  kpis.forEach(function(kpi, idx){
+    var cx = pad + idx * (cardW + 12);
+    ctx.fillStyle = '#14331C';
+    roundRect(ctx, cx, y, cardW, cardH, 12);
+    ctx.fill();
+    ctx.strokeStyle = '#22502E';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+    
+    ctx.fillStyle = '#8FA38B';
+    ctx.font = '700 11px -apple-system, BlinkMacSystemFont, "Jost", sans-serif';
+    ctx.fillText(kpi.lbl, cx + 16, y + 26);
+    
+    ctx.fillStyle = kpi.color;
+    ctx.font = '700 ' + (String(kpi.num).length > 6 ? '22px' : '28px') + ' -apple-system, BlinkMacSystemFont, "Jost", sans-serif';
+    ctx.fillText(String(kpi.num), cx + 16, y + 58);
+    
+    ctx.fillStyle = '#6E856D';
+    ctx.font = '12px -apple-system, BlinkMacSystemFont, "Jost", sans-serif';
+    ctx.fillText(kpi.sub, cx + 16, y + 78);
+  });
+  
+  y += cardH + 34;
+  
+  if (clsKeys.length){
+    ctx.fillStyle = '#D4B277';
+    ctx.font = '700 13px -apple-system, BlinkMacSystemFont, "Jost", sans-serif';
+    ctx.fillText('DISTRIBUIÇÃO POR GRUPO TAXONÔMICO', pad, y);
+    y += 18;
+    
+    var barMaxW = W - (pad * 2) - 220;
+    var maxSpVal = Math.max.apply(null, clsKeys.map(function(k){ return byClass[k].sp; })) || 1;
+    var clsColors = { 'Ave': '#D4B277', 'Mamífero': '#B2C2A5', 'Réptil': '#E07A62', 'Anfíbio': '#62C288', 'Outros': '#8FA38B' };
+    
+    clsKeys.forEach(function(cls){
+      var data = byClass[cls];
+      var bw = Math.max(14, (data.sp / maxSpVal) * barMaxW);
+      var col = clsColors[cls] || '#8FA38B';
+      
+      ctx.fillStyle = '#F3EEE3';
+      ctx.font = '600 14px -apple-system, BlinkMacSystemFont, "Jost", sans-serif';
+      ctx.fillText(cls, pad, y + 16);
+      
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.06)';
+      roundRect(ctx, pad + 110, y + 4, barMaxW, 16, 8);
+      ctx.fill();
+      
+      ctx.fillStyle = col;
+      roundRect(ctx, pad + 110, y + 4, bw, 16, 8);
+      ctx.fill();
+      
+      ctx.fillStyle = '#B2C2A5';
+      ctx.font = '13px -apple-system, BlinkMacSystemFont, "Jost", sans-serif';
+      ctx.fillText(data.sp + (data.sp === 1 ? ' sp' : ' sps') + ' · ' + data.ind + ' ind', pad + 110 + barMaxW + 16, y + 16);
+      
+      y += 32;
+    });
+    
+    y += 14;
+  }
+  
+  ctx.fillStyle = '#D4B277';
+  ctx.font = '700 13px -apple-system, BlinkMacSystemFont, "Jost", sans-serif';
+  ctx.fillText('REGISTROS EM DESTAQUE', pad, y);
+  y += 20;
+  
+  if (!sps.length){
+    ctx.fillStyle = '#8FA38B';
+    ctx.font = 'italic 15px -apple-system, BlinkMacSystemFont, "Jost", sans-serif';
+    ctx.fillText('Nenhum registro de espécie nesta lista.', pad, y + 16);
+    y += 36;
+  } else {
+    var shown = sps.slice(0, maxShowSps);
+    shown.forEach(function(s, idx){
+      var d = dbGet(s.sci);
+      var isThreat = d && ((d.mma && amen[d.mma]) || (d.iucn && amen[d.iucn]));
+      
+      if (idx % 2 === 0){
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.025)';
+        roundRect(ctx, pad - 8, y, W - (pad * 2) + 16, 26, 6);
+        ctx.fill();
+      }
+      
+      ctx.fillStyle = isThreat ? '#8B2C1E' : '#174023';
+      roundRect(ctx, pad, y + 3, 34, 20, 5);
+      ctx.fill();
+      ctx.fillStyle = isThreat ? '#FFA89B' : '#D4B277';
+      ctx.font = '700 12px -apple-system, BlinkMacSystemFont, "Jost", sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(s.count + 'x', pad + 17, y + 17);
+      ctx.textAlign = 'left';
+      
+      ctx.fillStyle = '#F3EEE3';
+      ctx.font = '600 15px -apple-system, BlinkMacSystemFont, "Jost", sans-serif';
+      ctx.fillText(s.name, pad + 46, y + 18);
+      
+      var nx = pad + 50 + ctx.measureText(s.name).width;
+      if (s.sci && norm(s.sci) !== norm(s.name)){
+        ctx.fillStyle = '#8FA38B';
+        ctx.font = 'italic 14px "Cormorant Garamond", Georgia, serif';
+        ctx.fillText('(' + s.sci + ')', nx, y + 18);
+      }
+      
+      var rightTxt = '';
+      if (isThreat){
+        rightTxt = (d.mma && amen[d.mma] ? d.mma + ' MMA' : d.iucn + ' IUCN');
+        ctx.fillStyle = '#E05A47';
+        ctx.font = '700 11px -apple-system, BlinkMacSystemFont, "Jost", sans-serif';
+      } else {
+        rightTxt = [s.cv ? s.cv + 'V' : '', s.ca ? s.ca + 'A' : ''].filter(Boolean).join(' ');
+        ctx.fillStyle = '#8FA38B';
+        ctx.font = '13px -apple-system, BlinkMacSystemFont, "Jost", sans-serif';
+      }
+      if (rightTxt){
+        ctx.textAlign = 'right';
+        ctx.fillText(rightTxt, W - pad - 10, y + 18);
+        ctx.textAlign = 'left';
+      }
+      
+      y += 28;
+    });
+    
+    if (sps.length > maxShowSps){
+      y += 6;
+      ctx.fillStyle = '#8FA38B';
+      ctx.font = 'italic 13px -apple-system, BlinkMacSystemFont, "Jost", sans-serif';
+      ctx.fillText('+ ' + (sps.length - maxShowSps) + ' outras espécies na lista completa...', pad, y + 14);
+      y += 20;
+    }
+  }
+  
+  y = H - pad - 8;
+  ctx.strokeStyle = '#22502E';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(pad, y - 16);
+  ctx.lineTo(W - pad, y - 16);
+  ctx.stroke();
+  
+  ctx.fillStyle = '#6E856D';
+  ctx.font = '12px -apple-system, BlinkMacSystemFont, "Jost", sans-serif';
+  ctx.fillText('Gerado por Lista de Campo · Biodiversidade & Consultoria', pad, y);
+  
+  ctx.textAlign = 'right';
+  ctx.fillText('lucasaosf.github.io/caderneta-de-campo', W - pad, y);
+  ctx.textAlign = 'left';
+}
+
+function copyCanvasImage(canvas, callback){
+  if (!canvas.toBlob){ if (callback) callback(false); return; }
+  canvas.toBlob(function(blob){
+    if (!blob){ if (callback) callback(false); return; }
+    if (typeof ClipboardItem !== 'undefined' && navigator.clipboard && navigator.clipboard.write){
+      navigator.clipboard.write([new ClipboardItem({'image/png': blob})])
+        .then(function(){ if (callback) callback(true, blob); })
+        .catch(function(){ if (callback) callback(false, blob); });
+    } else {
+      if (callback) callback(false, blob);
+    }
+  }, 'image/png');
+}
+
+function downloadCanvasImage(canvas, filename){
+  var a = document.createElement('a');
+  a.download = filename || 'resumo-campo.png';
+  a.href = canvas.toDataURL('image/png');
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+}
+
+function whatsappText(c){
+  var t = totals(c);
+  var tv = c.species.reduce(function(s, x){ return s + (x.cv || 0); }, 0);
+  var ta = c.species.reduce(function(s, x){ return s + (x.ca || 0); }, 0);
+  var amen = {'CR':1, 'EN':1, 'VU':1};
+  var th = liveSpecies(c).filter(function(s){ var d = dbGet(s.sci); return d && ((d.mma && amen[d.mma]) || (d.iucn && amen[d.iucn])); });
+  
+  var lines = [
+    '🌿 *Lista de Campo* — ' + title(c),
+    '📅 ' + fLong(c.start) + ' · início ' + fTime(c.start),
+    '⏱️ Duração: ' + fDur(elapsed(c)) + (c.track.dist > 0 ? ' · 🚶 ' + fDist(c.track.dist) : '') + ' · 👥 ' + plural(c.observers, 'observador', 'observadores')
+  ];
+  if (c.place || c.lat != null) lines.push('📍 ' + [c.place, c.lat != null ? fCoord(c.lat) + ', ' + fCoord(c.lon) : ''].filter(Boolean).join(' — '));
+  var pc = [c.projeto, c.campanha, c.ua, c.metodo].filter(Boolean);
+  if (pc.length) lines.push('🏷️ ' + pc.join(' · '));
+  lines.push('');
+  lines.push('📊 *Resumo Ecológico:*');
+  lines.push('• *' + t.sp + '* ' + (t.sp === 1 ? 'espécie' : 'espécies') + ' registradas');
+  lines.push('• *' + t.ind + '* ' + (t.ind === 1 ? 'indivíduo' : 'indivíduos') + ' (' + tv + ' visual · ' + ta + ' auditivo)');
+  if (th.length) lines.push('⚠️ *Ameaçadas (' + th.length + '):* ' + th.map(function(s){ return s.name; }).join(', '));
+  lines.push('');
+  var sps = liveSpecies(c);
+  if (sps.length){
+    lines.push('🐾 *Espécies registradas:*');
+    sps.slice(0, 25).forEach(function(s){
+      var va = [s.cv ? s.cv + 'V' : '', s.ca ? s.ca + 'A' : ''].filter(Boolean).join(' ');
+      lines.push('• *' + s.count + 'x* ' + s.name + (s.sci && norm(s.sci) !== norm(s.name) ? ' _(' + s.sci + ')_' : '') + (va ? ' [' + va + ']' : ''));
+    });
+    if (sps.length > 25) lines.push('... e mais ' + (sps.length - 25) + ' espécies na lista completa.');
+  }
+  if (c.notes && c.notes.trim()) lines.push('', '📝 *Obs:* ' + c.notes.trim());
+  return lines.join('\n');
+}
+
+function openWhatsAppModal(c){
+  if (!c) return;
+  var canvas = document.createElement('canvas');
+  drawCard(canvas, c);
+  var dataUrl = canvas.toDataURL('image/png');
+  var txt = whatsappText(c);
+  S.waCard = { canvas: canvas, txt: txt, title: title(c) };
+  
+  var h = '<h2 id="sheet-h">Compartilhar no WhatsApp</h2>' +
+    '<p class="small-meta" style="margin-top:2px">Gráfico com resumo ecológico gerado na paleta de cores do app:</p>' +
+    '<div style="text-align:center;margin:12px 0">' +
+      '<img src="' + dataUrl + '" style="width:100%;max-height:50vh;object-fit:contain;border-radius:12px;border:1.5px solid var(--line);box-shadow:var(--shadow)" alt="Gráfico de resumo">' +
+    '</div>' +
+    '<div class="form">' +
+      '<button class="btn btn-primary" data-act="wa-send" style="background:#25D366;color:#0B1E11;font-weight:700;display:flex;align-items:center;justify-content:center;gap:8px">' +
+        ICO.whatsapp + ' Abrir WhatsApp e Enviar' +
+      '</button>' +
+      '<div class="inline-row" style="display:flex;gap:8px">' +
+        '<button class="btn" data-act="wa-copy-img" style="flex:1">📋 Copiar Imagem</button>' +
+        '<button class="btn" data-act="wa-download" style="flex:1">📥 Baixar Imagem (.png)</button>' +
+      '</div>' +
+      '<p class="small-meta" style="text-align:center;color:var(--muted);margin:8px 0 0;line-height:1.4">' +
+        '💡 <b>Dica no PC:</b> Ao clicar em <i>Abrir WhatsApp</i>, a imagem é copiada automaticamente para sua área de transferência. Na conversa do WhatsApp Web, basta teclar <b>Ctrl + V</b> para colar a imagem!' +
+      '</p>' +
+    '</div>' +
+    '<div class="sheet-actions"><button class="btn" data-act="close-sheet">Fechar</button></div>';
+    
+  openSheet(h);
 }
 /* ---------- Excel (.xlsx) ---------- */
 var XLSX_MIME = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
@@ -2329,6 +3027,126 @@ function gpx(c){
   c.track.pts.forEach(function(p, i){ if (p[3] && i) out.push('</trkseg><trkseg>'); out.push('<trkpt lat="' + p[0] + '" lon="' + p[1] + '"><time>' + new Date(t0 + p[2]*1000).toISOString() + '</time></trkpt>'); });
   out.push('</trkseg></trk>', '</gpx>');
   return out.join('\n');
+}
+function kml(c){
+  var x = function(s){ return esc(s); };
+  var out = ['<?xml version="1.0" encoding="UTF-8"?>',
+    '<kml xmlns="http://www.opengis.net/kml/2.2">',
+    '<Document>',
+    '  <name>' + x(title(c)) + '</name>',
+    '  <description>Caderneta de Campo — ' + x(fDay(c.start)) + '</description>',
+    '  <Folder><name>Registros de Espécies</name>'];
+  c.species.forEach(function(s){
+    if (s.lat != null && s.count > 0){
+      var desc = 'Quantidade: ' + s.count + ' (V: ' + (s.cv||0) + ', A: ' + (s.ca||0) + ')' +
+        (s.sci ? '<br>Científico: <i>' + x(s.sci) + '</i>' : '') +
+        (s.note ? '<br>Obs: ' + x(s.note) : '') +
+        '<br>Horário: ' + fTime(s.first);
+      out.push('    <Placemark>',
+        '      <name>' + x(s.count + 'x ' + s.name) + '</name>',
+        '      <description><![CDATA[' + desc + ']]></description>',
+        '      <Point><coordinates>' + s.lon + ',' + s.lat + ',0</coordinates></Point>',
+        '    </Placemark>');
+    }
+  });
+  out.push('  </Folder>');
+  if (c.track && c.track.pts && c.track.pts.length >= 2){
+    out.push('  <Folder><name>Trilha GPS</name><Placemark><name>Percurso (' + fDist(c.track.dist) + ')</name><LineString><tessellate>1</tessellate><coordinates>');
+    var coords = c.track.pts.map(function(p){ return p[1] + ',' + p[0] + ',0'; }).join(' ');
+    out.push(coords);
+    out.push('</coordinates></LineString></Placemark></Folder>');
+  }
+  out.push('</Document></kml>');
+  return out.join('\n');
+}
+function geojson(c){
+  var features = [];
+  c.species.forEach(function(s){
+    if (s.lat != null && s.count > 0){
+      var d = dbGet(s.sci);
+      features.push({
+        type: 'Feature',
+        geometry: { type: 'Point', coordinates: [+s.lon, +s.lat] },
+        properties: {
+          nome: s.name,
+          cientifico: s.sci || '',
+          classe: d ? d.c : '',
+          contagem: s.count,
+          visual: s.cv || 0,
+          auditivo: s.ca || 0,
+          horario: s.first,
+          observacoes: s.note || ''
+        }
+      });
+    }
+  });
+  if (c.track && c.track.pts && c.track.pts.length >= 2){
+    features.push({
+      type: 'Feature',
+      geometry: {
+        type: 'LineString',
+        coordinates: c.track.pts.map(function(p){ return [+p[1], +p[0]]; })
+      },
+      properties: {
+        tipo: 'Trilha GPS',
+        distancia_m: c.track.dist,
+        inicio: c.start,
+        fim: c.end
+      }
+    });
+  }
+  return JSON.stringify({ type: 'FeatureCollection', features: features }, null, 2);
+}
+function toCsv(rows){
+  var cell = function(v){
+    if (v == null) return '';
+    var s = String(v);
+    return /[;"\n\r]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s;
+  };
+  return '\uFEFF' + rows.map(function(r){ return r.map(cell).join(';'); }).join('\r\n') + '\r\n';
+}
+function darwinCoreCsv(lists){
+  if (!Array.isArray(lists)) lists = [lists];
+  var rows = [
+    ['occurrenceID', 'basisOfRecord', 'eventDate', 'eventTime', 'decimalLatitude', 'decimalLongitude', 'coordinateUncertaintyInMeters', 'scientificName', 'vernacularName', 'individualCount', 'visualCount', 'auditoryCount', 'kingdom', 'phylum', 'class', 'order', 'family', 'genus', 'recordedBy', 'locality', 'stateProvince', 'country', 'occurrenceRemarks']
+  ];
+  lists.forEach(function(c){
+    var dt = new Date(c.start);
+    var dateStr = dt.getFullYear() + '-' + p2(dt.getMonth()+1) + '-' + p2(dt.getDate());
+    var timeStr = p2(dt.getHours()) + ':' + p2(dt.getMinutes());
+    c.species.forEach(function(s){
+      if (s.count <= 0) return;
+      var d = dbGet(s.sci || resolveSci(s.name));
+      var gen = s.sci ? s.sci.split(' ')[0] : (d ? d.n.split(' ')[0] : '');
+      var occId = 'CADERNETA:' + c.id + ':' + s.id;
+      rows.push([
+        occId,
+        'HumanObservation',
+        dateStr,
+        timeStr,
+        s.lat != null ? s.lat : (c.lat != null ? c.lat : ''),
+        s.lon != null ? s.lon : (c.lon != null ? c.lon : ''),
+        c.acc || '',
+        d ? d.n : (s.sci || s.name),
+        s.name,
+        s.count,
+        s.cv || 0,
+        s.ca || 0,
+        'Animalia',
+        'Chordata',
+        d ? d.c : '',
+        d ? d.o : '',
+        d ? d.f : '',
+        gen,
+        c.observers ? plural(c.observers, 'observador', 'observadores') : '',
+        c.place || '',
+        d && d.uf ? d.uf : '',
+        'Brasil',
+        s.note || ''
+      ]);
+    });
+  });
+  return toCsv(rows);
 }
 var CRC = (function(){ var t = [], c; for (var n = 0; n < 256; n++){ c = n; for (var k = 0; k < 8; k++) c = c & 1 ? 0xEDB88320 ^ (c >>> 1) : c >>> 1; t[n] = c >>> 0; } return t; })();
 function crc32(data){ var crc = 0xFFFFFFFF; for (var i = 0; i < data.length; i++) crc = CRC[(crc ^ data[i]) & 255] ^ (crc >>> 8); return (crc ^ 0xFFFFFFFF) >>> 0; }
@@ -2435,7 +3253,8 @@ function exportLists(ls, base, label, fmt){
   loadLogo().then(function(){ return new Promise(function(res){ setTimeout(res, 60); }); }).then(function(){
     var inp = planInput(ls), data, name, mime;
     try {
-      if (fmt === 'csv'){ data = Planilha.csvRegistros(inp); name = base + '-registros.csv'; mime = 'text/csv'; }
+      if (fmt === 'dwc'){ data = darwinCoreCsv(ls); name = base + '-darwincore.csv'; mime = 'text/csv;charset=utf-8;'; }
+      else if (fmt === 'csv'){ data = Planilha.csvRegistros(inp); name = base + '-registros.csv'; mime = 'text/csv'; }
       else if (fmt === 'csvzip'){ data = new Blob([Planilha.csvZip(inp, base)], {type:'application/zip'}); name = base + '-csv.zip'; mime = 'application/zip'; }
       else { inp.aleatorizacoes = runsPref(); inp.curvas = curvasPref(); data = new Blob([Planilha.gerar(inp)], {type:XLSX_MIME}); name = base + '.xlsx'; mime = XLSX_MIME; }
     } catch(e){ console.error(e); toast('Não deu para gerar a planilha.'); return; }
@@ -2465,6 +3284,7 @@ function openFormat(ls, base, label){
     curvasHTML() +
     '<button class="btn" data-act="fmt" data-f="csv">' + ICO.copy + '<span>CSV — registros (.csv)<small>Uma linha por espécie em cada lista. Abre no Excel, R ou planilhas Google.</small></span></button>' +
     '<button class="btn" data-act="fmt" data-f="csvzip">' + ICO.copy + '<span>CSV completo (.zip)<small>Registros, tabela de espécies e matriz para EstimateS.</small></span></button>' +
+    '<button class="btn" data-act="fmt" data-f="dwc">' + ICO.table + '<span>Darwin Core — SiBBr / GBIF (.csv)<small>Padrão internacional de ocorrência de biodiversidade para relatórios e órgãos ambientais.</small></span></button>' +
     '</div><div class="sheet-actions"><button class="btn" data-act="close-sheet">Cancelar</button></div>';
   openSheet(h);
 }
@@ -2540,7 +3360,7 @@ var A = {
   'new-list': newList,
   'open': function(b){ go('list', b.dataset.id); },
   'home': function(){ go('home'); },
-  'theme': function(){ applyTheme(S.theme === 'light' ? 'dark' : 'light'); },
+  'theme': function(){ var next = S.theme === 'dark' ? 'light' : (S.theme === 'light' ? 'red' : 'dark'); applyTheme(next); },
   'theme-set': function(b){ applyTheme(b.dataset.t); if (!$('#sheet').hidden) openAccount(); },
   'account': function(){ openAccount(); },
   'news': function(){ openNews(); },
@@ -2567,7 +3387,21 @@ var A = {
   'close-sheet': closeSheet,
   'backup': function(){ openAccount(); },
   'gps-info': openGpsInfo,
-  'pick': function(b){ pick(+b.dataset.i); },
+  'voice-input': function(){ toggleVoiceInput(); },
+  'start-list-grp': function(b){ startNewList(b.dataset.grp, b.dataset.tax); },
+  'tax-filter': function(b){
+    S.filterTax = b.dataset.tax || '';
+    var c = cur(); if (c){ c.filterTax = S.filterTax; touch(c); }
+    Array.prototype.forEach.call($('#tax-bar').querySelectorAll('.tax-chip'), function(chip){
+      chip.classList.toggle('active', (chip.dataset.tax || '') === S.filterTax);
+    });
+    renderSugg();
+    var inp = $('#add-input'); if (inp) inp.focus();
+  },
+  'pick': function(b){
+    try { if (navigator.vibrate) navigator.vibrate(25); } catch(e){}
+    pick(+b.dataset.i);
+  },
   'plus': function(b){ bump(cur(), b.dataset.sid, 1); },
   'minus': function(b){ bump(cur(), b.dataset.sid, -1); },
   'remove': function(b){ removeSp(cur(), b.dataset.sid); },
@@ -2577,7 +3411,16 @@ var A = {
   'demo-remove': function(){ S.demo = 1; renderHome(); toast('No exemplo nada é apagado.'); },
   'noop': function(){},
   'e-step': function(b){ var i = $('#' + (b.dataset.t || 'e-count')); i.value = Math.max(0, (parseInt(i.value, 10) || 0) + (+b.dataset.d)); },
-  'mode': function(b){ var c = cur(), sp = c && c.species.filter(function(x){ return x.id === b.dataset.sid; })[0]; if (!sp || readOnly(c)) return; sp.mode = b.dataset.m === 'A' ? 'A' : 'V'; S.defMode = sp.mode; LS.set('defMode', S.defMode); touch(c); renderSpecies(); },
+  'mode': function(b){
+    var c = cur(), sp = c && c.species.filter(function(x){ return x.id === b.dataset.sid; })[0];
+    if (!sp || readOnly(c)) return;
+    try { if (navigator.vibrate) navigator.vibrate(15); } catch(e){}
+    sp.mode = b.dataset.m === 'A' ? 'A' : 'V';
+    S.defMode = sp.mode;
+    LS.set('defMode', S.defMode);
+    touch(c);
+    renderSpecies();
+  },
   'toast-extra': function(){ var f = S.toastExtra; S.toastExtra = null; $('#toast').hidden = true; if (f) f(); },
   'al-add': function(){
     var c = cur(), s = c && c.species.filter(function(x){ return x.id === S.spEditing; })[0], inp = $('#al-input'); if (!s || !inp) return;
@@ -2659,8 +3502,44 @@ var A = {
   'unlock': function(){ var c = cur(); if (!c) return; S.unlocked = c.id; renderList(); },
   'lock': function(){ S.unlocked = null; renderList(); toast('Correções salvas'); },
   'copy-summary': function(){ copyText(summary(cur())); },
+  'whatsapp': function(){ openWhatsAppModal(cur()); },
+  'wa-send': function(){
+    if (!S.waCard) return;
+    var card = S.waCard;
+    copyCanvasImage(card.canvas, function(ok){
+      if (ok) toast('Gráfico copiado! Cole com Ctrl+V no WhatsApp.');
+    });
+    var url = 'https://api.whatsapp.com/send?text=' + encodeURIComponent(card.txt);
+    window.open(url, '_blank', 'noopener,noreferrer');
+  },
+  'wa-copy-img': function(){
+    if (!S.waCard) return;
+    copyCanvasImage(S.waCard.canvas, function(ok){
+      if (ok) toast('Imagem copiada para a área de transferência! Cole com Ctrl+V.');
+      else toast('Não foi possível copiar direto. Use o botão Baixar Imagem.');
+    });
+  },
+  'wa-download': function(){
+    if (!S.waCard) return;
+    var c = cur();
+    var fn = (c ? fileBase(c) : 'resumo') + '-grafico.png';
+    downloadCanvasImage(S.waCard.canvas, fn);
+    toast('Imagem do gráfico baixada com sucesso!');
+  },
+  'share-summary': function(){
+    var c = cur(); if (!c) return;
+    var txt = summary(c);
+    if (typeof navigator !== 'undefined' && navigator.share){
+      navigator.share({ title: title(c), text: txt }).catch(function(e){
+        if (e && e.name !== 'AbortError') copyText(txt);
+      });
+    } else { copyText(txt); }
+  },
   'xlsx': function(){ var c = cur(); openFormat([c], fileBase(c), 'Exportar lista'); },
   'gpx': function(){ var c = cur(), g = gpx(c), base = fileBase(c); if (S.downloads) offerFile(base + '.zip', zipFiles([{name:base + '.gpx', data:g}]), 'application/zip'); else offerFile(base + '.gpx', g, 'application/gpx+xml', 'Trilha (GPX)'); },
+  'kml': function(){ var c = cur(), k = kml(c), base = fileBase(c); if (S.downloads) offerFile(base + '.zip', zipFiles([{name:base + '.kml', data:k}]), 'application/zip'); else offerFile(base + '.kml', k, 'application/vnd.google-earth.kml+xml', 'Mapa (KML)'); },
+  'geojson': function(){ var c = cur(), g = geojson(c), base = fileBase(c); if (S.downloads) offerFile(base + '.zip', zipFiles([{name:base + '.geojson', data:g}]), 'application/zip'); else offerFile(base + '.geojson', g, 'application/geo+json', 'GIS (GeoJSON)'); },
+  'dwc': function(){ var c = cur(); exportLists([c], fileBase(c), 'Exportar Darwin Core', 'dwc'); },
   'export-json': function(){ var d = {app:'caderneta-de-campo', version:1, exported:new Date().toISOString(), names:S.names, alias:S.alias, lists:Object.keys(S.lists).map(function(k){ var c = clone(S.lists[k]); delete c.synced; return c; })}; offerFile('caderneta-backup-' + dateVal(new Date()) + '.json', JSON.stringify(d), 'application/json', 'Backup'); },
   'export-all-xlsx': function(){
     var all = Object.keys(S.lists).map(function(k){ return S.lists[k]; }).sort(function(a, b){ return a.start < b.start ? -1 : 1; });
