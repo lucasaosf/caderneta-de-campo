@@ -471,6 +471,10 @@ body.selecting .wm{display:none}
 .fmt-list .btn{justify-content:flex-start;text-align:left;min-height:64px;padding:10px 16px}
 .fmt-list .btn small{display:block;font-weight:400;font-size:13px;color:var(--muted)}
 .fmt-list .btn .ico{color:var(--accent)}
+.fmt-runs{grid-template-columns:1fr 104px;align-items:center;column-gap:12px;padding:2px 4px 6px}
+.fmt-runs>span{grid-column:1}
+.fmt-runs input{grid-column:2;grid-row:1/3;text-align:center;font-weight:700}
+.fmt-runs small{grid-column:1;font-size:12.5px;line-height:1.35;color:var(--muted)}
 .proj-chips{display:flex;flex-wrap:wrap;gap:8px}
 .meta-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
 .meta-tag{font-size:12px;font-weight:600;padding:2px 8px;border-radius:6px;background:var(--surface-2);color:var(--muted);border:1px solid var(--line)}
@@ -656,9 +660,9 @@ body.selecting .wm{display:none}
 <div class="sel-bar" id="sel-bar" hidden></div>
 <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 <datalist id="dl-proj"></datalist><datalist id="dl-camp"></datalist><datalist id="dl-ua"></datalist><datalist id="dl-met"></datalist>
-<script src="especies.js?v=10"></script>
-<script src="planilha.js?v=10"></script>
-<script src="firebase-config.js?v=10"></script>
+<script src="especies.js?v=11"></script>
+<script src="planilha.js?v=11"></script>
+<script src="firebase-config.js?v=11"></script>
 
 <script>
 (function(){
@@ -721,11 +725,11 @@ var S = {
   sugg:[], suggIdx:0, undo:null, sheetClose:null, editingName:null, demo:3,
   alias:{}, defMode:LS.get('defMode', 'V'), theme:LS.get('theme', 'dark')
 };
-var APP_V = 10;
+var APP_V = 11;
 var NOVIDADES = [
-  'Nova página de entrada: ao abrir o app, escolha entrar na conta (Google ou e-mail), criar uma conta ou entrar sem login.',
-  'No cadastro com e-mail, o seu nome já vai para o perfil.',
-  'A capa agora mostra a versão, as novidades, o vídeo de como usar e a política de privacidade.'
+  'Rarefação e estimadores iguais aos do EstimateS: S(est) Mao Tau, Chao 1 e 2 (corrigidos e clássicos), Jackknife 1 e 2, ACE, ICE, Bootstrap, Michaelis-Menten, Coleman, alfa de Fisher, Shannon e Simpson inverso.',
+  'Nova aba "Análises brutas (EstimateS)" na planilha, com todas as colunas amostra por amostra, para você escolher qual estimador usar.',
+  'Você escolhe o número de aleatorizações da rarefação na hora de gerar a planilha Excel (padrão 100, até 1000).'
 ];
 
 /* ---------- banco de espécies ---------- */
@@ -2413,24 +2417,26 @@ function planInput(ls, titulo){
 function exportLists(ls, base, label, fmt){
   if (!ls.length){ toast('Nada para exportar'); return; }
   if (!window.Planilha){ toast('Gerador de planilha indisponível. Atualize o app.'); return; }
-  toast('Gerando…');
-  loadLogo().then(function(){
+  toast(fmt === 'xlsx' ? 'Gerando a planilha (' + runsPref() + ' aleatorizações)…' : 'Gerando…');
+  loadLogo().then(function(){ return new Promise(function(res){ setTimeout(res, 60); }); }).then(function(){
     var inp = planInput(ls), data, name, mime;
     try {
       if (fmt === 'csv'){ data = Planilha.csvRegistros(inp); name = base + '-registros.csv'; mime = 'text/csv'; }
       else if (fmt === 'csvzip'){ data = new Blob([Planilha.csvZip(inp, base)], {type:'application/zip'}); name = base + '-csv.zip'; mime = 'application/zip'; }
-      else { data = new Blob([Planilha.gerar(inp)], {type:XLSX_MIME}); name = base + '.xlsx'; mime = XLSX_MIME; }
+      else { inp.aleatorizacoes = runsPref(); data = new Blob([Planilha.gerar(inp)], {type:XLSX_MIME}); name = base + '.xlsx'; mime = XLSX_MIME; }
     } catch(e){ console.error(e); toast('Não deu para gerar a planilha.'); return; }
     $('#toast').hidden = true;
     offerFile(name, data, mime, label);
   });
 }
+function runsPref(){ var n = Math.round(+LS.get('runs', 100)); return n >= 10 && n <= 1000 ? n : 100; }
 function openFormat(ls, base, label){
   S.fmtJob = {ls:ls, base:base, label:label};
   var n = ls.length, camps = {}; ls.forEach(function(c){ if (c.campanha) camps[c.campanha] = 1; });
   var h = '<h2 id="sheet-h">' + esc(label) + '</h2><p class="small-meta">' + plural(n, 'lista', 'listas') + (Object.keys(camps).length > 1 ? ' · ' + plural(Object.keys(camps).length, 'campanha', 'campanhas') + ' (cumulativa)' : '') + '</p>' +
     '<div class="fmt-list">' +
-    '<button class="btn" data-act="fmt" data-f="xlsx">' + ICO.table + '<span>Excel com análises (.xlsx)<small>Tabela de espécies, riqueza e abundância, diversidade, rarefação, similaridade, IPA, gráficos e dados brutos.</small></span></button>' +
+    '<button class="btn" data-act="fmt" data-f="xlsx">' + ICO.table + '<span>Excel com análises (.xlsx)<small>Tabela de espécies, riqueza e abundância, diversidade, rarefação e estimadores do EstimateS, similaridade, IPA, gráficos e dados brutos.</small></span></button>' +
+    '<label class="field fmt-runs"><span>Aleatorizações da rarefação</span><input id="fmt-runs" type="number" inputmode="numeric" min="10" max="1000" step="10" value="' + runsPref() + '" aria-describedby="fmt-runs-h"><small id="fmt-runs-h">Para as curvas dos estimadores na planilha Excel, como o "Runs" do EstimateS. Padrão 100; de 10 a 1000.</small></label>' +
     '<button class="btn" data-act="fmt" data-f="csv">' + ICO.copy + '<span>CSV — registros (.csv)<small>Uma linha por espécie em cada lista. Abre no Excel, R ou planilhas Google.</small></span></button>' +
     '<button class="btn" data-act="fmt" data-f="csvzip">' + ICO.copy + '<span>CSV completo (.zip)<small>Registros, tabela de espécies e matriz para EstimateS.</small></span></button>' +
     '</div><div class="sheet-actions"><button class="btn" data-act="close-sheet">Cancelar</button></div>';
@@ -2589,7 +2595,7 @@ var A = {
   },
   'sel-proj': function(b){ var p = decodeURIComponent(b.dataset.p), n = 0; setSel(function(c){ var on = c.projeto === p; if (on) n++; return on; }); toast(plural(n, 'lista marcada', 'listas marcadas') + ' · ' + p); },
   'sel-camp': function(b){ var x = decodeURIComponent(b.dataset.k).split('\u0001'), n = 0; setSel(function(c){ var on = c.projeto === x[0] && c.campanha === x[1]; if (on) n++; return on; }); toast(plural(n, 'lista marcada', 'listas marcadas')); },
-  'fmt': function(b){ var j = S.fmtJob; if (!j) return; closeSheet(); exportLists(j.ls, j.base, j.label, b.dataset.f); },
+  'fmt': function(b){ var j = S.fmtJob; if (!j) return; var ri = $('#fmt-runs'); if (ri){ var n = Math.round(+ri.value); LS.set('runs', n >= 10 ? Math.min(n, 1000) : 100); } closeSheet(); exportLists(j.ls, j.base, j.label, b.dataset.f); },
   'to-home': function(){ go('home'); },
   'lp-xlsx': function(b){ var c = S.lists[b.dataset.id]; if (!c) return; closeSheet(); openFormat([c], fileBase(c), 'Exportar lista'); },
   'lp-summary': function(b){ var c = S.lists[b.dataset.id]; if (!c) return; closeSheet(); copyText(summary(c)); },

@@ -292,7 +292,7 @@
   function lnC(n, k) { if (k < 0 || k > n) return -Infinity; return lnfact(n) - lnfact(k) - lnfact(n - k); }
   function shannon(counts) { var N = counts.reduce(function (a, b) { return a + b; }, 0); if (!N) return 0; return -counts.reduce(function (h, n) { if (!n) return h; var p = n / N; return h + p * Math.log(p); }, 0); }
   function simpson(counts) { var N = counts.reduce(function (a, b) { return a + b; }, 0); if (N < 2) return null; return 1 - counts.reduce(function (s, n) { return s + n * (n - 1); }, 0) / (N * (N - 1)); }
-  function chao1(counts) { var S = counts.filter(Boolean).length, F1 = counts.filter(function (n) { return n === 1; }).length, F2 = counts.filter(function (n) { return n === 2; }).length; return S + F1 * (F1 - 1) / (2 * (F2 + 1)); }
+  function chao1(counts) { var S = counts.filter(Boolean).length, N = counts.reduce(function (a, b) { return a + b; }, 0), F1 = counts.filter(function (n) { return n === 1; }).length, F2 = counts.filter(function (n) { return n === 2; }).length; return S + (N > 0 ? (N - 1) / N : 0) * F1 * (F1 - 1) / (2 * (F2 + 1)); }
   function incStats(mat) { // mat: amostras × espécies (presença)
     var m = mat.length, q = {}, S = 0;
     if (!m) return { m: 0, S: 0, Q1: 0, Q2: 0, inc: [] };
@@ -328,6 +328,118 @@
       for (var hh = 1; hh <= m; hh++) { var v = jack1(incStats(ord.slice(0, hh).map(function (k) { return mat[k]; }))); sum[hh - 1] += v; sq[hh - 1] += v * v; }
     }
     return sum.map(function (s, i) { var mean = s / runs; return { h: i + 1, mean: mean, sd: Math.sqrt(Math.max(sq[i] / runs - mean * mean, 0)) }; });
+  }
+  /* ===================== EstimateS: estimadores por aleatorização (Colwell 2013, EstimateS 9) ===================== */
+  function logCI(sobs, est, v) { // IC 95% log-linear de Chao (1987)
+    var T = est - sobs;
+    if (!(T > 0) || !(v > 0)) return { lo: est, hi: est };
+    var K = Math.exp(1.96 * Math.sqrt(Math.log(1 + v / (T * T))));
+    return { lo: sobs + T / K, hi: sobs + T * K };
+  }
+  function chaoBC(S, f1, f2, A) { return S + A * f1 * (f1 - 1) / (2 * (f2 + 1)); }
+  function chaoBCvar(f1, f2, A) {
+    if (!f1) return 0;
+    return A * f1 * (f1 - 1) / (2 * (f2 + 1)) + A * A * f1 * Math.pow(2 * f1 - 1, 2) / (4 * Math.pow(f2 + 1, 2)) + A * A * f1 * f1 * f2 * Math.pow(f1 - 1, 2) / (4 * Math.pow(f2 + 1, 4));
+  }
+  function chaoClassic(S, f1, f2, A) { return f2 > 0 ? S + A * f1 * f1 / (2 * f2) : chaoBC(S, f1, f2, A); }
+  function fisherAlpha(S, N) { // resolve S = α ln(1 + N/α)
+    if (!(S > 0) || !(N > S)) return null;
+    var lo = -20, hi = 30;
+    for (var it = 0; it < 80; it++) { var mid = (lo + hi) / 2, a = Math.exp(mid); if (a * Math.log(1 + N / a) < S) lo = mid; else hi = mid; }
+    return Math.exp((lo + hi) / 2);
+  }
+  function mmFit(sx, sy, sxx, syy, sxy, n) { // Michaelis-Menten por Raaijmakers (1987): Y = S, X = S/amostras
+    if (n < 2) return null;
+    var mx = sx / n, my = sy / n, Sxx = sxx - sx * sx / n, Syy = syy - sy * sy / n, Sxy = sxy - sx * sy / n;
+    var den = my * Sxx - mx * Sxy; if (!den) return null;
+    var B = (mx * Syy - my * Sxy) / den, Smax = my + B * mx;
+    return isFinite(Smax) && Smax > 0 && B >= 0 ? Smax : null;
+  }
+  function estimateS(mat, runs, seed, rareLim) {
+    var H = mat.length, nsp = H ? mat[0].length : 0, LIM = rareLim || 10;
+    runs = Math.max(1, Math.round(runs || 100));
+    var smp = mat.map(function (row) { var id = [], ct = []; row.forEach(function (v, k) { if (v > 0) { id.push(k); ct.push(v); } }); return { id: id, ct: ct, n: ct.reduce(function (a, b) { return a + b; }, 0) }; });
+    var Ntot = smp.reduce(function (s, x) { return s + x.n; }, 0);
+    var keys = ['S', 'single', 'doub', 'uniq', 'dup', 'ace', 'ice', 'chao1', 'chao2', 'jack1', 'jack2', 'boot', 'mm', 'alpha', 'shan', 'shanExp', 'simpInv', 'chao1v', 'chao2v', 'jack1v'];
+    var acc = {}; keys.forEach(function (k) { acc[k] = { s: new Float64Array(H + 1), q: new Float64Array(H + 1), n: new Float64Array(H + 1) }; });
+    function add(k, h, v) { if (v == null || !isFinite(v)) return; var a = acc[k]; a.s[h] += v; a.q[h] += v * v; a.n[h]++; }
+    var r = rng(seed || 12345), ab = new Float64Array(nsp), inc = new Int32Array(nsp), Fh = new Float64Array(LIM + 1), Qh = new Float64Array(H + 1);
+    var ord = []; for (var i = 0; i < H; i++) ord.push(i);
+    var uqc = new Int32Array(H), infc = new Int32Array(H), owner = new Int32Array(nsp), occ = new Int32Array(nsp * LIM);
+    for (var t = 0; t < runs; t++) {
+      for (i = H - 1; i > 0; i--) { var j = Math.floor(r() * (i + 1)), x = ord[i]; ord[i] = ord[j]; ord[j] = x; }
+      ab.fill(0); inc.fill(0); Fh.fill(0); Qh.fill(0); uqc.fill(0); infc.fill(0);
+      var N = 0, S = 0, sNlnN = 0, sNN1 = 0, mx = 0, my = 0, mxx = 0, myy = 0, mxy = 0, sumU2 = 0, minfr = 0;
+      for (var h = 1; h <= H; h++) {
+        var sid = ord[h - 1], sm = smp[sid];
+        for (var q = 0; q < sm.id.length; q++) {
+          var k = sm.id[q], o = ab[k], nw = o + sm.ct[q];
+          if (o > 0) { sNlnN -= o * Math.log(o); sNN1 -= o * (o - 1); if (o <= LIM) Fh[o]--; } else S++;
+          sNlnN += nw * Math.log(nw); sNN1 += nw * (nw - 1); if (nw <= LIM) Fh[nw]++;
+          ab[k] = nw;
+          var oi = inc[k], ni = oi + 1;
+          if (oi > 0) Qh[oi]--; inc[k] = ni; Qh[ni]++;
+          // espécies únicas por amostra (variância do Jackknife 1)
+          if (oi === 0) { owner[k] = sid; sumU2 += 2 * uqc[sid] + 1; uqc[sid]++; }
+          else if (oi === 1) { var ow = owner[k]; sumU2 -= 2 * uqc[ow] - 1; uqc[ow]--; }
+          // amostras com espécies infrequentes (ICE)
+          if (ni <= LIM) { occ[k * LIM + oi] = sid; if (infc[sid]++ === 0) minfr++; }
+          else if (ni === LIM + 1) { for (var z = 0; z < LIM; z++) { var pz = occ[k * LIM + z]; if (--infc[pz] === 0) minfr--; } }
+        }
+        N += sm.n;
+        var F1 = Fh[1], F2 = Fh[2], Q1 = Qh[1], Q2 = Qh[2];
+        var p;
+        var A1c = N > 0 ? (N - 1) / N : 0, A2c = (h - 1) / h;
+        var c1 = chaoBC(S, F1, F2, A1c), c2 = chaoBC(S, Q1, Q2, A2c);
+        var j1 = S + Q1 * (h - 1) / h, j1v = Math.max(A2c * (sumU2 - Q1 * Q1 / h), 0);
+        var j2 = h > 1 ? S + Q1 * (2 * h - 3) / h - Q2 * Math.pow(h - 2, 2) / (h * (h - 1)) : S;
+        var boot = S; for (p = 1; p <= h; p++) if (Qh[p]) boot += Qh[p] * Math.pow(1 - p / h, h);
+        // ACE
+        var Srare = 0, Nrare = 0, ii = 0; for (p = 1; p <= LIM; p++) { Srare += Fh[p]; Nrare += p * Fh[p]; ii += p * (p - 1) * Fh[p]; }
+        var ace;
+        if (!Nrare) ace = S; else { var Ca = 1 - F1 / Nrare; if (Ca <= 0) ace = c1; else { var g = Nrare > 1 ? Math.max(Srare / Ca * ii / (Nrare * (Nrare - 1)) - 1, 0) : 0; ace = (S - Srare) + Srare / Ca + F1 / Ca * g; } }
+        // ICE
+        var Sinf = 0, Ninf = 0, jj = 0; for (p = 1; p <= Math.min(LIM, H); p++) { Sinf += Qh[p]; Ninf += p * Qh[p]; jj += p * (p - 1) * Qh[p]; }
+        var ice;
+        if (!Ninf) ice = S; else { var Ci = 1 - Q1 / Ninf; if (Ci <= 0) ice = c2; else { var gi = minfr > 1 ? Math.max(Sinf / Ci * (minfr / (minfr - 1)) * jj / (Ninf * Ninf) - 1, 0) : 0; ice = (S - Sinf) + Sinf / Ci + Q1 / Ci * gi; } }
+        var shan = N > 0 ? Math.log(N) - sNlnN / N : null, simpInv = N > 1 && sNN1 > 0 ? N * (N - 1) / sNN1 : null;
+        var X = S / h; mx += X; my += S; mxx += X * X; myy += S * S; mxy += X * S;
+        add('S', h, S); add('single', h, F1); add('doub', h, F2); add('uniq', h, Q1); add('dup', h, Q2);
+        add('ace', h, ace); add('ice', h, ice); add('chao1', h, c1); add('chao2', h, c2); add('jack1', h, j1); add('jack2', h, j2); add('boot', h, boot);
+        add('mm', h, mmFit(mx, my, mxx, myy, mxy, h)); add('alpha', h, fisherAlpha(S, N)); add('shan', h, shan); add('shanExp', h, shan == null ? null : Math.exp(shan)); add('simpInv', h, simpInv);
+        add('chao1v', h, chaoBCvar(F1, F2, A1c)); add('chao2v', h, chaoBCvar(Q1, Q2, A2c)); add('jack1v', h, j1v);
+      }
+    }
+    function mean(k, h) { var a = acc[k]; return a.n[h] ? a.s[h] / a.n[h] : null; }
+    function sd(k, h) { var a = acc[k], n = a.n[h]; if (n < 2) return n ? 0 : null; var m = a.s[h] / n; return Math.sqrt(Math.max((a.q[h] - n * m * m) / (n - 1), 0)); }
+    // curva analítica (Mao Tau), Coleman e Michaelis-Menten das médias
+    var st = incStats(mat), mt = maoTau(st), tot = []; for (var k2 = 0; k2 < nsp; k2++) { var s2 = 0; for (i = 0; i < H; i++) s2 += mat[i][k2]; tot.push(s2); }
+    var rows = [], ex = 0, ey = 0, exx = 0, eyy = 0, exy = 0;
+    for (var h2 = 1; h2 <= H; h2++) {
+      var a = h2 / H, cole = 0, colev = 0;
+      tot.forEach(function (n) { if (!n) return; var z = Math.pow(1 - a, n); cole += 1 - z; colev += z * (1 - z); });
+      var Sm = mean('S', h2), X2 = Sm / h2; ex += X2; ey += Sm; exx += X2 * X2; eyy += Sm * Sm; exy += X2 * Sm;
+      var c1m = mean('chao1', h2), c2m = mean('chao2', h2), v1 = mean('chao1v', h2), v2 = mean('chao2v', h2);
+      var ci1 = logCI(Sm, c1m, v1), ci2 = logCI(Sm, c2m, v2), m0 = mt[h2 - 1];
+      rows.push({ h: h2, ind: Ntot * h2 / H, sest: m0.S, sestLo: m0.lo, sestHi: m0.hi, sestSd: m0.sd, sMean: Sm, sSd: sd('S', h2),
+        single: mean('single', h2), singleSd: sd('single', h2), doub: mean('doub', h2), doubSd: sd('doub', h2), uniq: mean('uniq', h2), uniqSd: sd('uniq', h2), dup: mean('dup', h2), dupSd: sd('dup', h2),
+        ace: mean('ace', h2), aceSd: sd('ace', h2), ice: mean('ice', h2), iceSd: sd('ice', h2),
+        chao1: c1m, chao1Lo: ci1.lo, chao1Hi: ci1.hi, chao1Sd: Math.sqrt(v1 || 0), chao2: c2m, chao2Lo: ci2.lo, chao2Hi: ci2.hi, chao2Sd: Math.sqrt(v2 || 0),
+        jack1: mean('jack1', h2), jack1Sd: Math.sqrt(mean('jack1v', h2) || 0), jack2: mean('jack2', h2), jack2Sd: sd('jack2', h2), boot: mean('boot', h2), bootSd: sd('boot', h2),
+        mmRuns: mean('mm', h2), mmMeans: mmFit(ex, ey, exx, eyy, exy, h2), cole: cole, coleSd: Math.sqrt(colev),
+        alpha: mean('alpha', h2), alphaSd: sd('alpha', h2), shan: mean('shan', h2), shanSd: sd('shan', h2), shanExp: mean('shanExp', h2), simpInv: mean('simpInv', h2), simpInvSd: sd('simpInv', h2) });
+    }
+    // valores com todas as amostras, fórmulas clássicas e CV das espécies raras (para escolher clássica ou corrigida, como no EstimateS)
+    var Fa = {}, Qa = {}; tot.forEach(function (n) { if (n) Fa[n] = (Fa[n] || 0) + 1; }); st.inc.forEach(function (k) { if (k) Qa[k] = (Qa[k] || 0) + 1; });
+    var Sall = st.S, f1 = Fa[1] || 0, f2 = Fa[2] || 0, q1 = Qa[1] || 0, q2 = Qa[2] || 0;
+    var sr = 0, nr = 0, ir = 0, si = 0, ni = 0, ji = 0; for (p = 1; p <= LIM; p++) { sr += Fa[p] || 0; nr += p * (Fa[p] || 0); ir += p * (p - 1) * (Fa[p] || 0); si += Qa[p] || 0; ni += p * (Qa[p] || 0); ji += p * (p - 1) * (Qa[p] || 0); }
+    var mi = mat.filter(function (row) { return row.some(function (v, k) { return v > 0 && st.inc[k] <= LIM; }); }).length;
+    var cva = nr > 1 && nr > f1 ? Math.sqrt(Math.max(sr / (1 - f1 / nr) * ir / (nr * (nr - 1)) - 1, 0)) : null;
+    var cvi = ni > 0 && ni > q1 && mi > 1 ? Math.sqrt(Math.max(si / (1 - q1 / ni) * (mi / (mi - 1)) * ji / (ni * ni) - 1, 0)) : null;
+    var Af = Ntot > 0 ? (Ntot - 1) / Ntot : 0, Aq = H > 0 ? (H - 1) / H : 0;
+    var fin = { S: Sall, N: Ntot, H: H, runs: runs, f1: f1, f2: f2, q1: q1, q2: q2, cvAce: cva, cvIce: cvi,
+      chao1Classic: chaoClassic(Sall, f1, f2, Af), chao2Classic: chaoClassic(Sall, q1, q2, Aq) };
+    return { rows: rows, last: rows[rows.length - 1], fin: fin, lim: LIM };
   }
   function brayCurtisSim(a, b) { var num = 0, den = 0; for (var i = 0; i < a.length; i++) { num += Math.abs(a[i] - b[i]); den += a[i] + b[i]; } return den ? 1 - num / den : null; }
   function jaccard(a, b) { var A = 0, B = 0, Cc = 0; for (var i = 0; i < a.length; i++) { var x = a[i] > 0, y = b[i] > 0; if (x && y) A++; else if (x) B++; else if (y) Cc++; } return (A + B + Cc) ? A / (A + B + Cc) : null; }
@@ -620,32 +732,88 @@
     V.set(r, 0, 'J\' = H\'/ln S', S.totl); V.set(r, 4, J == null ? null : round(J, 4), st('tot', { nf: '0.0000' }), nS > 1 ? A1(r - 1, 4) + '/LN(' + nS + ')' : null); V.fill(r, 1, r, 3, S.tot);
     V.width(1, 8); V.width(2, 10); V.width(3, 10); V.width(4, 11);
 
-    /* ---------- 6. Rarefação e estimadores ---------- */
+    /* ---------- 6. Rarefação e estimadores (como no EstimateS) ---------- */
+    var RUNS = Math.max(1, Math.min(10000, Math.round(+input.aleatorizacoes || 100)));
+    var ES = nL >= 2 ? estimateS(D.byList, RUNS, 12345, 10) : null, LS_ = ES && ES.last, FIN = ES && ES.fin;
     var Rf = B.sheet('Rarefação', { landscape: true });
-    r = Rf.title(0, 'Curva de rarefação e estimadores de riqueza', titulo + ' · amostras = listas (' + nL + ') · S(est): rarefação por amostras (Mao Tau, Colwell et al. 2004) com IC 95%; Jackknife 1: média de 100 aleatorizações.', 10);
-    [10, 12, 12, 12, 10, 12, 10, 10, 12].forEach(function (w, i) { Rf.width(i, w); });
-    if (nL >= 2) {
-      var mt = maoTau(incAll), jc = jackCurve(D.byList, 100);
-      var hRf = r; ['Amostras', 'S(est)', 'IC 95% inferior', 'IC 95% superior', 'S(est) DP', 'Jackknife 1', 'Jack 1 DP', 'IC Jack (±)', 'IC S(est) (±)'].forEach(function (h, i) { Rf.set(r, i, h, S.th); }); Rf.height(r, 26); r++;
+    r = Rf.title(0, 'Curva de rarefação e estimadores de riqueza', titulo + ' · amostras = listas (' + nL + ') · ' + RUNS + ' aleatorizações sem reposição, como no EstimateS · S(est) = rarefação exata (Mao Tau)', 14);
+    var nf2 = st('td', { nf: '0.00' });
+    function vv(x, d) { return x == null || !isFinite(x) ? null : round(x, d == null ? 2 : d); }
+    if (ES) {
+      var colsRf = [['Amostras', 'h', '0'], ['Indivíduos', 'ind', '0.0'], ['S(est) Mao Tau', 'sest'], ['IC 95% inferior', 'sestLo'], ['IC 95% superior', 'sestHi'], ['S(est) DP', 'sestSd'], ['Chao 1', 'chao1'], ['Chao 2', 'chao2'], ['Jackknife 1', 'jack1'], ['Jackknife 2', 'jack2'], ['ACE', 'ace'], ['ICE', 'ice'], ['Bootstrap', 'boot'], ['IC S(est) (±)', null]];
+      colsRf.forEach(function (c, i) { Rf.width(i, i === 0 ? 9 : 10.5); });
+      var hRf = r; colsRf.forEach(function (c, i) { Rf.set(r, i, c[0], S.th); }); Rf.height(r, 28); r++;
       var rRf0 = r;
-      mt.forEach(function (x, k) {
-        Rf.set(r, 0, x.h, st('td', { nf: '0' })); Rf.set(r, 1, round(x.S, 2), st('td', { nf: '0.00' })); Rf.set(r, 2, round(x.lo, 2), st('td', { nf: '0.00' })); Rf.set(r, 3, round(x.hi, 2), st('td', { nf: '0.00' })); Rf.set(r, 4, round(x.sd, 2), st('td', { nf: '0.00' }));
-        Rf.set(r, 5, round(jc[k].mean, 2), st('td', { nf: '0.00' })); Rf.set(r, 6, round(jc[k].sd, 2), st('td', { nf: '0.00' }));
-        Rf.set(r, 7, round(1.96 * jc[k].sd, 2), st('td', { nf: '0.00' }), '1.96*' + A1(r, 6)); Rf.set(r, 8, round(1.96 * x.sd, 2), st('td', { nf: '0.00' }), '1.96*' + A1(r, 4));
+      ES.rows.forEach(function (x) {
+        colsRf.forEach(function (c, i) {
+          if (!c[1]) Rf.set(r, i, vv(1.96 * x.sestSd), nf2, '1.96*' + A1(r, 5));
+          else Rf.set(r, i, vv(x[c[1]], c[2] === '0' ? 0 : 2), c[2] ? st('td', { nf: c[2] }) : nf2);
+        });
         r++;
       });
-      Rf.chart({ type: 'line', title: 'Curva de Rarefação e Jackknife 1', xTitle: 'Número de amostras (listas)', yTitle: 'Riqueza de espécies', skip: nL > 20 ? Math.ceil(nL / 15) : null,
-        cats: { ref: absR(Rf.name, rRf0, 0, r - 1, 0), vals: mt.map(function (x) { return x.h; }), num: true }, series: [
-          { name: 'Riqueza observada (rarefação)', nameRef: null, ref: absR(Rf.name, rRf0, 1, r - 1, 1), vals: mt.map(function (x) { return round(x.S, 2); }), color: C.verde, err: { ref: absR(Rf.name, rRf0, 8, r - 1, 8), vals: mt.map(function (x) { return round(1.96 * x.sd, 2); }) } },
-          { name: 'Jackknife 1', ref: absR(Rf.name, rRf0, 5, r - 1, 5), vals: jc.map(function (x) { return round(x.mean, 2); }), color: C.bronze, marker: 'square', err: { ref: absR(Rf.name, rRf0, 7, r - 1, 7), vals: jc.map(function (x) { return round(1.96 * x.sd, 2); }) } }],
-        at: { c1: 10, r1: hRf, c2: 19, r2: hRf + 22 } });
+      var rRf1 = r - 1, cats = ES.rows.map(function (x) { return x.h; });
+      var curvas = [['Chao 1', 6, 'chao1'], ['Chao 2', 7, 'chao2'], ['Jackknife 1', 8, 'jack1'], ['Jackknife 2', 9, 'jack2'], ['ACE', 10, 'ace'], ['ICE', 11, 'ice'], ['Bootstrap', 12, 'boot']];
+      var coresE = [C.bronze, 'C9B48A', '7A5A2E', '5E6B57', C.salvia, '2F5A3A', 'B9A27A'];
+      Rf.chart({ type: 'line', title: 'Rarefação (Mao Tau) e estimadores de riqueza', xTitle: 'Número de amostras (listas)', yTitle: 'Riqueza de espécies', skip: nL > 20 ? Math.ceil(nL / 15) : null,
+        cats: { ref: absR(Rf.name, rRf0, 0, rRf1, 0), vals: cats, num: true },
+        series: [{ name: 'S(est) – rarefação', ref: absR(Rf.name, rRf0, 2, rRf1, 2), vals: ES.rows.map(function (x) { return vv(x.sest); }), color: C.verde, width: 31750, err: { ref: absR(Rf.name, rRf0, 13, rRf1, 13), vals: ES.rows.map(function (x) { return vv(1.96 * x.sestSd); }) } }]
+          .concat(curvas.map(function (c, k) { return { name: c[0], ref: absR(Rf.name, rRf0, c[1], rRf1, c[1]), vals: ES.rows.map(function (x) { return vv(x[c[2]]); }), color: coresE[k], marker: false, width: 15875, dash: k % 2 ? 'dash' : null }; })),
+        at: { c1: 15, r1: hRf, c2: 26, r2: hRf + 26 } });
       r++;
-    } else { Rf.set(r, 0, 'A curva de rarefação precisa de pelo menos 2 listas (amostras) na seleção.', S.nota); Rf.merge(r, 0, r, 8, S.nota); r += 2; }
-    var hEs = r; ['Estimador', 'Valor', 'Completude (%)', 'Base'].forEach(function (h, i) { Rf.set(r, i === 3 ? 3 : i, h, S.th); }); Rf.merge(r, 3, r, 6, S.th); r++;
-    var Q = incAll, ests = [['Riqueza observada (S obs)', nS, 'Espécies registradas'], ['Chao 1', chao1(totCounts), 'Abundância: singletons (' + totCounts.filter(function (n) { return n === 1; }).length + ') e doubletons (' + totCounts.filter(function (n) { return n === 2; }).length + ')'],
-      ['Chao 2', nL > 1 ? chao2(Q) : null, 'Incidência: únicas (' + Q.Q1 + ') e duplicadas (' + Q.Q2 + ') em ' + nL + ' listas'], ['Jackknife 1', nL > 1 ? jack1(Q) : null, 'Incidência'], ['Jackknife 2', nL > 2 ? jack2(Q) : null, 'Incidência']];
-    ests.forEach(function (x) { Rf.set(r, 0, x[0], S.tdl); Rf.set(r, 1, x[1] == null ? '—' : round(x[1], 2), st('td', { nf: '0.00' })); Rf.set(r, 2, x[1] ? round(100 * nS / x[1], 1) : '—', st('td', { nf: '0.0' })); Rf.set(r, 3, x[2], S.tdl); Rf.merge(r, 3, r, 6, S.tdl); r++; });
-    Rf.width(0, 26);
+    } else { Rf.set(r, 0, 'A curva de rarefação e os estimadores por incidência precisam de pelo menos 2 listas (amostras) na seleção.', S.nota); Rf.merge(r, 0, r, 12, S.nota); r += 2; Rf.width(0, 26); }
+    Rf.set(r, 0, 'Estimativas com todas as amostras', S.secao); Rf.fill(r, 1, r, 12, S.secao); r++;
+    ['Estimador', null, 'Valor', 'DP', 'IC 95% inferior', 'IC 95% superior', 'Completude (%)', 'Dados e observação'].forEach(function (h, i) { if (h != null) Rf.set(r, i, h, S.th); });
+    Rf.merge(r, 0, r, 1, S.th); Rf.merge(r, 7, r, 12, S.th); r++;
+    var F1t = totCounts.filter(function (n) { return n === 1; }).length, F2t = totCounts.filter(function (n) { return n === 2; }).length;
+    var cvTxt = function (cv) { return cv == null ? '—' : String(round(cv, 2)).replace('.', ','); };
+    var ests = ES ? [
+      ['Riqueza observada (S obs)', nS, null, null, null, 'Espécies registradas em ' + nL + ' listas'],
+      ['Chao 1 (corrigido de viés)', LS_.chao1, LS_.chao1Sd, LS_.chao1Lo, LS_.chao1Hi, 'Abundância · singletons F1 = ' + FIN.f1 + ', doubletons F2 = ' + FIN.f2],
+      ['Chao 1 (clássico)', FIN.chao1Classic, null, null, null, 'Use se o CV das espécies raras for maior que 0,5 (CV = ' + cvTxt(FIN.cvAce) + ')'],
+      ['Chao 2 (corrigido de viés)', LS_.chao2, LS_.chao2Sd, LS_.chao2Lo, LS_.chao2Hi, 'Incidência · únicas Q1 = ' + FIN.q1 + ', duplicadas Q2 = ' + FIN.q2],
+      ['Chao 2 (clássico)', FIN.chao2Classic, null, null, null, 'Use se o CV das espécies infrequentes for maior que 0,5 (CV = ' + cvTxt(FIN.cvIce) + ')'],
+      ['Jackknife 1', LS_.jack1, LS_.jack1Sd, LS_.jack1 - 1.96 * LS_.jack1Sd, LS_.jack1 + 1.96 * LS_.jack1Sd, 'Incidência · DP analítico'],
+      ['Jackknife 2', LS_.jack2, null, null, null, 'Incidência'],
+      ['ACE', LS_.ace, null, null, null, 'Abundância · raras = até 10 indivíduos'],
+      ['ICE', LS_.ice, null, null, null, 'Incidência · infrequentes = em até 10 listas'],
+      ['Bootstrap', LS_.boot, null, null, null, 'Incidência'],
+      ['Michaelis-Menten', LS_.mmMeans, null, null, null, 'Ajuste à curva média de acumulação (Raaijmakers 1987)']]
+      : [['Riqueza observada (S obs)', nS, null, null, null, 'Espécies registradas'], ['Chao 1 (corrigido de viés)', chao1(totCounts), null, null, null, 'Abundância · singletons F1 = ' + F1t + ', doubletons F2 = ' + F2t]];
+    ests.forEach(function (x) {
+      Rf.set(r, 0, x[0], S.tdl); Rf.merge(r, 0, r, 1, S.tdl);
+      [x[1], x[2], x[3], x[4]].forEach(function (v, i) { Rf.set(r, 2 + i, vv(v) == null ? '—' : vv(v), nf2); });
+      Rf.set(r, 6, x[1] ? round(100 * nS / x[1], 1) : '—', st('td', { nf: '0.0' }));
+      Rf.set(r, 7, x[5], S.tdl); Rf.merge(r, 7, r, 12, S.tdl); r++;
+    });
+    if (ES) {
+      r++;
+      Rf.set(r, 0, 'Como escolher: para dados de abundância, use Chao 1 ou ACE; para incidência (presença nas listas), Chao 2, ICE, Jackknife 1 e 2 ou Bootstrap. O EstimateS recomenda a fórmula clássica de Chao 1 e Chao 2 quando o coeficiente de variação (CV) das espécies raras ou infrequentes passa de 0,5. Todas as colunas, amostra por amostra, estão na aba "Análises brutas (EstimateS)".', S.nota);
+      Rf.merge(r, 0, r + 2, 12, S.nota); r += 3;
+
+      /* ---------- 6b. Análises brutas (saída do EstimateS) ---------- */
+      var Ab = B.sheet('Análises brutas (EstimateS)', { landscape: true, freeze: { r: 5, c: 1 }, fitW: 3 });
+      r = Ab.title(0, 'Análises brutas — estimadores no formato do EstimateS', titulo + ' · ' + nL + ' amostras (listas) · ' + RUNS + ' aleatorizações sem reposição · 2ª linha: nome da coluna no EstimateS', 16);
+      var colsAb = [['Amostras', 'Samples', 'h', '0'], ['Indivíduos (calculado)', 'Individuals (computed)', 'ind'], ['S(est) Mao Tau', 'S(est)', 'sest'], ['S(est) IC 95% inferior', 'S(est) 95% CI Lower Bound', 'sestLo'], ['S(est) IC 95% superior', 'S(est) 95% CI Upper Bound', 'sestHi'], ['S(est) DP', 'S(est) SD', 'sestSd'],
+        ['S média (aleat.)', 'S Mean (runs)', 'sMean'], ['S DP (aleat.)', 'S SD (runs)', 'sSd'], ['Singletons média', 'Singletons Mean', 'single'], ['Singletons DP (aleat.)', 'Singletons SD (runs)', 'singleSd'], ['Doubletons média', 'Doubletons Mean', 'doub'], ['Doubletons DP (aleat.)', 'Doubletons SD (runs)', 'doubSd'],
+        ['Únicas média', 'Uniques Mean', 'uniq'], ['Únicas DP (aleat.)', 'Uniques SD (runs)', 'uniqSd'], ['Duplicadas média', 'Duplicates Mean', 'dup'], ['Duplicadas DP (aleat.)', 'Duplicates SD (runs)', 'dupSd'],
+        ['ACE média', 'ACE Mean', 'ace'], ['ACE DP (aleat.)', 'ACE SD (runs)', 'aceSd'], ['ICE média', 'ICE Mean', 'ice'], ['ICE DP (aleat.)', 'ICE SD (runs)', 'iceSd'],
+        ['Chao 1 média', 'Chao 1 Mean', 'chao1'], ['Chao 1 IC 95% inferior', 'Chao 1 95% CI Lower Bound', 'chao1Lo'], ['Chao 1 IC 95% superior', 'Chao 1 95% CI Upper Bound', 'chao1Hi'], ['Chao 1 DP (analítico)', 'Chao 1 SD (analytical)', 'chao1Sd'],
+        ['Chao 2 média', 'Chao 2 Mean', 'chao2'], ['Chao 2 IC 95% inferior', 'Chao 2 95% CI Lower Bound', 'chao2Lo'], ['Chao 2 IC 95% superior', 'Chao 2 95% CI Upper Bound', 'chao2Hi'], ['Chao 2 DP (analítico)', 'Chao 2 SD (analytical)', 'chao2Sd'],
+        ['Jackknife 1 média', 'Jack 1 Mean', 'jack1'], ['Jackknife 1 DP (analítico)', 'Jack 1 SD (analytical)', 'jack1Sd'], ['Jackknife 2 média', 'Jack 2 Mean', 'jack2'], ['Jackknife 2 DP (aleat.)', 'Jack 2 SD (runs)', 'jack2Sd'],
+        ['Bootstrap média', 'Bootstrap Mean', 'boot'], ['Bootstrap DP (aleat.)', 'Bootstrap SD (runs)', 'bootSd'], ['Michaelis-Menten (aleat.)', 'MMRuns Mean', 'mmRuns'], ['Michaelis-Menten (médias)', 'MMMeans (1 run)', 'mmMeans'],
+        ['Rarefação de Coleman', 'Cole Rarefaction', 'cole'], ['Coleman DP (analítico)', 'Cole SD (analytical)', 'coleSd'], ['Alfa de Fisher média', 'Alpha Mean', 'alpha'], ['Alfa de Fisher DP (aleat.)', 'Alpha SD', 'alphaSd'],
+        ['Shannon média', 'Shannon Mean', 'shan'], ['Shannon DP (aleat.)', 'Shannon SD (runs)', 'shanSd'], ['Shannon exponencial média', 'Shannon Exponential Mean', 'shanExp'], ['Simpson inverso média', 'Simpson (Inverse) Mean', 'simpInv'], ['Simpson inverso DP (aleat.)', 'Simpson (Inverse) SD (runs)', 'simpInvSd']];
+      colsAb.forEach(function (c, i) { Ab.set(r, i, c[0], S.th); Ab.set(r + 1, i, c[1], S.th2); Ab.width(i, i === 0 ? 8.5 : 11); });
+      Ab.height(r, 40); Ab.height(r + 1, 34); r += 2;
+      ES.rows.forEach(function (x) {
+        colsAb.forEach(function (c, i) { var dec = c[3] === '0' ? 0 : c[2] === 'shan' || c[2] === 'shanSd' ? 4 : 3; Ab.set(r, i, vv(x[c[2]], dec), st('td', { nf: dec === 0 ? '0' : dec === 4 ? '0.0000' : '0.000' })); });
+        r++;
+      });
+      r++;
+      Ab.set(r, 0, 'S(est), IC e DP: rarefação exata por amostras (Mao Tau; Colwell et al. 2004, 2012), com variância não condicional. As demais colunas são médias de ' + RUNS + ' aleatorizações da ordem das listas: em cada uma, o estimador é calculado com as h primeiras listas. Chao 1 e Chao 2: fórmulas corrigidas de viés (Chao 2005), IC 95% log-linear. Na última linha (todas as listas) os valores não dependem das aleatorizações. Michaelis-Menten (aleat.) pode oscilar muito com poucas amostras, como no EstimateS. ACE e ICE: raras/infrequentes = até 10 indivíduos/listas. "aleat." = desvio-padrão entre as aleatorizações; "analítico" = calculado pela fórmula.', S.nota);
+      Ab.merge(r, 0, r + 3, 16, S.nota);
+    }
+    Rf.width(0, Math.max(Rf.cols[0] || 0, 9)); Rf.width(1, Math.max(Rf.cols[1] || 0, 12));
 
     /* ---------- 7. Similaridade ---------- */
     var Sm = B.sheet('Similaridade', { landscape: true });
@@ -747,7 +915,9 @@
       ['Estimativa de abundância', 'M – muito abundante (≥ 5%); A – abundante (1 a 5%); P – pouco abundante (< 1%).'],
       ['F.O. e constância', 'Frequência de ocorrência = listas com a espécie ÷ total de listas × 100. Constância (Dajoz 1983): constante ≥ 50%; acessória 25–50%; acidental < 25%.'],
       ['Shannon (H\')', 'H\' = −Σ pi · ln pi; Pielou J\' = H\'/ln S; Simpson 1 − D = 1 − Σ ni(ni−1)/N(N−1); Berger-Parker = Nmáx/N; Margalef = (S−1)/ln N.'],
-      ['Estimadores', 'Chao 1 (abundância) e Chao 2, Jackknife 1 e 2 (incidência, listas como amostras), com correção de viés. Rarefação por amostras: Mao Tau (Colwell et al. 2004), IC 95% = ± 1,96 DP.'],
+      ['Estimadores', 'Os mesmos do EstimateS 9 (Colwell 2013), com cada lista como uma amostra. Abundância: Chao 1 e ACE. Incidência: Chao 2, ICE, Jackknife 1 e 2 e Bootstrap. Também Michaelis-Menten, rarefação de Coleman, alfa de Fisher, Shannon e Simpson inverso. Chao 1 e 2 corrigidos de viés, com a versão clássica no resumo; IC 95% log-linear. ACE e ICE: espécies raras/infrequentes = até 10 indivíduos/listas.'],
+      ['Rarefação', 'S(est): rarefação por amostras (Mao Tau, Colwell et al. 2004; variância não condicional, Colwell et al. 2012), IC 95% = ± 1,96 DP. É exata: não depende das aleatorizações.'],
+      ['Aleatorizações', 'Número de vezes que a ordem das listas é sorteada (sem reposição) para montar as curvas dos estimadores, como o "Runs" do EstimateS (padrão 100). Escolha o número no app, na hora de gerar a planilha. Mais aleatorizações = curvas mais estáveis.'],
       ['Similaridade', 'Jaccard = a/(a+b+c); Bray-Curtis = 1 − Σ|xi − yi| / Σ(xi + yi).'],
       ['IPA', 'Índice pontual de abundância = indivíduos ÷ número de amostras (listas).'],
       ['IUCN / MMA', 'LC – pouco preocupante; NT – quase ameaçada; VU – vulnerável; EN – em perigo; CR – criticamente em perigo; DD – dados insuficientes; N/A – não avaliada. Disponível para mamíferos (SBMz).'],
@@ -764,7 +934,7 @@
     var F = input.fontes || {};
     Object.keys(F).forEach(function (k) { Lg.set(r, 0, k, S.totl); Lg.set(r, 1, F[k], st('tdl', { wrap: true })); Lg.height(r, 28); r++; });
     r++; Lg.set(r, 0, 'Referências dos métodos', S.secao); Lg.set(r, 1, null, S.secao); r++;
-    ['Colwell R.K., Mao C.X. & Chang J. 2004. Interpolating, extrapolating, and comparing incidence-based species accumulation curves. Ecology 85: 2717–2727.', 'Chao A. 1987. Estimating the population size for capture-recapture data with unequal catchability. Biometrics 43: 783–791.', 'Burnham K.P. & Overton W.S. 1979. Robust estimation of population size when capture probabilities vary among animals. Ecology 60: 927–936.', 'Dajoz R. 1983. Ecologia geral. Petrópolis: Vozes.', 'Magurran A.E. 2004. Measuring biological diversity. Oxford: Blackwell.'].forEach(function (t) { Lg.set(r, 0, null, S.totl); Lg.set(r, 1, t, st('tdl', { wrap: true })); Lg.height(r, 28); r++; });
+    ['Colwell R.K., Mao C.X. & Chang J. 2004. Interpolating, extrapolating, and comparing incidence-based species accumulation curves. Ecology 85: 2717–2727.', 'Chao A. 1987. Estimating the population size for capture-recapture data with unequal catchability. Biometrics 43: 783–791.', 'Burnham K.P. & Overton W.S. 1979. Robust estimation of population size when capture probabilities vary among animals. Ecology 60: 927–936.', 'Chao A. 2005. Species estimation and applications. In: Encyclopedia of Statistical Sciences, 2nd ed., vol. 12: 7907–7916. New York: Wiley.', 'Chao A. & Lee S.-M. 1992. Estimating the number of classes via sample coverage. Journal of the American Statistical Association 87: 210–217.', 'Chazdon R.L., Colwell R.K., Denslow J.S. & Guariguata M.R. 1998. Statistical methods for estimating species richness of woody regeneration in primary and secondary rain forests of NE Costa Rica. In: Forest biodiversity research, monitoring and modeling. Paris: UNESCO.', 'Coleman B.D., Mares M.A., Willig M.R. & Hsieh Y.-H. 1982. Randomness, area, and species richness. Ecology 63: 1121–1133.', 'Colwell R.K. 2013. EstimateS: Statistical estimation of species richness and shared species from samples. Version 9. User’s Guide.', 'Colwell R.K., Chao A., Gotelli N.J., Lin S.-Y., Mao C.X., Chazdon R.L. & Longino J.T. 2012. Models and estimators linking individual-based and sample-based rarefaction, extrapolation and comparison of assemblages. Journal of Plant Ecology 5: 3–21.', 'Fisher R.A., Corbet A.S. & Williams C.B. 1943. The relation between the number of species and the number of individuals in a random sample of an animal population. Journal of Animal Ecology 12: 42–58.', 'Heltshe J.F. & Forrester N.E. 1983. Estimating species richness using the jackknife procedure. Biometrics 39: 1–11.', 'Raaijmakers J.G.W. 1987. Statistical analysis of the Michaelis-Menten equation. Biometrics 43: 793–803.', 'Smith E.P. & van Belle G. 1984. Nonparametric estimation of species richness. Biometrics 40: 119–129.', 'Dajoz R. 1983. Ecologia geral. Petrópolis: Vozes.', 'Magurran A.E. 2004. Measuring biological diversity. Oxford: Blackwell.'].forEach(function (t) { Lg.set(r, 0, null, S.totl); Lg.set(r, 1, t, st('tdl', { wrap: true })); Lg.height(r, 28); r++; });
 
     return B.build();
   }
@@ -788,6 +958,6 @@
   function csvMatriz(input) { var D = preparar(input), rows = [['Espécie'].concat(D.listas.map(function (L) { return fmtDate(L.inicio) + ' ' + L.ua; }))]; D.sp.forEach(function (e) { rows.push([e.nome].concat(D.listas.map(function (L, k) { return D.byList[k][e.i]; }))); }); return csvRows(rows); }
   function csvZip(input, base) { return zip([{ name: base + '-registros.csv', data: csvRegistros(input) }, { name: base + '-especies.csv', data: csvEspecies(input) }, { name: base + '-matriz-estimates.csv', data: csvMatriz(input) }]); }
 
-  var API = { gerar: gerar, csvRegistros: csvRegistros, csvEspecies: csvEspecies, csvMatriz: csvMatriz, csvZip: csvZip, preparar: preparar, utm: utm, _t: { maoTau: maoTau, incStats: incStats, chao2: chao2, jack1: jack1, jack2: jack2, chao1: chao1, shannon: shannon, simpson: simpson } };
+  var API = { gerar: gerar, csvRegistros: csvRegistros, csvEspecies: csvEspecies, csvMatriz: csvMatriz, csvZip: csvZip, preparar: preparar, utm: utm, _t: { estimateS: estimateS, maoTau: maoTau, incStats: incStats, chao2: chao2, jack1: jack1, jack2: jack2, chao1: chao1, shannon: shannon, simpson: simpson } };
   if (typeof module !== 'undefined' && module.exports) module.exports = API; else root.Planilha = API;
 })(typeof window !== 'undefined' ? window : this);

@@ -1,10 +1,10 @@
 {
-  "v": 10,
-  "nome": "10",
+  "v": 11,
+  "nome": "11",
   "data": "2026-10-25",
   "novidades": [
-    "Página de entrada: entrar, criar conta ou entrar sem login",
-    "No cadastro com e-mail, o nome já vai para o perfil",
-    "Capa com versão, novidades, vídeo de como usar e política de privacidade"
+    "Rarefação e estimadores iguais aos do EstimateS",
+    "Nova aba Análises brutas (EstimateS), amostra por amostra",
+    "Escolha o número de aleatorizações da rarefação"
   ]
 }
