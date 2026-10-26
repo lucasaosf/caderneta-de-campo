@@ -475,6 +475,20 @@ body.selecting .wm{display:none}
 .fmt-runs>span{grid-column:1}
 .fmt-runs input{grid-column:2;grid-row:1/3;text-align:center;font-weight:700}
 .fmt-runs small{grid-column:1;font-size:12.5px;line-height:1.35;color:var(--muted)}
+.fmt-cv{border:1.5px solid var(--line);border-radius:14px;padding:0 12px;background:var(--surface)}
+.fmt-cv>summary{list-style:none;cursor:pointer;min-height:52px;display:flex;align-items:center;justify-content:space-between;gap:10px;font-weight:700;font-size:15px}
+.fmt-cv>summary::-webkit-details-marker{display:none}
+.fmt-cv>summary small{display:block;font-weight:400;font-size:12.5px;color:var(--muted)}
+.fmt-cv>summary::after{content:'▾';color:var(--accent);font-size:18px;transition:transform .2s}
+.fmt-cv[open]>summary::after{transform:rotate(180deg)}
+.fmt-cv>p{font-size:12.5px;line-height:1.35;color:var(--muted);margin:0 0 10px}
+.cvk-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.cvk{display:flex;align-items:center;gap:10px;min-height:52px;padding:8px 10px;border:1.5px solid var(--line);border-radius:12px;background:var(--bg);font-weight:600;font-size:14.5px;line-height:1.2;cursor:pointer}
+.cvk input{width:20px;height:20px;flex:none;accent-color:var(--accent);margin:0}
+.cvk:has(input:checked){border-color:var(--accent)}
+.cvk small{display:block;font-weight:400;font-size:12px;color:var(--muted);margin-top:2px}
+.ck-tools{display:flex;flex-wrap:wrap;gap:4px 16px;margin:8px 0 12px;font-size:13px}
+.ck-tools button{color:var(--accent);font-weight:600;text-decoration:underline;text-underline-offset:3px;min-height:36px}
 .proj-chips{display:flex;flex-wrap:wrap;gap:8px}
 .meta-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
 .meta-tag{font-size:12px;font-weight:600;padding:2px 8px;border-radius:6px;background:var(--surface-2);color:var(--muted);border:1px solid var(--line)}
@@ -660,9 +674,9 @@ body.selecting .wm{display:none}
 <div class="sel-bar" id="sel-bar" hidden></div>
 <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 <datalist id="dl-proj"></datalist><datalist id="dl-camp"></datalist><datalist id="dl-ua"></datalist><datalist id="dl-met"></datalist>
-<script src="especies.js?v=11"></script>
-<script src="planilha.js?v=11"></script>
-<script src="firebase-config.js?v=11"></script>
+<script src="especies.js?v=12"></script>
+<script src="planilha.js?v=12"></script>
+<script src="firebase-config.js?v=12"></script>
 
 <script>
 (function(){
@@ -725,11 +739,11 @@ var S = {
   sugg:[], suggIdx:0, undo:null, sheetClose:null, editingName:null, demo:3,
   alias:{}, defMode:LS.get('defMode', 'V'), theme:LS.get('theme', 'dark')
 };
-var APP_V = 11;
+var APP_V = 12;
 var NOVIDADES = [
-  'Rarefação e estimadores iguais aos do EstimateS: S(est) Mao Tau, Chao 1 e 2 (corrigidos e clássicos), Jackknife 1 e 2, ACE, ICE, Bootstrap, Michaelis-Menten, Coleman, alfa de Fisher, Shannon e Simpson inverso.',
-  'Nova aba "Análises brutas (EstimateS)" na planilha, com todas as colunas amostra por amostra, para você escolher qual estimador usar.',
-  'Você escolhe o número de aleatorizações da rarefação na hora de gerar a planilha Excel (padrão 100, até 1000).'
+  'Na janela de exportar, além das aleatorizações, escolha quais curvas entram no gráfico de rarefação da planilha Excel.',
+  'S(est) Mao Tau, Chao 1, Chao 2, Jackknife 1 e 2, ACE, ICE e Bootstrap vêm marcados como recomendados; também dá para pôr S média, Michaelis-Menten e Coleman.',
+  'Rarefação e estimadores iguais aos do EstimateS, com a aba "Análises brutas (EstimateS)" amostra por amostra.'
 ];
 
 /* ---------- banco de espécies ---------- */
@@ -2423,12 +2437,23 @@ function exportLists(ls, base, label, fmt){
     try {
       if (fmt === 'csv'){ data = Planilha.csvRegistros(inp); name = base + '-registros.csv'; mime = 'text/csv'; }
       else if (fmt === 'csvzip'){ data = new Blob([Planilha.csvZip(inp, base)], {type:'application/zip'}); name = base + '-csv.zip'; mime = 'application/zip'; }
-      else { inp.aleatorizacoes = runsPref(); data = new Blob([Planilha.gerar(inp)], {type:XLSX_MIME}); name = base + '.xlsx'; mime = XLSX_MIME; }
+      else { inp.aleatorizacoes = runsPref(); inp.curvas = curvasPref(); data = new Blob([Planilha.gerar(inp)], {type:XLSX_MIME}); name = base + '.xlsx'; mime = XLSX_MIME; }
     } catch(e){ console.error(e); toast('Não deu para gerar a planilha.'); return; }
     $('#toast').hidden = true;
     offerFile(name, data, mime, label);
   });
 }
+var CURVAS = [['sest', 'S(est) Mao Tau', '(recomendado)'], ['chao1', 'Chao 1', '(recomendado)'], ['chao2', 'Chao 2', '(recomendado)'], ['jack1', 'Jackknife 1', '(recomendado)'], ['jack2', 'Jackknife 2', '(recomendado)'], ['ace', 'ACE', '(recomendado)'], ['ice', 'ICE', '(recomendado)'], ['boot', 'Bootstrap', '(recomendado)'], ['sMean', 'S média', 'aleatorizações'], ['mmMeans', 'Michaelis-Menten', ''], ['cole', 'Coleman', 'rarefação']];
+var CURVAS_REC = ['sest', 'chao1', 'chao2', 'jack1', 'jack2', 'ace', 'ice', 'boot'];
+function curvasHTML(){
+  var on = {}, sel = curvasPref(); sel.forEach(function(k){ on[k] = 1; });
+  return '<details class="fmt-cv"><summary><span>Curvas no gráfico de rarefação<small id="cv-count">' + plural(sel.length, 'curva marcada', 'curvas marcadas') + '</small></span></summary>' +
+    '<p>Para a planilha Excel. Todas continuam na aba "Análises brutas (EstimateS)". As curvas precisam de pelo menos 2 listas.</p><div class="cvk-grid">' +
+    CURVAS.map(function(c){ return '<label class="cvk"><input type="checkbox" name="fmt-cv" value="' + c[0] + '"' + (on[c[0]] ? ' checked' : '') + '><span>' + esc(c[1]) + (c[2] ? '<small>' + esc(c[2]) + '</small>' : '') + '</span></label>'; }).join('') +
+    '</div><div class="ck-tools"><button type="button" data-act="cv-rec">Só os recomendados</button><button type="button" data-act="cv-all">Marcar todas</button><button type="button" data-act="cv-none">Desmarcar</button></div></details>';
+}
+function cvCount(){ var el = $('#cv-count'); if (el) el.textContent = plural(document.querySelectorAll('#sheet input[name="fmt-cv"]:checked').length, 'curva marcada', 'curvas marcadas'); }
+function curvasPref(){ var v = LS.get('curvas', null), ok = {}; CURVAS.forEach(function(c){ ok[c[0]] = 1; }); v = Array.isArray(v) ? v.filter(function(k){ return ok[k]; }) : []; return v.length ? v : CURVAS_REC.slice(); }
 function runsPref(){ var n = Math.round(+LS.get('runs', 100)); return n >= 10 && n <= 1000 ? n : 100; }
 function openFormat(ls, base, label){
   S.fmtJob = {ls:ls, base:base, label:label};
@@ -2437,6 +2462,7 @@ function openFormat(ls, base, label){
     '<div class="fmt-list">' +
     '<button class="btn" data-act="fmt" data-f="xlsx">' + ICO.table + '<span>Excel com análises (.xlsx)<small>Tabela de espécies, riqueza e abundância, diversidade, rarefação e estimadores do EstimateS, similaridade, IPA, gráficos e dados brutos.</small></span></button>' +
     '<label class="field fmt-runs"><span>Aleatorizações da rarefação</span><input id="fmt-runs" type="number" inputmode="numeric" min="10" max="1000" step="10" value="' + runsPref() + '" aria-describedby="fmt-runs-h"><small id="fmt-runs-h">Para as curvas dos estimadores na planilha Excel, como o "Runs" do EstimateS. Padrão 100; de 10 a 1000.</small></label>' +
+    curvasHTML() +
     '<button class="btn" data-act="fmt" data-f="csv">' + ICO.copy + '<span>CSV — registros (.csv)<small>Uma linha por espécie em cada lista. Abre no Excel, R ou planilhas Google.</small></span></button>' +
     '<button class="btn" data-act="fmt" data-f="csvzip">' + ICO.copy + '<span>CSV completo (.zip)<small>Registros, tabela de espécies e matriz para EstimateS.</small></span></button>' +
     '</div><div class="sheet-actions"><button class="btn" data-act="close-sheet">Cancelar</button></div>';
@@ -2595,7 +2621,19 @@ var A = {
   },
   'sel-proj': function(b){ var p = decodeURIComponent(b.dataset.p), n = 0; setSel(function(c){ var on = c.projeto === p; if (on) n++; return on; }); toast(plural(n, 'lista marcada', 'listas marcadas') + ' · ' + p); },
   'sel-camp': function(b){ var x = decodeURIComponent(b.dataset.k).split('\u0001'), n = 0; setSel(function(c){ var on = c.projeto === x[0] && c.campanha === x[1]; if (on) n++; return on; }); toast(plural(n, 'lista marcada', 'listas marcadas')); },
-  'fmt': function(b){ var j = S.fmtJob; if (!j) return; var ri = $('#fmt-runs'); if (ri){ var n = Math.round(+ri.value); LS.set('runs', n >= 10 ? Math.min(n, 1000) : 100); } closeSheet(); exportLists(j.ls, j.base, j.label, b.dataset.f); },
+  'fmt': function(b){
+    var j = S.fmtJob; if (!j) return;
+    if (b.dataset.f === 'xlsx'){
+      var cv = Array.prototype.map.call(document.querySelectorAll('#sheet input[name="fmt-cv"]:checked'), function(x){ return x.value; });
+      if (!cv.length){ var dt = $('#sheet .fmt-cv'); if (dt) dt.open = true; toast('Marque pelo menos uma curva para o gráfico de rarefação.'); return; }
+      LS.set('curvas', cv);
+    }
+    var ri = $('#fmt-runs'); if (ri){ var n = Math.round(+ri.value); LS.set('runs', n >= 10 ? Math.min(n, 1000) : 100); }
+    closeSheet(); exportLists(j.ls, j.base, j.label, b.dataset.f);
+  },
+  'cv-rec': function(){ document.querySelectorAll('#sheet input[name="fmt-cv"]').forEach(function(x){ x.checked = CURVAS_REC.indexOf(x.value) >= 0; }); cvCount(); },
+  'cv-all': function(){ document.querySelectorAll('#sheet input[name="fmt-cv"]').forEach(function(x){ x.checked = true; }); cvCount(); },
+  'cv-none': function(){ document.querySelectorAll('#sheet input[name="fmt-cv"]').forEach(function(x){ x.checked = false; }); cvCount(); },
   'to-home': function(){ go('home'); },
   'lp-xlsx': function(b){ var c = S.lists[b.dataset.id]; if (!c) return; closeSheet(); openFormat([c], fileBase(c), 'Exportar lista'); },
   'lp-summary': function(b){ var c = S.lists[b.dataset.id]; if (!c) return; closeSheet(); copyText(summary(c)); },
@@ -2675,6 +2713,7 @@ $('#sheet').addEventListener('keydown', function(e){
   if (e.target.id === 'pf-name' && e.key === 'Enter'){ e.preventDefault(); e.target.blur(); }
 });
 $('#sheet').addEventListener('change', function(e){
+  if (e.target.name === 'fmt-cv'){ cvCount(); return; }
   if (e.target.id === 'import-file' && e.target.files && e.target.files[0]) importBackup(e.target.files[0]);
   else if (e.target.id === 'pf-file' && e.target.files && e.target.files[0]) setProfilePhoto(e.target.files[0]);
   else if (e.target.id === 'pf-name'){ var nv = clean(e.target.value).slice(0, 60); if (nv !== PROF.nome()){ PROF.set({nome: nv}); var pn = $('.prof-name'); if (pn) pn.textContent = PROF.nome() || 'Seu perfil'; toast('Nome salvo.'); } }

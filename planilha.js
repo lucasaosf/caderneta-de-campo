@@ -739,8 +739,14 @@
     r = Rf.title(0, 'Curva de rarefação e estimadores de riqueza', titulo + ' · amostras = listas (' + nL + ') · ' + RUNS + ' aleatorizações sem reposição, como no EstimateS · S(est) = rarefação exata (Mao Tau)', 14);
     var nf2 = st('td', { nf: '0.00' });
     function vv(x, d) { return x == null || !isFinite(x) ? null : round(x, d == null ? 2 : d); }
+    var CURVA_INFO = { sMean: ['S média (aleat.)', '899287', 'dash'], chao1: ['Chao 1', C.bronze], chao2: ['Chao 2', 'C9B48A', 'dash'], jack1: ['Jackknife 1', '7A5A2E'], jack2: ['Jackknife 2', '5E6B57', 'dash'], ace: ['ACE', C.salvia], ice: ['ICE', '2F5A3A', 'dash'], boot: ['Bootstrap', 'B9A27A'], mmMeans: ['Michaelis-Menten', 'A35C3C', 'dash'], cole: ['Coleman', '6C7A89'] };
+    var ORDEM_CURVAS = ['sest', 'sMean', 'chao1', 'chao2', 'jack1', 'jack2', 'ace', 'ice', 'boot', 'mmMeans', 'cole'];
+    var curvasSel = (Array.isArray(input.curvas) && input.curvas.length ? input.curvas : ['sest', 'chao1', 'chao2', 'jack1', 'jack2', 'ace', 'ice', 'boot']);
+    curvasSel = ORDEM_CURVAS.filter(function (k) { return curvasSel.indexOf(k) >= 0; });
     if (ES) {
-      var colsRf = [['Amostras', 'h', '0'], ['Indivíduos', 'ind', '0.0'], ['S(est) Mao Tau', 'sest'], ['IC 95% inferior', 'sestLo'], ['IC 95% superior', 'sestHi'], ['S(est) DP', 'sestSd'], ['Chao 1', 'chao1'], ['Chao 2', 'chao2'], ['Jackknife 1', 'jack1'], ['Jackknife 2', 'jack2'], ['ACE', 'ace'], ['ICE', 'ice'], ['Bootstrap', 'boot'], ['IC S(est) (±)', null]];
+      var colsRf = [['Amostras', 'h', '0'], ['Indivíduos', 'ind', '0.0'], ['S(est) Mao Tau', 'sest'], ['IC 95% inferior', 'sestLo'], ['IC 95% superior', 'sestHi'], ['S(est) DP', 'sestSd']]
+        .concat(curvasSel.filter(function (k) { return k !== 'sest'; }).map(function (k) { return [CURVA_INFO[k][0], k]; }), [['IC S(est) (±)', null]]);
+      var cErr = colsRf.length - 1;
       colsRf.forEach(function (c, i) { Rf.width(i, i === 0 ? 9 : 10.5); });
       var hRf = r; colsRf.forEach(function (c, i) { Rf.set(r, i, c[0], S.th); }); Rf.height(r, 28); r++;
       var rRf0 = r;
@@ -751,14 +757,16 @@
         });
         r++;
       });
-      var rRf1 = r - 1, cats = ES.rows.map(function (x) { return x.h; });
-      var curvas = [['Chao 1', 6, 'chao1'], ['Chao 2', 7, 'chao2'], ['Jackknife 1', 8, 'jack1'], ['Jackknife 2', 9, 'jack2'], ['ACE', 10, 'ace'], ['ICE', 11, 'ice'], ['Bootstrap', 12, 'boot']];
-      var coresE = [C.bronze, 'C9B48A', '7A5A2E', '5E6B57', C.salvia, '2F5A3A', 'B9A27A'];
-      Rf.chart({ type: 'line', title: 'Rarefação (Mao Tau) e estimadores de riqueza', xTitle: 'Número de amostras (listas)', yTitle: 'Riqueza de espécies', skip: nL > 20 ? Math.ceil(nL / 15) : null,
-        cats: { ref: absR(Rf.name, rRf0, 0, rRf1, 0), vals: cats, num: true },
-        series: [{ name: 'S(est) – rarefação', ref: absR(Rf.name, rRf0, 2, rRf1, 2), vals: ES.rows.map(function (x) { return vv(x.sest); }), color: C.verde, width: 31750, err: { ref: absR(Rf.name, rRf0, 13, rRf1, 13), vals: ES.rows.map(function (x) { return vv(1.96 * x.sestSd); }) } }]
-          .concat(curvas.map(function (c, k) { return { name: c[0], ref: absR(Rf.name, rRf0, c[1], rRf1, c[1]), vals: ES.rows.map(function (x) { return vv(x[c[2]]); }), color: coresE[k], marker: false, width: 15875, dash: k % 2 ? 'dash' : null }; })),
-        at: { c1: 15, r1: hRf, c2: 26, r2: hRf + 26 } });
+      var rRf1 = r - 1, cats = ES.rows.map(function (x) { return x.h; }), series = [];
+      if (curvasSel.indexOf('sest') >= 0) series.push({ name: 'S(est) – rarefação (IC 95%)', ref: absR(Rf.name, rRf0, 2, rRf1, 2), vals: ES.rows.map(function (x) { return vv(x.sest); }), color: C.verde, width: 31750, err: { ref: absR(Rf.name, rRf0, cErr, rRf1, cErr), vals: ES.rows.map(function (x) { return vv(1.96 * x.sestSd); }) } });
+      colsRf.forEach(function (c, i) {
+        var info = c[1] && CURVA_INFO[c[1]]; if (!info) return;
+        series.push({ name: info[0], ref: absR(Rf.name, rRf0, i, rRf1, i), vals: ES.rows.map(function (x) { return vv(x[c[1]]); }), color: info[1], marker: false, width: 19050, dash: info[2] || null });
+      });
+      var nomesGraf = curvasSel.map(function (k) { return k === 'sest' ? 'Rarefação' : CURVA_INFO[k][0]; });
+      Rf.chart({ type: 'line', title: nomesGraf.length > 3 ? 'Rarefação e estimadores de riqueza' : nomesGraf.join(', '), xTitle: 'Número de amostras (listas)', yTitle: 'Riqueza de espécies', skip: nL > 20 ? Math.ceil(nL / 15) : null,
+        cats: { ref: absR(Rf.name, rRf0, 0, rRf1, 0), vals: cats, num: true }, series: series,
+        at: { c1: colsRf.length + 1, r1: hRf, c2: colsRf.length + 12, r2: hRf + 26 } });
       r++;
     } else { Rf.set(r, 0, 'A curva de rarefação e os estimadores por incidência precisam de pelo menos 2 listas (amostras) na seleção.', S.nota); Rf.merge(r, 0, r, 12, S.nota); r += 2; Rf.width(0, 26); }
     Rf.set(r, 0, 'Estimativas com todas as amostras', S.secao); Rf.fill(r, 1, r, 12, S.secao); r++;

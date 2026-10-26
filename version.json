@@ -1,10 +1,10 @@
 {
-  "v": 11,
-  "nome": "11",
+  "v": 12,
+  "nome": "12",
   "data": "2026-10-25",
   "novidades": [
-    "Rarefação e estimadores iguais aos do EstimateS",
-    "Nova aba Análises brutas (EstimateS), amostra por amostra",
-    "Escolha o número de aleatorizações da rarefação"
+    "Tela de opções antes de gerar a planilha Excel",
+    "Escolha o número de aleatorizações e as curvas do gráfico de rarefação",
+    "Estimadores recomendados já vêm marcados"
   ]
 }
