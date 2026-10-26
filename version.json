@@ -1,10 +1,10 @@
 {
-  "v": 12,
-  "nome": "12",
+  "v": 13,
+  "nome": "13",
   "data": "2026-10-25",
   "novidades": [
-    "Tela de opções antes de gerar a planilha Excel",
-    "Escolha o número de aleatorizações e as curvas do gráfico de rarefação",
-    "Estimadores recomendados já vêm marcados"
+    "Curva de rarefação com S(est) e Jackknife 1 e seus IC, como no EstimateS",
+    "S(est) e Jackknife 1 recomendados; outras curvas opcionais",
+    "Aleatorizações e curvas escolhidas antes de gerar a planilha"
   ]
 }

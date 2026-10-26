@@ -674,9 +674,9 @@ body.selecting .wm{display:none}
 <div class="sel-bar" id="sel-bar" hidden></div>
 <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 <datalist id="dl-proj"></datalist><datalist id="dl-camp"></datalist><datalist id="dl-ua"></datalist><datalist id="dl-met"></datalist>
-<script src="especies.js?v=12"></script>
-<script src="planilha.js?v=12"></script>
-<script src="firebase-config.js?v=12"></script>
+<script src="especies.js?v=13"></script>
+<script src="planilha.js?v=13"></script>
+<script src="firebase-config.js?v=13"></script>
 
 <script>
 (function(){
@@ -739,11 +739,11 @@ var S = {
   sugg:[], suggIdx:0, undo:null, sheetClose:null, editingName:null, demo:3,
   alias:{}, defMode:LS.get('defMode', 'V'), theme:LS.get('theme', 'dark')
 };
-var APP_V = 12;
+var APP_V = 13;
 var NOVIDADES = [
-  'Na janela de exportar, além das aleatorizações, escolha quais curvas entram no gráfico de rarefação da planilha Excel.',
-  'S(est) Mao Tau, Chao 1, Chao 2, Jackknife 1 e 2, ACE, ICE e Bootstrap vêm marcados como recomendados; também dá para pôr S média, Michaelis-Menten e Coleman.',
-  'Rarefação e estimadores iguais aos do EstimateS, com a aba "Análises brutas (EstimateS)" amostra por amostra.'
+  'Curva de rarefação como a feita com o EstimateS: S(est) com IC SD (1,96 × S(est) SD) e Jackknife 1 com IC JACK (1,96 × Jack 1 SD analítico), já em colunas na aba Rarefação.',
+  'S(est) e Jackknife 1 são os recomendados; Chao 1 e 2, Jackknife 2, ACE, ICE, Bootstrap, S média, Michaelis-Menten e Coleman podem ser acrescentados ao gráfico.',
+  'Aleatorizações e curvas são escolhidas na janela de exportar, antes de gerar a planilha Excel.'
 ];
 
 /* ---------- banco de espécies ---------- */
@@ -2443,17 +2443,17 @@ function exportLists(ls, base, label, fmt){
     offerFile(name, data, mime, label);
   });
 }
-var CURVAS = [['sest', 'S(est) Mao Tau', '(recomendado)'], ['chao1', 'Chao 1', '(recomendado)'], ['chao2', 'Chao 2', '(recomendado)'], ['jack1', 'Jackknife 1', '(recomendado)'], ['jack2', 'Jackknife 2', '(recomendado)'], ['ace', 'ACE', '(recomendado)'], ['ice', 'ICE', '(recomendado)'], ['boot', 'Bootstrap', '(recomendado)'], ['sMean', 'S média', 'aleatorizações'], ['mmMeans', 'Michaelis-Menten', ''], ['cole', 'Coleman', 'rarefação']];
-var CURVAS_REC = ['sest', 'chao1', 'chao2', 'jack1', 'jack2', 'ace', 'ice', 'boot'];
+var CURVAS = [['sest', 'S(est) Mao Tau', '(recomendado) · com IC'], ['jack1', 'Jackknife 1', '(recomendado) · com IC'], ['chao1', 'Chao 1', ''], ['chao2', 'Chao 2', ''], ['jack2', 'Jackknife 2', ''], ['ace', 'ACE', ''], ['ice', 'ICE', ''], ['boot', 'Bootstrap', ''], ['sMean', 'S média', 'aleatorizações'], ['mmMeans', 'Michaelis-Menten', ''], ['cole', 'Coleman', 'rarefação']];
+var CURVAS_REC = ['sest', 'jack1'];
 function curvasHTML(){
   var on = {}, sel = curvasPref(); sel.forEach(function(k){ on[k] = 1; });
   return '<details class="fmt-cv"><summary><span>Curvas no gráfico de rarefação<small id="cv-count">' + plural(sel.length, 'curva marcada', 'curvas marcadas') + '</small></span></summary>' +
-    '<p>Para a planilha Excel. Todas continuam na aba "Análises brutas (EstimateS)". As curvas precisam de pelo menos 2 listas.</p><div class="cvk-grid">' +
+    '<p>Para a planilha Excel. Recomendado: S(est) e Jackknife 1, com o IC (1,96 × DP) de cada um, como na curva feita com o EstimateS. Todas as outras continuam na aba "Análises brutas (EstimateS)". As curvas precisam de pelo menos 2 listas.</p><div class="cvk-grid">' +
     CURVAS.map(function(c){ return '<label class="cvk"><input type="checkbox" name="fmt-cv" value="' + c[0] + '"' + (on[c[0]] ? ' checked' : '') + '><span>' + esc(c[1]) + (c[2] ? '<small>' + esc(c[2]) + '</small>' : '') + '</span></label>'; }).join('') +
     '</div><div class="ck-tools"><button type="button" data-act="cv-rec">Só os recomendados</button><button type="button" data-act="cv-all">Marcar todas</button><button type="button" data-act="cv-none">Desmarcar</button></div></details>';
 }
 function cvCount(){ var el = $('#cv-count'); if (el) el.textContent = plural(document.querySelectorAll('#sheet input[name="fmt-cv"]:checked').length, 'curva marcada', 'curvas marcadas'); }
-function curvasPref(){ var v = LS.get('curvas', null), ok = {}; CURVAS.forEach(function(c){ ok[c[0]] = 1; }); v = Array.isArray(v) ? v.filter(function(k){ return ok[k]; }) : []; return v.length ? v : CURVAS_REC.slice(); }
+function curvasPref(){ var v = LS.get('curvas2', null), ok = {}; CURVAS.forEach(function(c){ ok[c[0]] = 1; }); v = Array.isArray(v) ? v.filter(function(k){ return ok[k]; }) : []; return v.length ? v : CURVAS_REC.slice(); }
 function runsPref(){ var n = Math.round(+LS.get('runs', 100)); return n >= 10 && n <= 1000 ? n : 100; }
 function openFormat(ls, base, label){
   S.fmtJob = {ls:ls, base:base, label:label};
@@ -2626,7 +2626,7 @@ var A = {
     if (b.dataset.f === 'xlsx'){
       var cv = Array.prototype.map.call(document.querySelectorAll('#sheet input[name="fmt-cv"]:checked'), function(x){ return x.value; });
       if (!cv.length){ var dt = $('#sheet .fmt-cv'); if (dt) dt.open = true; toast('Marque pelo menos uma curva para o gráfico de rarefação.'); return; }
-      LS.set('curvas', cv);
+      LS.set('curvas2', cv);
     }
     var ri = $('#fmt-runs'); if (ri){ var n = Math.round(+ri.value); LS.set('runs', n >= 10 ? Math.min(n, 1000) : 100); }
     closeSheet(); exportLists(j.ls, j.base, j.label, b.dataset.f);

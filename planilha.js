@@ -739,32 +739,36 @@
     r = Rf.title(0, 'Curva de rarefação e estimadores de riqueza', titulo + ' · amostras = listas (' + nL + ') · ' + RUNS + ' aleatorizações sem reposição, como no EstimateS · S(est) = rarefação exata (Mao Tau)', 14);
     var nf2 = st('td', { nf: '0.00' });
     function vv(x, d) { return x == null || !isFinite(x) ? null : round(x, d == null ? 2 : d); }
-    var CURVA_INFO = { sMean: ['S média (aleat.)', '899287', 'dash'], chao1: ['Chao 1', C.bronze], chao2: ['Chao 2', 'C9B48A', 'dash'], jack1: ['Jackknife 1', '7A5A2E'], jack2: ['Jackknife 2', '5E6B57', 'dash'], ace: ['ACE', C.salvia], ice: ['ICE', '2F5A3A', 'dash'], boot: ['Bootstrap', 'B9A27A'], mmMeans: ['Michaelis-Menten', 'A35C3C', 'dash'], cole: ['Coleman', '6C7A89'] };
-    var ORDEM_CURVAS = ['sest', 'sMean', 'chao1', 'chao2', 'jack1', 'jack2', 'ace', 'ice', 'boot', 'mmMeans', 'cole'];
-    var curvasSel = (Array.isArray(input.curvas) && input.curvas.length ? input.curvas : ['sest', 'chao1', 'chao2', 'jack1', 'jack2', 'ace', 'ice', 'boot']);
+    var CURVA_INFO = { sMean: ['S média (aleat.)', '899287', 'dash', 'S Mean (runs)'], chao1: ['Chao 1', C.salvia, null, 'Chao 1 Mean'], chao2: ['Chao 2', 'C9B48A', 'dash', 'Chao 2 Mean'], jack2: ['Jackknife 2', '5E6B57', 'dash', 'Jack 2 Mean'], ace: ['ACE', '6C7A89', null, 'ACE Mean'], ice: ['ICE', '2F5A3A', 'dash', 'ICE Mean'], boot: ['Bootstrap', 'B9A27A', null, 'Bootstrap Mean'], mmMeans: ['Michaelis-Menten', 'A35C3C', 'dash', 'MMMeans (1 run)'], cole: ['Coleman', '7A5A2E', null, 'Cole Rarefaction'] };
+    var ORDEM_CURVAS = ['sest', 'jack1', 'sMean', 'chao1', 'chao2', 'jack2', 'ace', 'ice', 'boot', 'mmMeans', 'cole'];
+    var curvasSel = (Array.isArray(input.curvas) && input.curvas.length ? input.curvas : ['sest', 'jack1']);
     curvasSel = ORDEM_CURVAS.filter(function (k) { return curvasSel.indexOf(k) >= 0; });
     if (ES) {
-      var colsRf = [['Amostras', 'h', '0'], ['Indivíduos', 'ind', '0.0'], ['S(est) Mao Tau', 'sest'], ['IC 95% inferior', 'sestLo'], ['IC 95% superior', 'sestHi'], ['S(est) DP', 'sestSd']]
-        .concat(curvasSel.filter(function (k) { return k !== 'sest'; }).map(function (k) { return [CURVA_INFO[k][0], k]; }), [['IC S(est) (±)', null]]);
-      var cErr = colsRf.length - 1;
-      colsRf.forEach(function (c, i) { Rf.width(i, i === 0 ? 9 : 10.5); });
-      var hRf = r; colsRf.forEach(function (c, i) { Rf.set(r, i, c[0], S.th); }); Rf.height(r, 28); r++;
+      // colunas como na curva feita a partir do EstimateS: S(est), IC SD = 1,96 × S(est) SD; Jack 1 Mean, IC JACK = 1,96 × Jack 1 SD (analytical)
+      var colsRf = [['Amostras', 'Samples', 'h', '0'], ['S(est)', 'S(est)', 'sest'], ['S(est) IC 95% inferior', 'S(est) 95% CI Lower Bound', 'sestLo'], ['S(est) IC 95% superior', 'S(est) 95% CI Upper Bound', 'sestHi'], ['S(est) DP', 'S(est) SD', 'sestSd'], ['IC S(est) (1,96 × DP)', 'IC SD', '=sestSd']];
+      if (curvasSel.indexOf('jack1') >= 0) colsRf.push(['Jackknife 1 média', 'Jack 1 Mean', 'jack1'], ['Jackknife 1 DP (analítico)', 'Jack 1 SD (analytical)', 'jack1Sd'], ['IC Jackknife 1 (1,96 × DP)', 'IC JACK', '=jack1Sd']);
+      curvasSel.forEach(function (k) { if (CURVA_INFO[k]) colsRf.push([CURVA_INFO[k][0], CURVA_INFO[k][3], k]); });
+      var colOf = {}; colsRf.forEach(function (c, i) { colOf[c[2]] = i; });
+      colsRf.forEach(function (c, i) { Rf.width(i, i === 0 ? 9 : 11); });
+      var hRf = r; colsRf.forEach(function (c, i) { Rf.set(r, i, c[0], S.th); Rf.set(r + 1, i, c[1], S.th2); }); Rf.height(r, 30); Rf.height(r + 1, 26); r += 2;
       var rRf0 = r;
       ES.rows.forEach(function (x) {
         colsRf.forEach(function (c, i) {
-          if (!c[1]) Rf.set(r, i, vv(1.96 * x.sestSd), nf2, '1.96*' + A1(r, 5));
-          else Rf.set(r, i, vv(x[c[1]], c[2] === '0' ? 0 : 2), c[2] ? st('td', { nf: c[2] }) : nf2);
+          if (c[2].charAt(0) === '=') { var src = c[2].slice(1); Rf.set(r, i, vv(1.96 * x[src], 4), st('td', { nf: '0.0000' }), '1.96*' + A1(r, colOf[src])); }
+          else Rf.set(r, i, vv(x[c[2]], c[3] === '0' ? 0 : 2), c[3] ? st('td', { nf: c[3] }) : nf2);
         });
         r++;
       });
       var rRf1 = r - 1, cats = ES.rows.map(function (x) { return x.h; }), series = [];
-      if (curvasSel.indexOf('sest') >= 0) series.push({ name: 'S(est) – rarefação (IC 95%)', ref: absR(Rf.name, rRf0, 2, rRf1, 2), vals: ES.rows.map(function (x) { return vv(x.sest); }), color: C.verde, width: 31750, err: { ref: absR(Rf.name, rRf0, cErr, rRf1, cErr), vals: ES.rows.map(function (x) { return vv(1.96 * x.sestSd); }) } });
-      colsRf.forEach(function (c, i) {
-        var info = c[1] && CURVA_INFO[c[1]]; if (!info) return;
-        series.push({ name: info[0], ref: absR(Rf.name, rRf0, i, rRf1, i), vals: ES.rows.map(function (x) { return vv(x[c[1]]); }), color: info[1], marker: false, width: 19050, dash: info[2] || null });
+      if (curvasSel.indexOf('sest') >= 0) series.push({ name: 'S(est) – rarefação', ref: absR(Rf.name, rRf0, colOf.sest, rRf1, colOf.sest), vals: ES.rows.map(function (x) { return vv(x.sest); }), color: C.verde, width: 28575, err: { ref: absR(Rf.name, rRf0, colOf['=sestSd'], rRf1, colOf['=sestSd']), vals: ES.rows.map(function (x) { return vv(1.96 * x.sestSd, 4); }) } });
+      if (curvasSel.indexOf('jack1') >= 0) series.push({ name: 'Jackknife 1', ref: absR(Rf.name, rRf0, colOf.jack1, rRf1, colOf.jack1), vals: ES.rows.map(function (x) { return vv(x.jack1); }), color: C.bronze, marker: 'square', width: 28575, err: { ref: absR(Rf.name, rRf0, colOf['=jack1Sd'], rRf1, colOf['=jack1Sd']), vals: ES.rows.map(function (x) { return vv(1.96 * x.jack1Sd, 4); }) } });
+      curvasSel.forEach(function (k) {
+        var info = CURVA_INFO[k]; if (!info) return;
+        series.push({ name: info[0], ref: absR(Rf.name, rRf0, colOf[k], rRf1, colOf[k]), vals: ES.rows.map(function (x) { return vv(x[k]); }), color: info[1], marker: false, width: 19050, dash: info[2] || null });
       });
-      var nomesGraf = curvasSel.map(function (k) { return k === 'sest' ? 'Rarefação' : CURVA_INFO[k][0]; });
-      Rf.chart({ type: 'line', title: nomesGraf.length > 3 ? 'Rarefação e estimadores de riqueza' : nomesGraf.join(', '), xTitle: 'Número de amostras (listas)', yTitle: 'Riqueza de espécies', skip: nL > 20 ? Math.ceil(nL / 15) : null,
+      var outros = curvasSel.filter(function (k) { return k !== 'sest'; }).map(function (k) { return k === 'jack1' ? 'Jackknife 1' : CURVA_INFO[k][0]; });
+      var tituloGraf = curvasSel.indexOf('sest') >= 0 ? 'Curva de rarefação' + (outros.length ? (outros.length <= 2 ? ' e ' + outros.join(' e ') : ' e estimadores de riqueza') : '') : (outros.length <= 3 ? outros.join(', ') : 'Estimadores de riqueza');
+      Rf.chart({ type: 'line', title: tituloGraf, xTitle: 'Número de amostras (listas)', yTitle: 'Riqueza de espécies', skip: nL > 20 ? Math.ceil(nL / 15) : null,
         cats: { ref: absR(Rf.name, rRf0, 0, rRf1, 0), vals: cats, num: true }, series: series,
         at: { c1: colsRf.length + 1, r1: hRf, c2: colsRf.length + 12, r2: hRf + 26 } });
       r++;
