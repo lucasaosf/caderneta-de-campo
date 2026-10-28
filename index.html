@@ -12,7 +12,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="apple-touch-startup-image" href="capa.jpg">
-<script>(function(){try{var t=localStorage.getItem("caderneta.v1.theme");t=t?JSON.parse(t):"dark";document.documentElement.setAttribute("data-theme",t);}catch(e){document.documentElement.setAttribute("data-theme","dark");}})();</script>
+<script>(function(){try{var t=localStorage.getItem("caderneta.v1.theme");t=t?JSON.parse(t):"dark";if(t!=="light")t="dark";document.documentElement.setAttribute("data-theme",t);}catch(e){document.documentElement.setAttribute("data-theme","dark");}})();</script>
 <style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -48,14 +48,6 @@
   --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.35);
   color-scheme:dark;
 }
-:root[data-theme="red"]{
-  --bg:#080000; --surface:#150202; --surface-2:#220505; --ink:#ff7a7a; --muted:#bd4a4a; --line:#3b0a0a;
-  --accent:#ff3b30; --accent-strong:#ff6e65; --on-accent:#080000; --accent-soft:#330606;
-  --tally:#e05a38; --on-tally:#080000; --rec:#ff1a1a; --warn:#e05a38; --warn-soft:#2b0505;
-  --bronze:#e05a38; --gold:#e05a38;
-  --shadow:0 1px 3px rgba(0,0,0,.7),0 8px 24px rgba(0,0,0,.8);
-  color-scheme:dark;
-}
 .tax-bar{display:flex;gap:6px;overflow-x:auto;padding:2px 0 6px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
 .tax-bar::-webkit-scrollbar{display:none}
 .tax-chip{font-family:var(--body);font-size:12px;font-weight:600;padding:3px 10px;border-radius:20px;border:1px solid var(--line);background:var(--surface);color:var(--muted);white-space:nowrap;transition:all .15s ease}
@@ -65,32 +57,13 @@
 .status-threat{background:#A8402E;color:#fff}
 .status-exotic{background:#86602E;color:#fff}
 .status-endem{background:var(--accent-soft);color:var(--accent-strong);border:1px solid var(--line)}
-:root[data-theme="red"] .status-threat{background:#ff2222;color:#080000}
-:root[data-theme="red"] .status-exotic{background:#e05a38;color:#080000}
-:root[data-theme="red"] .status-endem{background:#330606;color:#ff7a7a;border-color:#3b0a0a}
-:root[data-theme="red"] .cover{background:#080000;color:#ff7a7a}
-:root[data-theme="red"] .cover-tag{color:#bd4a4a}
-:root[data-theme="red"] .cover h1{color:#ff7a7a}
-:root[data-theme="red"] .cover-sub{color:#e05a38}
-:root[data-theme="red"] .cover-stat{color:#bd4a4a}
-:root[data-theme="red"] .cover-btn.primary{background:#ff3b30;color:#080000}
-:root[data-theme="red"] .cover-btn.ghost{background:rgba(34,5,5,.78);color:#ff7a7a;border-color:rgba(255,59,48,.35)}
-:root[data-theme="red"] .cover-sign{color:rgba(255,122,122,.7)}
-:root[data-theme="red"] .cover-sign b{color:#ff7a7a}
-:root[data-theme="red"] .cover-foot{color:#bd4a4a}
-:root[data-theme="red"] .cover-foot a,:root[data-theme="red"] .cover-foot button{color:#ff7a7a}
-:root[data-theme="red"] .cover .theme-btn{background:rgba(34,5,5,.85);color:#ff7a7a;border-color:rgba(255,59,48,.3)}
-:root[data-theme="red"] .btn-new{background:var(--surface-2);border:1.5px solid var(--line)}
 .group-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0}
 .group-card{display:flex;flex-direction:column;align-items:center;text-align:center;padding:18px 12px;background:var(--surface);border:1.5px solid var(--line);border-radius:14px;cursor:pointer;transition:all .15s ease}
 .group-card:hover,.group-card:active{border-color:var(--accent);background:var(--surface-2);transform:scale(.98)}
 .group-icon{font-size:32px;line-height:1;margin-bottom:8px}
 .group-icon.bird-brown,.bird-brown{display:inline-block;filter:sepia(1) saturate(3.5) hue-rotate(330deg) brightness(0.85);transition:filter .15s ease}
-:root[data-theme="red"] .bird-brown{filter:sepia(1) saturate(5) hue-rotate(345deg) brightness(0.9)}
 .group-card b{font-size:15px;color:var(--ink);font-weight:700}
 .group-card small{font-size:12px;color:var(--muted);margin-top:2px}
-:root[data-theme="red"] .group-card{border-color:#3b0a0a;background:#150202}
-:root[data-theme="red"] .group-card:hover,:root[data-theme="red"] .group-card:active{border-color:#ff3b30;background:#220505}
 *{box-sizing:border-box}
 [hidden]{display:none!important}
 html,body{min-height:100%}
@@ -136,7 +109,6 @@ a.btn{color:var(--ink)}
 .open-card-meta{display:flex;align-items:center;gap:8px}
 .grp-badge{display:inline-flex;align-items:center;gap:5px;font-family:var(--body);font-size:12px;font-weight:700;padding:2px 8px;border-radius:12px;background:var(--surface-2);border:1px solid var(--line);color:var(--ink);letter-spacing:.01em;white-space:nowrap}
 .grp-badge-sm{font-size:11px;padding:1px 6px;margin-right:2px}
-:root[data-theme="red"] .grp-badge{background:#220505;border-color:#3b0a0a;color:#ff7a7a}
 :root[data-theme="light"] .grp-badge{background:#EAE4D7;border-color:#D8D0C0;color:#2B261F}
 .open-card h3{font-size:20px;font-weight:700}
 .pill{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border-radius:6px;background:var(--accent-soft);color:var(--accent-strong)}
@@ -462,16 +434,11 @@ body.selecting .wm{display:none}
 .theme-btn{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;flex:none;background:rgba(14,37,21,.55);color:#F3EEE3;border:1.5px solid rgba(242,235,221,.4);font-size:20px;line-height:1}
 .theme-btn.small{width:40px;height:40px;background:var(--surface);color:var(--ink);border-color:var(--line);font-size:18px}
 .theme-btn .ico{width:20px;height:20px}
-.t-moon,.t-red{display:none}
+.t-moon{display:none}
 :root[data-theme="dark"] .t-sun{display:inline}
 :root[data-theme="dark"] .t-moon{display:none}
-:root[data-theme="dark"] .t-red{display:none}
 :root[data-theme="light"] .t-sun{display:none}
-:root[data-theme="light"] .t-moon{display:none}
-:root[data-theme="light"] .t-red{display:inline}
-:root[data-theme="red"] .t-sun{display:none}
-:root[data-theme="red"] .t-moon{display:inline}
-:root[data-theme="red"] .t-red{display:none}
+:root[data-theme="light"] .t-moon{display:inline}
 .install-chip{display:inline-flex;align-items:center;gap:6px;min-height:36px;padding:4px 12px;border-radius:999px;background:rgba(14,37,21,.55);color:#F3EEE3;border:1.5px solid rgba(242,235,221,.4);font-size:13px;font-weight:600}
 .logo-light{display:none}
 :root[data-theme="light"] .cover{background:#F3EEE3 url("capa-clara.jpg") center bottom / cover no-repeat;color:#13301A}
@@ -610,7 +577,7 @@ body.selecting .wm{display:none}
 
 <!-- CAPA -->
 <section id="cover" class="cover" aria-label="Lista de Campo">
-  <div class="cover-top"><button class="theme-btn" data-act="theme" aria-label="Trocar modo claro, escuro ou noturno"><span class="t-sun" aria-hidden="true">☀︎</span><span class="t-moon" aria-hidden="true">☾</span><span class="t-red" aria-hidden="true">🔴</span></button><span id="cover-install"></span><button class="theme-btn acct-btn" data-act="account" aria-label="Conta e backup" id="cover-acct"><svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg></button></div>
+  <div class="cover-top"><button class="theme-btn" data-act="theme" aria-label="Trocar modo claro ou escuro"><span class="t-sun" aria-hidden="true">☀︎</span><span class="t-moon" aria-hidden="true">☾</span></button><span id="cover-install"></span><button class="theme-btn acct-btn" data-act="account" aria-label="Conta e backup" id="cover-acct"><svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg></button></div>
   <img class="cover-logo logo-dark" src="logo-creme.png" alt="Logo Pesquisa &amp; Soluções Ambientais" width="168" height="168"><img class="cover-logo logo-light" src="logo-verde.png" alt="Logo Pesquisa &amp; Soluções Ambientais" width="168" height="168">
   <p class="cover-tag">Pesquisa &amp; Soluções Ambientais</p>
   <hr class="cover-rule">
@@ -642,7 +609,7 @@ body.selecting .wm{display:none}
       </div>
       <div class="home-tools">
         <button class="chip chip-home" data-act="cover"><svg class="ico" viewBox="0 0 24 24"><path d="M3 11l9-7 9 7M5 10v10h14V10"/></svg>Início</button>
-        <button class="theme-btn small" data-act="theme" aria-label="Trocar modo claro, escuro ou noturno"><span class="t-sun" aria-hidden="true">☀︎</span><span class="t-moon" aria-hidden="true">☾</span><span class="t-red" aria-hidden="true">🔴</span></button>
+        <button class="theme-btn small" data-act="theme" aria-label="Trocar modo claro ou escuro"><span class="t-sun" aria-hidden="true">☀︎</span><span class="t-moon" aria-hidden="true">☾</span></button>
         <button class="chip" id="sync-chip" data-act="account" data-state="idle"><span class="chip-av" id="chip-av" aria-hidden="true"></span><span class="dot"></span><span id="sync-text">Abrindo…</span></button>
       </div>
     </header>
@@ -842,14 +809,14 @@ var S = {
   sugg:[], suggIdx:0, undo:null, sheetClose:null, editingName:null, demo:3,
   alias:{}, defMode:LS.get('defMode', 'V'), theme:LS.get('theme', 'dark'), filterTax:''
 };
-var APP_V = 15;
+var APP_V = 16;
 var NOVIDADES = [
   'Ícones novos dos grupos: bem-te-vi para as aves e onça-pintada para os mamíferos.',
   'Filtro de grupo faunístico antes de iniciar lista: Ornitofauna (aves), Mastofauna (mamíferos), Herpetofauna (anfíbios e répteis) e Geral.',
   'Identificação visual nos cards de Minhas Listas com selos temáticos e rosto da onça-pintada.',
   'Sugestões de espécies restritas exclusivamente ao grupo da lista ativa.',
   'Exportação em padrão Darwin Core (DwC), KML (Google Earth), GeoJSON (SIG) e infográfico para WhatsApp.',
-  'Feedback háptico (vibração ao contar), comando por voz e modo noturno vermelho.'
+  'Feedback háptico (vibração ao contar) e comando por voz.'
 ];
 
 /* ---------- banco de espécies ---------- */
@@ -2334,12 +2301,12 @@ function openBackup(){
 }
 /* ---------- tema ---------- */
 function applyTheme(t){
-  if (t !== 'light' && t !== 'red') t = 'dark';
+  if (t !== 'light') t = 'dark';
   S.theme = t; LS.set('theme', t);
   document.documentElement.setAttribute('data-theme', t);
-  var m = document.querySelector('meta[name="theme-color"]'); if (m) m.setAttribute('content', t === 'light' ? '#F3EEE3' : (t === 'red' ? '#080000' : '#0E2515'));
+  var m = document.querySelector('meta[name="theme-color"]'); if (m) m.setAttribute('content', t === 'light' ? '#F3EEE3' : '#0E2515');
   var f = document.querySelector('link[rel="icon"]'); if (f) f.setAttribute('href', t === 'light' ? 'icon-claro-192.png' : 'favicon.png');
-  if (NATIVE && NP.AppIcon){ try { NP.AppIcon.set({name: t === 'red' ? 'dark' : t}).catch(function(){}); } catch(e){} }
+  if (NATIVE && NP.AppIcon){ try { NP.AppIcon.set({name: t}).catch(function(){}); } catch(e){} }
 }
 
 /* ---------- conta, backup e aparência ---------- */
@@ -2375,7 +2342,7 @@ function loginMode(m){
 function renderLogin(){
   var m = LG.mode, su = m === 'signup', v = function(id){ var el = $(id); return el ? el.value : ''; };
   var keep = {e: v('#lg-email'), n: v('#lg-nome')};
-  var theme = '<button class="theme-btn" data-act="theme" aria-label="Trocar modo claro, escuro ou noturno"><span class="t-sun" aria-hidden="true">☀︎</span><span class="t-moon" aria-hidden="true">☾</span><span class="t-red" aria-hidden="true">🔴</span></button>';
+  var theme = '<button class="theme-btn" data-act="theme" aria-label="Trocar modo claro ou escuro"><span class="t-sun" aria-hidden="true">☀︎</span><span class="t-moon" aria-hidden="true">☾</span></button>';
   var back = '<button class="theme-btn" data-act="lg-back" aria-label="Voltar"><svg class="ico" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>';
   var brand = '<img class="cover-logo logo-dark" src="logo-creme.png" alt="Logo Pesquisa &amp; Soluções Ambientais" width="168" height="168"><img class="cover-logo logo-light" src="logo-verde.png" alt="Logo Pesquisa &amp; Soluções Ambientais" width="168" height="168">' +
     '<p class="cover-tag">Pesquisa &amp; Soluções Ambientais</p><hr class="cover-rule">';
@@ -2450,7 +2417,7 @@ function openAccount(){
     '<label class="btn" for="import-file">Importar backup (.json)</label><input class="vh" id="import-file" type="file" accept=".json,application/json">' +
     '<p class="small-meta" style="margin:0">Ao importar, listas que já existem ficam com a versão mais recente.</p></div>' +
     '<h3 class="acct-sec">Aparência</h3><div class="seg" role="group" aria-label="Tema">' +
-    '<button data-act="theme-set" data-t="dark" aria-pressed="' + (S.theme === 'dark') + '">☾ Escuro</button><button data-act="theme-set" data-t="light" aria-pressed="' + (S.theme === 'light') + '">☀︎ Claro</button><button data-act="theme-set" data-t="red" aria-pressed="' + (S.theme === 'red') + '">🔴 Noturno</button></div>' +
+    '<button data-act="theme-set" data-t="dark" aria-pressed="' + (S.theme === 'dark') + '">☾ Escuro</button><button data-act="theme-set" data-t="light" aria-pressed="' + (S.theme === 'light') + '">☀︎ Claro</button></div>' +
     footHTML() +
     '<div class="sheet-actions"><button class="btn btn-primary" data-act="close-sheet">Fechar</button></div>';
   openSheet(h);
@@ -3398,7 +3365,7 @@ var A = {
   'new-list': newList,
   'open': function(b){ go('list', b.dataset.id); },
   'home': function(){ go('home'); },
-  'theme': function(){ var next = S.theme === 'dark' ? 'light' : (S.theme === 'light' ? 'red' : 'dark'); applyTheme(next); },
+  'theme': function(){ var next = S.theme === 'dark' ? 'light' : 'dark'; applyTheme(next); },
   'theme-set': function(b){ applyTheme(b.dataset.t); if (!$('#sheet').hidden) openAccount(); },
   'account': function(){ openAccount(); },
   'news': function(){ openNews(); },

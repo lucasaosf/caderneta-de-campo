@@ -1,8 +1,9 @@
 {
-  "v": 15,
-  "nome": "15",
-  "data": "2026-10-26",
+  "v": 16,
+  "nome": "16",
+  "data": "2026-10-28",
   "novidades": [
+    "Ajuste de tema: alternância direta entre modo claro e escuro",
     "Ícones novos: bem-te-vi (aves) e onça-pintada (mamíferos)",
     "Filtro de grupo faunístico antes de iniciar lista (Ornitofauna, Mastofauna, Herpetofauna)",
     "Identificação visual do grupo faunístico nos cards de Minhas Listas",
