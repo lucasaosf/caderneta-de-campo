@@ -289,6 +289,24 @@ a.btn{color:var(--ink)}
 .copy-area{width:100%;min-height:220px;font-family:var(--mono);font-size:13px;padding:12px;border-radius:12px;border:1.5px solid var(--line);background:var(--surface-2)}
 .store-note{padding:12px 14px;border-radius:12px;background:var(--surface-2);border:1px solid var(--line);font-size:14px;margin-bottom:14px}
 
+/* ---------- contato & suporte técnico ---------- */
+.supp-head{display:flex;align-items:center;gap:12px;margin-bottom:14px;position:relative}
+.supp-icon{width:46px;height:46px;border-radius:12px;background:color-mix(in srgb,var(--bronze) 20%,var(--surface-2));color:var(--bronze);display:grid;place-items:center;flex:none;border:1.5px solid color-mix(in srgb,var(--bronze) 40%,transparent)}
+.supp-titles{flex:1;min-width:0;padding-right:32px}
+.supp-titles h2{margin:0!important;font-size:20px!important;font-weight:700;line-height:1.2}
+.supp-sub{margin:3px 0 0!important;font-size:12.5px!important;color:var(--muted);line-height:1.3}
+.supp-close{position:absolute;top:0;right:0;width:36px;height:36px;display:grid;place-items:center;border-radius:8px;color:var(--muted);cursor:pointer}
+.supp-close:hover{background:var(--surface-2);color:var(--ink)}
+.supp-notice{border-radius:14px;padding:12px 14px;background:color-mix(in srgb,var(--bronze) 10%,var(--surface-2));border:1.5px solid color-mix(in srgb,var(--bronze) 35%,var(--line));margin-bottom:14px}
+.supp-notice p{margin:0 0 10px!important;font-size:13.5px!important;line-height:1.45;color:var(--ink)}
+.supp-notice b{color:var(--bronze)}
+.supp-status{display:flex;align-items:center;gap:8px;font-size:12px;font-family:var(--mono);color:var(--muted);padding-top:8px;border-top:1px dashed color-mix(in srgb,var(--bronze) 30%,var(--line))}
+.supp-status code{color:var(--ink);font-weight:600}
+.status-dot{width:8px;height:8px;border-radius:50%;background:#22c55e;flex:none;box-shadow:0 0 6px #22c55e}
+.status-dot.muted{background:var(--muted);box-shadow:none}
+.supp-send-btn{background:var(--bronze)!important;border-color:var(--bronze)!important;color:#183B23!important;font-weight:700}
+.supp-send-btn:hover,.supp-send-btn:active{filter:brightness(1.08)}
+
 /* toast */
 .toast{position:fixed;left:50%;transform:translateX(-50%);width:max-content;bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:60;display:flex;align-items:center;gap:12px;max-width:calc(100% - 32px);padding:10px 12px 10px 16px;border-radius:12px;background:var(--ink);color:var(--bg);box-shadow:var(--shadow);font-size:15px}
 .toast button{color:var(--tally);font-weight:700;min-height:36px;padding:0 6px}
@@ -622,6 +640,7 @@ body.selecting .wm{display:none}
     <nav class="home-foot" aria-label="Outras opções">
       <button class="btn" data-act="open-names">Meus nomes <span class="num" id="names-count"></span></button>
       <button class="btn" data-act="backup">Backup e exportação</button>
+      <button class="btn" data-act="support"><svg class="ico" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="M22 6l-10 7L2 6"/></svg>Contato &amp; suporte</button>
     </nav>
   </section>
 
@@ -709,9 +728,9 @@ body.selecting .wm{display:none}
 <div class="sel-bar" id="sel-bar" hidden></div>
 <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 <datalist id="dl-proj"></datalist><datalist id="dl-camp"></datalist><datalist id="dl-ua"></datalist><datalist id="dl-met"></datalist>
-<script src="especies.js?v=15"></script>
-<script src="planilha.js?v=15"></script>
-<script src="firebase-config.js?v=15"></script>
+<script src="especies.js?v=17"></script>
+<script src="planilha.js?v=17"></script>
+<script src="firebase-config.js?v=17"></script>
 
 <script>
 (function(){
@@ -809,8 +828,9 @@ var S = {
   sugg:[], suggIdx:0, undo:null, sheetClose:null, editingName:null, demo:3,
   alias:{}, defMode:LS.get('defMode', 'V'), theme:LS.get('theme', 'dark'), filterTax:''
 };
-var APP_V = 16;
+var APP_V = 17;
 var NOVIDADES = [
+  'Página de contato e suporte técnico para falar diretamente com o desenvolvedor.',
   'Ícones novos dos grupos: bem-te-vi para as aves e onça-pintada para os mamíferos.',
   'Filtro de grupo faunístico antes de iniciar lista: Ornitofauna (aves), Mastofauna (mamíferos), Herpetofauna (anfíbios e répteis) e Geral.',
   'Identificação visual nos cards de Minhas Listas com selos temáticos e rosto da onça-pintada.',
@@ -2312,7 +2332,7 @@ function applyTheme(t){
 /* ---------- conta, backup e aparência ---------- */
 var G_SVG = '<svg class="ico" viewBox="0 0 24 24" style="stroke:none"><path fill="#4285F4" d="M22 12.2c0-.7-.1-1.4-.2-2H12v3.8h5.6a4.8 4.8 0 0 1-2.1 3.1v2.6h3.4c2-1.8 3.1-4.5 3.1-7.5z"/><path fill="#34A853" d="M12 22c2.8 0 5.2-.9 6.9-2.5l-3.4-2.6c-.9.6-2.1 1-3.5 1-2.7 0-5-1.8-5.8-4.3H2.7v2.7A10 10 0 0 0 12 22z"/><path fill="#FBBC05" d="M6.2 13.6a6 6 0 0 1 0-3.8V7.1H2.7a10 10 0 0 0 0 8.9z"/><path fill="#EA4335" d="M12 6c1.5 0 2.9.5 4 1.5l3-3A10 10 0 0 0 2.7 7.1l3.5 2.7C7 7.8 9.3 6 12 6z"/></svg>';
 function footLinks(){
-  return '<span>Versão ' + APP_V + '</span><button data-act="news">Novidades</button><a href="https://lucasaosf.github.io/caderneta-de-campo/como-usar.html" target="_blank" rel="noopener">Como usar (vídeo)</a><a href="privacidade.html" target="_blank" rel="noopener">Política de privacidade</a>';
+  return '<span>Versão ' + APP_V + '</span><button data-act="news">Novidades</button><button data-act="support">Suporte</button><a href="https://lucasaosf.github.io/caderneta-de-campo/como-usar.html" target="_blank" rel="noopener">Como usar (vídeo)</a><a href="privacidade.html" target="_blank" rel="noopener">Política de privacidade</a>';
 }
 function footHTML(cls){ return '<div class="acct-foot' + (cls ? ' ' + cls : '') + '">' + footLinks() + '</div>'; }
 
@@ -2418,6 +2438,8 @@ function openAccount(){
     '<p class="small-meta" style="margin:0">Ao importar, listas que já existem ficam com a versão mais recente.</p></div>' +
     '<h3 class="acct-sec">Aparência</h3><div class="seg" role="group" aria-label="Tema">' +
     '<button data-act="theme-set" data-t="dark" aria-pressed="' + (S.theme === 'dark') + '">☾ Escuro</button><button data-act="theme-set" data-t="light" aria-pressed="' + (S.theme === 'light') + '">☀︎ Claro</button></div>' +
+    '<h3 class="acct-sec">Ajuda e suporte</h3><div class="form">' +
+    '<button class="btn" data-act="support"><svg class="ico" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="M22 6l-10 7L2 6"/></svg>Contato &amp; Suporte Técnico</button></div>' +
     footHTML() +
     '<div class="sheet-actions"><button class="btn btn-primary" data-act="close-sheet">Fechar</button></div>';
   openSheet(h);
@@ -2425,6 +2447,51 @@ function openAccount(){
 function openNews(){
   openSheet('<h2 id="sheet-h">Novidades da versão ' + APP_V + '</h2><div class="news"><ul>' + NOVIDADES.map(function(x){ return '<li>' + esc(x) + '</li>'; }).join('') + '</ul></div>' +
     '<div class="sheet-actions"><button class="btn btn-primary" data-act="close-sheet">Entendi</button></div>');
+}
+function openSupport(){
+  var u = AUTH.user, nome = (typeof PROF !== 'undefined' && PROF.nome ? PROF.nome() : '');
+  var emailStatus = u && u.email
+    ? ('Conectado como: <code>' + esc(u.email) + '</code>')
+    : 'Mensagens direcionadas a: <code>lucasaosf@gmail.com</code>';
+  var h = '<div class="supp-head">' +
+    '<div class="supp-icon"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 7L2 7"/></svg></div>' +
+    '<div class="supp-titles"><h2 id="sheet-h">Contato &amp; Suporte Técnico</h2><p class="supp-sub">Fale diretamente com o desenvolvedor do Lista de Campo</p></div>' +
+    '<button class="supp-close" data-act="close-sheet" aria-label="Fechar" style="background:none;border:none"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>' +
+    '</div>' +
+    '<div class="supp-notice">' +
+    '<p>Envie sugestões, dúvidas de campo ou suporte técnico. Sua mensagem será enviada diretamente para:<br><b>lucasaosf@gmail.com</b>.</p>' +
+    '<div class="supp-status"><span class="status-dot"></span><span>' + emailStatus + '</span></div>' +
+    '</div>' +
+    '<div class="form">' +
+    '<label class="field"><span>Seu Nome / Instituição:</span><input id="supp-name" type="text" placeholder="Ex: Lucas Aøsf" value="' + esc(nome) + '"></label>' +
+    '<label class="field"><span>Assunto:</span><input id="supp-subject" type="text" placeholder="Ex: Sugestão para o aplicativo"></label>' +
+    '<label class="field"><span>Sua Mensagem:</span><textarea id="supp-msg" rows="5" placeholder="Descreva sua dúvida, sugestão ou feedback..."></textarea></label>' +
+    '</div>' +
+    '<div class="sheet-actions">' +
+    '<button class="btn" data-act="close-sheet">Cancelar</button>' +
+    '<button class="btn supp-send-btn" data-act="send-support">🚀 Enviar Mensagem</button>' +
+    '</div>';
+  openSheet(h);
+}
+function sendSupport(){
+  var name = ($('#supp-name') && $('#supp-name').value || '').trim();
+  var subj = ($('#supp-subject') && $('#supp-subject').value || '').trim();
+  var msg = ($('#supp-msg') && $('#supp-msg').value || '').trim();
+  if (!msg){
+    toast('Por favor, descreva sua mensagem antes de enviar.');
+    if ($('#supp-msg')) $('#supp-msg').focus();
+    return;
+  }
+  var subjectStr = subj ? ('[Lista de Campo] ' + subj) : '[Lista de Campo] Mensagem de Suporte';
+  var bodyStr = msg + '\n\n---\nInformações do App:\n' +
+    'Versão: ' + APP_V + '\n' +
+    (name ? ('Remetente: ' + name + '\n') : '') +
+    'Dispositivo: ' + (IOS ? 'iPhone / iPad' : (/Android/i.test(navigator.userAgent) ? 'Android' : 'Desktop')) + '\n' +
+    'Navegador: ' + navigator.userAgent;
+  var mailto = 'mailto:lucasaosf@gmail.com?subject=' + encodeURIComponent(subjectStr) + '&body=' + encodeURIComponent(bodyStr);
+  closeSheet();
+  toast('Abrindo aplicativo de e-mail...');
+  window.location.href = mailto;
 }
 
 /* ---------- instalar (Android e iPhone) ---------- */
@@ -3369,6 +3436,8 @@ var A = {
   'theme-set': function(b){ applyTheme(b.dataset.t); if (!$('#sheet').hidden) openAccount(); },
   'account': function(){ openAccount(); },
   'news': function(){ openNews(); },
+  'support': function(){ openSupport(); },
+  'send-support': function(){ sendSupport(); },
   'install': function(){ doInstall(); },
   'pocket': function(){ pocketOnNow(); },
   'upd-now': function(){ applyUpdate(); },
