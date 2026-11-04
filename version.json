@@ -1,12 +1,12 @@
 {
-  "v": "2.2",
-  "nome": "2.2",
+  "v": "2.3",
+  "nome": "2.3",
   "data": "2026-11-04",
   "novidades": [
-    "Linhas de divisão dos 27 Estados brasileiros no mapa: visualize com clareza as fronteiras estaduais sobrepostas aos biomas",
-    "Separação entre distribuição conhecida (GBIF / Literatura) e encontros reais de campo registrados no app",
-    "Filtros dinâmicos no mapa da espécie: alterne com 1 toque entre Todos os Pontos, Encontros do App e Literatura GBIF",
-    "Novo esquema de numeração decimal de versões (2.2) para melhor organização e elegância nas atualizações contínuas",
-    "Visualização completa da Life List e fichas de espécies integradas com biomas, referências científicas e áudios"
+    "Diagnoses e características diagnósticas completas em português: morfologia, taxonomia, biomas, dieta, locomoção e dicas de campo",
+    "Ícone de informação ℹ️ em cada espécie na lista ativa para conferência rápida de identidade taxonômica sem sair da lista",
+    "Múltiplas opções de vocalização e cantos: compare variações de canto territorial, chamados e dialetos sonoros de cada espécie",
+    "Botão de retorno rápido à lista ativa ao conferir a diagnose da espécie em campo",
+    "Tradução técnica biológica formal para termos morfológicos e diagnósticos"
   ]
 }

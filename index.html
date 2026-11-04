@@ -486,6 +486,10 @@ body.selecting .wm{display:none}
 
 /* ---------- V / A / O ---------- */
 .sp{grid-template-columns:minmax(0,1fr) auto}
+.sp-left{display:flex;align-items:center;gap:8px;min-width:0;flex:1}
+.sp-info-btn{width:32px;height:32px;border-radius:50%;background:var(--surface-2);border:1.5px solid var(--line);color:var(--accent);display:inline-flex;align-items:center;justify-content:center;flex:none;cursor:pointer;transition:all .15s;padding:0}
+.sp-info-btn:hover,.sp-info-btn:active{background:var(--accent);color:var(--on-accent);border-color:var(--accent);transform:scale(1.08)}
+.sp-main{flex:1;min-width:0}
 .ctr{gap:5px}
 .va{display:grid;grid-template-rows:repeat(3,1fr);width:32px;height:58px;border-radius:9px;overflow:hidden;border:1.5px solid var(--line);flex:none}
 .va button{font-family:var(--body);font-weight:700;font-size:10px;color:var(--muted);background:var(--surface);display:grid;place-items:center;line-height:1}
@@ -955,9 +959,9 @@ body.selecting .wm{display:none}
 <div class="sel-bar" id="sel-bar" hidden></div>
 <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 <datalist id="dl-proj"></datalist><datalist id="dl-camp"></datalist><datalist id="dl-ua"></datalist><datalist id="dl-met"></datalist>
-<script src="especies.js?v=2.2"></script>
-<script src="planilha.js?v=2.2"></script>
-<script src="firebase-config.js?v=2.2"></script>
+<script src="especies.js?v=2.3"></script>
+<script src="planilha.js?v=2.3"></script>
+<script src="firebase-config.js?v=2.3"></script>
 
 <script>
 (function(){
@@ -1055,7 +1059,7 @@ var S = {
   sugg:[], suggIdx:0, undo:null, sheetClose:null, editingName:null, demo:3,
   alias:{}, defMode:LS.get('defMode', 'V'), theme:LS.get('theme', 'dark'), filterTax:''
 };
-var APP_V = '2.2';
+var APP_V = '2.3';
 function cmpVer(a, b){
   var pa = String(a).split('.').map(function(n){ return parseInt(n, 10) || 0; });
   var pb = String(b).split('.').map(function(n){ return parseInt(n, 10) || 0; });
@@ -1067,11 +1071,11 @@ function cmpVer(a, b){
   return 0;
 }
 var NOVIDADES = [
-  'Linhas de divis\u00E3o dos 27 Estados brasileiros no mapa: visualize com clareza as fronteiras estaduais sobrepostas aos biomas.',
-  'Separa\u00E7\u00E3o entre distribui\u00E7\u00E3o conhecida (GBIF / Literatura) e encontros reais de campo registrados no app.',
-  'Filtros din\u00E2micos no mapa da esp\u00E9cie: alterne entre "Todos os Pontos", "\uD83D\uDCF1 Encontros do App" e "\uD83D\uDD2C Literatura GBIF".',
-  'Novo esquema de numera\u00E7\u00E3o decimal de vers\u00F5es (2.2) para melhor organiza\u00E7\u00E3o e eleg\u00E2ncia nas atualiza\u00E7\u00F5es cont\u00EDnuas.',
-  'Life List completa no perfil e in\u00EDcio: explore todas as esp\u00E9cies j\u00E1 registradas na sua carreira com fotos, cantos e mapas.'
+  'Diagnoses e caracter\u00EDsticas diagn\u00F3sticas completas em portugu\u00EAs: morfologia, taxonomia, biomas, dieta, locomo\u00E7\u00E3o e dicas pr\u00E1ticas de campo para identifica\u00E7\u00E3o segura.',
+  '\u00CDcone de informa\u00E7\u00E3o \u2139\uFE0F na sua lista de campo: toque direto no \u00EDcone ao lado de qualquer esp\u00E9cie para conferir ficha, fotos, diagnose e cantos sem sair da lista.',
+  'M\u00FAltiplas op\u00E7\u00F5es de vocaliza\u00E7\u00E3o e cantos: compare varia\u00E7\u00F5es de canto territorial, chamados e dialetos regionais de cada esp\u00E9cie com reprodutores individuais.',
+  'Bot\u00E3o de retorno r\u00E1pido: ao conferir a esp\u00E9cie a partir da sua lista ativa, um bot\u00E3o pr\u00E1tico permite voltar instantaneamente para o preenchimento de campo.',
+  'Tradu\u00E7\u00E3o t\u00E9cnica biol\u00F3gica: termos descritivos em latim/ingl\u00EAs (CRC, t\u00EDmpano, membranas interdigitais, fosseta loreal, escamas carenadas) traduzidos para portugu\u00EAs formal.'
 ];
 
 /* ---------- banco de espécies ---------- */
@@ -2484,12 +2488,18 @@ function spRow(s, demo, ro){
   var meta = demo ? 'primeiro às ' + fTime(s.first) : 'primeiro às <span class="num">' + fTime(s.first) + '</span>' + (vaTxt ? ' · ' + vaTxt : '') + isBio + (s.note ? ' · ' + esc(s.note.length > 60 ? s.note.slice(0, 58) + '…' : s.note) : '');
   var nm = esc(s.name), a = demo ? 'demo-' : '';
   var va = demo ? '' : '<div class="va" role="group" aria-label="Tipo de registro"><button data-act="mode" data-m="V" data-sid="' + s.id + '" aria-pressed="' + (s.mode === 'V' || (!s.mode && s.mode !== 'A' && s.mode !== 'O')) + '" aria-label="Visual">V</button><button data-act="mode" data-m="A" data-sid="' + s.id + '" aria-pressed="' + (s.mode === 'A') + '" aria-label="Auditivo">A</button><button data-act="mode" data-m="O" data-sid="' + s.id + '" aria-pressed="' + (s.mode === 'O') + '" aria-label="Ocasional">O</button></div>';
-  if (ro) return '<li class="sp ro' + (s.count === 0 ? ' is-zero' : '') + '" data-sid="' + s.id + '"><div class="sp-main">' + (demo ? '<span class="sp-name">' + nm + '</span>' : spNameHtml(s)) + '<span class="sp-meta">' + meta + '</span></div>' +
+
+  var infoBtn = demo ? '' : ('<button class="sp-info-btn" data-act="sp-info" data-sid="' + s.id + '" title="Ver informações, diagnose e cantos de ' + nm + '" aria-label="Informações da espécie ' + nm + '">' +
+    '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>' +
+  '</button>');
+
+  if (ro) return '<li class="sp ro' + (s.count === 0 ? ' is-zero' : '') + '" data-sid="' + s.id + '">' +
+    '<div class="sp-left">' + infoBtn + '<div class="sp-main">' + (demo ? '<span class="sp-name">' + nm + '</span>' : spNameHtml(s)) + '<span class="sp-meta">' + meta + '</span></div></div>' +
     '<div class="ctr"><span class="cnt" aria-label="' + s.count + ' ' + nm + '">' + s.count + '</span></div></li>';
   var minus = s.count > 0 ? '<button class="minus" data-act="' + a + 'minus" data-sid="' + s.id + '" aria-label="Menos um ' + nm + '">−</button>'
     : '<button class="minus del" data-act="' + a + 'remove" data-sid="' + s.id + '" aria-label="Remover ' + nm + ' da lista">' + ICO.trash + '</button>';
   return '<li class="sp' + (s.count === 0 ? ' is-zero' : '') + '" data-sid="' + s.id + '">' +
-    '<button class="sp-main" data-act="' + (demo ? 'noop' : 'edit-sp') + '" data-sid="' + s.id + '">' + (demo ? '<span class="sp-name">' + nm + '</span>' : spNameHtml(s)) + '<span class="sp-meta">' + meta + '</span></button>' +
+    '<div class="sp-left">' + infoBtn + '<button class="sp-main" data-act="' + (demo ? 'noop' : 'edit-sp') + '" data-sid="' + s.id + '">' + (demo ? '<span class="sp-name">' + nm + '</span>' : spNameHtml(s)) + '<span class="sp-meta">' + meta + '</span></button></div>' +
     '<div class="ctr">' + va + minus + '<button class="cnt" data-act="' + (demo ? 'noop' : 'edit-sp') + '" data-sid="' + s.id + '" aria-label="' + s.count + ' ' + nm + '. Toque para editar">' + s.count + '</button>' +
     '<button class="plus" data-act="' + a + 'plus" data-sid="' + s.id + '" aria-label="Mais um ' + nm + '">+</button></div></li>';
 }
@@ -2880,6 +2890,12 @@ function openSpEdit(sid, focus){
     '</div>' +
     (leg ? '<div class="field"><span id="e-lg-l">Sem tipo (registros antigos)</span><div class="big-ctr"><button class="minus" data-act="e-step" data-t="e-lg" data-d="-1" aria-label="Menos um">−</button><input id="e-lg" type="number" min="0" inputmode="numeric" value="' + leg + '" aria-labelledby="e-lg-l"><button class="plus" data-act="e-step" data-t="e-lg" data-d="1" aria-label="Mais um">+</button></div></div>' : '') +
     bioHtml +
+    '<div style="margin:6px 0">' +
+      '<button class="btn" type="button" data-act="sp-info" data-sid="' + s.id + '" style="width:100%;font-weight:700;display:flex;align-items:center;justify-content:center;gap:6px;background:var(--surface-2);border-color:var(--accent);color:var(--accent-strong)">' +
+        '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.3"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>' +
+        '<span>Conferir Espécie: Ficha, Diagnoses &amp; Cantos</span>' +
+      '</button>' +
+    '</div>' +
     (s.sci ? aliasBox(s) : linkBox(s)) +
     '<label class="field"><span>Observação</span><textarea id="e-note" placeholder="Comportamento, idade, sexo, plumagem…">' + esc(s.note) + '</textarea></label>' +
     '<p class="small-meta">Primeiro registro às ' + fTime(s.first) + where + '</p></div>' +
@@ -5034,9 +5050,12 @@ function fetchSpeciesScientificData(sci, r){
     descSource: '',
     photo: null,
     photoCredit: '',
+    sounds: [],
     audio: null,
     audioCredit: '',
-    extract: ''
+    extract: '',
+    _speciesRecord: r,
+    _sci: sci
   };
 
   // 1. GBIF Match & Descriptions
@@ -5070,13 +5089,35 @@ function fetchSpeciesScientificData(sci, r){
       }
     }).catch(function(){});
 
-  // 3. iNaturalist Sons
-  var soundP = fetch('https://api.inaturalist.org/v1/observations?taxon_name=' + encodeURIComponent(sci) + '&has[]=sounds&per_page=1')
+  // 3. iNaturalist Sons (múltiplas opções para comparar variações)
+  var soundP = fetch('https://api.inaturalist.org/v1/observations?taxon_name=' + encodeURIComponent(sci) + '&has[]=sounds&per_page=6&order_by=votes')
     .then(function(res){ return res.ok ? res.json() : null; })
     .then(function(data){
-      if (data && data.results && data.results[0] && data.results[0].sounds && data.results[0].sounds[0]){
-        result.audio = data.results[0].sounds[0].file_url;
-        result.audioCredit = data.results[0].sounds[0].attribution || (data.results[0].user && (data.results[0].user.name || data.results[0].user.login)) || 'iNaturalist';
+      if (data && data.results && data.results.length){
+        data.results.forEach(function(obs){
+          if (obs.sounds && obs.sounds.length){
+            obs.sounds.forEach(function(snd){
+              if (snd.file_url && result.sounds.length < 5){
+                var loc = obs.place_guess || 'Brasil';
+                var usr = (obs.user && (obs.user.name || obs.user.login)) || 'Pesquisador';
+                var desc = obs.description ? obs.description.slice(0, 70) : '';
+                var num = result.sounds.length + 1;
+                result.sounds.push({
+                  url: snd.file_url,
+                  title: 'Vocalização ' + num + (loc ? ' · ' + loc : ''),
+                  attribution: snd.attribution || usr,
+                  location: loc,
+                  user: usr,
+                  desc: desc
+                });
+              }
+            });
+          }
+        });
+        if (result.sounds.length > 0){
+          result.audio = result.sounds[0].url;
+          result.audioCredit = result.sounds[0].attribution;
+        }
       }
     }).catch(function(){});
 
@@ -5104,6 +5145,136 @@ function fetchSpeciesScientificData(sci, r){
   });
 }
 
+function buildDiagnosticFeaturesHtml(r, media){
+  if (!r) return '';
+  
+  var locMap = {
+    'Ar': 'Arborícola (estratos médio e alto da vegetação arbórea/arbustiva)',
+    'Te': 'Terrestre (solo da mata, serapilheira ou campos abertos)',
+    'Sc': 'Escansorial (habilidade mista: escala troncos/rochas e anda no solo)',
+    'SA': 'Semi-aquático (associado a riachos, brejos, lagoas e matas ciliares)',
+    'Aq': 'Aquático (adaptado permanentemente a corpos d\'água)',
+    'Fo': 'Fossorial (hábito subterrâneo, vive escavando tocas ou sob a serapilheira)'
+  };
+  
+  var dieMap = {
+    'In': 'Insetívoro (alimenta-se de insetos e artrópodes)',
+    'Fr': 'Frugívoro (alimenta-se prioritariamente de frutos e sementes)',
+    'Fr/On': 'Onívoro com tendência frugívora (frutos, pequenos invertebrados e néctar)',
+    'Cv': 'Carnívoro / Predador (pequenos vertebrados, anfíbios, roedores ou aves)',
+    'Ps': 'Piscívoro (peixes e animais aquáticos)',
+    'On': 'Onívoro generalista (dieta mista vegetal e animal)',
+    'Ne': 'Nectarívoro (néctar floral e pequenos artrópodes)',
+    'He': 'Herbívoro (folhas, brotos e vegetação)'
+  };
+
+  var translateTechTerms = function(txt){
+    if (!txt) return '';
+    return txt
+      .replace(/snout[\s\-]*vent length/gi, 'comprimento rostro-cloacal (CRC)')
+      .replace(/\bSVL\b/g, 'CRC (comprimento rostro-cloacal)')
+      .replace(/\bdorsum\b/gi, 'dorso')
+      .replace(/\bdorsal\b/gi, 'dorsal')
+      .replace(/\bventer\b/gi, 'ventre')
+      .replace(/\bventral\b/gi, 'ventral')
+      .replace(/\btympanum\b/gi, 'tímpano')
+      .replace(/\bwebbing\b/gi, 'membrana interdigital')
+      .replace(/\bparotoid glands?\b/gi, 'glândula(s) paratóide(s)')
+      .replace(/\bcanthus rostralis\b/gi, 'canto rostral')
+      .replace(/\bsubarticular tubercles?\b/gi, 'tubérculo(s) subarticular(es)')
+      .replace(/\bvomerine teeth\b/gi, 'dentes vomerianos')
+      .replace(/\bbody elongate\b/gi, 'corpo alongado')
+      .replace(/\bsnout rounded\b/gi, 'focinho arredondado')
+      .replace(/\bsnout acuminated?\b/gi, 'focinho acuminado')
+      .replace(/\bsnout subacuminate\b/gi, 'focinho subacuminado')
+      .replace(/\bhead wider than long\b/gi, 'cabeça mais larga que longa')
+      .replace(/\bscales keeled\b/gi, 'escamas carenadas')
+      .replace(/\bscales smooth\b/gi, 'escamas lisas')
+      .replace(/\badvertisement call\b/gi, 'canto de anúncio')
+      .replace(/\bmales?\b/gi, 'macho(s)')
+      .replace(/\bfemales?\b/gi, 'fêmea(s)')
+      .replace(/\bloreal pit\b/gi, 'fosseta loreal')
+      .replace(/\bupperparts\b/gi, 'partes superiores')
+      .replace(/\bunderparts\b/gi, 'partes inferiores')
+      .replace(/\bbill\b/gi, 'bico')
+      .replace(/\bplumage\b/gi, 'plumagem')
+      .replace(/\btail\b/gi, 'cauda')
+      .replace(/\bwings?\b/gi, 'asa(s)')
+      .replace(/\biris\b/gi, 'íris')
+      .replace(/\bnocturnal\b/gi, 'noturno')
+      .replace(/\bdiurnal\b/gi, 'diurno')
+      .replace(/\bcrepuscular\b/gi, 'crepuscular');
+  };
+
+  var ptHabit = locMap[r.loc] || (r.loc ? 'Hábito: ' + r.loc : '');
+  var ptDiet = dieMap[r.die] || (r.die ? 'Dieta: ' + r.die : '');
+  var isAnf = r.c === 'Anfíbio';
+  var isAve = r.c === 'Ave';
+  var isMam = r.c === 'Mamífero';
+  var isRep = r.c === 'Réptil';
+
+  var h = '<div class="spec-diag-box" style="background:var(--surface);border:1.5px solid var(--accent);border-radius:12px;padding:12px;margin-bottom:10px">';
+  h += '<div style="display:flex;align-items:center;gap:6px;margin-bottom:8px">' +
+    '<span style="font-size:18px">🔬</span>' +
+    '<b style="color:var(--accent-strong);font-size:13px;letter-spacing:0.3px;text-transform:uppercase">Diagnose &amp; Características para Identificação</b>' +
+  '</div>';
+
+  h += '<div class="spec-diag-grid" style="display:grid;gap:8px;font-size:12px;line-height:1.45">';
+
+  // 1. Grupo & Identidade Taxonômica
+  h += '<div style="background:var(--surface-2);padding:8px 10px;border-radius:8px;border:1px solid var(--line)">' +
+    '<b style="color:var(--ink);display:block;margin-bottom:2px">🏷️ Classificação &amp; Grupo:</b>' +
+    '<span>' + esc(r.c) + ' · Ordem ' + esc(r.o || '—') + ' · Família <b>' + esc(r.f || '—') + '</b>' + (r.sf ? ' (Subfamília ' + esc(r.sf) + ')' : '') + (r.gr ? ' · Grupo: <b>' + esc(r.gr) + '</b>' : '') + '</span>' +
+  '</div>';
+
+  // 2. Chaves Morfológicas e Ecológicas
+  var keys = [];
+  if (ptHabit) keys.push('<b>Locomoção / Estrato:</b> ' + esc(ptHabit));
+  if (ptDiet) keys.push('<b>Estratégia Alimentar:</b> ' + esc(ptDiet));
+  if (r.e === 'Sim') keys.push('<b>Endemismo:</b> <span style="color:var(--accent-strong);font-weight:700">Espécie endêmica exclusiva do Brasil</span>');
+  else if (r.e === 'Não') keys.push('<b>Endemismo:</b> Não endêmica (ocorrência também em outros países sul-americanos)');
+  if (r.og) keys.push('<b>Origem:</b> ' + esc(r.og));
+  if (r.bio) keys.push('<b>Biomas Diagnósticos:</b> ' + esc(r.bio));
+  if (r.uf) keys.push('<b>Estados de Ocorrência:</b> ' + esc(r.uf));
+
+  if (keys.length){
+    h += '<div style="background:var(--surface-2);padding:8px 10px;border-radius:8px;border:1px solid var(--line)">' +
+      '<b style="color:var(--ink);display:block;margin-bottom:4px">🌿 Atributos Diagnósticos Ecológicos &amp; Ocorrência:</b>' +
+      '<ul style="margin:0;padding-left:18px">' + keys.map(function(k){ return '<li>' + k + '</li>'; }).join('') + '</ul>' +
+    '</div>';
+  }
+
+  // 3. Diagnose Textual / Descrição Científica
+  var descText = (media && media.scientificDesc) ? translateTechTerms(media.scientificDesc) : '';
+  if (descText){
+    h += '<div style="background:var(--surface-2);padding:8px 10px;border-radius:8px;border:1px solid var(--line)">' +
+      '<b style="color:var(--accent-strong);display:block;margin-bottom:4px">📑 Descrição Taxonômica &amp; Diagnose da Espécie:</b>' +
+      '<p style="margin:0 0 4px;font-size:12px;color:var(--ink)">' + esc(descText) + '</p>' +
+      '<small style="color:var(--muted)">Fonte da diagnose: ' + esc(media.descSource || 'Tratamento Taxonômico Oficial') + '</small>' +
+    '</div>';
+  }
+
+  // 4. Guia Rápido de Campo por Grupo Faunístico
+  var fieldTip = '';
+  if (isAnf){
+    fieldTip = 'Para confirmar anuros em campo, avalie a proporção do tímpano em relação ao olho, o desenvolvimento das membranas interdigitais dos membros posteriores, a coloração das faces ocultas das coxas e virilha (flash colors), formato do focinho e o padrão bioacústico do canto de anúncio.';
+  } else if (isAve){
+    fieldTip = 'Para confirmar ornitofauna em campo, observe a morfologia e proporção do bico, padrão das estrias e faixas na cabeça (supercílio e loros), marcas nas asas e cauda, coloração de íris e tarsos, e compare atentamente as gravações de canto territorial e chamados de alarme.';
+  } else if (isMam){
+    fieldTip = 'Para identificação de mamíferos, observe padrão de pelagem e contraste dorsal/ventral, comprimento e pilosidade da cauda (preênsil ou não), formato das orelhas, padrão de pegadas e vocalizações territoriais.';
+  } else if (isRep){
+    fieldTip = 'Para identificação de répteis, atente para a textura das escamas dorsais (lisas ou carenadas), presença de fosseta loreal entre a narina e o olho (para serpentes peçonhentas solenóglifas), formato da pupila e disposição das manchas ou anéis dorsais.';
+  }
+  if (fieldTip){
+    h += '<div style="background:var(--accent-soft);border:1px solid var(--accent);padding:8px 10px;border-radius:8px;font-size:11.5px;color:var(--accent-strong)">' +
+      '<b>💡 Dica Prática de Identificação em Campo:</b> ' + esc(fieldTip) +
+    '</div>';
+  }
+
+  h += '</div></div>';
+  return h;
+}
+
 function openSpeciesDetail(sci){
   var r = dbGet(sci);
   if (!r) return;
@@ -5115,6 +5286,14 @@ function openSpeciesDetail(sci){
   var isThreat = isThreatened(r);
   var amenLabel = (r.mma && AMEN_MAP[r.mma]) ? r.mma : ((r.iucn && AMEN_MAP[r.iucn]) ? r.iucn : (r.iucn || r.mma || 'LC'));
   var hasActive = !!cur();
+  var inCurrentList = false;
+  if (hasActive && cur().species){
+    var sciN = norm(r.n);
+    var popN = norm(primaryPop);
+    inCurrentList = cur().species.some(function(s){
+      return norm(s.sci || s.name) === sciN || norm(s.name) === popN;
+    });
+  }
   
   var llList = getLifeListArray();
   var inLife = llList.find(function(x){ return norm(x.sci) === norm(r.n) || norm(x.pop) === norm(primaryPop); });
@@ -5177,11 +5356,11 @@ function openSpeciesDetail(sci){
         '</div>' +
         '<div class="brazil-map-svg-wrap">' +
           renderBrazilMapSvg(r, [], 'biomes', 'all', []) +
-        '</div>'' +
-        '<div id="spec-map-pts-meta" style="font-size:11.5px;color:var(--muted);text-align:center">Buscando registros georreferenciados no Brasil…</div>' +
+        '</div>' +
+        '<div id="spec-map-pts-meta" style="font-size:11.5px;color:var(--muted);text-align:center">Buscando registros científicos e encontros no Brasil…</div>' +
         '<div class="map-legend">' +
-          '<span class="legend-item"><span class="legend-dot" style="background:#f59e0b;box-shadow:0 0 6px #f59e0b"></span> <b>\uD83D\uDCF1 Encontros App</b></span>' +
-          '<span class="legend-item"><span class="legend-dot" style="background:#38bdf8;box-shadow:0 0 6px #38bdf8"></span> <b>\uD83D\uDD2C Literatura GBIF</b></span>'' +
+          '<span class="legend-item"><span class="legend-dot" style="background:#f59e0b;box-shadow:0 0 6px #f59e0b"></span> <b>📱 Encontros App</b></span>' +
+          '<span class="legend-item"><span class="legend-dot" style="background:#38bdf8;box-shadow:0 0 6px #38bdf8"></span> <b>🔬 Literatura GBIF</b></span>' +
           '<span class="legend-item"><span class="legend-dot" style="background:#1E6E38"></span> Amazônia</span>' +
           '<span class="legend-item"><span class="legend-dot" style="background:#D99B26"></span> Cerrado</span>' +
           '<span class="legend-item"><span class="legend-dot" style="background:#C86420"></span> Caatinga</span>' +
@@ -5197,12 +5376,18 @@ function openSpeciesDetail(sci){
     '</div>' +
 
     '<div class="sheet-actions" style="display:flex;flex-direction:column;gap:8px;margin-top:10px">' +
-      (hasActive ? '<button class="btn btn-primary" data-act="spec-add-to-cur" data-sci="' + esc(r.n) + '" style="font-weight:700;padding:12px">+ Adicionar à lista ativa (' + esc(title(cur())) + ')</button>' : '') +
+      (inCurrentList ? '<button class="btn btn-primary" data-act="close-sheet" style="font-weight:700;padding:12px;background:var(--accent-strong)">✓ Espécie na sua lista ativa (Voltar)</button>' : (hasActive ? '<button class="btn btn-primary" data-act="spec-add-to-cur" data-sci="' + esc(r.n) + '" style="font-weight:700;padding:12px">+ Adicionar à lista ativa (' + esc(title(cur())) + ')</button>' : '')) +
       '<button class="btn" data-act="close-sheet">Fechar</button>' +
     '</div>' +
   '</div>';
   
   openSheet(h);
+
+  var initialDescWrap = $('#spec-desc-box-wrap');
+  if (initialDescWrap){
+    initialDescWrap.innerHTML = buildDiagnosticFeaturesHtml(r, null) +
+      '<div class="spec-loading" style="padding:10px;font-size:12px;color:var(--muted);text-align:center"><div class="spin"></div>Buscando diagnoses adicionais, fotos e cantos…</div>';
+  }
   
   fetchSpeciesScientificData(r.n, r).then(function(data){
     applySpeciesMedia(data);
@@ -5281,10 +5466,32 @@ function applySpeciesMedia(media){
   }
   
   if (audioWrap){
-    if (media.audio){
+    if (media.sounds && media.sounds.length > 0){
+      var snds = media.sounds;
+      var audHtml = '<div class="spec-audio-box" style="margin-bottom:12px">' +
+        '<div class="spec-audio-title" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">' +
+          '<span>🔊 Vocalizações &amp; Cantos (' + snds.length + (snds.length === 1 ? ' gravação' : ' opções para comparar') + ')</span>' +
+          '<small style="font-weight:400;color:var(--muted)">Bioacústica iNaturalist</small>' +
+        '</div>' +
+        '<div class="spec-audio-list" style="display:flex;flex-direction:column;gap:8px">';
+
+      snds.forEach(function(s, idx){
+        audHtml += '<div class="spec-audio-item" style="background:var(--surface-2);border:1px solid var(--line);border-radius:8px;padding:8px 10px">' +
+          '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;font-size:12px">' +
+            '<b style="color:var(--ink)">Opção ' + (idx + 1) + ': ' + esc(s.title || 'Gravação em campo') + '</b>' +
+            '<small style="color:var(--muted)">' + esc(s.user || '') + '</small>' +
+          '</div>' +
+          (s.desc ? '<div style="font-size:11px;color:var(--muted);margin-bottom:4px;font-style:italic">' + esc(s.desc) + '</div>' : '') +
+          '<audio controls preload="none" src="' + esc(s.url) + '" style="width:100%;height:32px"></audio>' +
+        '</div>';
+      });
+
+      audHtml += '</div></div>';
+      audioWrap.innerHTML = audHtml;
+    } else if (media.audio){
       audioWrap.innerHTML = '<div class="spec-audio-box">' +
         '<div class="spec-audio-title"><span>🔊 Canto / Vocalização</span><small style="font-weight:400;color:var(--muted)">' + esc(media.audioCredit) + '</small></div>' +
-        '<audio controls preload="metadata" src="' + esc(media.audio) + '"></audio>' +
+        '<audio controls preload="none" src="' + esc(media.audio) + '"></audio>' +
       '</div>';
     } else {
       audioWrap.innerHTML = '';
@@ -5292,16 +5499,13 @@ function applySpeciesMedia(media){
   }
   
   if (descWrap){
+    var r = media._speciesRecord || (media._sci ? dbGet(media._sci) : null);
     var textHtml = '';
-    if (media.scientificDesc){
-      textHtml += '<div class="spec-desc-box" style="margin-bottom:8px">' +
-        '<span style="font-size:11px;font-weight:700;color:var(--accent-strong);text-transform:uppercase;letter-spacing:0.5px;display:block;margin-bottom:4px">🔬 Diagnose / Descrição Científica</span>' +
-        '<p>' + esc(media.scientificDesc) + '</p>' +
-        '<small>Fonte: ' + esc(media.descSource) + '</small>' +
-      '</div>';
+    if (r){
+      textHtml += buildDiagnosticFeaturesHtml(r, media);
     }
     if (media.extract){
-      textHtml += '<div class="spec-desc-box">' +
+      textHtml += '<div class="spec-desc-box" style="margin-top:10px">' +
         '<span style="font-size:11px;font-weight:700;color:var(--accent-strong);text-transform:uppercase;letter-spacing:0.5px;display:block;margin-bottom:4px">📖 História Natural &amp; Hábitos</span>' +
         '<p>' + esc(media.extract) + '</p>' +
         '<small>Fonte: Enciclopédia Wikipédia em Português</small>' +
@@ -5641,6 +5845,15 @@ var A = {
   'minus': function(b){ bump(cur(), b.dataset.sid, -1); },
   'remove': function(b){ removeSp(cur(), b.dataset.sid); },
   'edit-sp': function(b){ openSpEdit(b.dataset.sid); },
+  'sp-info': function(b){
+    var sid = b.getAttribute('data-sid');
+    var c = cur();
+    if (!c || !sid) return;
+    var sp = c.species.filter(function(s){ return s.id === sid; })[0];
+    if (!sp) return;
+    var sci = sp.sci || resolveSci(sp.name) || sp.name;
+    openSpeciesDetail(sci);
+  },
   'demo-plus': function(){ S.demo++; renderHome(); },
   'demo-minus': function(){ S.demo = Math.max(0, S.demo - 1); renderHome(); },
   'demo-remove': function(){ S.demo = 1; renderHome(); toast('No exemplo nada é apagado.'); },
