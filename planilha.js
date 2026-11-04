@@ -474,12 +474,12 @@
         var e = spMap[key];
         if (!e) {
           var d = r.sci ? db(r.sci) : (r.info || null);
-          e = spMap[key] = { key: key, sci: r.sci || '', nome: r.sci || r.nome, livre: !r.sci, d: d || {}, autor: d && r.sci ? d.a : '', N: 0, v: 0, a: 0, o: 0 };
+          e = spMap[key] = { key: key, sci: r.sci || '', nome: r.sci || r.nome, livre: !r.sci, d: d || {}, autor: d && r.sci ? d.a : '', N: 0, v: 0, a: 0, oc: 0, o: 0 };
           spList.push(e);
         }
-        var tot = (r.v || 0) + (r.a || 0) + (r.outro || 0);
+        var tot = (r.v || 0) + (r.a || 0) + (r.oc || 0) + (r.outro || 0);
         if (!tot) return;
-        e.N += tot; e.v += r.v || 0; e.a += r.a || 0; e.o += r.outro || 0;
+        e.N += tot; e.v += r.v || 0; e.a += r.a || 0; e.oc = (e.oc || 0) + (r.oc || 0); e.o += r.outro || 0;
         registros.push({ L: L, e: e, r: r, tot: tot });
       });
     });
@@ -502,15 +502,15 @@
     uas.sort(function (a, b) { return a.nome.localeCompare(b.nome, 'pt', { numeric: true }); }); uas.forEach(function (u, i) { uaIdx[u.nome] = i; });
     var nS = spList.length;
     function zeros() { var z = []; for (var i = 0; i < nS; i++) z.push(0); return z; }
-    var byUA = uas.map(function () { return { v: zeros(), a: zeros(), t: zeros() }; });
+    var byUA = uas.map(function () { return { v: zeros(), a: zeros(), oc: zeros(), t: zeros() }; });
     var byCamp = camps.map(zeros), byList = listas.map(zeros), byMet = mets.map(zeros);
     registros.forEach(function (x) {
       var i = x.e.i, u = byUA[uaIdx[x.L.ua]];
-      u.v[i] += x.r.v || 0; u.a[i] += x.r.a || 0; u.t[i] += x.tot;
+      u.v[i] += x.r.v || 0; u.a[i] += x.r.a || 0; u.oc[i] += x.r.oc || 0; u.t[i] += x.tot;
       byCamp[campIdx[x.L.campanha]][i] += x.tot; byList[x.L._i][i] += x.tot; byMet[metIdx[x.L.metodo]][i] += x.tot;
     });
     var Ntot = spList.reduce(function (s, e) { return s + e.N; }, 0);
-    return { listas: listas, sp: spList, registros: registros, uas: uas, camps: camps, mets: mets, byUA: byUA, byCamp: byCamp, byList: byList, byMet: byMet, N: Ntot, input: input };
+    return { listas: listas, sp: spList, registros: registros, uas: uas, camps: camps, mets: mets, byUA: byUA, byCamp: byCamp, byList: byList, byMet: byMet, N: Ntot, input: input, db: db };
   }
   /* taxonomia derivada do nome: gênero, epíteto e ano */
   function genero(e) { if (e.sci) return e.sci.split(' ')[0].replace(/"/g, ''); return e.d.g || ''; }
@@ -525,7 +525,7 @@
   var FONTE_CURTA = { 'Mamífero': 'SBMz 2025-1 (Abreu-Jr. et al.)', 'Ave': 'CBRO 2021 (Pacheco et al.)', 'Réptil': 'SBH 2026 (Costa et al.)', 'Anfíbio': 'SBH 2026 (Drummond et al.)' };
   function estimativa(pct) { return pct >= 5 ? 'M' : pct >= 1 ? 'A' : 'P'; }
   function constancia(fo) { return fo >= 50 ? 'Constante' : fo >= 25 ? 'Acessória' : 'Acidental'; }
-  function tipoReg(e) { var t = []; if (e.v) t.push('V'); if (e.a) t.push('A'); if (!t.length && e.o) t.push('—'); return t.join(', '); }
+  function tipoReg(e) { var t = []; if (e.v) t.push('V'); if (e.a) t.push('A'); if (e.oc) t.push('O'); if (!t.length && e.o) t.push('—'); return t.join(', '); }
   var IUCN_NOME = { LC: 'Pouco preocupante', NT: 'Quase ameaçada', VU: 'Vulnerável', EN: 'Em perigo', CR: 'Criticamente em perigo', EW: 'Extinta na natureza', EX: 'Extinta', DD: 'Dados insuficientes', 'N/A': 'Não avaliada' };
   var AMEACA = { VU: 1, EN: 1, CR: 1, EW: 1, EX: 1 };
 
@@ -573,10 +573,16 @@
     var uaCols = D.uas.length;
     var headE = ['Classe', 'Ordem', 'Família', 'Subfamília', 'Gênero', 'Espécie', 'Autor', 'Nome popular', 'Tipo de registro'];
     var after = ['N.T', 'Abund. rel. (%)', 'Estimativa', 'F.O. (%)', 'Constância', 'Unidades amostrais', 'Origem', 'Endêmica BR', 'Ocorrência (aves)', 'IUCN', 'MMA', 'CITES', 'Dieta', 'Locomoção', 'UF de ocorrência', 'Biomas'];
-    var c0 = headE.length, cAfter = c0 + uaCols * 2;
-    r = E.title(0, 'Tabela de espécies registradas', titulo + ' · ' + periodo + ' · V: visual; A: auditivo; N.T: número total de indivíduos; F.O.: frequência de ocorrência nas listas.', Math.min(cAfter + after.length, 14));
+    var c0 = headE.length, cAfter = c0 + uaCols * 3;
+    r = E.title(0, 'Tabela de espécies registradas', titulo + ' · ' + periodo + ' · V: visual; A: auditivo; O: ocasional; N.T: número total de indivíduos; F.O.: frequência de ocorrência nas listas.', Math.min(cAfter + after.length, 14));
     headE.forEach(function (h, i) { E.set(r, i, h, S.th); E.merge(r, i, r + 1, i, S.th); });
-    D.uas.forEach(function (u, k) { E.set(r, c0 + k * 2, u.nome, S.th); E.merge(r, c0 + k * 2, r, c0 + k * 2 + 1, S.th); E.set(r + 1, c0 + k * 2, 'V', S.th2); E.set(r + 1, c0 + k * 2 + 1, 'A', S.th2); });
+    D.uas.forEach(function (u, k) {
+      E.set(r, c0 + k * 3, u.nome, S.th);
+      E.merge(r, c0 + k * 3, r, c0 + k * 3 + 2, S.th);
+      E.set(r + 1, c0 + k * 3, 'V', S.th2);
+      E.set(r + 1, c0 + k * 3 + 1, 'A', S.th2);
+      E.set(r + 1, c0 + k * 3 + 2, 'O', S.th2);
+    });
     after.forEach(function (h, i) { E.set(r, cAfter + i, h, S.th); E.merge(r, cAfter + i, r + 1, cAfter + i, S.th); });
     E.height(r, 26); r += 2;
     var rE0 = r;
@@ -585,8 +591,13 @@
       var uaPres = D.uas.filter(function (u, k) { return D.byUA[k].t[e.i] > 0; }).map(function (u) { return u.nome; }).join(', ');
       var vals = [CLASSE_NOME[d.c] || '—', d.o || '—', d.f || '—', d.sf || '', genero(e) || '—', e.nome, e.autor || '', nomePop(e), tipoReg(e)];
       vals.forEach(function (v, i) { E.set(r, i, v, i === 4 || i === 5 ? S.sp : i === 0 || i === 8 ? S.td : S.tdl); });
-      D.uas.forEach(function (u, k) { var v = D.byUA[k].v[e.i], a = D.byUA[k].a[e.i] + (D.byUA[k].t[e.i] - D.byUA[k].v[e.i] - D.byUA[k].a[e.i]); E.set(r, c0 + k * 2, v || null, st('td', { nf: '0' })); E.set(r, c0 + k * 2 + 1, a || null, st('td', { nf: '0' })); });
-      var sumF = uaCols ? 'SUM(' + A1(r, c0) + ':' + A1(r, c0 + uaCols * 2 - 1) + ')' : null;
+      D.uas.forEach(function (u, k) {
+        var v = D.byUA[k].v[e.i], a = D.byUA[k].a[e.i], oc = D.byUA[k].oc[e.i] + (D.byUA[k].t[e.i] - D.byUA[k].v[e.i] - D.byUA[k].a[e.i] - D.byUA[k].oc[e.i]);
+        E.set(r, c0 + k * 3, v || null, st('td', { nf: '0' }));
+        E.set(r, c0 + k * 3 + 1, a || null, st('td', { nf: '0' }));
+        E.set(r, c0 + k * 3 + 2, oc || null, st('td', { nf: '0' }));
+      });
+      var sumF = uaCols ? 'SUM(' + A1(r, c0) + ':' + A1(r, c0 + uaCols * 3 - 1) + ')' : null;
       E.set(r, cAfter, e.N, st('td', { nf: '0' }), sumF);
       E.set(r, cAfter + 1, round(pct, 2), st('td', { nf: '0.00' }), sumF ? A1(r, cAfter) + '/' + A1(rE0 + nS, cAfter) + '*100' : null);
       var rest = [estimativa(pct), round(fo, 1), constancia(fo), uaPres, d.og || (e.livre ? '—' : ''), d.e || '', d.oc || '', d.iucn || '', d.mma || '', d.cites && d.cites !== '-' ? d.cites : '', d.die || '', d.loc || '', d.uf || '', d.bio || ''];
@@ -594,17 +605,208 @@
       r++;
     });
     E.set(r, 0, 'Abundância por unidade amostral', S.totl); E.merge(r, 0, r, c0 - 1, S.totl);
-    D.uas.forEach(function (u, k) { [0, 1].forEach(function (j) { var col = c0 + k * 2 + j; E.set(r, col, null, st('tot', { nf: '0' }), 'SUM(' + A1(rE0, col) + ':' + A1(r - 1, col) + ')'); }); });
+    D.uas.forEach(function (u, k) { [0, 1, 2].forEach(function (j) { var col = c0 + k * 3 + j; E.set(r, col, null, st('tot', { nf: '0' }), 'SUM(' + A1(rE0, col) + ':' + A1(r - 1, col) + ')'); }); });
     E.set(r, cAfter, D.N, st('tot', { nf: '0' }), 'SUM(' + A1(rE0, cAfter) + ':' + A1(r - 1, cAfter) + ')'); E.fill(r, cAfter + 1, r, cAfter + after.length - 1, S.tot); r++;
     E.set(r, 0, 'Riqueza por unidade amostral', S.totl); E.merge(r, 0, r, c0 - 1, S.totl);
-    D.uas.forEach(function (u, k) { E.set(r, c0 + k * 2, D.byUA[k].t.filter(Boolean).length, st('tot', { nf: '0' })); E.merge(r, c0 + k * 2, r, c0 + k * 2 + 1, S.tot); });
+    D.uas.forEach(function (u, k) { E.set(r, c0 + k * 3, D.byUA[k].t.filter(Boolean).length, st('tot', { nf: '0' })); E.merge(r, c0 + k * 3, r, c0 + k * 3 + 2, S.tot); });
     E.set(r, cAfter, nS, st('tot', { nf: '0' })); E.fill(r, cAfter + 1, r, cAfter + after.length - 1, S.tot); r += 2;
     E.set(r, 0, 'Estimativa de abundância: M – muito abundante (≥ 5% dos indivíduos); A – abundante (1 a 5%); P – pouco abundante (< 1%). Constância (Dajoz): constante ≥ 50% das listas; acessória 25–50%; acidental < 25%. Dieta e locomoção: códigos da SBMz (ver Legenda e fontes).', S.legenda); E.merge(r, 0, r + 2, 12, S.legenda);
     [10, 15, 16, 15, 13, 26, 22, 20, 9].forEach(function (w, i) { E.width(i, w); });
-    for (var k2 = 0; k2 < uaCols * 2; k2++) E.width(c0 + k2, 5.5);
+    for (var k2 = 0; k2 < uaCols * 3; k2++) E.width(c0 + k2, 5.5);
     [6, 8, 8, 7, 10, 18, 10, 9, 18, 6, 6, 7, 8, 8, 26, 30].forEach(function (w, i) { E.width(cAfter + i, w); });
 
-    /* ---------- 2b. Ficha das espécies: taxonomia completa e todas as informações das listas ---------- */
+    /* ---------- 2b. Biometria (Pitfall - Herpetofauna) ---------- */
+    var hasPitfall = D.listas.some(function (L) {
+      var m = norm(L.metodo);
+      return m.indexOf('pitfall') >= 0 || m.indexOf('queda') >= 0;
+    });
+    var bioRows = [];
+    D.listas.forEach(function (L) {
+      (L.registros || []).forEach(function (r) {
+        var d = r.sci ? D.db(r.sci) : (r.info || null);
+        var sciName = r.sci || r.nome;
+        var pName = r.nomePop || (d && d.pt ? d.pt.split(',')[0].trim() : '');
+        var grp = (d && d.c === 'Amphibia') ? 'Anfíbio (Anuro)' : ((d && d.c === 'Reptilia') ? ((d.o === 'Squamata' && d.so === 'Serpentes') ? 'Réptil (Serpente)' : 'Réptil (Lagarto)') : 'Herpetofauna');
+        if (Array.isArray(r.bio) && r.bio.length) {
+          r.bio.forEach(function (b) {
+            bioRows.push({
+              data: b.data || fmtDate(r.hora || L.inicio),
+              hora: b.hora || (r.hora ? pad(new Date(r.hora).getHours()) + ':' + pad(new Date(r.hora).getMinutes()) : '—'),
+              estacao: b.estacao || L.ua || '—',
+              resp: b.resp || input.responsavel || 'Lucas Aøsf',
+              grp: b.grp || grp,
+              sp: sciName,
+              pop: pName,
+              marcacao: b.marcacao || 'Natural',
+              status: b.status || 'N',
+              sexo: b.sexo || 'Ind',
+              reprod: b.reprod || 'N.A.',
+              crc: b.crc != null && b.crc !== '' ? +b.crc : null,
+              cauda: b.cauda != null && b.cauda !== '' ? +b.cauda : null,
+              peso: b.peso != null && b.peso !== '' ? +b.peso : null,
+              ac: b.ac != null && b.ac !== '' ? +b.ac : null,
+              lc: b.lc != null && b.lc !== '' ? +b.lc : null,
+              ac2: b.ac2 != null && b.ac2 !== '' ? +b.ac2 : null,
+              lc2: b.lc2 != null && b.lc2 !== '' ? +b.lc2 : null,
+              sl: b.sl || '',
+              il: b.il || '',
+              sc: b.sc || '',
+              cl: b.cl || '',
+              clima: b.clima || L.clima || '—',
+              obs: b.obs || r.obs || ''
+            });
+          });
+        } else if (hasPitfall && (r.tot || r.N)) {
+          var qtd = r.tot || r.N || 1;
+          for (var qi = 0; qi < qtd; qi++) {
+            bioRows.push({
+              data: fmtDate(r.hora || L.inicio),
+              hora: r.hora ? pad(new Date(r.hora).getHours()) + ':' + pad(new Date(r.hora).getMinutes()) : '—',
+              estacao: L.ua || '—',
+              resp: input.responsavel || 'Lucas Aøsf',
+              grp: grp,
+              sp: sciName,
+              pop: pName,
+              marcacao: '',
+              status: 'N',
+              sexo: 'Ind',
+              reprod: 'N.A.',
+              crc: null, cauda: null, peso: null,
+              ac: null, lc: null, ac2: null, lc2: null,
+              sl: '', il: '', sc: '', cl: '',
+              clima: L.clima || '—',
+              obs: r.obs || ''
+            });
+          }
+        }
+      });
+    });
+
+    var showBiometria = hasPitfall || bioRows.length > 0;
+    if (showBiometria) {
+      var Bm = B.sheet('Biometria', { landscape: true, freeze: { r: 8, c: 6 }, printTitles: [6, 7], fitW: 3 });
+      var rB = Bm.title(0, 'Biometria de campo — Pitfall (Armadilhas de Interceptação e Queda)', titulo + ' · ' + periodo + ' · Morfometria, folidose e histórico de capturas.', 24);
+
+      Bm.set(rB, 0, 'Metadados da amostragem', S.secao); Bm.fill(rB, 1, rB, 23, S.secao); rB += 1;
+      var bInfo = [
+        ['Projeto / Área', input.projeto || (D.listas[0] && D.listas[0].projeto) || '—'],
+        ['Método', 'Pitfall (Armadilhas de Interceptação e Queda)'],
+        ['Período', periodo],
+        ['Unidades amostrais', D.uas.map(function (u) { return u.nome; }).join(', ')],
+        ['Responsável técnico', input.responsavel || 'Lucas Aøsf (CRBio 127233/01-D)']
+      ];
+      bInfo.forEach(function (x) {
+        Bm.set(rB, 0, x[0], S.totl);
+        Bm.set(rB, 1, x[1], st('tdl', { wrap: true }));
+        Bm.merge(rB, 1, rB, 23, st('tdl'));
+        rB++;
+      });
+      rB++;
+
+      var nCapturas = bioRows.length;
+      var nNovos = bioRows.filter(function (b) { return b.status === 'N'; }).length;
+      var nRecapt = bioRows.filter(function (b) { return b.status === 'R'; }).length;
+      var txRecapt = nCapturas ? round(100 * nRecapt / nCapturas, 1) + '%' : '0%';
+      var nReprod = bioRows.filter(function (b) { return b.reprod === 'F.O.' || b.reprod === 'M' || b.reprod === 'A.P.' || b.reprod === 'V'; }).length;
+      var estCounts = {}; bioRows.forEach(function (b) { if (b.estacao && b.estacao !== '—') estCounts[b.estacao] = (estCounts[b.estacao] || 0) + 1; });
+      var topEst = Object.keys(estCounts).sort(function (a, b) { return estCounts[b] - estCounts[a]; })[0] || '—';
+
+      Bm.set(rB, 0, 'Resultados e Métricas de Captura', S.secao); Bm.fill(rB, 1, rB, 23, S.secao); rB += 1;
+      var bKpis = [
+        [nCapturas, 'Total de capturas'],
+        [nNovos, 'Novos indivíduos (N)'],
+        [nRecapt, 'Recapturas (R)'],
+        [txRecapt, 'Taxa de recaptura'],
+        [nReprod, 'Atividade reprodutiva'],
+        [topEst, 'Estação mais abundante']
+      ];
+      bKpis.forEach(function (k, i) {
+        var cStart = i * 4, cEnd = cStart + 3;
+        Bm.set(rB, cStart, k[0], st('kpiNum', { nf: typeof k[0] === 'number' && k[0] % 1 ? '0.0' : '0' }));
+        Bm.merge(rB, cStart, rB, cEnd, S.kpiNum);
+        Bm.set(rB + 1, cStart, k[1], S.kpiLab);
+        Bm.merge(rB + 1, cStart, rB + 1, cEnd, S.kpiLab);
+      });
+      Bm.height(rB, 28); Bm.height(rB + 1, 24); rB += 3;
+
+      var superCols = [
+        ['Identificação da Captura e Taxonomia', 0, 6],
+        ['Histórico e Biologia', 7, 10],
+        ['Morfometria Geral (mm e g)', 11, 13],
+        ['Anuros (mm)', 14, 17],
+        ['Folidose (Serpentes)', 18, 21],
+        ['Campo e Observações', 22, 23]
+      ];
+      superCols.forEach(function (sc) {
+        Bm.set(rB, sc[1], sc[0], S.th2);
+        Bm.merge(rB, sc[1], rB, sc[2], S.th2);
+      });
+      Bm.height(rB, 22); rB += 1;
+
+      var bHeaders = [
+        'Data', 'Hora', 'Estação / Balde', 'Responsável', 'Classe / Grupo', 'Nome da Espécie', 'Nome Popular',
+        'Tipo Marcação & Local', 'Status', 'Sexo', 'Reprodução',
+        'CRC (mm)', 'Cauda (mm)', 'Peso (g)',
+        'AC (mm)', 'LC (mm)', 'AC2 (mm)', 'LC2 (mm)',
+        'SL (supra)', 'IL (infra)', 'SC (sub-caudal)', 'CL (cloacal)',
+        'Condições Climáticas', 'Observações'
+      ];
+      bHeaders.forEach(function (h, i) { Bm.set(rB, i, h, S.th); });
+      Bm.height(rB, 26); rB += 1;
+
+      var bWidths = [11, 8, 15, 16, 14, 25, 18, 22, 8, 8, 12, 10, 10, 10, 9, 9, 9, 9, 11, 10, 12, 11, 22, 28];
+      bWidths.forEach(function (w, i) { Bm.width(i, w); });
+
+      bioRows.forEach(function (b, bi) {
+        var alt = bi % 2 === 1;
+        var tdBase = alt ? st('td', { fill: C.branco }) : S.td;
+        var tdlBase = alt ? st('tdl', { fill: C.branco }) : S.tdl;
+        var spBase = alt ? st('sp', { fill: C.branco }) : S.sp;
+
+        Bm.set(rB, 0, b.data, tdBase);
+        Bm.set(rB, 1, b.hora, tdBase);
+        Bm.set(rB, 2, b.estacao, tdlBase);
+        Bm.set(rB, 3, b.resp, tdlBase);
+        Bm.set(rB, 4, b.grp, tdBase);
+        Bm.set(rB, 5, b.sp, spBase);
+        Bm.set(rB, 6, b.pop, tdlBase);
+        Bm.set(rB, 7, b.marcacao || '—', tdlBase);
+        Bm.set(rB, 8, b.status || 'N', tdBase);
+        Bm.set(rB, 9, b.sexo || 'Ind', tdBase);
+        Bm.set(rB, 10, b.reprod || 'N.A.', tdBase);
+
+        Bm.set(rB, 11, b.crc != null ? b.crc : null, st(tdBase, { nf: '0.0' }));
+        Bm.set(rB, 12, b.cauda != null ? b.cauda : null, st(tdBase, { nf: '0.0' }));
+        Bm.set(rB, 13, b.peso != null ? b.peso : null, st(tdBase, { nf: '0.0' }));
+        Bm.set(rB, 14, b.ac != null ? b.ac : null, st(tdBase, { nf: '0.0' }));
+        Bm.set(rB, 15, b.lc != null ? b.lc : null, st(tdBase, { nf: '0.0' }));
+        Bm.set(rB, 16, b.ac2 != null ? b.ac2 : null, st(tdBase, { nf: '0.0' }));
+        Bm.set(rB, 17, b.lc2 != null ? b.lc2 : null, st(tdBase, { nf: '0.0' }));
+
+        Bm.set(rB, 18, b.sl || '—', tdBase);
+        Bm.set(rB, 19, b.il || '—', tdBase);
+        Bm.set(rB, 20, b.sc || '—', tdBase);
+        Bm.set(rB, 21, b.cl || '—', tdBase);
+
+        Bm.set(rB, 22, b.clima || '—', tdlBase);
+        Bm.set(rB, 23, b.obs || '', tdlBase);
+        rB++;
+      });
+
+      rB += 1;
+      Bm.set(rB, 0, 'Dicionário de Códigos de Biometria (Herpetofauna — Pitfall)', S.secao);
+      Bm.fill(rB, 1, rB, 23, S.secao); rB += 1;
+      var legTxt = 'Status: N – Novo indivíduo; R – Recaptura.\n' +
+        'Sexo: M – Macho; F – Fêmea; J – Jovem / Imaturo; Ind – Indeterminado.\n' +
+        'Reprodução: F.O. – Fêmea Ovada; M – Marsupial (cuidado parental / ovos ou girinos no dorso); A.P. – Amplexo; V – Vocalizando; N.A. – Nada consta.\n' +
+        'Medidas (mm e g): CRC – Comprimento Rostro-Cloacal; Cauda – Comprimento caudal (répteis); Peso em gramas (g); AC – Altura da cabeça; LC – Largura da cabeça; AC2 – Altura do corpo; LC2 – Largura do corpo.\n' +
+        'Folidose (serpentes): SL – Supra-labiais (nº total e nº em contato com olho); IL – Infra-labiais; SC – Sub-caudais (D: dividida, I: inteira); CL – Placa cloacal / anal (D: dividida, I: inteira).';
+      Bm.set(rB, 0, legTxt, S.legenda);
+      Bm.merge(rB, 0, rB + 4, 23, S.legenda);
+      Bm.height(rB, 18);
+    }
+
+    /* ---------- 2c. Ficha das espécies: taxonomia completa e todas as informações das listas ---------- */
     var Fi = B.sheet('Ficha das espécies', { landscape: true, freeze: { r: 3, c: 0 }, printTitles: [2, 2], fitW: 3 });
     var headF = ['Classe', 'Infraclasse', 'Magnordem', 'Superordem', 'Ordem', 'Subordem', 'Infraordem', 'Família', 'Subfamília', 'Tribo', 'Gênero', 'Subgênero', 'Epíteto',
       'Espécie', 'Autor', 'Ano', 'Nome popular', 'Outros nomes populares', 'Grupo', 'Identificação', 'Origem', 'Endêmica do Brasil', 'Endêmica de bioma', 'Ocorrência no Brasil (aves)',
@@ -888,15 +1090,15 @@
     /* ---------- 10. Registros (dados brutos) ---------- */
     var Rg = B.sheet('Registros', { landscape: true, freeze: { r: 3, c: 0 }, printTitles: [2, 2] });
     r = Rg.title(0, 'Registros de campo', titulo + ' · um registro por espécie em cada lista.', 12);
-    var headR = ['Data', 'Hora', 'Campanha', 'Unidade amostral', 'Método', 'Lista', 'Classe', 'Ordem', 'Família', 'Subfamília', 'Gênero', 'Espécie', 'Autor', 'Nome popular', 'Visual', 'Auditivo', 'Sem tipo', 'Total', 'Latitude', 'Longitude', 'Observação'];
+    var headR = ['Data', 'Hora', 'Campanha', 'Unidade amostral', 'Método', 'Lista', 'Classe', 'Ordem', 'Família', 'Subfamília', 'Gênero', 'Espécie', 'Autor', 'Nome popular', 'Visual', 'Auditivo', 'Ocasional', 'Sem tipo', 'Total', 'Latitude', 'Longitude', 'Observação'];
     headR.forEach(function (h, i) { Rg.set(r, i, h, S.th); }); Rg.height(r, 24); r++;
     D.registros.slice().sort(function (a, b) { return (a.r.hora || a.L.inicio) < (b.r.hora || b.L.inicio) ? -1 : 1; }).forEach(function (x) {
       var d = x.e.d, t = x.r.hora || x.L.inicio;
-      var row = [dayOnly(t), timeOnly(t), x.L.campanha, x.L.ua, x.L.metodo, x.L.titulo || '', CLASSE_NOME[d.c] || '', d.o || '', d.f || '', d.sf || '', genero(x.e), x.e.nome, x.e.autor || '', nomePop(x.e), x.r.v || 0, x.r.a || 0, x.r.outro || 0, x.tot, x.r.lat != null ? x.r.lat : x.L.lat, x.r.lon != null ? x.r.lon : x.L.lon, x.r.obs || ''];
-      row.forEach(function (v, i) { Rg.set(r, i, v == null || v === '' ? null : v, i === 0 ? st('td', { nf: 'dd/mm/yyyy' }) : i === 1 ? st('td', { nf: 'hh:mm' }) : i === 10 || i === 11 ? S.sp : i >= 14 && i <= 17 ? st('td', { nf: '0' }) : i === 18 || i === 19 ? st('td', { nf: '0.00000' }) : i === 20 || i === 5 || i === 13 ? S.tdl : S.td); });
+      var row = [dayOnly(t), timeOnly(t), x.L.campanha, x.L.ua, x.L.metodo, x.L.titulo || '', CLASSE_NOME[d.c] || '', d.o || '', d.f || '', d.sf || '', genero(x.e), x.e.nome, x.e.autor || '', nomePop(x.e), x.r.v || 0, x.r.a || 0, x.r.oc || 0, x.r.outro || 0, x.tot, x.r.lat != null ? x.r.lat : x.L.lat, x.r.lon != null ? x.r.lon : x.L.lon, x.r.obs || ''];
+      row.forEach(function (v, i) { Rg.set(r, i, v == null || v === '' ? null : v, i === 0 ? st('td', { nf: 'dd/mm/yyyy' }) : i === 1 ? st('td', { nf: 'hh:mm' }) : i === 10 || i === 11 ? S.sp : i >= 14 && i <= 18 ? st('td', { nf: '0' }) : i === 19 || i === 20 ? st('td', { nf: '0.00000' }) : i === 21 || i === 5 || i === 13 ? S.tdl : S.td); });
       r++;
     });
-    [11, 7, 14, 14, 14, 18, 10, 15, 16, 15, 13, 26, 22, 20, 7, 8, 8, 7, 11, 11, 30].forEach(function (w, i) { Rg.width(i, w); });
+    [11, 7, 14, 14, 14, 18, 10, 15, 16, 15, 13, 26, 22, 20, 7, 8, 8, 8, 7, 11, 11, 30].forEach(function (w, i) { Rg.width(i, w); });
 
     /* ---------- 11. EstimateS (matriz) ---------- */
     var Es = B.sheet('Matriz EstimateS', { landscape: true, freeze: { r: 3, c: 1 } });
@@ -921,7 +1123,7 @@
     r = Lg.title(0, 'Legenda, critérios e fontes', 'Lista de Campo · criado por Lucas Aøsf', 4);
     Lg.width(0, 26); Lg.width(1, 70);
     var leg = [
-      ['Tipo de registro', 'V – visual; A – auditivo (vocalização). "Sem tipo": listas antigas, anteriores à marcação V/A.'],
+      ['Tipo de registro', 'V – visual; A – auditivo (vocalização); O – ocasional (encontro fortuito, carcaça, vestígio, fora de transecto/horário). "Sem tipo": listas antigas, anteriores à marcação V/A/O.'],
       ['N.T', 'Número total de indivíduos registrados da espécie.'],
       ['Abundância relativa', 'Indivíduos da espécie ÷ total de indivíduos × 100.'],
       ['Estimativa de abundância', 'M – muito abundante (≥ 5%); A – abundante (1 a 5%); P – pouco abundante (< 1%).'],
@@ -955,8 +1157,8 @@
   function csvCell(v) { if (v == null) return ''; if (typeof v === 'number') return String(Math.round(v * 1e6) / 1e6).replace('.', ','); var s = String(v); return /[;"\n\r]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s; }
   function csvRows(rows) { return '﻿' + rows.map(function (r) { return r.map(csvCell).join(';'); }).join('\r\n') + '\r\n'; }
   function csvRegistros(input) {
-    var D = preparar(input), rows = [['Data', 'Hora', 'Campanha', 'Unidade amostral', 'Método', 'Lista', 'Classe', 'Ordem', 'Família', 'Subfamília', 'Gênero', 'Espécie', 'Autor', 'Nome popular', 'Visual', 'Auditivo', 'Sem tipo', 'Total', 'Latitude', 'Longitude', 'Observação']];
-    D.registros.forEach(function (x) { var d = x.e.d, t = x.r.hora || x.L.inicio, dt = new Date(t); rows.push([fmtDate(t), pad(dt.getHours()) + ':' + pad(dt.getMinutes()), x.L.campanha, x.L.ua, x.L.metodo, x.L.titulo || '', CLASSE_NOME[d.c] || '', d.o || '', d.f || '', d.sf || '', genero(x.e), x.e.nome, x.e.autor || '', nomePop(x.e), x.r.v || 0, x.r.a || 0, x.r.outro || 0, x.tot, x.r.lat != null ? x.r.lat : x.L.lat, x.r.lon != null ? x.r.lon : x.L.lon, x.r.obs || '']); });
+    var D = preparar(input), rows = [['Data', 'Hora', 'Campanha', 'Unidade amostral', 'Método', 'Lista', 'Classe', 'Ordem', 'Família', 'Subfamília', 'Gênero', 'Espécie', 'Autor', 'Nome popular', 'Visual', 'Auditivo', 'Ocasional', 'Sem tipo', 'Total', 'Latitude', 'Longitude', 'Observação']];
+    D.registros.forEach(function (x) { var d = x.e.d, t = x.r.hora || x.L.inicio, dt = new Date(t); rows.push([fmtDate(t), pad(dt.getHours()) + ':' + pad(dt.getMinutes()), x.L.campanha, x.L.ua, x.L.metodo, x.L.titulo || '', CLASSE_NOME[d.c] || '', d.o || '', d.f || '', d.sf || '', genero(x.e), x.e.nome, x.e.autor || '', nomePop(x.e), x.r.v || 0, x.r.a || 0, x.r.oc || 0, x.r.outro || 0, x.tot, x.r.lat != null ? x.r.lat : x.L.lat, x.r.lon != null ? x.r.lon : x.L.lon, x.r.obs || '']); });
     return csvRows(rows);
   }
   function csvEspecies(input) {

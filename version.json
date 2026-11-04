@@ -1,15 +1,15 @@
 {
-  "v": 17,
-  "nome": "17",
-  "data": "2026-11-03",
+  "v": 18,
+  "nome": "18",
+  "data": "2026-11-04",
   "novidades": [
+    "Métodos específicos para Herpetofauna: Busca Ativa e Pitfall (armadilhas de interceptação e queda)",
+    "Aba de Biometria no Excel (.xlsx) gerada automaticamente ao selecionar o método Pitfall",
+    "Formulário completo de biometria de campo para registrar morfometria geral (CRC, cauda, peso), anuros e folidose",
+    "Novo tipo de registro: Ocasional (O), complementando Visual (V) e Auditivo (A) em todo o app",
     "Página de contato e suporte técnico para falar diretamente com o desenvolvedor",
-    "Ajuste de tema: alternância direta entre modo claro e escuro",
-    "Ícones novos: bem-te-vi (aves) e onça-pintada (mamíferos)",
     "Filtro de grupo faunístico antes de iniciar lista (Ornitofauna, Mastofauna, Herpetofauna)",
     "Identificação visual do grupo faunístico nos cards de Minhas Listas",
-    "Sugestões de espécies restritas exclusivamente ao grupo da lista",
-    "Exportação em padrão Darwin Core (DwC), KML (Google Earth) e GeoJSON (SIG)",
-    "Compartilhamento com card infográfico para WhatsApp"
+    "Exportação em padrão Darwin Core (DwC), KML (Google Earth), GeoJSON (SIG) e infográfico para WhatsApp"
   ]
 }
