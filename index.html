@@ -576,12 +576,16 @@ body.selecting .wm{display:none}
 .chip-guide-filter.on{background:var(--accent-soft);border-color:var(--accent);color:var(--accent-strong)}
 .chip-select{font-family:var(--body);font-size:12px;font-weight:600;padding:5px 10px;border-radius:999px;border:1.5px solid var(--line);background:var(--surface-2);color:var(--ink);cursor:pointer;outline:none}
 .guide-list{display:grid;gap:8px}
-.guide-card{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;border-radius:14px;background:var(--surface);border:1.5px solid var(--line);cursor:pointer;transition:transform .1s, border-color .15s;text-align:left;width:100%}
+.guide-card{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 12px;border-radius:14px;background:var(--surface);border:1.5px solid var(--line);cursor:pointer;transition:transform .1s, border-color .15s;text-align:left;width:100%}
 .guide-card:active{transform:scale(0.99);border-color:var(--accent)}
+.guide-thumb-wrap{flex:none;width:56px;height:56px;border-radius:12px;overflow:hidden;position:relative;background:var(--surface-2);border:1.5px solid var(--line);display:grid;place-items:center;box-shadow:0 2px 6px rgba(0,0,0,0.06)}
+.guide-thumb-ph{font-size:24px;line-height:1;user-select:none;opacity:0.85;display:grid;place-items:center}
+.guide-thumb-img{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;display:block;opacity:0;transition:opacity .25s ease}
+.guide-thumb-img.loaded{opacity:1}
 .guide-card-main{min-width:0;flex:1}
-.guide-card-name{font-family:var(--body);font-size:16px;font-weight:700;color:var(--ink);line-height:1.25}
-.guide-card-sci{font-size:13px;font-style:italic;color:var(--muted);margin-top:2px;line-height:1.25}
-.guide-card-tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
+.guide-card-name{font-family:var(--body);font-size:15.5px;font-weight:700;color:var(--ink);line-height:1.25}
+.guide-card-sci{font-size:12.5px;font-style:italic;color:var(--muted);margin-top:2px;line-height:1.25}
+.guide-card-tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:5px}
 .guide-tag{font-size:10.5px;font-weight:700;padding:2px 7px;border-radius:6px;background:var(--surface-2);border:1px solid var(--line);color:var(--muted)}
 .guide-tag.amen{background:#ffebee;color:#c62828;border-color:#ffcdd2}
 .guide-tag.endem{background:#e8f5e9;color:#2e7d32;border-color:#c8e6c9}
@@ -595,8 +599,22 @@ body.selecting .wm{display:none}
 .spec-head-aliases{font-size:12px;color:var(--muted);margin-top:2px}
 .spec-head-sci{font-size:15px;font-style:italic;color:var(--muted);margin-top:4px;line-height:1.3}
 .spec-head-tax{font-size:12.5px;color:var(--muted);margin-top:2px}
-.spec-photo-wrap{position:relative;border-radius:14px;overflow:hidden;background:var(--surface-2);border:1.5px solid var(--line);min-height:180px;max-height:280px;display:flex;align-items:center;justify-content:center}
-.spec-photo-wrap img{width:100%;height:100%;max-height:280px;object-fit:cover;display:block}
+.spec-photo-wrap{position:relative;border-radius:14px;overflow:hidden;background:var(--surface-2);border:1.5px solid var(--line);min-height:180px;display:flex;align-items:center;justify-content:center}
+.spec-photo-wrap img{width:100%;height:100%;max-height:340px;object-fit:cover;display:block}
+.spec-photo-credit{position:absolute;bottom:0;left:0;right:0;padding:4px 8px;background:linear-gradient(transparent,rgba(0,0,0,0.75));color:#fff;font-size:10.5px;text-align:right}
+.spec-gallery-box{position:relative;display:grid;gap:6px}
+.spec-photo-main-wrap{position:relative;border-radius:14px;overflow:hidden;background:#0d1810;min-height:220px;display:flex;align-items:center;justify-content:center;touch-action:pan-y;user-select:none}
+.spec-gallery-nav-btn{position:absolute;top:50%;transform:translateY(-50%);width:38px;height:38px;border-radius:50%;background:rgba(14,37,21,0.8);border:1.5px solid rgba(212,178,119,0.55);color:#F3EEE3;display:grid;place-items:center;cursor:pointer;z-index:4;transition:all .18s;backdrop-filter:blur(6px);box-shadow:0 3px 12px rgba(0,0,0,0.35);padding:0}
+.spec-gallery-nav-btn:active{transform:translateY(-50%) scale(0.92);background:var(--accent)}
+.spec-gallery-nav-btn.prev{left:10px}
+.spec-gallery-nav-btn.next{right:10px}
+.spec-gallery-counter{position:absolute;top:8px;right:8px;background:rgba(14,37,21,0.85);color:#F3EEE3;border:1px solid rgba(212,178,119,0.5);padding:3px 8px;border-radius:6px;font-size:11px;font-weight:700;backdrop-filter:blur(4px);z-index:3}
+.spec-gallery-badge{position:absolute;top:8px;left:8px;background:rgba(14,37,21,0.85);color:#F3EEE3;border:1px solid rgba(212,178,119,0.5);padding:3px 8px;border-radius:6px;font-size:11px;font-weight:700;backdrop-filter:blur(4px);z-index:3}
+.spec-gallery-meta{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(10,20,12,0.92));color:#F3EEE3;padding:20px 10px 8px;font-size:11.5px;display:flex;justify-content:space-between;align-items:flex-end;z-index:2}
+.spec-gallery-dots{display:flex;justify-content:center;align-items:center;gap:6px;padding:4px 0}
+.spec-gallery-dot{width:7px;height:7px;border-radius:50%;background:var(--line);border:none;padding:0;cursor:pointer;transition:all .2s}
+.spec-gallery-dot.active{background:var(--accent);width:18px;border-radius:4px}
+.spec-gallery-hint{font-size:11px;color:var(--muted);text-align:center;margin-top:2px}
 .spec-photo-credit{position:absolute;bottom:0;left:0;right:0;padding:4px 8px;background:linear-gradient(transparent,rgba(0,0,0,0.75));color:#fff;font-size:10.5px;text-align:right}
 .spec-loading{display:flex;flex-direction:column;align-items:center;gap:8px;font-size:12.5px;color:var(--muted)}
 .spin{width:22px;height:22px;border:2.5px solid var(--line);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite}
@@ -1005,9 +1023,9 @@ body.selecting .wm{display:none}
 <div class="sel-bar" id="sel-bar" hidden></div>
 <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 <datalist id="dl-proj"></datalist><datalist id="dl-camp"></datalist><datalist id="dl-ua"></datalist><datalist id="dl-met"></datalist>
-<script src="especies.js?v=2.6"></script>
-<script src="planilha.js?v=2.6"></script>
-<script src="firebase-config.js?v=2.6"></script>
+<script src="especies.js?v=2.7"></script>
+<script src="planilha.js?v=2.7"></script>
+<script src="firebase-config.js?v=2.7"></script>
 
 <script>
 (function(){
@@ -1105,7 +1123,7 @@ var S = {
   sugg:[], suggIdx:0, undo:null, sheetClose:null, editingName:null, demo:3,
   alias:{}, defMode:LS.get('defMode', 'V'), theme:LS.get('theme', 'dark'), filterTax:''
 };
-var APP_V = '2.6';
+var APP_V = '2.7';
 function cmpVer(a, b){
   var pa = String(a).split('.').map(function(n){ return parseInt(n, 10) || 0; });
   var pb = String(b).split('.').map(function(n){ return parseInt(n, 10) || 0; });
@@ -1117,10 +1135,10 @@ function cmpVer(a, b){
   return 0;
 }
 var NOVIDADES = [
-  'Referências bibliográficas completas por espécie em normas ABNT NBR 6023: descrição original/princeps e obras de referência padronizadas sem links de redirecionamento.',
-  'Cobertura de todas as fontes científicas do app: checklists nacionais (CBRO, SBH, SBMz, CTFB/ICMBio), graus de ameaça MMA e IUCN, ocorrências SiBBr/GBIF, bioacústica e diagnoses.',
-  'Botão de 1 clique para copiar referências formatadas em ABNT para a área de transferência, ideal para laudos técnicos, relatórios ambientais e artigos científicos.',
-  'Ordenação alfabética rigorosa por autor/entidade segundo a NBR 6023:2018 com tags temáticas indicando a informação respaldada por cada obra.'
+  'Miniaturas fotográficas nos cards do Guia de Espécies e da Life List: identificação visual rápida antes de abrir a ficha da espécie, com carregamento assíncrono e cache local.',
+  'Rodagem aprimorada das fotos da espécie: navegação lateral por setas (‹ e ›), rotação contínua, contador, barra de miniaturas sincronizada e suporte a swipe por toque no celular.',
+  'Diagnoses com caracteres morfológicos detalhados: descrição precisa de porte, cabeça, focinho, olhos, escamas, textura da pele, pelagem, plumagem, membros, dígitos e cauda.',
+  'Chaves diferenciais de campo: orientações diagnósticas práticas para distinguir a espécie de congêneres semelhantes no bioma brasileiro.'
 ];
 
 /* ---------- banco de espécies ---------- */
@@ -4359,7 +4377,116 @@ function toast(msg, undo, extra){
   clearTimeout(toastT); toastT = setTimeout(function(){ t.hidden = true; S.undo = null; S.toastExtra = null; }, extra ? 6500 : undo ? 4500 : 2600);
 }
 
-/* ---------- guia de espécies do brasil ---------- */
+/* ---------- guia de espécies do brasil & thumbnails ---------- */
+var GUIDE_THUMB_CACHE = (function(){
+  try {
+    return JSON.parse(localStorage.getItem('caderneta.v1.guide_thumbs') || '{}');
+  } catch(e){
+    return {};
+  }
+})();
+var GUIDE_THUMB_PENDING = {};
+var GUIDE_THUMB_QUEUE = [];
+var GUIDE_THUMB_ACTIVE = 0;
+var GUIDE_THUMB_MAX_CONCURRENT = 4;
+var _thumbSaveTimer = null;
+
+function saveGuideThumbCacheThrottled(){
+  if (_thumbSaveTimer) return;
+  _thumbSaveTimer = setTimeout(function(){
+    _thumbSaveTimer = null;
+    try {
+      var keys = Object.keys(GUIDE_THUMB_CACHE);
+      if (keys.length > 500){
+        var drop = keys.slice(0, keys.length - 400);
+        drop.forEach(function(x){ delete GUIDE_THUMB_CACHE[x]; });
+      }
+      localStorage.setItem('caderneta.v1.guide_thumbs', JSON.stringify(GUIDE_THUMB_CACHE));
+    } catch(e){}
+  }, 2000);
+}
+
+function fetchSpeciesThumbnailUrl(sci){
+  var k = norm(sci);
+  if (MEDIA_CACHE[k] && MEDIA_CACHE[k].photos && MEDIA_CACHE[k].photos.length){
+    var p0 = MEDIA_CACHE[k].photos[0];
+    return Promise.resolve(p0.thumbUrl || p0.url);
+  }
+  return fetch('https://pt.wikipedia.org/api/rest_v1/page/summary/' + encodeURIComponent(sci.replace(/\s+/g, '_')))
+    .then(function(r){ return r.ok ? r.json() : null; })
+    .then(function(d){
+      if (d && d.thumbnail && d.thumbnail.source){
+        return d.thumbnail.source;
+      }
+      return fetch('https://api.inaturalist.org/v1/taxa?q=' + encodeURIComponent(sci) + '&rank=species')
+        .then(function(r2){ return r2.ok ? r2.json() : null; })
+        .then(function(d2){
+          if (d2 && d2.results && d2.results.length){
+            var match = d2.results.find(function(t){ return norm(t.name) === k; }) || d2.results[0];
+            if (match && match.default_photo && (match.default_photo.square_url || match.default_photo.medium_url)){
+              return match.default_photo.square_url || match.default_photo.medium_url;
+            }
+          }
+          return null;
+        });
+    }).catch(function(){
+      return null;
+    });
+}
+
+function processGuideThumbQueue(){
+  if (GUIDE_THUMB_ACTIVE >= GUIDE_THUMB_MAX_CONCURRENT || !GUIDE_THUMB_QUEUE.length) return;
+  var item = GUIDE_THUMB_QUEUE.shift();
+  GUIDE_THUMB_ACTIVE++;
+
+  fetchSpeciesThumbnailUrl(item.sci).then(function(thumbUrl){
+    if (thumbUrl){
+      GUIDE_THUMB_CACHE[item.sci] = thumbUrl;
+      saveGuideThumbCacheThrottled();
+      var sel = '.guide-thumb-img[data-sci="' + CSS.escape(item.sci) + '"]';
+      var allSame = document.querySelectorAll(sel);
+      for (var i = 0; i < allSame.length; i++){
+        allSame[i].src = thumbUrl;
+        allSame[i].classList.add('loaded');
+      }
+    } else {
+      GUIDE_THUMB_CACHE[item.sci] = '';
+    }
+  }).catch(function(){
+  }).finally(function(){
+    delete GUIDE_THUMB_PENDING[item.sci];
+    GUIDE_THUMB_ACTIVE--;
+    processGuideThumbQueue();
+  });
+}
+
+function hydrateGuideThumbnails(container){
+  if (!container) return;
+  var imgs = container.querySelectorAll('.guide-thumb-img');
+  for (var i = 0; i < imgs.length; i++){
+    var img = imgs[i];
+    var sci = img.getAttribute('data-sci');
+    if (!sci) continue;
+    var cached = GUIDE_THUMB_CACHE[sci];
+    if (cached){
+      if (!img.src || img.src === location.href){
+        img.src = cached;
+      }
+      img.classList.add('loaded');
+    } else if (cached === ''){
+      // sem foto catalogada
+    } else {
+      if (!GUIDE_THUMB_PENDING[sci]){
+        GUIDE_THUMB_PENDING[sci] = true;
+        GUIDE_THUMB_QUEUE.push({sci: sci, imgEl: img});
+      }
+    }
+  }
+  for (var c = 0; c < GUIDE_THUMB_MAX_CONCURRENT; c++){
+    processGuideThumbQueue();
+  }
+}
+
 var GUIDE = {
   tax: '',
   q: '',
@@ -4457,8 +4584,13 @@ function renderGuideList(){
     var taxIcon = r.c === 'Ave' ? '🦅' : r.c === 'Mamífero' ? '🐾' : r.c === 'Anfíbio' ? '🐸' : r.c === 'Réptil' ? '🐍' : '🌿';
     var isThreat = isThreatened(r);
     var amenText = (r.mma && AMEN_MAP[r.mma]) ? r.mma : ((r.iucn && AMEN_MAP[r.iucn]) ? r.iucn : '');
+    var cachedThumb = GUIDE_THUMB_CACHE[r.n] || (MEDIA_CACHE[norm(r.n)] && MEDIA_CACHE[norm(r.n)].photos && MEDIA_CACHE[norm(r.n)].photos[0] && (MEDIA_CACHE[norm(r.n)].photos[0].thumbUrl || MEDIA_CACHE[norm(r.n)].photos[0].url));
     
     h += '<div class="guide-card" data-act="guide-card" data-sci="' + esc(r.n) + '">' +
+      '<div class="guide-thumb-wrap">' +
+        '<span class="guide-thumb-ph" aria-hidden="true">' + taxIcon + '</span>' +
+        '<img class="guide-thumb-img' + (cachedThumb ? ' loaded' : '') + '" src="' + esc(cachedThumb || '') + '" data-sci="' + esc(r.n) + '" alt="" loading="lazy" decoding="async" onload="this.classList.add(\'loaded\')">' +
+      '</div>' +
       '<div class="guide-card-main">' +
         '<div class="guide-card-name">' + esc(popName) + '</div>' +
         '<div class="guide-card-sci">' + esc(r.n) + (r.a ? ' <small style="font-style:normal;font-size:11px;opacity:0.8">' + esc(r.a) + '</small>' : '') + '</div>' +
@@ -4473,6 +4605,7 @@ function renderGuideList(){
     '</div>';
   }
   box.innerHTML = h;
+  hydrateGuideThumbnails(box);
   
   var mw = $('#guide-more-wrap');
   if (mw){
@@ -4632,8 +4765,13 @@ function renderLifeListItems(){
     var taxIcon = r.group === 'Ave' ? '🦅' : r.group === 'Mamífero' ? '🐾' : r.group === 'Anfíbio' ? '🐸' : r.group === 'Réptil' ? '🐍' : '🌿';
     var isThreat = db ? isThreatened(db) : false;
     var amenText = db ? ((db.mma && AMEN_MAP[db.mma]) ? db.mma : ((db.iucn && AMEN_MAP[db.iucn]) ? db.iucn : '')) : '';
+    var cachedThumb = GUIDE_THUMB_CACHE[r.sci] || (MEDIA_CACHE[norm(r.sci)] && MEDIA_CACHE[norm(r.sci)].photos && MEDIA_CACHE[norm(r.sci)].photos[0] && (MEDIA_CACHE[norm(r.sci)].photos[0].thumbUrl || MEDIA_CACHE[norm(r.sci)].photos[0].url));
 
     h += '<div class="guide-card ll-card" data-act="lifelist-card" data-sci="' + esc(r.sci) + '">' +
+      '<div class="guide-thumb-wrap">' +
+        '<span class="guide-thumb-ph" aria-hidden="true">' + taxIcon + '</span>' +
+        '<img class="guide-thumb-img' + (cachedThumb ? ' loaded' : '') + '" src="' + esc(cachedThumb || '') + '" data-sci="' + esc(r.sci) + '" alt="" loading="lazy" decoding="async" onload="this.classList.add(\'loaded\')">' +
+      '</div>' +
       '<div class="guide-card-main">' +
         '<div class="guide-card-name">' + esc(r.pop) + '</div>' +
         '<div class="guide-card-sci">' + esc(r.sci) + (db && db.a ? ' <small style="font-style:normal;font-size:11px;opacity:0.8">' + esc(db.a) + '</small>' : '') + '</div>' +
@@ -4649,6 +4787,7 @@ function renderLifeListItems(){
     '</div>';
   }
   box.innerHTML = h;
+  hydrateGuideThumbnails(box);
 
   var mw = $('#lifelist-more-wrap');
   if (mw){
@@ -5654,6 +5793,192 @@ function fetchSpeciesScientificData(sci, r){
   });
 }
 
+function getTaxonMorphologicalDiagnosis(r){
+  if (!r) return null;
+  var c = r.c || '';
+  var o = r.o || '';
+  var f = r.f || '';
+  var gr = r.gr || '';
+  var sci = r.n || '';
+  var genus = sci.split(' ')[0] || '';
+  var loc = r.loc || '';
+  var die = r.die || '';
+
+  var porte = '';
+  var cabeca = '';
+  var tegumento = '';
+  var membros = '';
+  var coloracao = '';
+  var chaveCampo = '';
+
+  if (c === 'Anfíbio'){
+    if (o === 'Gymnophiona' || gr === 'Cecília'){
+      porte = 'Corpo cilíndrico alongado e vermiforme, totalmente ápode (ausência completa de membros anteriores e posteriores).';
+      cabeca = 'Cabeça rigidamente ossificada adaptada ao hábito fossorial; tentáculo sensorial retrátil característico entre a narina e o olho; olhos vestigiais sob placas dérmicas; boca subterminal.';
+      tegumento = 'Pele lisa e úmida dividida por dezenas a centenas de anéis dérmicos primários e secundários nítidos; escamas dérmicas microscópicas inclusas em dobras glandulares.';
+      membros = 'Ausência total de membros e cinturas; cauda rudimentar ou comprimida natatória (Typhlonectidae).';
+      coloracao = 'Coloração críptica cinza-ardósia, castanho-escuro ou azulada, frequentemente com ranhuras interanelares mais claras.';
+      chaveCampo = 'Diferencia-se de serpentes e anfisbenas pela pele úmida e glandular sem escamas córneas externas secas e pela presença do tentáculo sensorial retrátil.';
+    } else if (f === 'Hylidae' || f === 'Phyllomedusidae' || f === 'Centrolenidae'){
+      var isPhyllo = (f === 'Phyllomedusidae' || genus === 'Phyllomedusa' || genus === 'Pithecopus');
+      var isCentro = (f === 'Centrolenidae');
+      porte = isPhyllo ? 'Perereca arborícola de membros esguios adaptados à marcha lenta em galhos e ramos finos (CRC 35–110 mm).' :
+              isCentro ? 'Perereca translúcida de pequeno porte com ossos esverdeados e pele ventral transparente (CRC 20–35 mm).' :
+              'Perereca de porte pequeno a grande (CRC 20–120 mm), corpo esbelto adaptado ao salto e escalada.';
+      cabeca = isPhyllo ? 'Focinho truncado a subacuminado; olhos grandes com pupila elíptica vertical; tímpano conspícuo.' :
+               'Cabeça larga; olhos grandes e salientes com pupila horizontal elíptica; tímpano arredondado evidente próximo ao olho; saco vocal subgular nos machos.';
+      tegumento = isCentro ? 'Ventre completamente transparente permitindo observar vísceras e coração; dorso verde-amarelado pontilhado.' :
+                  isPhyllo ? 'Pele dorsal lisa a rugosa com secreções lipídicas impermeabilizantes contra dessecação solar.' :
+                  'Pele dorsal lisa a finamente granulosa; ausência de grandes glândulas paratóides verrucosas.';
+      membros = isPhyllo ? 'Discos adesivos moderados; primeiro dedo da mão e do pé oponível aos demais (tipo pinça preênsil); membranas interdigitais reduzidas.' :
+                'Discos adesivos circulares notavelmente expandidos nas extremidades de todos os dedos e artelhos; membranas interdigitais desenvolvidas nos pés.';
+      coloracao = isPhyllo ? 'Dorso verde-folha brilhante; flancos, virilha e face interna das pernas com manchas geométricas em tons violeta, laranja, vermelho ou azul (coloração flash de aviso).' :
+                  'Dorso críptico (castanho, verde ou cinza) com linhas ou manchas; virilha e faces ocultas das pernas frequentemente com manchas aposemáticas de advertência amarelo-ouro ou azul-celeste.';
+      chaveCampo = 'Discos adesivos circulares dilatados nas pontas dos dedos e artelhos separam imediatamente de rãs e sapos; saco vocal inflável em machos vocalizantes.';
+    } else if (f === 'Bufonidae'){
+      porte = 'Sapo de corpo maciço, pesado e atarracado (CRC 40–220 mm), adaptado ao forrageamento terrestre no solo e serapilheira.';
+      cabeca = 'Cabeça robusta com cristas ósseas supra-orbitais frequentes; olhos com pupila horizontal; grandes glândulas paratóides pós-orbitais hipertrofiadas atrás dos olhos.';
+      tegumento = 'Pele espessa, áspera e altamente queratinizada, densamente recoberta por verrugas e tubérculos glandulares contendo bufotoxinas defensivas.';
+      membros = 'Membros curtos e musculosos adaptados à marcha no solo ou saltos curtos; dedos sem discos adesivos terminais e pés com membranas interdigitais basais.';
+      coloracao = 'Padrão mimético dorsal em tons de castanho, ocre, pardo e cinza, frequentemente com faixa vertebral clara mediana; ventre amarelado vermiculado.';
+      chaveCampo = 'Grandes glândulas paratóides proeminentes atrás dos olhos combinadas com a pele densamente verrucosa e ausência de discos adesivos digitais confirmam a família Bufonidae.';
+    } else if (f === 'Leptodactylidae' || f === 'Odontophrynidae'){
+      porte = 'Rã de corpo robusto e fusiforme (CRC 30–180 mm), pernas posteriores longas e musculosas especializadas em saltos potentes e rápidos.';
+      cabeca = 'Cabeça cônica com focinho arredondado a subacuminado; olhos laterais com pupila horizontal; tímpano circular nítido com anel timpânico bem delimitado.';
+      tegumento = 'Dorso com pregas glandulares dorsolaterais longitudinais proeminentes; pele lisa a finamente granular; ventre totalmente liso e esbranquiçado.';
+      membros = 'Dígitos afilados sem discos adesivos dilatados ou apenas com calosidades basais; tubérculos metatarsais desenvolvidos; membranas interdigitais rudimentares a ausentes.';
+      coloracao = 'Dorso críptico com manchas castanhas, avermelhadas ou oceladas sobre fundo pardo; faixa labial clara ou escura ao longo da maxila; ventre claro.';
+      chaveCampo = 'Morfologia típica de rã terrestre: ausência de discos nas pontas dos dedos, presença de dobras dorsolaterais longitudinais e ninhos de espuma na água ou tocas úmidas.';
+    } else if (f === 'Microhylidae'){
+      porte = 'Sapo de corpo piriforme globoso (formato de pera) com abdômen volumoso e membros curtos (CRC 20–60 mm).';
+      cabeca = 'Cabeça desproporcionalmente pequena e afilada; focinho pontiagudo; dobra dérmica transversal occipital nítida atrás dos olhos; boca estreita.';
+      tegumento = 'Pele lisa, viscosa e espessa com secreções cutâneas defensivas escorregadias; ausência de verrugas queratinizadas.';
+      membros = 'Membros posteriores curtos providos de tubérculos metatarsais em forma de pá para escavação rápida retrógrada sob a terra e serapilheira.';
+      coloracao = 'Dorso castanho-escuro, cinza ou avermelhado, muitas vezes com linhas laterais finas claras ou pontuações ventrais esbranquiçadas.';
+      chaveCampo = 'Formato em pera com cabeça diminuta pontiaguda e prega dérmica atrás dos olhos diagnosticam inequivocamente a família Microhylidae.';
+    } else {
+      porte = 'Anfíbio anuro adaptado ao bioma brasileiro com proporções corporais correspondentes ao estrato ' + (loc === 'Ar' ? 'arborícola' : loc === 'SA' ? 'semi-aquático' : 'terrestre') + '.';
+      cabeca = 'Focinho e cabeça estruturados para ' + (loc === 'Ar' ? 'orientação visual com olhos amplos' : 'forrageamento em solo') + '; tímpano e narinas conspícuas.';
+      tegumento = 'Pele glandular úmida com adaptações osmóticas e respiratórias tegumentares.';
+      membros = 'Membros posteriores proporcionalmente desenvolvidos para propulsão por salto ou deslocamento rápido.';
+      coloracao = 'Padrão críptico ou disruptivo adaptado à camuflagem no substrato vegetal e rochoso do bioma.';
+      chaveCampo = 'Identificação definitiva apoiada na combinação de padrão bioacústico do canto de anúncio e análise dos tubérculos e membranas dos membros posteriores.';
+    }
+  } else if (c === 'Réptil'){
+    if (f === 'Viperidae'){
+      porte = 'Serpente solenóglifa peçonhenta de corpo moderadamente esbelto a pesado e robusto (geralmente 60–200 cm).';
+      cabeca = 'Cabeça triangular ou subtriangular achatada, nitidamente destacada do pescoço estreito; olhos laterais com pupila elíptica vertical; presença de fosseta loreal termossensorial evidente entre a narina e o olho; grandes presas inoculadoras móveis no maxilar anterior.';
+      tegumento = 'Escamas dorsais fortemente carenadas (com quilha longitudinal rígida) conferindo aspecto fosco e rugoso; contagem de 21 a 35 fileiras ao meio do corpo.';
+      membros = 'Corpo ápode; placa cloacal única; escamas subcaudais divididas; cauda com chocalho córneo (Crotalus), espinho terminal eriçado (Lachesis) ou afilada comum (Bothrops).';
+      coloracao = 'Padrão dorsal de manchas geométricas triangulares ou trapezoidais em ferradura ("V" invertido) claras com centro escuro (Bothrops), losangos alaranjados/amarelados (Lachesis) ou manchas subcirculares castanhas (Crotalus).';
+      chaveCampo = 'Presença de fosseta loreal (orifício entre narina e olho) + cabeça triangular com escamas pequenas e pupilas verticais confirma com 100% de certeza serpente peçonhenta da família Viperidae.';
+    } else if (f === 'Elapidae'){
+      porte = 'Serpente proteróglifa peçonhenta (coral-verdadeira) de corpo cilíndrico alongado e calibre regular uniforme (40–140 cm).';
+      cabeca = 'Cabeça arredondada ou ovalada contínua com o corpo sem colo marcado; olhos diminutos escuros com pupila redonda; 9 grandes placas cefálicas simétricas no topo da cabeça; ausência de fosseta loreal; presas anteriores fixas canalizadas.';
+      tegumento = 'Escamas dorsais perfeitamente lisas, brilhantes e sem qualquer carena; 15 fileiras regulares ao meio do corpo.';
+      membros = 'Corpo ápode; cauda curta e cônica com extremidade arredondada.';
+      coloracao = 'Padrão tricolor ou bicolour característico de anéis transversais completos pretos, vermelhos e brancos/amarelos que circundam integralmente tanto o dorso quanto o ventre.';
+      chaveCampo = 'Anéis coloridos completos que dão a volta em todo o ventre + dentição proteróglifa com cabeça contínua ao corpo e escamas brilhantes lisas diagnosticam as corais-verdadeiras.';
+    } else if (f === 'Boidae'){
+      porte = 'Grande serpente constritora não-peçonhenta (áglifa) de corpo volumoso, pesado e maciço (1,2 a 8 metros).';
+      cabeca = 'Cabeça alongada destacada do pescoço; pupilas elípticas verticais; fossetas termossensoriais nas escamas labiais em várias espécies; dentes cônicos curvos voltados para trás.';
+      tegumento = 'Escamas dorsais pequenas, lisas ou finamente carenadas dispostas em numerosas fileiras (45 a mais de 80 fileiras ao meio do corpo).';
+      membros = 'Esporões córneos cloacais vestigiais em cada lado da fenda anal (remanescentes da cintura pélvica); cauda preênsil curta musculosa.';
+      coloracao = 'Padrão de ocelos dorsais, manchas em sela castanhas/avermelhadas sobre fundo acinzentado (Boa) ou padrão de manchas pretas circulares sobre fundo verde-oliva escuro (Eunectes).';
+      chaveCampo = 'Grande porte com musculatura constritora densa, esporões cloacais vestigiais e dezenas de fileiras de escamas dorsais pequenas confirmam a família Boidae.';
+    } else if (f === 'Colubridae' || f === 'Dipsadidae'){
+      porte = 'Serpente áglifa ou opistóglifa de corpo esbelto, cilíndrico ou comprimido lateralmente (30–220 cm).';
+      cabeca = 'Cabeça ovalada moderadamente demarcada do pescoço; topo cefálico coberto por grandes placas simétricas regulares; olhos médios a grandes com pupila redonda (diurnas) ou vertical (arborícolas noturnas); ausência de fosseta loreal.';
+      tegumento = 'Escamas dorsais em sua maioria lisas (ou com quilha leve em algumas aquáticas/arborícolas); 13 a 21 fileiras ao meio do corpo.';
+      membros = 'Corpo ápode; cauda longa e afilada; placa cloacal dividida ou inteira.';
+      coloracao = 'Altamente variada: desde verde uniforme (cobras-cipó) a faixas longitudinais, anéis incompletos no ventre (falsas-corais) ou padrão marmorado críptico.';
+      chaveCampo = 'Ausência de fosseta loreal + placas cefálicas simétricas bem desenvolvidas e pupilas redondas na maioria das espécies diurnas descartam peçonha botrópica/crotálica.';
+    } else if (f === 'Tropiduridae' || f === 'Teiidae' || f === 'Gekkonidae' || f === 'Dactyloidae'){
+      porte = 'Lagarto de porte pequeno a grande (CRC 30–450 mm), corpo cilíndrico ou comprimido com membros locomotores bem desenvolvidos.';
+      cabeca = 'Cabeça triangular ou cônica com tímpanos auditivos externos visíveis; olhos móveis com pálpebras (ou cápsula transparente em Gekkonidae); língua bífida alongada em Teiidae (teiús).';
+      tegumento = 'Escamas dorsais granulares, imbricadas, espinhosas ou quilhadas; presença de poros pré-cloacais ou femorais nos machos.';
+      membros = 'Membros pentadáctilos com unhas agudas para corrida ou lamelas subdigitais adesivas expandidas para escalada vertical em troncos e rochas (Gekkonidae e Dactyloidae).';
+      coloracao = 'Padrão mimético cinzento, acastanhado ou verde-esmeralda com estrias laterais, ocelos ou machas gulares coloridas nos machos em cortejo.';
+      chaveCampo = 'Presença de tímpanos externos, pálpebras móveis e membros com garras ou lamelas adesivas caracterizam os lagartos em relação às serpentes e anfisbenas.';
+    } else if (f === 'Alligatoridae'){
+      porte = 'Grande réptil predador aquático de corpo couraçado maciço (1,2 a mais de 4,5 metros).';
+      cabeca = 'Cabeça achatada dorsoventralmente com focinho amplo em formato de U; narinas e olhos posicionados no topo da cabeça para respirar e vigiar submerso; dentes inferiores que se encaixam internamente na maxila superior com a boca fechada.';
+      tegumento = 'Pele dorsal extremamente resistente revestida por osteodermos dérmicos ósseos carenados alinhados em cristas longitudinais.';
+      membros = 'Membros curtos e fortes com membranas interdigitais natatórias nos pés posteriores; cauda comprimida lateralmente musculosa para propulsão aquática.';
+      coloracao = 'Dorso pardo-oliva, verde-escuro ou enegrecido com faixas transversais claras nos juvenis; ventre amarelado liso.';
+      chaveCampo = 'Dentes inferiores ocultos quando a mandíbula se fecha diferenciam os jacarés (Alligatoridae) dos crocodilos verdadeiros (Crocodylidae).';
+    } else {
+      porte = 'Réptil com carapaça óssea (se quelônio) ou corpo recoberto por escamas queratinizadas secas impermeáveis adaptadas à retenção hídrica.';
+      cabeca = 'Estrutura craniana com mandíbulas adaptadas à dieta ' + (die === 'Cv' ? 'carnívora/predadora' : 'onívora/herbívora') + '.';
+      tegumento = 'Tegumento epidérmico córneo com renovação periódica por ecdise (muda de pele).';
+      membros = 'Locomoção especializada para substrato ' + (loc === 'Ar' ? 'arborícola' : loc === 'SA' ? 'aquático/ripário' : 'terrestre') + '.';
+      coloracao = 'Padrão pigmentar mimético ou aposemático em equilíbrio termorregulatório com o bioma.';
+      chaveCampo = 'Escamas córneas epidérmicas e respiração estritamente pulmonar diferenciam permanentemente de anfíbios.';
+    }
+  } else if (c === 'Ave'){
+    var bico = '';
+    if (die === 'Fr' || die === 'Fr/On') bico = 'Bico robusto e adaptado ao corte, quebra ou manuseio de frutos carnosos e sementes florestais.';
+    else if (die === 'Cv') bico = 'Bico fortemente adunco, recurvado e afiado provido de cera basal carnosa nas narinas para dilacerar presas.';
+    else if (die === 'In') bico = 'Bico reto a levemente comprimido, com cerdas rictais vibrissas desenvolvidas na base para captura de insetos em voo ou folhagem.';
+    else if (die === 'Ne') bico = 'Bico extremamente fino, alongado e tubular adaptado ao néctar floral e língua bífida protrátil.';
+    else if (die === 'Ps') bico = 'Bico longo e pontiagudo em forma de punhal para captura rápida de peixes e presas aquáticas.';
+    else bico = 'Bico adaptado à dieta generalista de forrageamento nos estratos vegetais.';
+
+    porte = 'Ave de porte adaptado ao estrato ' + (loc === 'Ar' ? 'arbóreo' : 'terrestre/aéreo') + ', esqueleto pneumático leve com quilha esternal desenvolvida para voo manobrável.';
+    cabeca = 'Cabeça com olhos laterais amplos de alta resolução visual; ' + bico + ' Presença de detalhes diagnósticos na face (supercílio, loros, máscara ou coroa).';
+    tegumento = 'Plumagem aerodinâmica completa: rêmiges primárias e secundárias nas asas, retrizes caudais estabilizadoras e tectrizes corporais isolantes térmicas.';
+    membros = 'Pés com tarsos escamosos e dedos providos de unhas recurvadas adaptadas ao poleiro (' + (f === 'Picidae' || f === 'Psittacidae' || f === 'Ramphastidae' ? 'pés zigodáctilos: 2 dedos para frente e 2 para trás' : 'pés anisodáctilos: 3 dedos frontais e 1 posterior') + ').';
+    coloracao = 'Padrão de plumagem que pode apresentar dimorfismo sexual marcante (machos conspícuos vs fêmeas crípticas), com barras alares, espelho e faixas caudais diagnósticas.';
+    chaveCampo = 'Identificação no campo baseada na silhueta em voo ou poleiro, proporção do bico, padrão cromático de supercílio e coroa, associada à confirmação bioacústica do canto e chamados.';
+  } else if (c === 'Mamífero'){
+    if (f === 'Didelphidae'){
+      porte = 'Marsupial de porte pequeno a médio (CRC 90–380 mm, cauda 120–420 mm), esqueleto flexível adaptado ao hábito ' + (loc === 'Ar' ? 'arborícola' : 'escansorial') + '.';
+      cabeca = 'Focinho afilado cônico com rhinarium úmido e numerosas vibrissas faciais táteis; orelhas grandes membranosas nuas; dentição completa com 50 dentes (5 incisivos superiores e 4 inferiores).';
+      tegumento = 'Pelagem densa e macia (ou lanosa com pelos de cobertura mais longos); contraste evidente entre o dorso escurecido e o ventre esbranquiçado ou amarelado.';
+      membros = 'Membros pentadáctilos; hálux (polegar do pé) oponível e desprovido de garra (com almofada carnosa plana), funcionando como pinça para preensão firme em galhos; cauda preênsil nua na porção distal.';
+      coloracao = 'Dorso castanho-avermelhado, cinza ou pardo; face com máscara periocular escura e faixa longitudinal clara na fronte; cauda bicolor ou manchada.';
+      chaveCampo = 'Presença de hálux oponível sem garra nos membros posteriores combinada com a cauda preênsil e focinho longo com 50 dentes diagnosticam os marsupiais didelfídeos.';
+    } else if (f === 'Felidae'){
+      porte = 'Mamífero carnívoro de corpo esbelto, flexível e fortemente musculoso adaptado ao bote furtivo e corrida de curta distância.';
+      cabeca = 'Crânio curto e arredondado com focinho rombo; olhos frontais grandes com pupilas que se fecham em fenda vertical ou círculo; caninos afiados hipertrofiados e dentes carniceiros cortantes.';
+      tegumento = 'Pelagem macia, densa e curta com padrão altamente críptico (rosetas, manchas circulares, listras ou uniforme acastanhado/amarelado); ventre esbranquiçado.';
+      membros = 'Patas digitígradas com almofadas plantares silenciosas e garras curvas retráteis protegidas por bainhas dérmicas; cauda moderada a longa para equilíbrio dinâmico.';
+      coloracao = 'Padrão de manchas ou rosetas negras sobre fundo dourado/ocre com centro ocre, ou coloração uniforme avermelhada/acinzentada (Puma).';
+      chaveCampo = 'Garras totalmente retráteis (que não deixam marcas nas pegadas em substrato macio) e crânio curto com focinho rombo separam os felídeos dos canídeos.';
+    } else if (f === 'Canidae'){
+      porte = 'Mamífero carnívoro cursorial de corpo esbelto e pernas longas adaptadas à locomoção contínua e perseguição ativa em terrenos abertos ou bordas de mata.';
+      cabeca = 'Focinho alongado e afilado com olfato extremamente desenvolvido; orelhas triangulares eretas e móveis; dentição carnívora com 42 dentes.';
+      tegumento = 'Pelagem de comprimento médio a longo com subpelo isolante; cauda espessa e densamente peluda com ponta frequentemente contrastante (branca ou preta).';
+      membros = 'Membros longos e digitígrados com garras não-retráteis rígidas que tocam o solo e deixam impressões nítidas nas pegadas.';
+      coloracao = 'Coloração dourada-avermelhada com patas pretas (Chrysocyon) ou cinza-amarelada com dorso salpicado de preto (Cerdocyon).';
+      chaveCampo = 'Unhas não-retráteis sempre visíveis nas pegadas, focinho longo cônico e orelhas eretas diferenciam os canídeos dos felídeos em campo.';
+    } else if (f === 'Phyllostomidae' || o === 'Chiroptera'){
+      porte = 'Mamífero alado voador de pequeno a médio porte com antebraço e ossos falangeanos hipertrofiados sustentando o patágio alar vascularizado.';
+      cabeca = 'Presença de folha nasal dérmica carnosa erétil bem desenvolvida acima das narinas (Phyllostomidae) para emissão e direcionamento de biossonar de alta frequência; trago auricular proeminente.';
+      tegumento = 'Corpo recoberto por pelagem densa sedosa; membranas alares (propatágio, dactilopatágio e plagiopatágio) elásticas e resistentes.';
+      membros = 'Membros anteriores modificados em asas ativas; membros posteriores com 5 dedos providos de garras afiadas para repouso invertido de cabeça para baixo; uropatágio interfemural desenvolvido.';
+      coloracao = 'Pelagem castanho-escura, fulva, cinza ou parda, por vezes com listras faciais brancas supraoculares e dorsais claras.';
+      chaveCampo = 'Presença de folha nasal carnosa erétil sobre o focinho diagnostica imediatamente a família Phyllostomidae dentre os morcegos brasileiros.';
+    } else {
+      porte = 'Mamífero adaptado ao substrato ' + (loc === 'Ar' ? 'arborícola com cauda longa preênsil' : loc === 'SA' ? 'aquático ripário' : 'terrestre/fossorial') + '.';
+      cabeca = 'Crânio e dentição especializados para dieta ' + (die === 'In' ? 'insetívora' : die === 'Fr' ? 'frugívora' : 'onívora/carnívora') + '; órgãos olfativos e auditivos refinados.';
+      tegumento = 'Pele recoberta por pelos epidérmicos queratinizados com glândulas sebáceas e sudoríparas; isolamento endotérmico.';
+      membros = 'Membros locomotores com adaptações ' + (loc === 'Ar' ? 'de preensão em ramos' : 'para marcha e corrida') + '.';
+      coloracao = 'Padrão críptico ou disruptivo camuflado no bioma de ocorrência.';
+      chaveCampo = 'Combinação de pegadas características, rastros, fezes e vocalizações em campo auxiliam na confirmação taxonômica da espécie.';
+    }
+  }
+
+  return {
+    porte: porte,
+    cabeca: cabeca,
+    tegumento: tegumento,
+    membros: membros,
+    coloracao: coloracao,
+    chaveCampo: chaveCampo
+  };
+}
+
 function buildDiagnosticFeaturesHtml(r, media){
   if (!r) return '';
   
@@ -5717,15 +6042,12 @@ function buildDiagnosticFeaturesHtml(r, media){
 
   var ptHabit = locMap[r.loc] || (r.loc ? 'Hábito: ' + r.loc : '');
   var ptDiet = dieMap[r.die] || (r.die ? 'Dieta: ' + r.die : '');
-  var isAnf = r.c === 'Anfíbio';
-  var isAve = r.c === 'Ave';
-  var isMam = r.c === 'Mamífero';
-  var isRep = r.c === 'Réptil';
+  var morph = getTaxonMorphologicalDiagnosis(r);
 
   var h = '<div class="spec-diag-box" style="background:var(--surface);border:1.5px solid var(--accent);border-radius:12px;padding:12px;margin-bottom:10px">';
   h += '<div style="display:flex;align-items:center;gap:6px;margin-bottom:8px">' +
     '<span style="font-size:18px">🔬</span>' +
-    '<b style="color:var(--accent-strong);font-size:13px;letter-spacing:0.3px;text-transform:uppercase">Diagnose &amp; Características para Identificação</b>' +
+    '<b style="color:var(--accent-strong);font-size:13px;letter-spacing:0.3px;text-transform:uppercase">Diagnose &amp; Caracteres Morfológicos de Identificação</b>' +
   '</div>';
 
   h += '<div class="spec-diag-grid" style="display:grid;gap:8px;font-size:12px;line-height:1.45">';
@@ -5736,7 +6058,26 @@ function buildDiagnosticFeaturesHtml(r, media){
     '<span>' + esc(r.c) + ' · Ordem ' + esc(r.o || '—') + ' · Família <b>' + esc(r.f || '—') + '</b>' + (r.sf ? ' (Subfamília ' + esc(r.sf) + ')' : '') + (r.gr ? ' · Grupo: <b>' + esc(r.gr) + '</b>' : '') + '</span>' +
   '</div>';
 
-  // 2. Chaves Morfológicas e Ecológicas
+  // 2. Caracteres Morfológicos Detalhados para Identificação
+  if (morph){
+    h += '<div style="background:var(--surface-2);padding:9px 11px;border-radius:8px;border:1px solid var(--line);display:grid;gap:6px">' +
+      '<b style="color:var(--accent-strong);display:block;font-size:12.5px">📏 Caracteres Morfológicos Diagnósticos:</b>' +
+      (morph.porte ? '<div><b>• Porte &amp; Proporções:</b> ' + esc(morph.porte) + '</div>' : '') +
+      (morph.cabeca ? '<div><b>• Cabeça, Focinho &amp; Sentidos:</b> ' + esc(morph.cabeca) + '</div>' : '') +
+      (morph.tegumento ? '<div><b>• Tegumento, Escamas/Pelagem/Plumagem:</b> ' + esc(morph.tegumento) + '</div>' : '') +
+      (morph.membros ? '<div><b>• Membros, Dígitos &amp; Cauda:</b> ' + esc(morph.membros) + '</div>' : '') +
+      (morph.coloracao ? '<div><b>• Padrão Cromático &amp; Coloração em Vida:</b> ' + esc(morph.coloracao) + '</div>' : '') +
+    '</div>';
+
+    if (morph.chaveCampo){
+      h += '<div style="background:var(--accent-soft);border:1px solid var(--accent);padding:9px 11px;border-radius:8px;font-size:12px;color:var(--accent-strong)">' +
+        '<b style="display:block;margin-bottom:3px">🔍 Chave Diferencial para Identificação da Espécie:</b>' +
+        '<span style="color:var(--ink)">' + esc(morph.chaveCampo) + '</span>' +
+      '</div>';
+    }
+  }
+
+  // 3. Chaves Ecológicas e Ocorrência
   var keys = [];
   if (ptHabit) keys.push('<b>Locomoção / Estrato:</b> ' + esc(ptHabit));
   if (ptDiet) keys.push('<b>Estratégia Alimentar:</b> ' + esc(ptDiet));
@@ -5748,35 +6089,18 @@ function buildDiagnosticFeaturesHtml(r, media){
 
   if (keys.length){
     h += '<div style="background:var(--surface-2);padding:8px 10px;border-radius:8px;border:1px solid var(--line)">' +
-      '<b style="color:var(--ink);display:block;margin-bottom:4px">🌿 Atributos Diagnósticos Ecológicos &amp; Ocorrência:</b>' +
+      '<b style="color:var(--ink);display:block;margin-bottom:4px">🌿 Atributos Ecológicos &amp; Ocorrência:</b>' +
       '<ul style="margin:0;padding-left:18px">' + keys.map(function(k){ return '<li>' + k + '</li>'; }).join('') + '</ul>' +
     '</div>';
   }
 
-  // 3. Diagnose Textual / Descrição Científica
+  // 4. Diagnose Textual / Descrição Científica Oficial
   var descText = (media && media.scientificDesc) ? translateTechTerms(media.scientificDesc) : '';
   if (descText){
     h += '<div style="background:var(--surface-2);padding:8px 10px;border-radius:8px;border:1px solid var(--line)">' +
-      '<b style="color:var(--accent-strong);display:block;margin-bottom:4px">📑 Descrição Taxonômica &amp; Diagnose da Espécie:</b>' +
+      '<b style="color:var(--accent-strong);display:block;margin-bottom:4px">📑 Tratamento Taxonômico &amp; Diagnose da Espécie (Literatura Científica):</b>' +
       '<p style="margin:0 0 4px;font-size:12px;color:var(--ink)">' + esc(descText) + '</p>' +
       '<small style="color:var(--muted)">Fonte da diagnose: ' + esc(media.descSource || 'Tratamento Taxonômico Oficial') + '</small>' +
-    '</div>';
-  }
-
-  // 4. Guia Rápido de Campo por Grupo Faunístico
-  var fieldTip = '';
-  if (isAnf){
-    fieldTip = 'Para confirmar anuros em campo, avalie a proporção do tímpano em relação ao olho, o desenvolvimento das membranas interdigitais dos membros posteriores, a coloração das faces ocultas das coxas e virilha (flash colors), formato do focinho e o padrão bioacústico do canto de anúncio.';
-  } else if (isAve){
-    fieldTip = 'Para confirmar ornitofauna em campo, observe a morfologia e proporção do bico, padrão das estrias e faixas na cabeça (supercílio e loros), marcas nas asas e cauda, coloração de íris e tarsos, e compare atentamente as gravações de canto territorial e chamados de alarme.';
-  } else if (isMam){
-    fieldTip = 'Para identificação de mamíferos, observe padrão de pelagem e contraste dorsal/ventral, comprimento e pilosidade da cauda (preênsil ou não), formato das orelhas, padrão de pegadas e vocalizações territoriais.';
-  } else if (isRep){
-    fieldTip = 'Para identificação de répteis, atente para a textura das escamas dorsais (lisas ou carenadas), presença de fosseta loreal entre a narina e o olho (para serpentes peçonhentas solenóglifas), formato da pupila e disposição das manchas ou anéis dorsais.';
-  }
-  if (fieldTip){
-    h += '<div style="background:var(--accent-soft);border:1px solid var(--accent);padding:8px 10px;border-radius:8px;font-size:11.5px;color:var(--accent-strong)">' +
-      '<b>💡 Dica Prática de Identificação em Campo:</b> ' + esc(fieldTip) +
     '</div>';
   }
 
@@ -6095,6 +6419,82 @@ function renderSpeciesPortalsHtml(r, sci){
   return h;
 }
 
+function setSpecGalleryIndex(photoBox, targetIdx){
+  if (!photoBox) return;
+  var photos = photoBox._photos || [];
+  if (!photos.length) return;
+
+  if (targetIdx < 0) targetIdx = photos.length - 1;
+  if (targetIdx >= photos.length) targetIdx = 0;
+  photoBox._curIdx = targetIdx;
+
+  var curPh = photos[targetIdx];
+  if (!curPh) return;
+
+  var mainImg = photoBox.querySelector('#spec-gallery-main-img');
+  if (mainImg){
+    mainImg.src = curPh.largeUrl || curPh.url;
+  }
+  var counterEl = photoBox.querySelector('#spec-gallery-counter');
+  if (counterEl){
+    counterEl.textContent = (targetIdx + 1) + ' / ' + photos.length;
+  }
+  var badgeEl = photoBox.querySelector('#spec-gallery-badge');
+  if (badgeEl){
+    badgeEl.textContent = curPh.source || 'Registro Fotográfico';
+  }
+  var placeEl = photoBox.querySelector('#spec-gallery-place');
+  if (placeEl){
+    placeEl.textContent = '📍 ' + (curPh.place || 'Brasil') + ' (' + (targetIdx + 1) + ' de ' + photos.length + ')';
+  }
+  var authorEl = photoBox.querySelector('#spec-gallery-author');
+  if (authorEl){
+    authorEl.textContent = 'Foto: ' + (curPh.attribution || 'Observador');
+  }
+
+  var allThumbs = photoBox.querySelectorAll('.spec-thumb-btn');
+  for (var i = 0; i < allThumbs.length; i++){
+    var isCur = (i === targetIdx);
+    allThumbs[i].classList.toggle('active', isCur);
+    if (isCur){
+      try {
+        allThumbs[i].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      } catch(e){}
+    }
+  }
+
+  var allDots = photoBox.querySelectorAll('.spec-gallery-dot');
+  for (var j = 0; j < allDots.length; j++){
+    allDots[j].classList.toggle('active', j === targetIdx);
+  }
+}
+
+function attachPhotoSwipeListeners(mainWrap, photoBox){
+  if (!mainWrap || !photoBox) return;
+  var startX = 0, startY = 0, distX = 0, distY = 0;
+  mainWrap.addEventListener('touchstart', function(e){
+    if (!e.changedTouches || !e.changedTouches.length) return;
+    var touch = e.changedTouches[0];
+    startX = touch.pageX;
+    startY = touch.pageY;
+  }, {passive: true});
+
+  mainWrap.addEventListener('touchend', function(e){
+    if (!e.changedTouches || !e.changedTouches.length) return;
+    var touch = e.changedTouches[0];
+    distX = touch.pageX - startX;
+    distY = touch.pageY - startY;
+    if (Math.abs(distX) > 35 && Math.abs(distX) > Math.abs(distY) * 1.3){
+      var curIdx = photoBox._curIdx || 0;
+      if (distX < 0){
+        setSpecGalleryIndex(photoBox, curIdx + 1);
+      } else {
+        setSpecGalleryIndex(photoBox, curIdx - 1);
+      }
+    }
+  }, {passive: true});
+}
+
 function applySpeciesMedia(media){
   var photoBox = $('#spec-photo-box');
   var audioWrap = $('#spec-audio-box-wrap');
@@ -6105,35 +6505,51 @@ function applySpeciesMedia(media){
   if (photoBox){
     var photos = media.photos && media.photos.length ? media.photos : (media.photo ? [{url: media.photo, largeUrl: media.photo, thumbUrl: media.photo, attribution: media.photoCredit || 'Registro', place: 'Brasil', source: 'Fotografia Científica'}] : []);
     photoBox._photos = photos;
+    photoBox._curIdx = 0;
 
     if (photos.length > 0){
       var p0 = photos[0];
       var phHtml = '<div class="spec-gallery-box">' +
-        '<div class="spec-photo-main-wrap" style="position:relative;border-radius:12px;overflow:hidden;background:#0d1810;min-height:220px;display:flex;align-items:center;justify-content:center">' +
+        '<div class="spec-photo-main-wrap" id="spec-photo-main-wrap">' +
           '<img id="spec-gallery-main-img" src="' + esc(p0.largeUrl || p0.url) + '" alt="" loading="lazy" referrerpolicy="no-referrer" style="max-height:340px;width:100%;object-fit:cover;display:block">' +
-          '<div id="spec-gallery-badge" style="position:absolute;top:8px;left:8px;background:rgba(14,37,21,0.85);color:#F3EEE3;border:1px solid rgba(212,178,119,0.5);padding:3px 8px;border-radius:6px;font-size:11px;font-weight:700;backdrop-filter:blur(4px)">' +
+          (photos.length > 1 ? (
+            '<button class="spec-gallery-nav-btn prev" data-act="spec-photo-prev" aria-label="Foto anterior" title="Foto anterior"><svg viewBox="0 0 24 24" width="22" height="22"><path d="M15 18l-6-6 6-6" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>' +
+            '<button class="spec-gallery-nav-btn next" data-act="spec-photo-next" aria-label="Próxima foto" title="Próxima foto"><svg viewBox="0 0 24 24" width="22" height="22"><path d="M9 18l6-6-6-6" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>' +
+            '<div id="spec-gallery-counter" class="spec-gallery-counter">1 / ' + photos.length + '</div>'
+          ) : '') +
+          '<div id="spec-gallery-badge" class="spec-gallery-badge">' +
             esc(p0.source || 'Registro Fotográfico') +
           '</div>' +
-          '<div id="spec-gallery-meta" style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(10,20,12,0.92));color:#F3EEE3;padding:18px 10px 8px;font-size:11.5px;display:flex;justify-content:space-between;align-items:flex-end">' +
+          '<div id="spec-gallery-meta" class="spec-gallery-meta">' +
             '<span id="spec-gallery-place">📍 ' + esc(p0.place || 'Brasil') + ' (1 de ' + photos.length + ')</span>' +
             '<span id="spec-gallery-author" style="opacity:0.9">Foto: ' + esc(p0.attribution || 'Observador') + '</span>' +
           '</div>' +
         '</div>';
 
       if (photos.length > 1){
-        phHtml += '<div class="spec-thumbs-bar">' +
+        phHtml += '<div class="spec-gallery-dots" id="spec-gallery-dots">' +
+          photos.map(function(_, i){
+            return '<button class="spec-gallery-dot ' + (i === 0 ? 'active' : '') + '" data-act="spec-thumb" data-idx="' + i + '" title="Foto ' + (i + 1) + '"></button>';
+          }).join('') +
+        '</div>' +
+        '<div class="spec-thumbs-bar">' +
           photos.map(function(p, idx){
-            return '<button class="spec-thumb-btn ' + (idx === 0 ? 'active' : '') + '" data-act="spec-thumb" data-idx="' + idx + '" title="Padrão ' + (idx + 1) + ' · ' + esc(p.place || '') + '">' +
+            return '<button class="spec-thumb-btn ' + (idx === 0 ? 'active' : '') + '" data-act="spec-thumb" data-idx="' + idx + '" title="Foto ' + (idx + 1) + ' · ' + esc(p.place || '') + '">' +
               '<img src="' + esc(p.thumbUrl || p.url) + '" alt="" loading="lazy" referrerpolicy="no-referrer" style="width:100%;height:100%;object-fit:cover;display:block">' +
             '</button>';
           }).join('') +
         '</div>' +
-        '<div style="font-size:11px;color:var(--muted);text-align:center;margin-top:2px">' +
-          '📸 <b>' + photos.length + ' fotos e variações</b> (fases, machos/fêmeas, ângulos). Toque nas miniaturas para alternar.' +
+        '<div class="spec-gallery-hint">' +
+          '👈 Deslize ou use as setas para rodar as <b>' + photos.length + ' fotos disponíveis</b> (morfos, macho/fêmea, ângulos).' +
         '</div>';
       }
       phHtml += '</div>';
       photoBox.innerHTML = phHtml;
+
+      var mainWrap = photoBox.querySelector('#spec-photo-main-wrap');
+      if (mainWrap && photos.length > 1){
+        attachPhotoSwipeListeners(mainWrap, photoBox);
+      }
     } else {
       photoBox.innerHTML = '<div style="text-align:center;padding:24px;color:var(--muted)"><span style="font-size:36px;display:block;margin-bottom:6px">🌿</span><span>Foto não catalogada nesta espécie</span></div>';
     }
@@ -6485,36 +6901,23 @@ var A = {
     addEntry(c, pop, 1, r.n);
     closeSheet();
   },
+  'spec-photo-prev': function(b){
+    var photoBox = b.closest('#spec-photo-box');
+    if (!photoBox) return;
+    var curIdx = photoBox._curIdx || 0;
+    setSpecGalleryIndex(photoBox, curIdx - 1);
+  },
+  'spec-photo-next': function(b){
+    var photoBox = b.closest('#spec-photo-box');
+    if (!photoBox) return;
+    var curIdx = photoBox._curIdx || 0;
+    setSpecGalleryIndex(photoBox, curIdx + 1);
+  },
   'spec-thumb': function(b){
     var idx = parseInt(b.getAttribute('data-idx'), 10) || 0;
     var photoBox = b.closest('#spec-photo-box');
     if (!photoBox) return;
-    var allThumbs = photoBox.querySelectorAll('.spec-thumb-btn');
-    for (var i = 0; i < allThumbs.length; i++){
-      var isCur = (i === idx);
-      allThumbs[i].classList.toggle('active', isCur);
-      allThumbs[i].style.borderColor = isCur ? 'var(--accent)' : 'var(--line)';
-      allThumbs[i].style.opacity = isCur ? '1' : '0.75';
-    }
-    var photos = photoBox._photos || [];
-    var curPh = photos[idx];
-    if (!curPh) return;
-    var mainImg = photoBox.querySelector('#spec-gallery-main-img');
-    if (mainImg){
-      mainImg.src = curPh.largeUrl || curPh.url;
-    }
-    var badgeEl = photoBox.querySelector('#spec-gallery-badge');
-    if (badgeEl){
-      badgeEl.textContent = curPh.source || 'Registro Fotográfico';
-    }
-    var placeEl = photoBox.querySelector('#spec-gallery-place');
-    if (placeEl){
-      placeEl.textContent = '📍 ' + (curPh.place || 'Brasil') + ' (' + (idx + 1) + ' de ' + photos.length + ')';
-    }
-    var authorEl = photoBox.querySelector('#spec-gallery-author');
-    if (authorEl){
-      authorEl.textContent = 'Foto: ' + (curPh.attribution || 'Observador');
-    }
+    setSpecGalleryIndex(photoBox, idx);
   },
   'spec-tab': function(b){
     var tab = b.getAttribute('data-tab');

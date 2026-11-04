@@ -1,11 +1,11 @@
 {
-  "v": "2.6",
-  "nome": "2.6",
+  "v": "2.7",
+  "nome": "2.7",
   "data": "2026-11-04",
   "novidades": [
-    "Referências bibliográficas completas por espécie em normas ABNT NBR 6023: obras princeps de descrição taxonômica e literatura de referência oficial sem links de redirecionamento",
-    "Cobertura ampla de todas as informações: checklists nacionais (CBRO, SBH, SBMz, CTFB/ICMBio), graus de ameaça (MMA e IUCN), distribuição (SiBBr e GBIF), bioacústica e diagnoses",
-    "Botão de 1 clique para copiar referências formatadas em ABNT para a área de transferência, ideal para laudos técnicos, relatórios ambientais e publicações",
-    "Ordenação alfabética rigorosa por autor/entidade segundo a NBR 6023:2018 com tags temáticas indicando a informação respaldada por cada fonte"
+    "Miniaturas fotográficas nos cards do Guia de Espécies e da Life List: identificação visual rápida antes de abrir a ficha da espécie, com carregamento assíncrono e cache local",
+    "Rodagem aprimorada das fotos da espécie: navegação lateral por setas (‹ e ›), rotação contínua, contador, barra de miniaturas sincronizada e suporte a swipe por toque no celular",
+    "Diagnoses com caracteres morfológicos detalhados: descrição precisa de porte, cabeça, focinho, olhos, escamas, textura da pele, pelagem, plumagem, membros, dígitos e cauda",
+    "Chaves diferenciais de campo: orientações diagnósticas práticas para distinguir a espécie de congêneres semelhantes no bioma brasileiro"
   ]
 }
