@@ -560,6 +560,54 @@ body.selecting .wm{display:none}
 .meta-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
 .meta-tag{font-size:12px;font-weight:600;padding:2px 8px;border-radius:6px;background:var(--surface-2);color:var(--muted);border:1px solid var(--line)}
 
+/* ---------- guia de espécies do brasil ---------- */
+.guide-controls{display:grid;gap:10px;margin:8px 0 14px}
+.guide-head-info{min-width:0;flex:1}
+.seg-guide-tax{display:flex;overflow-x:auto;gap:4px;padding-bottom:2px;-webkit-overflow-scrolling:touch}
+.seg-guide-tax .seg-btn{white-space:nowrap;padding:7px 12px;font-size:13px;flex:none;border-radius:999px;background:var(--surface-2);border:1.5px solid var(--line);color:var(--ink);cursor:pointer;font-family:var(--body);font-weight:600}
+.seg-guide-tax .seg-btn.on{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.guide-search-wrap{position:relative}
+.guide-chips-scroll{display:flex;align-items:center;gap:6px;overflow-x:auto;padding-bottom:2px;-webkit-overflow-scrolling:touch}
+.chip-guide-filter{font-family:var(--body);font-size:12px;font-weight:600;padding:5px 11px;border-radius:999px;white-space:nowrap;border:1.5px solid var(--line);background:var(--surface-2);color:var(--ink);cursor:pointer;transition:all .15s}
+.chip-guide-filter.on{background:var(--accent-soft);border-color:var(--accent);color:var(--accent-strong)}
+.chip-select{font-family:var(--body);font-size:12px;font-weight:600;padding:5px 10px;border-radius:999px;border:1.5px solid var(--line);background:var(--surface-2);color:var(--ink);cursor:pointer;outline:none}
+.guide-list{display:grid;gap:8px}
+.guide-card{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;border-radius:14px;background:var(--surface);border:1.5px solid var(--line);cursor:pointer;transition:transform .1s, border-color .15s;text-align:left;width:100%}
+.guide-card:active{transform:scale(0.99);border-color:var(--accent)}
+.guide-card-main{min-width:0;flex:1}
+.guide-card-name{font-family:var(--body);font-size:16px;font-weight:700;color:var(--ink);line-height:1.25}
+.guide-card-sci{font-size:13px;font-style:italic;color:var(--muted);margin-top:2px;line-height:1.25}
+.guide-card-tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
+.guide-tag{font-size:10.5px;font-weight:700;padding:2px 7px;border-radius:6px;background:var(--surface-2);border:1px solid var(--line);color:var(--muted)}
+.guide-tag.amen{background:#ffebee;color:#c62828;border-color:#ffcdd2}
+.guide-tag.endem{background:#e8f5e9;color:#2e7d32;border-color:#c8e6c9}
+.guide-tag.tax{background:var(--accent-soft);color:var(--accent-strong);border-color:color-mix(in srgb,var(--accent) 30%,transparent)}
+.guide-card-arrow{flex:none;color:var(--muted);opacity:0.6}
+.guide-more-wrap{margin:14px 0 24px}
+
+/* modal detalhe de espécie */
+.spec-modal{display:grid;gap:14px;text-align:left}
+.spec-head-pt{font-family:var(--display);font-size:22px;font-weight:700;color:var(--ink);line-height:1.2}
+.spec-head-aliases{font-size:12px;color:var(--muted);margin-top:2px}
+.spec-head-sci{font-size:15px;font-style:italic;color:var(--muted);margin-top:4px;line-height:1.3}
+.spec-head-tax{font-size:12.5px;color:var(--muted);margin-top:2px}
+.spec-photo-wrap{position:relative;border-radius:14px;overflow:hidden;background:var(--surface-2);border:1.5px solid var(--line);min-height:180px;max-height:280px;display:flex;align-items:center;justify-content:center}
+.spec-photo-wrap img{width:100%;height:100%;max-height:280px;object-fit:cover;display:block}
+.spec-photo-credit{position:absolute;bottom:0;left:0;right:0;padding:4px 8px;background:linear-gradient(transparent,rgba(0,0,0,0.75));color:#fff;font-size:10.5px;text-align:right}
+.spec-loading{display:flex;flex-direction:column;align-items:center;gap:8px;font-size:12.5px;color:var(--muted)}
+.spin{width:22px;height:22px;border:2.5px solid var(--line);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite}
+.spec-audio-box{display:grid;gap:6px;padding:12px;border-radius:12px;background:var(--surface-2);border:1.5px solid var(--line)}
+.spec-audio-box audio{width:100%;height:38px;border-radius:8px}
+.spec-audio-title{display:flex;align-items:center;justify-content:space-between;font-size:12.5px;font-weight:700;color:var(--ink)}
+.spec-info-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.spec-info-cell{padding:8px 10px;border-radius:10px;background:var(--surface-2);border:1px solid var(--line)}
+.spec-info-cell span{display:block;font-size:10.5px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:0.4px}
+.spec-info-cell b{display:block;font-size:13px;color:var(--ink);margin-top:2px;line-height:1.25}
+.spec-desc-box{font-size:13px;line-height:1.5;color:var(--ink);padding:11px 13px;border-radius:12px;background:var(--surface-2);border:1px solid var(--line)}
+.spec-desc-box p{margin:0}
+.spec-desc-box small{display:block;margin-top:6px;font-size:11px;color:var(--muted)}
+@keyframes spin{to{transform:rotate(360deg)}}
+
 /* ---------- modo bolso ---------- */
 .pocket{position:fixed;inset:0;z-index:90;background:#000;color:#5c5c5c;display:flex;align-items:center;justify-content:center;touch-action:none;user-select:none;-webkit-user-select:none}
 .pocket-in{display:grid;gap:8px;justify-items:center;text-align:center;font-size:15px}
@@ -661,6 +709,7 @@ body.selecting .wm{display:none}
     <div id="home-open"></div>
     <div id="home-lists"></div>
     <nav class="home-foot" aria-label="Outras opções">
+      <button class="btn" data-act="open-guide"><svg class="ico" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>Guia de Espécies <span class="num">~4,7k</span></button>
       <button class="btn" data-act="open-names">Meus nomes <span class="num" id="names-count"></span></button>
       <button class="btn" data-act="backup">Backup e exportação</button>
       <button class="btn" data-act="support"><svg class="ico" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="M22 6l-10 7L2 6"/></svg>Contato &amp; suporte</button>
@@ -742,6 +791,54 @@ body.selecting .wm{display:none}
     <h2 class="sec">Nomes livres usados</h2>
     <ul class="nl" id="name-list"></ul>
   </section>
+
+  <!-- GUIA DE ESPÉCIES -->
+  <section id="guide" aria-label="Guia de Espécies do Brasil" hidden>
+    <div class="page-nav">
+      <button class="icon-btn" data-act="guide-back" aria-label="Voltar"><svg class="ico" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <div class="guide-head-info">
+        <h1 style="font-size:18px;margin:0;line-height:1.2">Guia de Espécies do Brasil</h1>
+        <small id="guide-count-sub" style="color:var(--muted);font-size:12px">Carregando catálogo...</small>
+      </div>
+    </div>
+    
+    <div class="guide-controls">
+      <!-- Filtros por Grupo de Fauna -->
+      <div class="seg seg-guide-tax" role="group" aria-label="Grupo Faunístico">
+        <button class="seg-btn on" data-act="guide-tax" data-tax="">Todos (~4,7k)</button>
+        <button class="seg-btn" data-act="guide-tax" data-tax="Ave">🦅 Aves</button>
+        <button class="seg-btn" data-act="guide-tax" data-tax="Mamífero">🐾 Mamíferos</button>
+        <button class="seg-btn" data-act="guide-tax" data-tax="Anfíbio">🐸 Anfíbios</button>
+        <button class="seg-btn" data-act="guide-tax" data-tax="Réptil">🐍 Répteis</button>
+      </div>
+
+      <!-- Barra de Busca -->
+      <div class="guide-search-wrap">
+        <label class="vh" for="guide-q">Buscar espécie</label>
+        <input class="filter" id="guide-q" type="search" placeholder="Buscar por nome popular, científico ou família..." autocomplete="off" autocapitalize="none" spellcheck="false">
+      </div>
+
+      <!-- Filtros rápidos de Ameaça, Endemismo e Biomas -->
+      <div class="guide-chips-scroll">
+        <button class="chip-guide-filter" id="guide-threat-btn" data-act="guide-threat">⚠️ Ameaçadas (CR/EN/VU)</button>
+        <button class="chip-guide-filter" id="guide-endem-btn" data-act="guide-endem">🇧🇷 Endêmicas BR</button>
+        <select id="guide-biome-sel" class="chip-select" aria-label="Filtrar por Bioma">
+          <option value="">Todos os Biomas</option>
+          <option value="Amazônia">Amazônia</option>
+          <option value="Caatinga">Caatinga</option>
+          <option value="Cerrado">Cerrado</option>
+          <option value="Mata Atlântica">Mata Atlântica</option>
+          <option value="Pampa">Pampa</option>
+          <option value="Pantanal">Pantanal</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="guide-list" id="guide-list"></div>
+    <div class="guide-more-wrap" id="guide-more-wrap" hidden>
+      <button class="btn" data-act="guide-load-more" style="width:100%;padding:12px;font-weight:600">Carregar mais espécies...</button>
+    </div>
+  </section>
 </div>
 
 <div class="sheet-wrap" id="sheet" hidden>
@@ -751,9 +848,9 @@ body.selecting .wm{display:none}
 <div class="sel-bar" id="sel-bar" hidden></div>
 <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 <datalist id="dl-proj"></datalist><datalist id="dl-camp"></datalist><datalist id="dl-ua"></datalist><datalist id="dl-met"></datalist>
-<script src="especies.js?v=17"></script>
-<script src="planilha.js?v=17"></script>
-<script src="firebase-config.js?v=17"></script>
+<script src="especies.js?v=19"></script>
+<script src="planilha.js?v=19"></script>
+<script src="firebase-config.js?v=19"></script>
 
 <script>
 (function(){
@@ -851,15 +948,14 @@ var S = {
   sugg:[], suggIdx:0, undo:null, sheetClose:null, editingName:null, demo:3,
   alias:{}, defMode:LS.get('defMode', 'V'), theme:LS.get('theme', 'dark'), filterTax:''
 };
-var APP_V = 18;
+var APP_V = 19;
 var NOVIDADES = [
-  'Métodos específicos para Herpetofauna: Busca Ativa e Pitfall (armadilhas de interceptação e queda).',
-  'Aba de Biometria no Excel gerada automaticamente para Pitfall com morfometria, folidose e métricas.',
-  'Formulário completo de biometria de campo direto na espécie para indivíduos capturados.',
-  'Novo tipo de registro Ocasional (O), complementando Visual (V) e Auditivo (A) em todo o app e exportações.',
-  'Página de contato e suporte técnico para falar diretamente com o desenvolvedor.',
-  'Ícones novos dos grupos: bem-te-vi para as aves e onça-pintada para os mamíferos.',
-  'Filtro de grupo faunístico antes de iniciar lista: Ornitofauna (aves), Mastofauna (mamíferos), Herpetofauna (anfíbios e répteis) e Geral.'
+  'Suporte direto por WhatsApp com o desenvolvedor Lucas Aøsf ((12) 99182-1729).',
+  'Histórico vitalício de perfil: contagem de listas, Life List de espécies e registros acumulados não diminuem mesmo ao apagar listas antigas.',
+  'Guia de Espécies do Brasil com catálogo completo de ~4.700 espécies com fotos da Wikipédia/iNaturalist, vocalizações/cantos e resumos ecológicos.',
+  'Colaboração científica de distribuição de espécies: envio automático de encontros com coordenadas para o mapa de distribuição do app (estilo WikiAves).',
+  'Métodos específicos para Herpetofauna: Busca Ativa e Pitfall com biometria morfológica completa no Excel.',
+  'Registro Ocasional (O) ao lado de Visual (V) e Auditivo (A).'
 ];
 
 /* ---------- banco de espécies ---------- */
@@ -1213,7 +1309,20 @@ var PROF = {
   },
   push: function(){
     var d = PROF.mine(); if (!d || !AUTH.fb || navigator.onLine === false) return;
-    var body = {foto: d.foto || null, nome: d.nome || '', updated: d.updated};
+    var c = getCareer();
+    var body = {
+      foto: d.foto || null,
+      nome: d.nome || '',
+      updated: d.updated,
+      career: {
+        totalListas: c.totalListas || 0,
+        totalEspecies: Object.keys(c.especies || {}).length,
+        totalRegistros: c.totalRegistros || 0,
+        listasTotals: c.listasTotals || {},
+        listasIds: c.listasIds || {},
+        especies: c.especies || {}
+      }
+    };
     PROF.ref().set({updated: d.updated, json: JSON.stringify(body)}).then(function(){
       if (PROF.data === d){ d.synced = body.updated; LS.set('perfil', d); }
     }, function(){});
@@ -1224,11 +1333,34 @@ var PROF = {
       if (!AUTH.user || AUTH.user.uid !== u.uid) return;
       var r = null; try { r = snap.exists ? JSON.parse(snap.data().json) : null; } catch(e){}
       var d = PROF.mine();
-      if (r && (r.updated || 0) > ((d && d.updated) || 0)){
-        PROF.data = {uid: u.uid, foto: r.foto || null, nome: r.nome || '', updated: r.updated || 0, synced: r.updated || 0};
-        LS.set('perfil', PROF.data); renderAvatar();
-        if ($('#pf-name')) openAccount();
-      } else PROF.retry();
+      if (r){
+        if (r.career){
+          var loc = getCareer();
+          var merged = false;
+          if (r.career.listasIds){
+            Object.keys(r.career.listasIds).forEach(function(k){ if (!loc.listasIds[k]){ loc.listasIds[k] = true; merged = true; } });
+          }
+          if (r.career.especies){
+            Object.keys(r.career.especies).forEach(function(k){ if (!loc.especies[k]){ loc.especies[k] = true; merged = true; } });
+          }
+          if (r.career.listasTotals){
+            Object.keys(r.career.listasTotals).forEach(function(k){
+              if ((loc.listasTotals[k] || 0) < r.career.listasTotals[k]){
+                loc.listasTotals[k] = r.career.listasTotals[k];
+                merged = true;
+              }
+            });
+          }
+          loc.totalListas = Math.max(loc.totalListas || 0, r.career.totalListas || 0, Object.keys(loc.listasIds).length);
+          loc.totalRegistros = Math.max(loc.totalRegistros || 0, r.career.totalRegistros || 0);
+          if (merged) saveCareer(loc);
+        }
+        if ((r.updated || 0) > ((d && d.updated) || 0)){
+          PROF.data = {uid: u.uid, foto: r.foto || null, nome: r.nome || '', updated: r.updated || 0, synced: r.updated || 0};
+          LS.set('perfil', PROF.data); renderAvatar();
+          if ($('#pf-name')) openAccount();
+        } else PROF.retry();
+      }
     }, function(){});
   },
   retry: function(){ var d = PROF.mine(); if (d && (!d.synced || d.updated > d.synced)) PROF.push(); },
@@ -1303,11 +1435,161 @@ function setProfilePhoto(file){
     toast('Não deu para abrir essa imagem. Tente outra foto.');
   });
 }
-function profStats(){
-  var ids = Object.keys(S.lists), sp = {}, ind = 0;
-  ids.forEach(function(id){ (S.lists[id].species || []).forEach(function(x){ sp[norm(x.name)] = 1; ind += +x.count || 0; }); });
-  return {listas: ids.length, especies: Object.keys(sp).length, ind: ind};
+/* ---------- carreira e estatísticas vitalícias (não diminuem ao apagar listas) ---------- */
+function getCareer(){
+  var c = LS.get('career_stats', null);
+  if (!c || typeof c !== 'object'){
+    c = { listasIds: {}, especies: {}, listasTotals: {}, totalListas: 0, totalRegistros: 0, updated: 0 };
+  }
+  if (!c.listasIds) c.listasIds = {};
+  if (!c.especies) c.especies = {};
+  if (!c.listasTotals) c.listasTotals = {};
+  return c;
 }
+function saveCareer(c){
+  c.updated = Date.now();
+  c.totalListas = Math.max(c.totalListas || 0, Object.keys(c.listasIds || {}).length);
+  var sum = 0;
+  Object.keys(c.listasTotals || {}).forEach(function(k){ sum += (+c.listasTotals[k] || 0); });
+  c.totalRegistros = Math.max(c.totalRegistros || 0, sum);
+  LS.set('career_stats', c);
+  if (AUTH.user && PROF.mine()){
+    var d = PROF.mine();
+    d.career = {
+      totalListas: c.totalListas,
+      totalEspecies: Object.keys(c.especies).length,
+      totalRegistros: c.totalRegistros,
+      listasTotals: c.listasTotals,
+      listasIds: c.listasIds,
+      especies: c.especies,
+      updated: c.updated
+    };
+    PROF.push();
+  }
+  return c;
+}
+function syncCareerWithLists(){
+  var c = getCareer();
+  var changed = false;
+  Object.keys(S.lists || {}).forEach(function(id){
+    var lst = S.lists[id];
+    if (!lst) return;
+    if (!c.listasIds[id]){
+      c.listasIds[id] = true;
+      changed = true;
+    }
+    var sumInd = 0;
+    (lst.species || []).forEach(function(s){
+      var k = norm(s.name);
+      if (k && !c.especies[k]){
+        c.especies[k] = true;
+        changed = true;
+      }
+      sumInd += (+s.count || 0);
+    });
+    if ((c.listasTotals[id] || 0) !== sumInd){
+      c.listasTotals[id] = sumInd;
+      changed = true;
+    }
+  });
+  if (changed) saveCareer(c);
+  return c;
+}
+function profStats(){
+  var c = syncCareerWithLists();
+  var curIds = Object.keys(S.lists);
+  return {
+    listas: Math.max(curIds.length, c.totalListas || 0, Object.keys(c.listasIds || {}).length),
+    especies: Math.max(Object.keys(c.especies || {}).length, 0),
+    ind: Math.max(c.totalRegistros || 0, 0),
+    curListas: curIds.length
+  };
+}
+
+/* ---------- rede de ocorrências e distribuição de espécies (estilo WikiAves) ---------- */
+function syncOccurrences(c){
+  if (!c || !c.species || !c.species.length) return;
+  var listLat = c.lat != null ? +c.lat : null;
+  var listLon = c.lon != null ? +c.lon : null;
+  var occs = [];
+  var obsName = (typeof PROF !== 'undefined' && PROF.nome ? PROF.nome() : '') || (AUTH.user && (AUTH.user.displayName || AUTH.user.email)) || c.observers || 'Observador';
+  var obsUid = (AUTH.user && AUTH.user.uid) || 'anon';
+  
+  c.species.forEach(function(s){
+    if (!s || !s.count || s.count <= 0) return;
+    var lat = s.lat != null ? +s.lat : listLat;
+    var lon = s.lon != null ? +s.lon : listLon;
+    if (lat == null || lon == null || isNaN(lat) || isNaN(lon)) return;
+    
+    var docKey = (c.id + '_' + (s.id || norm(s.name))).replace(/[^a-zA-Z0-9_-]/g, '_');
+    var sci = s.sci || '';
+    if (!sci && DB.n && DB.n[norm(s.name)]) sci = DB.n[norm(s.name)].n;
+    var d = dbGet(sci || s.name);
+    var group = (d && d.c) || c.group || 'Geral';
+    
+    occs.push({
+      id: docKey,
+      listId: c.id,
+      listTitle: c.title || c.place || '',
+      observer: obsName,
+      observerUid: obsUid,
+      speciesName: s.name,
+      speciesSci: sci,
+      group: group,
+      method: c.method || '',
+      count: +s.count || 1,
+      cv: +s.cv || 0,
+      ca: +s.ca || 0,
+      co: +s.co || 0,
+      lat: lat,
+      lon: lon,
+      municipality: c.muni || c.place || '',
+      uf: c.uf || '',
+      date: (s.first ? s.first.slice(0, 10) : (c.start ? c.start.slice(0, 10) : new Date().toISOString().slice(0, 10))),
+      time: (s.first ? s.first.slice(11, 16) : ''),
+      updated: Date.now()
+    });
+  });
+  
+  if (occs.length){
+    queueOccurrences(occs);
+    flushOccurrencesQueue();
+  }
+}
+function queueOccurrences(occs){
+  var q = LS.get('occ_queue', []);
+  var map = {};
+  q.forEach(function(x){ map[x.id] = x; });
+  occs.forEach(function(x){ map[x.id] = x; });
+  var arr = Object.keys(map).map(function(k){ return map[k]; });
+  LS.set('occ_queue', arr);
+}
+function flushOccurrencesQueue(){
+  if (navigator.onLine === false) return;
+  var q = LS.get('occ_queue', []);
+  if (!q || !q.length) return;
+  if (!window.FIREBASE_CONFIG) return;
+  (AUTH.fb ? Promise.resolve(AUTH.fb) : AUTH.load()).then(function(fb){
+    var db = fb.firestore();
+    var batch = db.batch();
+    var col = db.collection('distribuicao_especies');
+    var chunk = q.slice(0, 50);
+    chunk.forEach(function(item){
+      var ref = col.doc(item.id);
+      batch.set(ref, item, {merge: true});
+    });
+    return batch.commit().then(function(){
+      var sent = {};
+      chunk.forEach(function(item){ sent[item.id] = true; });
+      var rest = q.filter(function(x){ return !sent[x.id]; });
+      LS.set('occ_queue', rest);
+      if (rest.length > 0) setTimeout(flushOccurrencesQueue, 1500);
+    });
+  }).catch(function(err){
+    console.warn('Fila de distribuição:', err);
+  });
+}
+window.addEventListener('online', flushOccurrencesQueue);
 
 function setSync(st){ S.sync = st; renderSync(); }
 function renderSync(){
@@ -1544,9 +1826,11 @@ function go(screen, id, noHist){
   $('#home').hidden = screen !== 'home';
   $('#list').hidden = screen !== 'list';
   $('#names').hidden = screen !== 'names';
+  var gEl = $('#guide'); if (gEl) gEl.hidden = screen !== 'guide';
   hideSugg();
   if (screen === 'cover') renderCover();
   if (screen === 'home') renderHome();
+  if (screen === 'guide') renderGuide();
   if (screen === 'list'){
     var cl = cur();
     if (cl){
@@ -1561,7 +1845,7 @@ function go(screen, id, noHist){
   if (!noHist) histSync(screen);
 }
 /* Voltar do celular: lista → Minhas listas → capa → sai do app */
-var DEPTH = {cover:0, home:1, list:2, names:2};
+var DEPTH = {cover:0, home:1, list:2, names:2, guide:2};
 function histDepth(){ var st = history.state; return st && typeof st.d === 'number' ? st.d : 0; }
 function histSync(screen){
   if (FRAMED) return;
@@ -1594,10 +1878,12 @@ function renderCover(){
   if (open.length){
     h += '<button class="cover-btn primary" data-act="open" data-id="' + open[0].id + '"><span class="pill-on" aria-hidden="true"></span>Continuar: ' + esc(title(open[0])) + '</button>';
     h += '<button class="cover-btn ghost" data-act="to-home">Minhas listas</button>';
+    h += '<button class="cover-btn ghost" data-act="open-guide">📖 Guia de Espécies do Brasil</button>';
     h += '<button class="cover-btn ghost" data-act="new-list">+ Nova lista</button>';
   } else {
     h += '<button class="cover-btn primary" data-act="new-list">+ Nova lista</button>';
     h += '<button class="cover-btn ghost" data-act="to-home">Minhas listas' + (done ? ' (' + done + ')' : '') + '</button>';
+    h += '<button class="cover-btn ghost" data-act="open-guide">📖 Guia de Espécies do Brasil</button>';
   }
   $('#cover-actions').innerHTML = h;
 }
@@ -2664,7 +2950,8 @@ function openAccount(){
       '<input class="vh" id="pf-file" type="file" accept="image/*">' +
       '<div class="prof-name">' + esc(nome || 'Seu perfil') + '</div>' +
       '<div class="prof-mail">' + esc(u.email || '') + (u.email ? ' · ' : '') + 'entrou com ' + via + '</div>' +
-      '<div class="prof-tags"><span><b>' + st.listas + '</b> ' + (st.listas === 1 ? 'lista' : 'listas') + '</span><span><b>' + st.especies + '</b> ' + (st.especies === 1 ? 'espécie' : 'espécies') + '</span><span><b>' + st.ind.toLocaleString('pt-BR') + '</b> ' + (st.ind === 1 ? 'registro' : 'registros') + '</span></div>' +
+      '<div class="prof-tags"><span title="Total histórico de listas criadas"><b>' + st.listas + '</b> ' + (st.listas === 1 ? 'lista' : 'listas') + '</span><span title="Life List: total de espécies diferentes observadas"><b>' + st.especies + '</b> ' + (st.especies === 1 ? 'espécie' : 'espécies') + ' (Life List)</span><span title="Total de indivíduos registrados"><b>' + st.ind.toLocaleString('pt-BR') + '</b> ' + (st.ind === 1 ? 'registro' : 'registros') + '</span></div>' +
+      (st.curListas !== st.listas ? '<div style="font-size:11.5px;color:var(--muted);margin-top:4px;text-align:center">✨ Histórico vitalício mantido (' + st.curListas + ' no aparelho)</div>' : '') +
       '<div class="prof-photo-row"><label class="btn" for="pf-file">' + (PROF.foto() ? 'Trocar foto' : 'Pôr foto') + '</label>' +
       (PROF.custom() ? '<button class="btn" data-act="pf-remove">' + (u.photoURL ? 'Usar foto do Google' : 'Remover foto') + '</button>' : '') + '</div>' +
       '</div>' +
@@ -2672,7 +2959,9 @@ function openAccount(){
       '<div class="acct-card" style="margin-top:12px"><p class="small-meta" style="margin:0">Suas listas, apelidos e a foto ficam salvos na conta e aparecem em qualquer celular em que você entrar. Sem internet, tudo continua salvo no aparelho e sobe quando a conexão voltar.</p>' +
       '<div class="inline-row"><button class="btn" data-act="auth-logout">Sair</button><button class="btn" data-act="auth-delete">Excluir minha conta</button></div></div>';
   } else if (AUTH.ready()){
-    h += '<p class="store-note">Entrar é opcional. Com uma conta, suas listas e apelidos ficam guardados na nuvem e aparecem em outro celular. Sem conta, tudo fica salvo só neste aparelho.</p>' +
+    var st = profStats();
+    h += '<div class="prof-tags" style="margin-bottom:12px"><span title="Total de listas criadas"><b>' + st.listas + '</b> ' + (st.listas === 1 ? 'lista' : 'listas') + '</span><span title="Life List: espécies diferentes observadas"><b>' + st.especies + '</b> ' + (st.especies === 1 ? 'espécie' : 'espécies') + ' (Life List)</span><span title="Total de registros"><b>' + st.ind.toLocaleString('pt-BR') + '</b> ' + (st.ind === 1 ? 'registro' : 'registros') + '</span></div>' +
+      '<p class="store-note">Entrar é opcional. Com uma conta, suas listas e apelidos ficam guardados na nuvem e aparecem em outro celular. Sem conta, tudo fica salvo só neste aparelho.</p>' +
       '<div class="form">' + (NATIVE ? '' : '<button class="btn btn-google" data-act="auth-google">' + G_SVG + 'Entrar com Google</button>') +
       (AUTH.apple_on() && !NATIVE ? '<button class="btn" data-act="auth-apple"> Entrar com Apple</button>' : '') +
       '<div class="divider">ou com e-mail</div>' +
@@ -2705,26 +2994,45 @@ function openSupport(){
   var u = AUTH.user, nome = (typeof PROF !== 'undefined' && PROF.nome ? PROF.nome() : '');
   var emailStatus = u && u.email
     ? ('Conectado como: <code>' + esc(u.email) + '</code>')
-    : 'Mensagens direcionadas a: <code>lucasaosf@gmail.com</code>';
+    : 'Mensagens para: <b>lucasaosf@gmail.com</b> · WhatsApp: <b>(12) 99182-1729</b>';
   var h = '<div class="supp-head">' +
     '<div class="supp-icon"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 7L2 7"/></svg></div>' +
     '<div class="supp-titles"><h2 id="sheet-h">Contato &amp; Suporte Técnico</h2><p class="supp-sub">Fale diretamente com o desenvolvedor do Lista de Campo</p></div>' +
     '<button class="supp-close" data-act="close-sheet" aria-label="Fechar" style="background:none;border:none"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>' +
     '</div>' +
     '<div class="supp-notice">' +
-    '<p>Envie sugestões, dúvidas de campo ou suporte técnico. Sua mensagem será enviada diretamente para:<br><b>lucasaosf@gmail.com</b>.</p>' +
+    '<p>Envie sugestões, dúvidas de campo ou suporte técnico diretamente ao desenvolvedor <b>Lucas Aøsf</b> por <b>WhatsApp</b> ou <b>E-mail</b>.</p>' +
     '<div class="supp-status"><span class="status-dot"></span><span>' + emailStatus + '</span></div>' +
     '</div>' +
     '<div class="form">' +
     '<label class="field"><span>Seu Nome / Instituição:</span><input id="supp-name" type="text" placeholder="Ex: Lucas Aøsf" value="' + esc(nome) + '"></label>' +
-    '<label class="field"><span>Assunto:</span><input id="supp-subject" type="text" placeholder="Ex: Sugestão para o aplicativo"></label>' +
-    '<label class="field"><span>Sua Mensagem:</span><textarea id="supp-msg" rows="5" placeholder="Descreva sua dúvida, sugestão ou feedback..."></textarea></label>' +
+    '<label class="field"><span>Assunto:</span><input id="supp-subject" type="text" placeholder="Ex: Dúvida sobre métodos / Sugestão"></label>' +
+    '<label class="field"><span>Sua Mensagem:</span><textarea id="supp-msg" rows="4" placeholder="Descreva sua dúvida, sugestão ou feedback..."></textarea></label>' +
     '</div>' +
-    '<div class="sheet-actions">' +
-    '<button class="btn" data-act="close-sheet">Cancelar</button>' +
-    '<button class="btn supp-send-btn" data-act="send-support">🚀 Enviar Mensagem</button>' +
+    '<div class="sheet-actions" style="display:flex;flex-direction:column;gap:8px">' +
+    '<button class="btn" data-act="send-support-wa" style="background:#25D366;color:#0B1E11;font-weight:700;display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;font-size:15px">' + ICO.whatsapp + ' Falar pelo WhatsApp</button>' +
+    '<div style="display:flex;gap:8px;width:100%">' +
+    '<button class="btn" data-act="close-sheet" style="flex:1">Cancelar</button>' +
+    '<button class="btn supp-send-btn" data-act="send-support" style="flex:1">✉️ Enviar por E-mail</button>' +
+    '</div>' +
     '</div>';
   openSheet(h);
+}
+function sendSupportWa(){
+  var name = ($('#supp-name') && $('#supp-name').value || '').trim();
+  var subj = ($('#supp-subject') && $('#supp-subject').value || '').trim();
+  var msg = ($('#supp-msg') && $('#supp-msg').value || '').trim();
+  var text = '🌿 *[Lista de Campo — Suporte Técnico]*\n' +
+    'Olá Lucas! Estou entrando em contato pelo suporte do aplicativo Lista de Campo.\n\n' +
+    (name ? '👤 *Nome:* ' + name + '\n' : '') +
+    (subj ? '📌 *Assunto:* ' + subj + '\n' : '') +
+    (msg ? '📝 *Mensagem:* ' + msg + '\n\n' : '\n') +
+    '---\n' +
+    '📱 *Dispositivo:* ' + (IOS ? 'iPhone / iPad' : (/Android/i.test(navigator.userAgent) ? 'Android' : 'Desktop')) + ' · *Versão:* ' + APP_V;
+  var waUrl = 'https://api.whatsapp.com/send?phone=5512991821729&text=' + encodeURIComponent(text);
+  closeSheet();
+  toast('Abrindo WhatsApp para falar com Lucas...');
+  window.open(waUrl, '_blank', 'noopener,noreferrer');
 }
 function sendSupport(){
   var name = ($('#supp-name') && $('#supp-name').value || '').trim();
@@ -3607,6 +3915,7 @@ function planInput(ls, titulo){
 }
 function exportLists(ls, base, label, fmt){
   if (!ls.length){ toast('Nada para exportar'); return; }
+  try { ls.forEach(function(c){ syncOccurrences(c); }); } catch(e){}
   if (!window.Planilha){ toast('Gerador de planilha indisponível. Atualize o app.'); return; }
   toast(fmt === 'xlsx' ? 'Gerando a planilha (' + runsPref() + ' aleatorizações)…' : 'Gerando…');
   loadLogo().then(function(){ return new Promise(function(res){ setTimeout(res, 60); }); }).then(function(){
@@ -3650,6 +3959,7 @@ function openFormat(ls, base, label){
 
 /* ---------- excluir / segurar a lista ---------- */
 function deleteList(id){
+  syncCareerWithLists();
   delete S.lists[id]; if (S.tomb.indexOf(id) < 0) S.tomb.push(id); LS.set('tomb', S.tomb); writeLocal(id);
   if (S.cloud) push(id, 0);
   updateWatch();
@@ -3708,6 +4018,264 @@ function toast(msg, undo, extra){
   clearTimeout(toastT); toastT = setTimeout(function(){ t.hidden = true; S.undo = null; S.toastExtra = null; }, extra ? 6500 : undo ? 4500 : 2600);
 }
 
+/* ---------- guia de espécies do brasil ---------- */
+var GUIDE = {
+  tax: '',
+  q: '',
+  threatOnly: false,
+  endemOnly: false,
+  biome: '',
+  limit: 40,
+  step: 40,
+  hits: []
+};
+var MEDIA_CACHE = {};
+
+function getGuideHits(){
+  var tax = GUIDE.tax;
+  var q = norm(GUIDE.q);
+  var qw = q ? q.split(' ').filter(Boolean) : [];
+  var threat = GUIDE.threatOnly;
+  var endem = GUIDE.endemOnly;
+  var biome = GUIDE.biome;
+  
+  var res = [];
+  var list = DB.list || [];
+  for (var i = 0; i < list.length; i++){
+    var item = list[i];
+    var r = item.r;
+    
+    if (tax && r.c !== tax) continue;
+    if (threat && !isThreatened(r)) continue;
+    if (endem && r.e !== 'Sim') continue;
+    if (biome && (!r.bio || r.bio.indexOf(biome) < 0)) continue;
+    
+    if (qw.length){
+      var matchAll = true;
+      for (var j = 0; j < qw.length; j++){
+        var w = qw[j];
+        var inSci = item.kn.indexOf(w) >= 0;
+        var inPt = item.kp.some(function(p){ return p.indexOf(w) >= 0; });
+        var inFam = r.f && norm(r.f).indexOf(w) >= 0;
+        if (!inSci && !inPt && !inFam){
+          matchAll = false;
+          break;
+        }
+      }
+      if (!matchAll) continue;
+    }
+    res.push(r);
+  }
+  return res;
+}
+
+function initGuideListeners(){
+  var q = $('#guide-q');
+  if (q && !q._bound){
+    q._bound = true;
+    q.addEventListener('input', function(){
+      GUIDE.q = this.value;
+      renderGuide();
+    });
+  }
+  var sel = $('#guide-biome-sel');
+  if (sel && !sel._bound){
+    sel._bound = true;
+    sel.addEventListener('change', function(){
+      GUIDE.biome = this.value;
+      renderGuide();
+    });
+  }
+}
+
+function renderGuide(){
+  initGuideListeners();
+  GUIDE.limit = 40;
+  GUIDE.hits = getGuideHits();
+  var countEl = $('#guide-count-sub');
+  if (countEl){
+    countEl.textContent = GUIDE.hits.length.toLocaleString('pt-BR') + ' ' + (GUIDE.hits.length === 1 ? 'espécie encontrada' : 'espécies encontradas');
+  }
+  renderGuideList();
+}
+
+function renderGuideList(){
+  var box = $('#guide-list');
+  if (!box) return;
+  var visible = GUIDE.hits.slice(0, GUIDE.limit);
+  if (!visible.length){
+    box.innerHTML = '<div class="empty-hint" style="text-align:center;padding:32px 16px"><p style="font-size:16px;font-weight:600;margin:0 0 6px">Nenhuma espécie encontrada</p><small style="color:var(--muted)">Tente ajustar os filtros ou pesquisar por outro termo.</small></div>';
+    var mw = $('#guide-more-wrap'); if (mw) mw.hidden = true;
+    return;
+  }
+  
+  var h = '';
+  for (var i = 0; i < visible.length; i++){
+    var r = visible[i];
+    var popName = (r.pt || '').split(',')[0].trim() || r.n;
+    var taxIcon = r.c === 'Ave' ? '🦅' : r.c === 'Mamífero' ? '🐾' : r.c === 'Anfíbio' ? '🐸' : r.c === 'Réptil' ? '🐍' : '🌿';
+    var isThreat = isThreatened(r);
+    var amenText = (r.mma && AMEN_MAP[r.mma]) ? r.mma : ((r.iucn && AMEN_MAP[r.iucn]) ? r.iucn : '');
+    
+    h += '<div class="guide-card" data-act="guide-card" data-sci="' + esc(r.n) + '">' +
+      '<div class="guide-card-main">' +
+        '<div class="guide-card-name">' + esc(popName) + '</div>' +
+        '<div class="guide-card-sci">' + esc(r.n) + (r.a ? ' <small style="font-style:normal;font-size:11px;opacity:0.8">' + esc(r.a) + '</small>' : '') + '</div>' +
+        '<div class="guide-card-tags">' +
+          '<span class="guide-tag tax">' + taxIcon + ' ' + esc(r.c || 'Fauna') + '</span>' +
+          (r.f ? '<span class="guide-tag">' + esc(r.f) + '</span>' : '') +
+          (r.e === 'Sim' ? '<span class="guide-tag endem">🇧🇷 Endêmica BR</span>' : '') +
+          (isThreat ? '<span class="guide-tag amen">⚠️ ' + esc(amenText) + '</span>' : '') +
+        '</div>' +
+      '</div>' +
+      '<div class="guide-card-arrow"><svg class="ico" viewBox="0 0 24 24" width="18" height="18"><path d="M9 18l6-6-6-6" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>' +
+    '</div>';
+  }
+  box.innerHTML = h;
+  
+  var mw = $('#guide-more-wrap');
+  if (mw){
+    if (GUIDE.hits.length > GUIDE.limit){
+      mw.hidden = false;
+      var btn = mw.querySelector('button');
+      if (btn) btn.textContent = 'Carregar mais espécies (' + GUIDE.limit + ' de ' + GUIDE.hits.length + ')…';
+    } else {
+      mw.hidden = true;
+    }
+  }
+}
+
+function openSpeciesDetail(sci){
+  var r = dbGet(sci);
+  if (!r) return;
+  var k = norm(r.n);
+  var pts = (r.pt || '').split(/\s*,\s*/).filter(Boolean);
+  var primaryPop = pts[0] || r.n;
+  var aliases = pts.slice(1).join(', ');
+  var taxIcon = r.c === 'Ave' ? '🦅' : r.c === 'Mamífero' ? '🐾' : r.c === 'Anfíbio' ? '🐸' : r.c === 'Réptil' ? '🐍' : '🌿';
+  var isThreat = isThreatened(r);
+  var amenLabel = (r.mma && AMEN_MAP[r.mma]) ? r.mma : ((r.iucn && AMEN_MAP[r.iucn]) ? r.iucn : (r.iucn || r.mma || 'LC'));
+  var hasActive = !!cur();
+  
+  var h = '<div class="spec-modal">' +
+    '<div class="spec-head-wrap">' +
+      '<h2 id="sheet-h" class="spec-head-pt">' + esc(primaryPop) + '</h2>' +
+      (aliases ? '<div class="spec-head-aliases">Também chamado de: ' + esc(aliases) + '</div>' : '') +
+      '<div class="spec-head-sci">' + esc(r.n) + (r.a ? ' <small style="font-style:normal;font-size:12px;opacity:0.8">' + esc(r.a) + '</small>' : '') + '</div>' +
+      '<div class="spec-head-tax">' + taxIcon + ' ' + esc(r.c || '') + (r.o ? ' · Ordem ' + esc(r.o) : '') + (r.f ? ' · Família ' + esc(r.f) : '') + '</div>' +
+    '</div>' +
+    '<div class="spec-photo-wrap" id="spec-photo-box">' +
+      '<div class="spec-loading"><div class="spin"></div>Buscando foto da espécie…</div>' +
+    '</div>' +
+    '<div id="spec-audio-box-wrap"></div>' +
+    '<div class="spec-info-grid">' +
+      '<div class="spec-info-cell"><span>Conservação</span><b>' + (isThreat ? '⚠️ ' : '') + esc(amenLabel) + (r.mma ? ' (MMA: ' + esc(r.mma) + ')' : '') + '</b></div>' +
+      '<div class="spec-info-cell"><span>Endemismo</span><b>' + (r.e === 'Sim' ? '🇧🇷 Endêmica do Brasil' : 'Ampla distribuição') + '</b></div>' +
+      '<div class="spec-info-cell" style="grid-column:1/3"><span>Biomas</span><b>' + esc(r.bio || 'Não informado') + '</b></div>' +
+      (r.uf ? '<div class="spec-info-cell" style="grid-column:1/3"><span>Ocorrência nos Estados</span><b>' + esc(r.uf) + '</b></div>' : '') +
+      (r.die || r.loc ? '<div class="spec-info-cell" style="grid-column:1/3"><span>Ecologia &amp; Hábito</span><b>' + (r.die ? 'Dieta: ' + esc(r.die) + '  ' : '') + (r.loc ? 'Locomoção: ' + esc(r.loc) : '') + '</b></div>' : '') +
+    '</div>' +
+    '<div id="spec-desc-box-wrap"></div>' +
+    '<div class="sheet-actions" style="display:flex;flex-direction:column;gap:8px">' +
+      (hasActive ? '<button class="btn btn-primary" data-act="spec-add-to-cur" data-sci="' + esc(r.n) + '" style="font-weight:700;padding:12px">+ Adicionar à lista ativa (' + esc(title(cur())) + ')</button>' : '') +
+      '<button class="btn" data-act="close-sheet">Fechar</button>' +
+    '</div>' +
+  '</div>';
+  
+  openSheet(h);
+  fetchSpeciesMedia(r.n, primaryPop);
+}
+
+function fetchSpeciesMedia(sci, pop){
+  var k = norm(sci);
+  if (MEDIA_CACHE[k]){
+    applySpeciesMedia(MEDIA_CACHE[k]);
+    return;
+  }
+  
+  var media = { photo: null, credit: '', audio: null, audioCredit: '', extract: '' };
+  
+  // 1. Wikipédia em Português (resumo e imagem)
+  var wikiP = fetch('https://pt.wikipedia.org/api/rest_v1/page/summary/' + encodeURIComponent(sci))
+    .then(function(res){ return res.ok ? res.json() : null; })
+    .then(function(data){
+      if (data){
+        if (data.extract) media.extract = data.extract;
+        if (data.originalimage && data.originalimage.source){
+          media.photo = data.originalimage.source;
+          media.credit = 'Wikipédia / Wikimedia Commons';
+        } else if (data.thumbnail && data.thumbnail.source){
+          media.photo = data.thumbnail.source;
+          media.credit = 'Wikipédia / Wikimedia Commons';
+        }
+      }
+    }).catch(function(){});
+    
+  // 2. iNaturalist fallback para foto
+  var inatPhotoP = wikiP.then(function(){
+    if (media.photo) return;
+    return fetch('https://api.inaturalist.org/v1/taxa?q=' + encodeURIComponent(sci))
+      .then(function(res){ return res.ok ? res.json() : null; })
+      .then(function(data){
+        if (data && data.results && data.results[0] && data.results[0].default_photo){
+          var ph = data.results[0].default_photo;
+          media.photo = ph.medium_url || ph.square_url;
+          media.credit = ph.attribution || 'iNaturalist';
+        }
+      }).catch(function(){});
+  });
+
+  // 3. iNaturalist sons / vocalizações
+  var inatSoundP = fetch('https://api.inaturalist.org/v1/observations?taxon_name=' + encodeURIComponent(sci) + '&has[]=sounds&per_page=1')
+    .then(function(res){ return res.ok ? res.json() : null; })
+    .then(function(data){
+      if (data && data.results && data.results[0] && data.results[0].sounds && data.results[0].sounds[0]){
+        var s = data.results[0].sounds[0];
+        media.audio = s.file_url;
+        media.audioCredit = s.attribution || (data.results[0].user && (data.results[0].user.name || data.results[0].user.login)) || 'iNaturalist';
+      }
+    }).catch(function(){});
+
+  Promise.all([wikiP, inatPhotoP, inatSoundP]).then(function(){
+    MEDIA_CACHE[k] = media;
+    applySpeciesMedia(media);
+  });
+}
+
+function applySpeciesMedia(media){
+  var photoBox = $('#spec-photo-box');
+  var audioWrap = $('#spec-audio-box-wrap');
+  var descWrap = $('#spec-desc-box-wrap');
+  
+  if (photoBox){
+    if (media.photo){
+      photoBox.innerHTML = '<img src="' + esc(media.photo) + '" alt="" loading="lazy" referrerpolicy="no-referrer">' +
+        (media.credit ? '<span class="spec-photo-credit">Foto: ' + esc(media.credit) + '</span>' : '');
+    } else {
+      photoBox.innerHTML = '<div style="text-align:center;padding:24px;color:var(--muted)"><span style="font-size:36px;display:block;margin-bottom:6px">🌿</span><span>Foto não catalogada nesta espécie</span></div>';
+    }
+  }
+  
+  if (audioWrap){
+    if (media.audio){
+      audioWrap.innerHTML = '<div class="spec-audio-box">' +
+        '<div class="spec-audio-title"><span>🔊 Canto / Vocalização</span><small style="font-weight:400;color:var(--muted)">' + esc(media.audioCredit) + '</small></div>' +
+        '<audio controls preload="metadata" src="' + esc(media.audio) + '"></audio>' +
+      '</div>';
+    } else {
+      audioWrap.innerHTML = '';
+    }
+  }
+  
+  if (descWrap){
+    if (media.extract){
+      descWrap.innerHTML = '<div class="spec-desc-box"><p>' + esc(media.extract) + '</p><small>Fonte: Enciclopédia Wikipédia em Português</small></div>';
+    } else {
+      descWrap.innerHTML = '';
+    }
+  }
+}
+
 /* ---------- events ---------- */
 var armT;
 function arm(b, label, fn){
@@ -3724,6 +4292,7 @@ var A = {
   'account': function(){ openAccount(); },
   'news': function(){ openNews(); },
   'support': function(){ openSupport(); },
+  'send-support-wa': function(){ sendSupportWa(); },
   'send-support': function(){ sendSupport(); },
   'install': function(){ doInstall(); },
   'pocket': function(){ pocketOnNow(); },
@@ -3744,6 +4313,43 @@ var A = {
   'pf-remove': function(){ PROF.set({foto: null}); openAccount(); toast(AUTH.user && AUTH.user.photoURL ? 'Voltou a foto do Google.' : 'Foto removida.'); },
   'auth-delete': function(b){ arm(b, 'Toque de novo para excluir a conta', function(){ AUTH.remove(); }); },
   'open-names': function(){ S.editingName = null; go('names'); },
+  'open-guide': function(){ go('guide'); },
+  'guide-back': function(){ go(S.cur ? 'list' : 'home'); },
+  'guide-tax': function(b){
+    var tax = b.getAttribute('data-tax') || '';
+    GUIDE.tax = tax;
+    var all = document.querySelectorAll('.seg-guide-tax .seg-btn');
+    for (var i = 0; i < all.length; i++) all[i].classList.toggle('on', all[i] === b);
+    renderGuide();
+  },
+  'guide-threat': function(b){
+    GUIDE.threatOnly = !GUIDE.threatOnly;
+    b.classList.toggle('on', GUIDE.threatOnly);
+    renderGuide();
+  },
+  'guide-endem': function(b){
+    GUIDE.endemOnly = !GUIDE.endemOnly;
+    b.classList.toggle('on', GUIDE.endemOnly);
+    renderGuide();
+  },
+  'guide-load-more': function(){
+    GUIDE.limit += GUIDE.step;
+    renderGuideList();
+  },
+  'guide-card': function(b){
+    var sci = b.getAttribute('data-sci');
+    if (sci) openSpeciesDetail(sci);
+  },
+  'spec-add-to-cur': function(b){
+    var sci = b.getAttribute('data-sci');
+    var r = dbGet(sci);
+    if (!r) return;
+    var c = cur();
+    if (!c){ toast('Nenhuma lista aberta.'); return; }
+    var pop = (r.pt || '').split(',')[0].trim() || r.n;
+    addEntry(c, pop, 1, r.n);
+    closeSheet();
+  },
   'details': openDetails,
   'close-sheet': closeSheet,
   'backup': function(){ openAccount(); },
@@ -3899,7 +4505,19 @@ var A = {
       setTimeout(function(){ b.disabled = false; }, 1500);
     });
   },
-  'end-list': function(){ var c = cur(); c.end = new Date().toISOString(); c.track.on = false; S.unlocked = null; touch(c); updateWatch(); renderList(); window.scrollTo(0, 0); toast('Lista finalizada e guardada'); },
+  'end-list': function(){
+    var c = cur();
+    c.end = new Date().toISOString();
+    c.track.on = false;
+    S.unlocked = null;
+    touch(c);
+    updateWatch();
+    syncCareerWithLists();
+    syncOccurrences(c);
+    renderList();
+    window.scrollTo(0, 0);
+    toast('Lista finalizada e guardada');
+  },
   'reopen': function(){ var c = cur(); c.end = null; S.unlocked = null; touch(c); renderList(); },
   'unlock': function(){ var c = cur(); if (!c) return; S.unlocked = c.id; renderList(); },
   'lock': function(){ S.unlocked = null; renderList(); toast('Correções salvas'); },
@@ -3937,10 +4555,10 @@ var A = {
       });
     } else { copyText(txt); }
   },
-  'xlsx': function(){ var c = cur(); openFormat([c], fileBase(c), 'Exportar lista'); },
-  'gpx': function(){ var c = cur(), g = gpx(c), base = fileBase(c); if (S.downloads) offerFile(base + '.zip', zipFiles([{name:base + '.gpx', data:g}]), 'application/zip'); else offerFile(base + '.gpx', g, 'application/gpx+xml', 'Trilha (GPX)'); },
-  'kml': function(){ var c = cur(), k = kml(c), base = fileBase(c); if (S.downloads) offerFile(base + '.zip', zipFiles([{name:base + '.kml', data:k}]), 'application/zip'); else offerFile(base + '.kml', k, 'application/vnd.google-earth.kml+xml', 'Mapa (KML)'); },
-  'geojson': function(){ var c = cur(), g = geojson(c), base = fileBase(c); if (S.downloads) offerFile(base + '.zip', zipFiles([{name:base + '.geojson', data:g}]), 'application/zip'); else offerFile(base + '.geojson', g, 'application/geo+json', 'GIS (GeoJSON)'); },
+  'xlsx': function(){ var c = cur(); syncOccurrences(c); openFormat([c], fileBase(c), 'Exportar lista'); },
+  'gpx': function(){ var c = cur(), g = gpx(c), base = fileBase(c); syncOccurrences(c); if (S.downloads) offerFile(base + '.zip', zipFiles([{name:base + '.gpx', data:g}]), 'application/zip'); else offerFile(base + '.gpx', g, 'application/gpx+xml', 'Trilha (GPX)'); },
+  'kml': function(){ var c = cur(), k = kml(c), base = fileBase(c); syncOccurrences(c); if (S.downloads) offerFile(base + '.zip', zipFiles([{name:base + '.kml', data:k}]), 'application/zip'); else offerFile(base + '.kml', k, 'application/vnd.google-earth.kml+xml', 'Mapa (KML)'); },
+  'geojson': function(){ var c = cur(), g = geojson(c), base = fileBase(c); syncOccurrences(c); if (S.downloads) offerFile(base + '.zip', zipFiles([{name:base + '.geojson', data:g}]), 'application/zip'); else offerFile(base + '.geojson', g, 'application/geo+json', 'GIS (GeoJSON)'); },
   'dwc': function(){ var c = cur(); exportLists([c], fileBase(c), 'Exportar Darwin Core', 'dwc'); },
   'export-json': function(){ var d = {app:'caderneta-de-campo', version:1, exported:new Date().toISOString(), names:S.names, alias:S.alias, lists:Object.keys(S.lists).map(function(k){ var c = clone(S.lists[k]); delete c.synced; return c; })}; offerFile('caderneta-backup-' + dateVal(new Date()) + '.json', JSON.stringify(d), 'application/json', 'Backup'); },
   'export-all-xlsx': function(){
@@ -4020,10 +4638,12 @@ window.addEventListener('online', retryAll);
 function tick(){ if (S.screen === 'list') renderNav(); else if (S.screen === 'home'){ if (!S.sel) renderHome(); } else if (S.screen === 'cover') renderCover(); }
 setInterval(tick, 20000);
 
-function renderAll(){ if (S.screen === 'cover') renderCover(); else if (S.screen === 'home') renderHome(); else if (S.screen === 'list') renderList(); else renderNames(); renderSync(); }
+function renderAll(){ if (S.screen === 'cover') renderCover(); else if (S.screen === 'home') renderHome(); else if (S.screen === 'list') renderList(); else if (S.screen === 'guide') renderGuide(); else renderNames(); renderSync(); }
 
 /* ---------- boot ---------- */
 loadLocal();
+syncCareerWithLists();
+flushOccurrencesQueue();
 applyTheme(S.theme);
 probeGps();
 renderHome();

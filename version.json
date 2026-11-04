@@ -1,15 +1,13 @@
 {
-  "v": 18,
-  "nome": "18",
+  "v": 19,
+  "nome": "19",
   "data": "2026-11-04",
   "novidades": [
-    "Métodos específicos para Herpetofauna: Busca Ativa e Pitfall (armadilhas de interceptação e queda)",
-    "Aba de Biometria no Excel (.xlsx) gerada automaticamente ao selecionar o método Pitfall",
-    "Formulário completo de biometria de campo para registrar morfometria geral (CRC, cauda, peso), anuros e folidose",
-    "Novo tipo de registro: Ocasional (O), complementando Visual (V) e Auditivo (A) em todo o app",
-    "Página de contato e suporte técnico para falar diretamente com o desenvolvedor",
-    "Filtro de grupo faunístico antes de iniciar lista (Ornitofauna, Mastofauna, Herpetofauna)",
-    "Identificação visual do grupo faunístico nos cards de Minhas Listas",
-    "Exportação em padrão Darwin Core (DwC), KML (Google Earth), GeoJSON (SIG) e infográfico para WhatsApp"
+    "Suporte direto por WhatsApp com o desenvolvedor Lucas Aøsf ((12) 99182-1729)",
+    "Histórico vitalício de perfil: contagem de listas, Life List de espécies e registros acumulados não diminuem mesmo ao apagar listas antigas",
+    "Guia de Espécies do Brasil com catálogo completo de ~4.700 espécies com fotos da Wikipédia/iNaturalist, vocalizações/cantos e resumos ecológicos",
+    "Colaboração científica de distribuição de espécies: envio automático de encontros com coordenadas para o mapa de distribuição do app (estilo WikiAves)",
+    "Métodos específicos para Herpetofauna: Busca Ativa e Pitfall com biometria morfológica completa no Excel",
+    "Novo tipo de registro: Ocasional (O), complementando Visual (V) e Auditivo (A) em todo o app e exportações"
   ]
 }
