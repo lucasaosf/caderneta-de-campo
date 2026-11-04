@@ -1,13 +1,12 @@
 {
-  "v": 21,
-  "nome": "21",
+  "v": "2.2",
+  "nome": "2.2",
   "data": "2026-11-04",
   "novidades": [
-    "Aba completa da Life List: toque na Life List do seu perfil ou tela inicial para ver todas as espécies registradas em campo",
-    "Ficha da espécie integrada: veja quantas vezes você já registrou cada espécie na sua carreira e a data do último encontro",
-    "Filtros por grupo faunístico (Aves, Mamíferos, Anfíbios, Répteis) e ordenação por mais recentes ou mais avistadas na Life List",
-    "Opção de upar listas finalizadas diretamente para a base de dados do desenvolvedor (Lucas Aøsf) para alimentar o mapa nacional de espécies",
-    "Mapa interativo de distribuição do Brasil com separação dos 6 Biomas oficiais, 27 Estados (UFs) e pontos GPS de campo com coordenadas",
-    "Fontes de informação científica aprofundadas via GBIF, iNaturalist e referências ao Amphibians of the World (AMNH / Darrel Frost)"
+    "Linhas de divisão dos 27 Estados brasileiros no mapa: visualize com clareza as fronteiras estaduais sobrepostas aos biomas",
+    "Separação entre distribuição conhecida (GBIF / Literatura) e encontros reais de campo registrados no app",
+    "Filtros dinâmicos no mapa da espécie: alterne com 1 toque entre Todos os Pontos, Encontros do App e Literatura GBIF",
+    "Novo esquema de numeração decimal de versões (2.2) para melhor organização e elegância nas atualizações contínuas",
+    "Visualização completa da Life List e fichas de espécies integradas com biomas, referências científicas e áudios"
   ]
 }
