@@ -638,8 +638,18 @@ body.selecting .wm{display:none}
 .occ-dot-app:hover{r:7.5}
 .occ-dot-gbif{transition:r .2s;cursor:pointer}
 .occ-dot-gbif:hover{r:6.0}
+.occ-dot-xeno{transition:r .2s;cursor:pointer}
+.occ-dot-xeno:hover{r:6.5}
+.occ-dot-inat{transition:r .2s;cursor:pointer}
+.occ-dot-inat:hover{r:6.0}
 .occ-dot{transition:r .2s;cursor:pointer}
 .occ-dot:hover{r:7.5}
+.spec-thumbs-bar{display:flex;gap:8px;overflow-x:auto;padding:8px 2px 4px;scrollbar-width:thin}
+.spec-thumb-btn{flex:none;width:58px;height:58px;border-radius:8px;overflow:hidden;padding:0;cursor:pointer;background:var(--surface-2);transition:all .15s}
+.spec-thumb-btn.active{border:2.5px solid var(--accent)!important;opacity:1!important;transform:scale(1.05)}
+.spec-ext-portals{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin-top:12px}
+.spec-portal-card{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:10px;background:var(--surface-2);border:1px solid var(--line);text-decoration:none;color:var(--ink);transition:all .15s;font-size:12px}
+.spec-portal-card:hover{border-color:var(--accent);background:var(--accent-soft);transform:translateY(-1px)}
 .map-legend{display:flex;flex-wrap:wrap;gap:6px 10px;font-size:11px;color:var(--muted);padding-top:4px}
 .legend-item{display:inline-flex;align-items:center;gap:4px}
 .legend-dot{width:10px;height:10px;border-radius:50%;display:inline-block}
@@ -959,9 +969,9 @@ body.selecting .wm{display:none}
 <div class="sel-bar" id="sel-bar" hidden></div>
 <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 <datalist id="dl-proj"></datalist><datalist id="dl-camp"></datalist><datalist id="dl-ua"></datalist><datalist id="dl-met"></datalist>
-<script src="especies.js?v=2.3"></script>
-<script src="planilha.js?v=2.3"></script>
-<script src="firebase-config.js?v=2.3"></script>
+<script src="especies.js?v=2.4"></script>
+<script src="planilha.js?v=2.4"></script>
+<script src="firebase-config.js?v=2.4"></script>
 
 <script>
 (function(){
@@ -1059,7 +1069,7 @@ var S = {
   sugg:[], suggIdx:0, undo:null, sheetClose:null, editingName:null, demo:3,
   alias:{}, defMode:LS.get('defMode', 'V'), theme:LS.get('theme', 'dark'), filterTax:''
 };
-var APP_V = '2.3';
+var APP_V = '2.4';
 function cmpVer(a, b){
   var pa = String(a).split('.').map(function(n){ return parseInt(n, 10) || 0; });
   var pb = String(b).split('.').map(function(n){ return parseInt(n, 10) || 0; });
@@ -1071,11 +1081,11 @@ function cmpVer(a, b){
   return 0;
 }
 var NOVIDADES = [
-  'Diagnoses e caracter\u00EDsticas diagn\u00F3sticas completas em portugu\u00EAs: morfologia, taxonomia, biomas, dieta, locomo\u00E7\u00E3o e dicas pr\u00E1ticas de campo para identifica\u00E7\u00E3o segura.',
-  '\u00CDcone de informa\u00E7\u00E3o \u2139\uFE0F na sua lista de campo: toque direto no \u00EDcone ao lado de qualquer esp\u00E9cie para conferir ficha, fotos, diagnose e cantos sem sair da lista.',
-  'M\u00FAltiplas op\u00E7\u00F5es de vocaliza\u00E7\u00E3o e cantos: compare varia\u00E7\u00F5es de canto territorial, chamados e dialetos regionais de cada esp\u00E9cie com reprodutores individuais.',
-  'Bot\u00E3o de retorno r\u00E1pido: ao conferir a esp\u00E9cie a partir da sua lista ativa, um bot\u00E3o pr\u00E1tico permite voltar instantaneamente para o preenchimento de campo.',
-  'Tradu\u00E7\u00E3o t\u00E9cnica biol\u00F3gica: termos descritivos em latim/ingl\u00EAs (CRC, t\u00EDmpano, membranas interdigitais, fosseta loreal, escamas carenadas) traduzidos para portugu\u00EAs formal.'
+  'Galeria fotogr\u00E1fica multivariada: visualize m\u00FAltiplos padr\u00F5es por esp\u00E9cie (morfos, fases de cor, dimorfismo sexual, juvenil/adulto) com miniaturas e alta resolu\u00E7\u00E3o.',
+  'Bioac\u00FAstica e vocaliza\u00E7\u00F5es de alta fidelidade: grava\u00E7\u00F5es integradas de Xeno-Canto com espectrograma e iNaturalist Grau de Pesquisa.',
+  'Mapa de distribui\u00E7\u00E3o ampliado: pontos georreferenciados reunindo Literatura Oficial / Museus (GBIF), Xeno-Canto (Bioac\u00FAstica), iNaturalist e encontros do app.',
+  'Filtros dedicados no mapa por plataforma: alterne entre Encontros do App, Literatura Oficial GBIF, Xeno-Canto e iNaturalist.',
+  'Acervos e portais externos: atalhos diretos para WikiAves, eBird / Macaulay Library, AmphibiaWeb, Biofaces, Xeno-Canto e GBIF.'
 ];
 
 /* ---------- banco de espécies ---------- */
@@ -4848,15 +4858,24 @@ function renderBrazilMapSvg(spec, appPoints, mode, ptsMode, gbifPoints){
     }
   });
 
-  // 4. Pontos Cientificos de Literatura (GBIF)
-  if (ptsMode === 'all' || ptsMode === 'gbif'){
-    gbifPoints.forEach(function(pt){
-      if (pt.lat == null || pt.lon == null) return;
-      var p = projLatLon(pt.lat, pt.lon);
+  // 4. Pontos Cientificos / Literatura (GBIF, Xeno-Canto, iNaturalist)
+  gbifPoints.forEach(function(pt){
+    if (pt.lat == null || pt.lon == null) return;
+    var plat = pt.platform || 'gbif';
+    if (ptsMode !== 'all' && ptsMode !== plat) return;
+
+    var p = projLatLon(pt.lat, pt.lon);
+    if (plat === 'xenocanto'){
+      svg += '<circle class="occ-dot-xeno" cx="' + p.x + '" cy="' + p.y + '" r="4.5" fill="#c084fc" stroke="#ffffff" stroke-width="1.3" fill-opacity="0.95">';
+      svg += '<title>\uD83D\uDD0A Xeno-Canto (Bioac\u00FAstica): ' + esc(pt.catalog || pt.name || '') + '\n' + esc(pt.locality || pt.place || '') + '\nGravador: ' + esc(pt.recordedBy || 'Pesquisador') + '\nData: ' + esc(pt.date || '') + '</title></circle>';
+    } else if (plat === 'inat'){
+      svg += '<circle class="occ-dot-inat" cx="' + p.x + '" cy="' + p.y + '" r="4.0" fill="#34d399" stroke="#ffffff" stroke-width="1.2" fill-opacity="0.9">';
+      svg += '<title>\uD83C\uDF3F iNaturalist: ' + esc(pt.name || '') + '\n' + esc(pt.locality || pt.place || '') + '\nObservador: ' + esc(pt.recordedBy || 'Observador') + '\nData: ' + esc(pt.date || '') + '</title></circle>';
+    } else {
       svg += '<circle class="occ-dot-gbif" cx="' + p.x + '" cy="' + p.y + '" r="4.0" fill="#38bdf8" stroke="#ffffff" stroke-width="1.2" fill-opacity="0.9">';
-      svg += '<title>\uD83D\uDD2C Literatura / GBIF: ' + esc(pt.name || '') + '\nAno: ' + esc(pt.year || pt.date || 's/d') + '\nBase: ' + esc(pt.institution || pt.basis || 'Registro Cient\u00EDfico') + '</title></circle>';
-    });
-  }
+      svg += '<title>\uD83D\uDD2C Literatura Oficial / Museu: ' + esc(pt.name || '') + '\nCole\u00E7\u00E3o/Base: ' + esc(pt.institution || pt.basis || 'Registro Cient\u00EDfico') + '\nData: ' + esc(pt.year || pt.date || 's/d') + '</title></circle>';
+    }
+  });
 
   // 5. Pontos GPS de Campo (App - Encontros)
   if (ptsMode === 'all' || ptsMode === 'app'){
@@ -5010,33 +5029,113 @@ function fetchSpeciesGbifPoints(sci, r){
   if (GBIF_OCC_CACHE[cacheKey]) return Promise.resolve(GBIF_OCC_CACHE[cacheKey]);
   if (!navigator.onLine) return Promise.resolve([]);
   
-  var url = 'https://api.gbif.org/v1/occurrence/search?scientificName=' + encodeURIComponent(sci) + '&hasCoordinate=true&country=BR&limit=100';
-  return fetch(url).then(function(res){
-    if (!res.ok) throw new Error('HTTP ' + res.status);
-    return res.json();
-  }).then(function(data){
-    var list = [];
-    if (data && data.results && data.results.length){
-      data.results.forEach(function(item){
-        if (item.decimalLatitude != null && item.decimalLongitude != null){
-          list.push({
-            lat: +item.decimalLatitude,
-            lon: +item.decimalLongitude,
-            name: item.scientificName || sci,
-            source: 'GBIF / Literatura',
-            basis: item.basisOfRecord || 'PRESERVED_SPECIMEN',
-            institution: item.institutionCode || item.collectionCode || item.datasetName || 'Cole\u00E7\u00E3o Cient\u00EDfica',
-            year: item.year || '',
-            date: item.eventDate || (item.year ? '' + item.year : '')
-          });
-        }
-      });
-    }
+  var list = [];
+  var seenCoord = {};
+
+  // 1. GBIF Literatura Científica, Herbários e Museus Brasileiros (MZUSP, MN/UFRJ, etc.)
+  var p1 = fetch('https://api.gbif.org/v1/occurrence/search?scientificName=' + encodeURIComponent(sci) + '&hasCoordinate=true&country=BR&limit=100')
+    .then(function(res){ return res.ok ? res.json() : null; })
+    .then(function(data){
+      if (data && data.results){
+        data.results.forEach(function(item){
+          if (item.decimalLatitude != null && item.decimalLongitude != null){
+            var lat = +item.decimalLatitude, lon = +item.decimalLongitude;
+            var cKey = lat.toFixed(3) + ',' + lon.toFixed(3);
+            if (seenCoord[cKey]) return;
+            seenCoord[cKey] = true;
+
+            var isXeno = item.datasetKey === 'b1047888-ae52-4179-9dd5-5448ea342a24' || (item.catalogNumber && /^XC/i.test(item.catalogNumber));
+            var isINat = (item.datasetName && /inaturalist/i.test(item.datasetName)) || item.institutionCode === 'iNaturalist';
+
+            list.push({
+              lat: lat,
+              lon: lon,
+              name: item.scientificName || sci,
+              platform: isXeno ? 'xenocanto' : (isINat ? 'inat' : 'gbif'),
+              catalog: item.catalogNumber || '',
+              basis: item.basisOfRecord || 'PRESERVED_SPECIMEN',
+              institution: isXeno ? 'Xeno-Canto' : (isINat ? 'iNaturalist' : (item.institutionCode || item.collectionCode || item.datasetName || 'Coleção Científica')),
+              locality: item.locality || '',
+              recordedBy: item.recordedBy || '',
+              year: item.year || '',
+              date: item.eventDate || (item.year ? '' + item.year : '')
+            });
+          }
+        });
+      }
+    }).catch(function(){});
+
+  // 2. Xeno-Canto: Ocorrências de Bioacústica com Coordenadas no Brasil
+  var p2 = fetch('https://api.gbif.org/v1/occurrence/search?scientificName=' + encodeURIComponent(sci) + '&datasetKey=b1047888-ae52-4179-9dd5-5448ea342a24&hasCoordinate=true&country=BR&limit=60')
+    .then(function(res){ return res.ok ? res.json() : null; })
+    .then(function(data){
+      if (data && data.results){
+        data.results.forEach(function(item){
+          if (item.decimalLatitude != null && item.decimalLongitude != null){
+            var lat = +item.decimalLatitude, lon = +item.decimalLongitude;
+            var cKey = 'xc:' + (item.catalogNumber || (lat.toFixed(3) + ',' + lon.toFixed(3)));
+            if (seenCoord[cKey]) return;
+            seenCoord[cKey] = true;
+
+            list.push({
+              lat: lat,
+              lon: lon,
+              name: item.scientificName || sci,
+              platform: 'xenocanto',
+              catalog: item.catalogNumber || '',
+              basis: 'Bioacústica Xeno-Canto',
+              institution: 'Xeno-Canto',
+              locality: item.locality || (item.stateProvince ? item.stateProvince + ', Brasil' : 'Brasil'),
+              recordedBy: item.recordedBy || 'Pesquisador',
+              date: item.eventDate || (item.year ? '' + item.year : '')
+            });
+          }
+        });
+      }
+    }).catch(function(){});
+
+  // 3. iNaturalist: Observações de Ciência Cidadã Georreferenciadas no Brasil
+  var p3 = fetch('https://api.inaturalist.org/v1/observations?taxon_name=' + encodeURIComponent(sci) + '&place_id=6878&has[]=photos&per_page=60')
+    .then(function(res){ return res.ok ? res.json() : null; })
+    .then(function(data){
+      if (data && data.results){
+        data.results.forEach(function(obs){
+          var lat = null, lon = null;
+          if (obs.geojson && obs.geojson.coordinates && obs.geojson.coordinates.length >= 2){
+            lon = +obs.geojson.coordinates[0];
+            lat = +obs.geojson.coordinates[1];
+          } else if (obs.latitude != null && obs.longitude != null){
+            lat = +obs.latitude;
+            lon = +obs.longitude;
+          }
+          if (lat != null && lon != null){
+            var cKey = 'inat:' + obs.id;
+            if (seenCoord[cKey]) return;
+            seenCoord[cKey] = true;
+
+            list.push({
+              lat: lat,
+              lon: lon,
+              name: sci,
+              platform: 'inat',
+              catalog: 'iNat #' + obs.id,
+              basis: obs.quality_grade === 'research' ? 'Grau de Pesquisa' : 'Observação Comunitária',
+              institution: 'iNaturalist',
+              locality: obs.place_guess || 'Brasil',
+              recordedBy: (obs.user && (obs.user.name || obs.user.login)) || 'Observador',
+              date: obs.observed_on || ''
+            });
+          }
+        });
+      }
+    }).catch(function(){});
+
+  return Promise.all([p1, p2, p3]).then(function(){
     GBIF_OCC_CACHE[cacheKey] = list;
     return list;
-  }).catch(function(err){
-    console.warn('GBIF Occurrence error:', err);
-    return [];
+  }).catch(function(){
+    GBIF_OCC_CACHE[cacheKey] = list;
+    return list;
   });
 }
 
@@ -5048,6 +5147,7 @@ function fetchSpeciesScientificData(sci, r){
     gbifKey: null,
     scientificDesc: '',
     descSource: '',
+    photos: [],
     photo: null,
     photoCredit: '',
     sounds: [],
@@ -5078,68 +5178,126 @@ function fetchSpeciesScientificData(sci, r){
       }
     }).catch(function(){});
 
-  // 2. iNaturalist Taxa (Foto)
-  var inatP = fetch('https://api.inaturalist.org/v1/taxa?q=' + encodeURIComponent(sci))
+  // 2. Xeno-Canto: Bioacústica e Cantos de Alta Fidelidade (via GBIF dataset oficial)
+  var xenoSoundP = fetch('https://api.gbif.org/v1/occurrence/search?scientificName=' + encodeURIComponent(sci) + '&datasetKey=b1047888-ae52-4179-9dd5-5448ea342a24&mediaType=Sound&country=BR&limit=6')
     .then(function(res){ return res.ok ? res.json() : null; })
     .then(function(data){
-      if (data && data.results && data.results[0] && data.results[0].default_photo){
-        var ph = data.results[0].default_photo;
-        result.photo = ph.medium_url || ph.square_url;
-        result.photoCredit = ph.attribution || 'iNaturalist';
+      if (data && data.results && data.results.length){
+        data.results.forEach(function(item){
+          if (item.media && item.media.length && result.sounds.length < 6){
+            var audioMed = item.media.find(function(m){ return m.type === 'Sound' || /\.(mp3|wav|m4a|ogg)(\?|$)/i.test(m.identifier); });
+            var spectroMed = item.media.find(function(m){ return m.type === 'StillImage' || /\.png/i.test(m.identifier); });
+            if (audioMed && audioMed.identifier){
+              var cat = item.catalogNumber || '';
+              var loc = item.locality || (item.stateProvince ? item.stateProvince + ', Brasil' : 'Brasil');
+              var rec = item.recordedBy || 'Xeno-Canto';
+              result.sounds.push({
+                platform: 'xenocanto',
+                catalog: cat,
+                url: audioMed.identifier,
+                spectrogram: spectroMed ? spectroMed.identifier : '',
+                title: 'Xeno-Canto ' + cat + (loc ? ' · ' + loc : ''),
+                attribution: rec,
+                location: loc,
+                quality: 'Alta Fidelidade (Xeno-Canto)',
+                date: item.eventDate || (item.year ? '' + item.year : ''),
+                externalUrl: cat ? ('https://xeno-canto.org/' + cat.replace(/^XC/i, '')) : 'https://xeno-canto.org'
+              });
+            }
+          }
+        });
       }
     }).catch(function(){});
 
-  // 3. iNaturalist Sons (múltiplas opções para comparar variações)
-  var soundP = fetch('https://api.inaturalist.org/v1/observations?taxon_name=' + encodeURIComponent(sci) + '&has[]=sounds&per_page=6&order_by=votes')
+  // 3. iNaturalist: Sons e Vocalizações com Votos Comunitários
+  var inatSoundP = fetch('https://api.inaturalist.org/v1/observations?taxon_name=' + encodeURIComponent(sci) + '&has[]=sounds&order_by=votes&per_page=6')
     .then(function(res){ return res.ok ? res.json() : null; })
     .then(function(data){
       if (data && data.results && data.results.length){
         data.results.forEach(function(obs){
-          if (obs.sounds && obs.sounds.length){
+          if (obs.sounds && obs.sounds.length && result.sounds.length < 8){
             obs.sounds.forEach(function(snd){
-              if (snd.file_url && result.sounds.length < 5){
+              if (snd.file_url && result.sounds.length < 8){
                 var loc = obs.place_guess || 'Brasil';
                 var usr = (obs.user && (obs.user.name || obs.user.login)) || 'Pesquisador';
-                var desc = obs.description ? obs.description.slice(0, 70) : '';
-                var num = result.sounds.length + 1;
+                var desc = obs.description ? obs.description.slice(0, 80) : '';
                 result.sounds.push({
+                  platform: 'inat',
                   url: snd.file_url,
-                  title: 'Vocalização ' + num + (loc ? ' · ' + loc : ''),
+                  spectrogram: '',
+                  title: 'iNaturalist · ' + loc,
                   attribution: snd.attribution || usr,
                   location: loc,
-                  user: usr,
-                  desc: desc
+                  quality: obs.quality_grade === 'research' ? 'Grau de Pesquisa (iNaturalist)' : 'Observação Validada',
+                  desc: desc,
+                  date: obs.observed_on || '',
+                  externalUrl: 'https://www.inaturalist.org/observations/' + obs.id
                 });
               }
             });
           }
         });
-        if (result.sounds.length > 0){
-          result.audio = result.sounds[0].url;
-          result.audioCredit = result.sounds[0].attribution;
-        }
       }
     }).catch(function(){});
 
-  // 4. Wikipédia em Português
+  // 4. iNaturalist: Galeria Multivariada de Fotos de Alta Resolução (Grau de Pesquisa)
+  var inatPhotosP = fetch('https://api.inaturalist.org/v1/observations?taxon_name=' + encodeURIComponent(sci) + '&has[]=photos&order_by=votes&quality_grade=research&per_page=8')
+    .then(function(res){ return res.ok ? res.json() : null; })
+    .then(function(data){
+      if (data && data.results && data.results.length){
+        data.results.forEach(function(obs){
+          if (obs.photos && obs.photos.length){
+            obs.photos.forEach(function(ph){
+              if (ph.url && result.photos.length < 8){
+                var medUrl = ph.url.replace('/square.', '/medium.');
+                var lgUrl = ph.url.replace('/square.', '/large.');
+                result.photos.push({
+                  url: medUrl,
+                  largeUrl: lgUrl,
+                  thumbUrl: ph.url,
+                  attribution: ph.attribution || (obs.user && (obs.user.name || obs.user.login)) || 'iNaturalist',
+                  place: obs.place_guess || 'Brasil',
+                  date: obs.observed_on || '',
+                  source: 'iNaturalist (Grau de Pesquisa)',
+                  obsId: obs.id
+                });
+              }
+            });
+          }
+        });
+      }
+    }).catch(function(){});
+
+  // 5. Wikipédia em Português (Descrição & Foto Adicional)
   var wikiP = fetch('https://pt.wikipedia.org/api/rest_v1/page/summary/' + encodeURIComponent(sci))
     .then(function(res){ return res.ok ? res.json() : null; })
     .then(function(data){
       if (data){
         if (data.extract) result.extract = data.extract;
-        if (!result.photo){
-          if (data.originalimage && data.originalimage.source){
-            result.photo = data.originalimage.source;
-            result.photoCredit = 'Wikipédia / Wikimedia Commons';
-          } else if (data.thumbnail && data.thumbnail.source){
-            result.photo = data.thumbnail.source;
-            result.photoCredit = 'Wikipédia / Wikimedia Commons';
-          }
+        var wImg = (data.originalimage && data.originalimage.source) || (data.thumbnail && data.thumbnail.source);
+        if (wImg){
+          result.photos.push({
+            url: wImg,
+            largeUrl: wImg,
+            thumbUrl: (data.thumbnail && data.thumbnail.source) || wImg,
+            attribution: 'Wikipédia / Wikimedia Commons',
+            place: 'Registro Enciclopédico',
+            date: '',
+            source: 'Wikipédia / Wikimedia Commons'
+          });
         }
       }
     }).catch(function(){});
 
-  return Promise.all([gbifP, inatP, soundP, wikiP]).then(function(){
+  return Promise.all([gbifP, xenoSoundP, inatSoundP, inatPhotosP, wikiP]).then(function(){
+    if (result.photos.length > 0){
+      result.photo = result.photos[0].largeUrl || result.photos[0].url;
+      result.photoCredit = result.photos[0].attribution;
+    }
+    if (result.sounds.length > 0){
+      result.audio = result.sounds[0].url;
+      result.audioCredit = result.sounds[0].title + ' · ' + result.sounds[0].attribution;
+    }
     MEDIA_CACHE[k] = result;
     return result;
   });
@@ -5350,17 +5508,21 @@ function openSpeciesDetail(sci){
           '</div>' +
         '</div>' +
         '<div class="brazil-map-pts-filter">' +
-          '<button class="map-pts-btn on" data-act="map-pts-mode" data-pts="all">Todos os Pontos</button>' +
-          '<button class="map-pts-btn" data-act="map-pts-mode" data-pts="app">\uD83D\uDCF1 Encontros do App <span id="map-app-count">(0)</span></button>' +
-          '<button class="map-pts-btn" data-act="map-pts-mode" data-pts="gbif">\uD83D\uDD2C Literatura GBIF <span id="map-gbif-count">(0)</span></button>' +
+          '<button class="map-pts-btn on" data-act="map-pts-mode" data-pts="all">Todos os Pontos <span id="map-all-count">(0)</span></button>' +
+          '<button class="map-pts-btn" data-act="map-pts-mode" data-pts="app">📱 Encontros App <span id="map-app-count">(0)</span></button>' +
+          '<button class="map-pts-btn" data-act="map-pts-mode" data-pts="gbif">🔬 Literatura Oficial <span id="map-gbif-count">(0)</span></button>' +
+          '<button class="map-pts-btn" data-act="map-pts-mode" data-pts="xenocanto">🔊 Xeno-Canto <span id="map-xeno-count">(0)</span></button>' +
+          '<button class="map-pts-btn" data-act="map-pts-mode" data-pts="inat">🌿 iNaturalist <span id="map-inat-count">(0)</span></button>' +
         '</div>' +
         '<div class="brazil-map-svg-wrap">' +
           renderBrazilMapSvg(r, [], 'biomes', 'all', []) +
         '</div>' +
-        '<div id="spec-map-pts-meta" style="font-size:11.5px;color:var(--muted);text-align:center">Buscando registros científicos e encontros no Brasil…</div>' +
+        '<div id="spec-map-pts-meta" style="font-size:11.5px;color:var(--muted);text-align:center">Buscando registros científicos, bioacústica e encontros no Brasil…</div>' +
         '<div class="map-legend">' +
           '<span class="legend-item"><span class="legend-dot" style="background:#f59e0b;box-shadow:0 0 6px #f59e0b"></span> <b>📱 Encontros App</b></span>' +
-          '<span class="legend-item"><span class="legend-dot" style="background:#38bdf8;box-shadow:0 0 6px #38bdf8"></span> <b>🔬 Literatura GBIF</b></span>' +
+          '<span class="legend-item"><span class="legend-dot" style="background:#38bdf8;box-shadow:0 0 6px #38bdf8"></span> <b>🔬 Literatura Oficial GBIF</b></span>' +
+          '<span class="legend-item"><span class="legend-dot" style="background:#c084fc;box-shadow:0 0 6px #c084fc"></span> <b>🔊 Xeno-Canto</b></span>' +
+          '<span class="legend-item"><span class="legend-dot" style="background:#34d399;box-shadow:0 0 6px #34d399"></span> <b>🌿 iNaturalist</b></span>' +
           '<span class="legend-item"><span class="legend-dot" style="background:#1E6E38"></span> Amazônia</span>' +
           '<span class="legend-item"><span class="legend-dot" style="background:#D99B26"></span> Cerrado</span>' +
           '<span class="legend-item"><span class="legend-dot" style="background:#C86420"></span> Caatinga</span>' +
@@ -5411,10 +5573,19 @@ function openSpeciesDetail(sci){
     var mode = mb._mode || 'biomes';
     var ptsMode = mb._ptsMode || 'all';
     
+    var allCntEl = $('#map-all-count');
+    if (allCntEl) allCntEl.textContent = '(' + (appPts.length + gbifPts.length) + ')';
     var appCntEl = $('#map-app-count');
     if (appCntEl) appCntEl.textContent = '(' + appPts.length + ')';
     var gbifCntEl = $('#map-gbif-count');
-    if (gbifCntEl) gbifCntEl.textContent = '(' + gbifPts.length + ')';
+    var gbifLitCount = gbifPts.filter(function(p){ return p.platform === 'gbif' || !p.platform; }).length;
+    if (gbifCntEl) gbifCntEl.textContent = '(' + gbifLitCount + ')';
+    var xenoCntEl = $('#map-xeno-count');
+    var xenoCount = gbifPts.filter(function(p){ return p.platform === 'xenocanto'; }).length;
+    if (xenoCntEl) xenoCntEl.textContent = '(' + xenoCount + ')';
+    var inatCntEl = $('#map-inat-count');
+    var inatCount = gbifPts.filter(function(p){ return p.platform === 'inat'; }).length;
+    if (inatCntEl) inatCntEl.textContent = '(' + inatCount + ')';
     
     var svgWrap = mb.querySelector('.brazil-map-svg-wrap');
     if (svgWrap) svgWrap.innerHTML = renderBrazilMapSvg(r, appPts, mode, ptsMode, gbifPts);
@@ -5422,12 +5593,14 @@ function openSpeciesDetail(sci){
     var metaEl = $('#spec-map-pts-meta');
     if (metaEl){
       if (!mb._loadedApp && !mb._loadedGbif){
-        metaEl.textContent = 'Buscando registros cient\u00EDficos e encontros no Brasil\u2026';
+        metaEl.textContent = 'Buscando registros científicos, bioacústica e encontros no Brasil…';
       } else {
         var parts = [];
-        if (appPts.length) parts.push('\uD83D\uDCF1 <b>' + appPts.length + '</b> ' + (appPts.length === 1 ? 'encontro no app' : 'encontros no app'));
-        if (gbifPts.length) parts.push('\uD83D\uDD2C <b>' + gbifPts.length + '</b> ' + (gbifPts.length === 1 ? 'registro GBIF / Literatura' : 'registros GBIF / Literatura'));
-        metaEl.innerHTML = parts.length ? parts.join(' \u2022 ') : 'Nenhum ponto com coordenadas gravado ainda para esta esp\u00E9cie.';
+        if (appPts.length) parts.push('📱 <b>' + appPts.length + '</b> no app');
+        if (gbifLitCount) parts.push('🔬 <b>' + gbifLitCount + '</b> literatura / museus');
+        if (xenoCount) parts.push('🔊 <b>' + xenoCount + '</b> Xeno-Canto bioacústica');
+        if (inatCount) parts.push('🌿 <b>' + inatCount + '</b> iNaturalist');
+        metaEl.innerHTML = parts.length ? ('Ocorrências mapeadas: ' + parts.join(' • ')) : 'Nenhum ponto com coordenadas gravado ainda para esta espécie.';
       }
     }
   }
@@ -5451,38 +5624,131 @@ function openSpeciesDetail(sci){
   });
 }
 
+function renderSpeciesPortalsHtml(r, sci){
+  if (!sci && r) sci = r.n;
+  if (!sci) return '';
+  var isAve = r && r.c === 'Ave';
+  var isAnf = r && r.c === 'Anfíbio';
+  var genus = sci.split(' ')[0] || '';
+  var spEpi = sci.split(' ')[1] || '';
+
+  var h = '<div class="spec-desc-box" style="margin-top:12px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px">' +
+    '<div style="display:flex;align-items:center;gap:6px;margin-bottom:8px">' +
+      '<span style="font-size:16px">🌐</span>' +
+      '<b style="font-size:12px;color:var(--accent-strong);text-transform:uppercase;letter-spacing:0.4px">Acervos de Fotos, Áudios &amp; Ciência Cidadã</b>' +
+    '</div>' +
+    '<p style="font-size:11.5px;color:var(--muted);margin:0 0 10px">Acesse com 1 toque registros de campo, áudios originais e galerias fotográficas completas nas plataformas especializadas:</p>' +
+    '<div class="spec-ext-portals">';
+
+  if (isAve){
+    h += '<a class="spec-portal-card" href="https://www.wikiaves.com.br/wiki/' + encodeURIComponent(sci.replace(/\s+/g, '_')) + '" target="_blank" rel="noopener">' +
+      '<span style="font-size:18px">🪶</span><div><b>WikiAves</b><small style="display:block;font-size:10.5px;color:var(--muted)">Fotos &amp; Cantos no Brasil</small></div>' +
+    '</a>';
+    h += '<a class="spec-portal-card" href="https://search.macaulaylibrary.org/catalog?searchField=species&q=' + encodeURIComponent(sci) + '" target="_blank" rel="noopener">' +
+      '<span style="font-size:18px">🎧</span><div><b>Macaulay / eBird</b><small style="display:block;font-size:10.5px;color:var(--muted)">Áudios Cornell Lab</small></div>' +
+    '</a>';
+  }
+
+  h += '<a class="spec-portal-card" href="https://xeno-canto.org/explore?query=' + encodeURIComponent(sci) + '" target="_blank" rel="noopener">' +
+    '<span style="font-size:18px">🔊</span><div><b>Xeno-Canto</b><small style="display:block;font-size:10.5px;color:var(--muted)">Bioacústica Global</small></div>' +
+  '</a>';
+
+  if (isAnf){
+    h += '<a class="spec-portal-card" href="https://amphibiaweb.org/cgi/amphib_query?where-genus=' + encodeURIComponent(genus) + '&where-species=' + encodeURIComponent(spEpi) + '" target="_blank" rel="noopener">' +
+      '<span style="font-size:18px">🐸</span><div><b>AmphibiaWeb</b><small style="display:block;font-size:10.5px;color:var(--muted)">Monografia &amp; Fotos</small></div>' +
+    '</a>';
+    h += '<a class="spec-portal-card" href="https://amphibiansoftheworld.amnh.org/search?q=' + encodeURIComponent(sci) + '" target="_blank" rel="noopener">' +
+      '<span style="font-size:18px">🏛️</span><div><b>Amphibians of the World</b><small style="display:block;font-size:10.5px;color:var(--muted)">Taxonomia Oficial AMNH</small></div>' +
+    '</a>';
+  }
+
+  h += '<a class="spec-portal-card" href="https://www.google.com/search?q=site:biofaces.com+' + encodeURIComponent(sci) + '" target="_blank" rel="noopener">' +
+    '<span style="font-size:18px">🐾</span><div><b>Biofaces</b><small style="display:block;font-size:10.5px;color:var(--muted)">Vida Selvagem Brasil</small></div>' +
+  '</a>';
+
+  h += '<a class="spec-portal-card" href="https://www.inaturalist.org/taxa/search?q=' + encodeURIComponent(sci) + '" target="_blank" rel="noopener">' +
+    '<span style="font-size:18px">🌿</span><div><b>iNaturalist</b><small style="display:block;font-size:10.5px;color:var(--muted)">Fotos &amp; Observações</small></div>' +
+  '</a>';
+
+  h += '<a class="spec-portal-card" href="https://www.gbif.org/species/search?q=' + encodeURIComponent(sci) + '" target="_blank" rel="noopener">' +
+    '<span style="font-size:18px">🔬</span><div><b>GBIF Global</b><small style="display:block;font-size:10.5px;color:var(--muted)">Museus &amp; Literatura</small></div>' +
+  '</a>';
+
+  h += '</div></div>';
+  return h;
+}
+
 function applySpeciesMedia(media){
   var photoBox = $('#spec-photo-box');
   var audioWrap = $('#spec-audio-box-wrap');
   var descWrap = $('#spec-desc-box-wrap');
+  var r = media._speciesRecord || (media._sci ? dbGet(media._sci) : null);
+  var sci = media._sci || (r ? r.n : '');
   
   if (photoBox){
-    if (media.photo){
-      photoBox.innerHTML = '<img src="' + esc(media.photo) + '" alt="" loading="lazy" referrerpolicy="no-referrer">' +
-        (media.photoCredit ? '<span class="spec-photo-credit">Foto: ' + esc(media.photoCredit) + '</span>' : '');
+    var photos = media.photos && media.photos.length ? media.photos : (media.photo ? [{url: media.photo, largeUrl: media.photo, thumbUrl: media.photo, attribution: media.photoCredit || 'Registro', place: 'Brasil', source: 'Fotografia Científica'}] : []);
+    photoBox._photos = photos;
+
+    if (photos.length > 0){
+      var p0 = photos[0];
+      var phHtml = '<div class="spec-gallery-box">' +
+        '<div class="spec-photo-main-wrap" style="position:relative;border-radius:12px;overflow:hidden;background:#0d1810;min-height:220px;display:flex;align-items:center;justify-content:center">' +
+          '<img id="spec-gallery-main-img" src="' + esc(p0.largeUrl || p0.url) + '" alt="" loading="lazy" referrerpolicy="no-referrer" style="max-height:340px;width:100%;object-fit:cover;display:block">' +
+          '<div id="spec-gallery-badge" style="position:absolute;top:8px;left:8px;background:rgba(14,37,21,0.85);color:#F3EEE3;border:1px solid rgba(212,178,119,0.5);padding:3px 8px;border-radius:6px;font-size:11px;font-weight:700;backdrop-filter:blur(4px)">' +
+            esc(p0.source || 'Registro Fotográfico') +
+          '</div>' +
+          '<div id="spec-gallery-meta" style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(10,20,12,0.92));color:#F3EEE3;padding:18px 10px 8px;font-size:11.5px;display:flex;justify-content:space-between;align-items:flex-end">' +
+            '<span id="spec-gallery-place">📍 ' + esc(p0.place || 'Brasil') + ' (1 de ' + photos.length + ')</span>' +
+            '<span id="spec-gallery-author" style="opacity:0.9">Foto: ' + esc(p0.attribution || 'Observador') + '</span>' +
+          '</div>' +
+        '</div>';
+
+      if (photos.length > 1){
+        phHtml += '<div class="spec-thumbs-bar">' +
+          photos.map(function(p, idx){
+            return '<button class="spec-thumb-btn ' + (idx === 0 ? 'active' : '') + '" data-act="spec-thumb" data-idx="' + idx + '" title="Padrão ' + (idx + 1) + ' · ' + esc(p.place || '') + '">' +
+              '<img src="' + esc(p.thumbUrl || p.url) + '" alt="" loading="lazy" referrerpolicy="no-referrer" style="width:100%;height:100%;object-fit:cover;display:block">' +
+            '</button>';
+          }).join('') +
+        '</div>' +
+        '<div style="font-size:11px;color:var(--muted);text-align:center;margin-top:2px">' +
+          '📸 <b>' + photos.length + ' fotos e variações</b> (fases, machos/fêmeas, ângulos). Toque nas miniaturas para alternar.' +
+        '</div>';
+      }
+      phHtml += '</div>';
+      photoBox.innerHTML = phHtml;
     } else {
       photoBox.innerHTML = '<div style="text-align:center;padding:24px;color:var(--muted)"><span style="font-size:36px;display:block;margin-bottom:6px">🌿</span><span>Foto não catalogada nesta espécie</span></div>';
     }
   }
-  
+
+  // Reprodutor Múltiplo de Vocalizações (Xeno-Canto + iNaturalist)
   if (audioWrap){
     if (media.sounds && media.sounds.length > 0){
       var snds = media.sounds;
       var audHtml = '<div class="spec-audio-box" style="margin-bottom:12px">' +
         '<div class="spec-audio-title" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">' +
           '<span>🔊 Vocalizações &amp; Cantos (' + snds.length + (snds.length === 1 ? ' gravação' : ' opções para comparar') + ')</span>' +
-          '<small style="font-weight:400;color:var(--muted)">Bioacústica iNaturalist</small>' +
+          '<small style="font-weight:700;color:var(--accent-strong)">Xeno-Canto &amp; iNaturalist</small>' +
         '</div>' +
         '<div class="spec-audio-list" style="display:flex;flex-direction:column;gap:8px">';
 
       snds.forEach(function(s, idx){
-        audHtml += '<div class="spec-audio-item" style="background:var(--surface-2);border:1px solid var(--line);border-radius:8px;padding:8px 10px">' +
+        var isXeno = s.platform === 'xenocanto';
+        var badgeColor = isXeno ? 'background:#8b5cf6;color:#fff' : 'background:#10b981;color:#fff';
+        var badgeText = isXeno ? 'Xeno-Canto' : 'iNaturalist';
+        audHtml += '<div class="spec-audio-item" style="background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:9px 10px">' +
           '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;font-size:12px">' +
-            '<b style="color:var(--ink)">Opção ' + (idx + 1) + ': ' + esc(s.title || 'Gravação em campo') + '</b>' +
-            '<small style="color:var(--muted)">' + esc(s.user || '') + '</small>' +
+            '<div style="display:flex;align-items:center;gap:6px">' +
+              '<span style="font-size:10px;font-weight:800;padding:2px 6px;border-radius:4px;' + badgeColor + '">' + badgeText + '</span>' +
+              '<b style="color:var(--ink)">Opção ' + (idx + 1) + ': ' + esc(s.title || 'Gravação em campo') + '</b>' +
+            '</div>' +
+            '<small style="color:var(--muted)">' + esc(s.attribution || '') + '</small>' +
           '</div>' +
+          (s.spectrogram ? '<div style="margin:4px 0 6px;background:#000;border-radius:6px;overflow:hidden;height:38px;display:flex;align-items:center;justify-content:center"><img src="' + esc(s.spectrogram) + '" alt="Espectrograma" loading="lazy" style="width:100%;height:100%;object-fit:cover;opacity:0.9" title="Espectrograma bioacústico Xeno-Canto"></div>' : '') +
           (s.desc ? '<div style="font-size:11px;color:var(--muted);margin-bottom:4px;font-style:italic">' + esc(s.desc) + '</div>' : '') +
           '<audio controls preload="none" src="' + esc(s.url) + '" style="width:100%;height:32px"></audio>' +
+          (s.externalUrl ? '<div style="text-align:right;margin-top:4px"><a href="' + esc(s.externalUrl) + '" target="_blank" rel="noopener" style="font-size:10.5px;color:var(--accent);text-decoration:none">🔗 Ver no ' + (isXeno ? 'Xeno-Canto' : 'iNaturalist') + ' &rarr;</a></div>' : '') +
         '</div>';
       });
 
@@ -5497,9 +5763,11 @@ function applySpeciesMedia(media){
       audioWrap.innerHTML = '';
     }
   }
-  
+
+  // Portais e Acervos Externos Especializados
+  var portalsHtml = renderSpeciesPortalsHtml(r, sci);
+
   if (descWrap){
-    var r = media._speciesRecord || (media._sci ? dbGet(media._sci) : null);
     var textHtml = '';
     if (r){
       textHtml += buildDiagnosticFeaturesHtml(r, media);
@@ -5511,6 +5779,7 @@ function applySpeciesMedia(media){
         '<small>Fonte: Enciclopédia Wikipédia em Português</small>' +
       '</div>';
     }
+    textHtml += portalsHtml;
     if (!textHtml){
       textHtml = '<div class="spec-desc-box"><p style="color:var(--muted)">Consulte a aba <b>Referências Científicas</b> para acessar diretamente os artigos acadêmicos e monografias desta espécie.</p></div>';
     }
@@ -5749,6 +6018,37 @@ var A = {
     var pop = (r.pt || '').split(',')[0].trim() || r.n;
     addEntry(c, pop, 1, r.n);
     closeSheet();
+  },
+  'spec-thumb': function(b){
+    var idx = parseInt(b.getAttribute('data-idx'), 10) || 0;
+    var photoBox = b.closest('#spec-photo-box');
+    if (!photoBox) return;
+    var allThumbs = photoBox.querySelectorAll('.spec-thumb-btn');
+    for (var i = 0; i < allThumbs.length; i++){
+      var isCur = (i === idx);
+      allThumbs[i].classList.toggle('active', isCur);
+      allThumbs[i].style.borderColor = isCur ? 'var(--accent)' : 'var(--line)';
+      allThumbs[i].style.opacity = isCur ? '1' : '0.75';
+    }
+    var photos = photoBox._photos || [];
+    var curPh = photos[idx];
+    if (!curPh) return;
+    var mainImg = photoBox.querySelector('#spec-gallery-main-img');
+    if (mainImg){
+      mainImg.src = curPh.largeUrl || curPh.url;
+    }
+    var badgeEl = photoBox.querySelector('#spec-gallery-badge');
+    if (badgeEl){
+      badgeEl.textContent = curPh.source || 'Registro Fotográfico';
+    }
+    var placeEl = photoBox.querySelector('#spec-gallery-place');
+    if (placeEl){
+      placeEl.textContent = '📍 ' + (curPh.place || 'Brasil') + ' (' + (idx + 1) + ' de ' + photos.length + ')';
+    }
+    var authorEl = photoBox.querySelector('#spec-gallery-author');
+    if (authorEl){
+      authorEl.textContent = 'Foto: ' + (curPh.attribution || 'Observador');
+    }
   },
   'spec-tab': function(b){
     var tab = b.getAttribute('data-tab');

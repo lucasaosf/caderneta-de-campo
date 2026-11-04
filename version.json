@@ -1,12 +1,12 @@
 {
-  "v": "2.3",
-  "nome": "2.3",
+  "v": "2.4",
+  "nome": "2.4",
   "data": "2026-11-04",
   "novidades": [
-    "Diagnoses e características diagnósticas completas em português: morfologia, taxonomia, biomas, dieta, locomoção e dicas de campo",
-    "Ícone de informação ℹ️ em cada espécie na lista ativa para conferência rápida de identidade taxonômica sem sair da lista",
-    "Múltiplas opções de vocalização e cantos: compare variações de canto territorial, chamados e dialetos sonoros de cada espécie",
-    "Botão de retorno rápido à lista ativa ao conferir a diagnose da espécie em campo",
-    "Tradução técnica biológica formal para termos morfológicos e diagnósticos"
+    "Galeria fotográfica multivariada: visualize múltiplos padrões por espécie (morfos, fases de cor, dimorfismo sexual, juvenil/adulto) com miniaturas e alta resolução",
+    "Bioacústica e vocalizações de alta fidelidade: gravações integradas de Xeno-Canto com espectrograma e iNaturalist Grau de Pesquisa",
+    "Mapa de distribuição ampliado: pontos georreferenciados reunindo Literatura Oficial / Museus (GBIF), Xeno-Canto (Bioacústica), iNaturalist e encontros do app",
+    "Filtros dedicados no mapa por plataforma: alterne entre Encontros do App, Literatura Oficial GBIF, Xeno-Canto e iNaturalist",
+    "Acervos e portais externos: atalhos diretos para WikiAves, eBird / Macaulay Library, AmphibiaWeb, Biofaces, Xeno-Canto e GBIF"
   ]
 }
