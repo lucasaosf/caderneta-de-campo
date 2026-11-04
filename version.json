@@ -1,13 +1,13 @@
 {
-  "v": 19,
-  "nome": "19",
+  "v": 20,
+  "nome": "20",
   "data": "2026-11-04",
   "novidades": [
+    "Opção de upar listas finalizadas diretamente para a base de dados do desenvolvedor (Lucas Aøsf) para alimentar o mapa nacional de espécies",
+    "Mapa interativo de distribuição do Brasil com separação dos 6 Biomas oficiais, 27 Estados (UFs) e pontos GPS de campo com coordenadas",
+    "Fontes de informação científica aprofundadas via GBIF, iNaturalist e referências ao Amphibians of the World (AMNH / Darrel Frost)",
+    "Aba dedicada de Referências Científicas & Artigos com links diretos com 1 clique para AMNH, AmphibiaWeb, WikiAves, GBIF, SiBBr, Google Acadêmico e PubMed",
     "Suporte direto por WhatsApp com o desenvolvedor Lucas Aøsf ((12) 99182-1729)",
-    "Histórico vitalício de perfil: contagem de listas, Life List de espécies e registros acumulados não diminuem mesmo ao apagar listas antigas",
-    "Guia de Espécies do Brasil com catálogo completo de ~4.700 espécies com fotos da Wikipédia/iNaturalist, vocalizações/cantos e resumos ecológicos",
-    "Colaboração científica de distribuição de espécies: envio automático de encontros com coordenadas para o mapa de distribuição do app (estilo WikiAves)",
-    "Métodos específicos para Herpetofauna: Busca Ativa e Pitfall com biometria morfológica completa no Excel",
-    "Novo tipo de registro: Ocasional (O), complementando Visual (V) e Auditivo (A) em todo o app e exportações"
+    "Histórico vitalício de perfil (Life List) permanente que nunca diminui ao apagar listas antigas"
   ]
 }

@@ -291,21 +291,21 @@ a.btn{color:var(--ink)}
 
 /* ---------- contato & suporte técnico ---------- */
 .supp-head{display:flex;align-items:center;gap:12px;margin-bottom:14px;position:relative}
-.supp-icon{width:46px;height:46px;border-radius:12px;background:color-mix(in srgb,var(--bronze) 20%,var(--surface-2));color:var(--bronze);display:grid;place-items:center;flex:none;border:1.5px solid color-mix(in srgb,var(--bronze) 40%,transparent)}
+.supp-icon{width:46px;height:46px;border-radius:12px;background:color-mix(in srgb,var(--bronze) 22%,var(--surface-2));color:var(--bronze);display:grid;place-items:center;flex:none;border:1.5px solid color-mix(in srgb,var(--bronze) 45%,transparent)}
 .supp-titles{flex:1;min-width:0;padding-right:32px}
 .supp-titles h2{margin:0!important;font-size:20px!important;font-weight:700;line-height:1.2}
 .supp-sub{margin:3px 0 0!important;font-size:12.5px!important;color:var(--muted);line-height:1.3}
 .supp-close{position:absolute;top:0;right:0;width:36px;height:36px;display:grid;place-items:center;border-radius:8px;color:var(--muted);cursor:pointer}
 .supp-close:hover{background:var(--surface-2);color:var(--ink)}
-.supp-notice{border-radius:14px;padding:12px 14px;background:color-mix(in srgb,var(--bronze) 10%,var(--surface-2));border:1.5px solid color-mix(in srgb,var(--bronze) 35%,var(--line));margin-bottom:14px}
+.supp-notice{border-radius:14px;padding:13px 15px;background:rgba(20,32,24,0.65);border:1.5px solid rgba(212,178,119,0.38);margin-bottom:14px}
 .supp-notice p{margin:0 0 10px!important;font-size:13.5px!important;line-height:1.45;color:var(--ink)}
-.supp-notice b{color:var(--bronze)}
-.supp-status{display:flex;align-items:center;gap:8px;font-size:12px;font-family:var(--mono);color:var(--muted);padding-top:8px;border-top:1px dashed color-mix(in srgb,var(--bronze) 30%,var(--line))}
-.supp-status code{color:var(--ink);font-weight:600}
-.status-dot{width:8px;height:8px;border-radius:50%;background:#22c55e;flex:none;box-shadow:0 0 6px #22c55e}
+.supp-notice b{color:var(--bronze);font-weight:700}
+.supp-status{display:flex;align-items:center;gap:8px;font-size:12px;font-family:var(--mono);color:var(--muted);padding-top:9px;border-top:1px dashed rgba(212,178,119,0.25)}
+.supp-status code{color:#22c55e;font-weight:600}
+.status-dot{width:8px;height:8px;border-radius:50%;background:#22c55e;flex:none;box-shadow:0 0 8px #22c55e}
 .status-dot.muted{background:var(--muted);box-shadow:none}
-.supp-send-btn{background:var(--bronze)!important;border-color:var(--bronze)!important;color:#183B23!important;font-weight:700}
-.supp-send-btn:hover,.supp-send-btn:active{filter:brightness(1.08)}
+.supp-send-btn{background:linear-gradient(135deg, #E8A838, #C88218)!important;border:none!important;color:#0A1B0F!important;font-weight:700!important;box-shadow:0 4px 14px rgba(232,168,56,0.28)}
+.supp-send-btn:hover,.supp-send-btn:active{filter:brightness(1.08);transform:translateY(-1px)}
 
 /* toast */
 .toast{position:fixed;left:50%;transform:translateX(-50%);width:max-content;bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:60;display:flex;align-items:center;gap:12px;max-width:calc(100% - 32px);padding:10px 12px 10px 16px;border-radius:12px;background:var(--ink);color:var(--bg);box-shadow:var(--shadow);font-size:15px}
@@ -608,6 +608,46 @@ body.selecting .wm{display:none}
 .spec-desc-box small{display:block;margin-top:6px;font-size:11px;color:var(--muted)}
 @keyframes spin{to{transform:rotate(360deg)}}
 
+/* tabs no modal de espécie */
+.spec-tabs{display:flex;gap:4px;border-bottom:1.5px solid var(--line);padding-bottom:6px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.spec-tab{font-family:var(--body);font-size:12.5px;font-weight:700;padding:6px 12px;border-radius:8px;border:none;background:transparent;color:var(--muted);cursor:pointer;white-space:nowrap;transition:all .15s}
+.spec-tab.active{background:var(--accent-soft);color:var(--accent-strong)}
+.spec-tab-pane{display:grid;gap:12px}
+.spec-tab-pane[hidden]{display:none!important}
+
+/* mapa de distribuicao do brasil */
+.brazil-map-box{background:var(--surface-2);border:1.5px solid var(--line);border-radius:14px;padding:10px;display:grid;gap:8px}
+.brazil-map-header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px}
+.brazil-map-modes{display:flex;gap:4px}
+.brazil-map-modes button{font-family:var(--body);font-size:11px;font-weight:700;padding:4px 8px;border-radius:6px;border:1px solid var(--line);background:var(--surface);color:var(--muted);cursor:pointer}
+.brazil-map-modes button.on{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
+.brazil-map-svg{width:100%;height:auto;max-height:360px;display:block;margin:0 auto}
+.biome-poly{transition:all .2s;cursor:pointer}
+.biome-poly:hover{opacity:0.95;stroke:#fff;stroke-width:1.5}
+.state-text{font-family:var(--body);font-size:9.5px;font-weight:700;pointer-events:none;user-select:none}
+.occ-dot{transition:r .2s;cursor:pointer}
+.occ-dot:hover{r:7.5}
+.map-legend{display:flex;flex-wrap:wrap;gap:6px 10px;font-size:11px;color:var(--muted);padding-top:4px}
+.legend-item{display:inline-flex;align-items:center;gap:4px}
+.legend-dot{width:10px;height:10px;border-radius:50%;display:inline-block}
+
+/* referencias cientificas */
+.ref-box{display:grid;gap:10px}
+.ref-citation-card{padding:10px 12px;border-radius:10px;background:var(--surface);border:1px solid var(--line);font-size:12px;line-height:1.45;color:var(--ink)}
+.ref-citation-card b{color:var(--accent-strong);display:block;margin-bottom:4px;font-size:12.5px}
+.ref-links-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.ref-link-card{display:flex;align-items:center;gap:8px;padding:10px;border-radius:10px;background:var(--surface);border:1.5px solid var(--line);text-decoration:none;color:var(--ink);font-size:12px;font-weight:600;transition:all .15s}
+.ref-link-card:hover,.ref-link-card:active{border-color:var(--accent);background:var(--accent-soft);color:var(--accent-strong)}
+.ref-link-card .ico-ext{margin-left:auto;opacity:0.6}
+
+/* upload da lista para o banco de dados */
+.db-upload-box{margin:10px 0 14px}
+.btn-upload-db{width:100%;background:#0F5132;color:#F3EEE3;font-weight:700;padding:12px 14px;border-radius:12px;border:none;display:flex;align-items:center;justify-content:center;gap:8px;font-size:14px;box-shadow:0 2px 6px rgba(0,0,0,0.2);cursor:pointer}
+.btn-upload-db:active{transform:scale(0.99)}
+.db-uploaded-badge{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 12px;border-radius:12px;background:color-mix(in srgb,#0F5132 15%,var(--surface-2));border:1.5px solid #0F5132}
+.db-uploaded-info{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--ink)}
+.db-uploaded-info small{display:block;color:var(--muted);font-size:11px}
+
 /* ---------- modo bolso ---------- */
 .pocket{position:fixed;inset:0;z-index:90;background:#000;color:#5c5c5c;display:flex;align-items:center;justify-content:center;touch-action:none;user-select:none;-webkit-user-select:none}
 .pocket-in{display:grid;gap:8px;justify-items:center;text-align:center;font-size:15px}
@@ -848,9 +888,9 @@ body.selecting .wm{display:none}
 <div class="sel-bar" id="sel-bar" hidden></div>
 <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 <datalist id="dl-proj"></datalist><datalist id="dl-camp"></datalist><datalist id="dl-ua"></datalist><datalist id="dl-met"></datalist>
-<script src="especies.js?v=19"></script>
-<script src="planilha.js?v=19"></script>
-<script src="firebase-config.js?v=19"></script>
+<script src="especies.js?v=20"></script>
+<script src="planilha.js?v=20"></script>
+<script src="firebase-config.js?v=20"></script>
 
 <script>
 (function(){
@@ -948,14 +988,14 @@ var S = {
   sugg:[], suggIdx:0, undo:null, sheetClose:null, editingName:null, demo:3,
   alias:{}, defMode:LS.get('defMode', 'V'), theme:LS.get('theme', 'dark'), filterTax:''
 };
-var APP_V = 19;
+var APP_V = 20;
 var NOVIDADES = [
+  'Upar listas finalizadas diretamente para o banco de dados do desenvolvedor (Lucas Aøsf) para alimentar o mapa de distribuição.',
+  'Mapa interativo de distribuição do Brasil com separação dos 6 Biomas oficiais, 27 Estados (UFs) e pontos GPS de campo com coordenadas.',
+  'Fontes de informação científica aprofundadas via GBIF, iNaturalist e Amphibians of the World (AMNH / Darrel Frost).',
+  'Aba dedicada de Referências Científicas & Artigos com links diretos para AMNH, AmphibiaWeb, WikiAves, GBIF, SiBBr, Google Acadêmico e PubMed.',
   'Suporte direto por WhatsApp com o desenvolvedor Lucas Aøsf ((12) 99182-1729).',
-  'Histórico vitalício de perfil: contagem de listas, Life List de espécies e registros acumulados não diminuem mesmo ao apagar listas antigas.',
-  'Guia de Espécies do Brasil com catálogo completo de ~4.700 espécies com fotos da Wikipédia/iNaturalist, vocalizações/cantos e resumos ecológicos.',
-  'Colaboração científica de distribuição de espécies: envio automático de encontros com coordenadas para o mapa de distribuição do app (estilo WikiAves).',
-  'Métodos específicos para Herpetofauna: Busca Ativa e Pitfall com biometria morfológica completa no Excel.',
-  'Registro Ocasional (O) ao lado de Visual (V) e Auditivo (A).'
+  'Histórico vitalício de perfil (Life List) permanente que nunca diminui ao apagar listas antigas.'
 ];
 
 /* ---------- banco de espécies ---------- */
@@ -2262,8 +2302,32 @@ function renderSpecies(flashId){
 }
 function renderEnd(){
   var c = cur(); if (!c) return;
+  var uploadHtml = '';
+  if (c.end){
+    if (c.uploadedDb){
+      uploadHtml = '<div class="db-upload-box">' +
+        '<div class="db-uploaded-badge">' +
+          '<div class="db-uploaded-info">' +
+            '<span style="font-size:18px">✅</span>' +
+            '<div><b>Enviada para a Base Científica</b><small>Atualizada em ' + fDay(c.uploadedDb) + ' às ' + fTime(c.uploadedDb) + ' · Alimenta o mapa nacional</small></div>' +
+          '</div>' +
+          '<button class="btn small" data-act="upload-db" style="font-size:11.5px;padding:4px 8px">Reenviar</button>' +
+        '</div>' +
+      '</div>';
+    } else {
+      uploadHtml = '<div class="db-upload-box">' +
+        '<button class="btn btn-upload-db" data-act="upload-db">' +
+          '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>' +
+          '<span>🌐 Upar Lista para o Banco de Dados (Mapa)</span>' +
+        '</button>' +
+        '<p class="small-meta" style="margin:4px 0 0;text-align:center;color:var(--muted)">Sobe esta lista para a base científica do desenvolvedor (Lucas Aøsf) para compor o mapa de distribuição das espécies.</p>' +
+      '</div>';
+    }
+  }
+
   $('#cl-end').innerHTML = c.end
     ? '<div class="ended"><span>Finalizada às ' + fTime(c.end) + ' · ' + fDur(elapsed(c)) + '</span></div>' +
+      uploadHtml +
       '<div class="review">' + (readOnly(c) ? '<button class="btn" data-act="unlock">' + ICO.pencil + 'Corrigir contagens</button>' : '<button class="btn btn-primary" data-act="lock">Concluir correção</button>') +
       '<button class="btn" data-act="reopen">Retomar observação</button></div><p class="hint">Retomar volta a contar o tempo, como se a lista não tivesse sido finalizada.</p>'
     : '<button class="btn-end" data-act="end-list">Finalizar lista</button><p class="hint">Para o relógio e a trilha e guarda a lista em Listas finalizadas. Dá para corrigir depois.</p>';
@@ -2277,13 +2341,16 @@ function renderExport(){
     '<button class="btn" data-act="whatsapp">' + ICO.whatsapp + 'WhatsApp</button>' +
     (typeof navigator !== 'undefined' && navigator.share ? '<button class="btn" data-act="share-summary">' + ICO.share + 'Compartilhar</button>' : '') +
     '<button class="btn" data-act="xlsx">' + ICO.table + 'Planilha / CSV</button>';
+  if (hasTrk || hasPts || c.lat != null){
+    h += '<button class="btn" data-act="view-list-map"><svg class="ico" viewBox="0 0 24 24"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>Mapa do Brasil (Biomas)</button>';
+  }
   if (hasTrk) h += '<button class="btn" data-act="gpx">' + ICO.route + 'Trilha (GPX)</button>';
   if (hasTrk || hasPts){
     h += '<button class="btn" data-act="kml">' + ICO.map + 'Mapa (KML)</button>';
     h += '<button class="btn" data-act="geojson">' + ICO.gis + 'GIS (GeoJSON)</button>';
   }
   if (c.species.some(function(s){ return s.count > 0; })) h += '<button class="btn" data-act="dwc">' + ICO.table + 'Darwin Core (DwC)</button>';
-  if (c.lat != null) h += '<a class="btn" href="https://www.google.com/maps/search/?api=1&query=' + c.lat + ',' + c.lon + '" target="_blank" rel="noopener">' + ICO.map + 'Abrir no mapa</a>';
+  if (c.lat != null) h += '<a class="btn" href="https://www.google.com/maps/search/?api=1&query=' + c.lat + ',' + c.lon + '" target="_blank" rel="noopener">' + ICO.map + 'Abrir no Google Maps</a>';
   $('#cl-export').innerHTML = h + '</div>';
 }
 function trackSvg(c){
@@ -2992,28 +3059,28 @@ function openNews(){
 }
 function openSupport(){
   var u = AUTH.user, nome = (typeof PROF !== 'undefined' && PROF.nome ? PROF.nome() : '');
-  var emailStatus = u && u.email
+  var emailConn = (u && u.email)
     ? ('Conectado como: <code>' + esc(u.email) + '</code>')
-    : 'Mensagens para: <b>lucasaosf@gmail.com</b> · WhatsApp: <b>(12) 99182-1729</b>';
+    : 'Conectado como: <code>Modo local (offline)</code>';
   var h = '<div class="supp-head">' +
     '<div class="supp-icon"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 7L2 7"/></svg></div>' +
     '<div class="supp-titles"><h2 id="sheet-h">Contato &amp; Suporte Técnico</h2><p class="supp-sub">Fale diretamente com o desenvolvedor do Lista de Campo</p></div>' +
     '<button class="supp-close" data-act="close-sheet" aria-label="Fechar" style="background:none;border:none"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>' +
     '</div>' +
     '<div class="supp-notice">' +
-    '<p>Envie sugestões, dúvidas de campo ou suporte técnico diretamente ao desenvolvedor <b>Lucas Aøsf</b> por <b>WhatsApp</b> ou <b>E-mail</b>.</p>' +
-    '<div class="supp-status"><span class="status-dot"></span><span>' + emailStatus + '</span></div>' +
+    '<p>Envie sugestões, dúvidas de campo ou suporte técnico. Sua mensagem será enviada diretamente para:<br><b style="color:var(--bronze)">lucasaosf@gmail.com</b>.</p>' +
+    '<div class="supp-status"><span class="status-dot"></span><span>' + emailConn + '</span></div>' +
     '</div>' +
     '<div class="form">' +
     '<label class="field"><span>Seu Nome / Instituição:</span><input id="supp-name" type="text" placeholder="Ex: Lucas Aøsf" value="' + esc(nome) + '"></label>' +
-    '<label class="field"><span>Assunto:</span><input id="supp-subject" type="text" placeholder="Ex: Dúvida sobre métodos / Sugestão"></label>' +
+    '<label class="field"><span>Assunto:</span><input id="supp-subject" type="text" placeholder="Ex: Sugestão para o mapa de satélite"></label>' +
     '<label class="field"><span>Sua Mensagem:</span><textarea id="supp-msg" rows="4" placeholder="Descreva sua dúvida, sugestão ou feedback..."></textarea></label>' +
     '</div>' +
     '<div class="sheet-actions" style="display:flex;flex-direction:column;gap:8px">' +
-    '<button class="btn" data-act="send-support-wa" style="background:#25D366;color:#0B1E11;font-weight:700;display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;font-size:15px">' + ICO.whatsapp + ' Falar pelo WhatsApp</button>' +
+    '<button class="btn" data-act="send-support-wa" style="background:#25D366;color:#0B1E11;font-weight:700;display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;font-size:15px">' + ICO.whatsapp + ' Falar pelo WhatsApp ((12) 99182-1729)</button>' +
     '<div style="display:flex;gap:8px;width:100%">' +
     '<button class="btn" data-act="close-sheet" style="flex:1">Cancelar</button>' +
-    '<button class="btn supp-send-btn" data-act="send-support" style="flex:1">✉️ Enviar por E-mail</button>' +
+    '<button class="btn supp-send-btn" data-act="send-support" style="flex:1.3;display:flex;align-items:center;justify-content:center;gap:6px">🚀 Enviar Mensagem</button>' +
     '</div>' +
     '</div>';
   openSheet(h);
@@ -3977,6 +4044,8 @@ function openListMenu(id){
   openSheet('<div class="lp-head"><span class="eyebrow">' + (c.end ? 'Lista finalizada' : 'Em andamento') + '</span><h2 id="sheet-h">' + esc(title(c)) + '</h2>' +
     '<p class="meta" style="margin:0">' + fDay(c.start) + ' · ' + fTime(c.start) + ' · ' + plural(t.sp, 'espécie', 'espécies') + ' · ' + plural(t.ind, 'indivíduo', 'indivíduos') + '</p></div>' +
     '<div class="lp-acts">' +
+    (c.end ? '<button class="btn btn-primary" data-act="lp-upload-db" data-id="' + id + '" style="background:#0F5132;color:#fff;font-weight:700">🌐 ' + (c.uploadedDb ? 'Reenviar para a Base de Dados' : 'Upar para o Banco de Dados (Mapa)') + '</button>' : '') +
+    '<button class="btn" data-act="lp-map" data-id="' + id + '"><svg class="ico" viewBox="0 0 24 24"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>Ver no Mapa do Brasil (Biomas &amp; UFs)</button>' +
     '<button class="btn" data-act="lp-xlsx" data-id="' + id + '">' + ICO.table + 'Exportar planilha (Excel ou CSV)</button>' +
     '<button class="btn" data-act="lp-summary" data-id="' + id + '">' + ICO.copy + 'Copiar resumo em texto</button>' +
     '<button class="btn" data-act="lp-edit" data-id="' + id + '">' + ICO.pencil + (c.end ? 'Editar (corrigir) lista' : 'Abrir e editar lista') + '</button>' +
@@ -4145,6 +4214,342 @@ function renderGuideList(){
   }
 }
 
+/* ---------- mapa de distribuição do brasil (biomas & estados) ---------- */
+var BIOMAS_BR = {
+  'Amazônia': {
+    color: '#1E6E38',
+    glow: '#2e7d32',
+    name: 'Amazônia',
+    pts: '168.5,23.4 176.2,31.3 179.5,39.2 262,65.1 267.5,32.4 284,65.1 306,87.7 344.5,110.3 333.5,138.5 311.5,155.4 295,189.2 273,200.5 256.5,234.4 229,245.6 174,240 146.5,228.7 113.5,206.2 69.5,194.9 22.2,161 31,189.2 64,206.2 64,127.2 97,93.3 97,65.1 130,59.5 130,36.9 168.5,23.4'
+  },
+  'Cerrado': {
+    color: '#D99B26',
+    glow: '#f59e0b',
+    name: 'Cerrado',
+    pts: '344.5,110.3 333.5,138.5 311.5,155.4 295,189.2 273,200.5 256.5,234.4 229,245.6 218,279.5 223.5,302.1 240,330.3 273,335.9 311.5,319 333.5,302.1 355.5,268.2 350,245.6 350,211.8 355.5,183.6 366.5,149.7 372,121.5 355.5,113.6 344.5,110.3'
+  },
+  'Caatinga': {
+    color: '#C86420',
+    glow: '#ea580c',
+    name: 'Caatinga',
+    pts: '383,113.6 410.5,121.5 443.5,138.5 449,155.4 446.8,183.6 432.5,200.5 416,211.8 388.5,234.4 372,262.6 355.5,268.2 350,245.6 350,211.8 355.5,183.6 366.5,149.7 372,121.5 383,113.6'
+  },
+  'Pantanal': {
+    color: '#008080',
+    glow: '#06b6d4',
+    name: 'Pantanal',
+    pts: '196,262.6 212.5,268.2 212.5,290.8 196,324.6 190.5,313.3 190.5,279.5 196,262.6'
+  },
+  'Mata Atlântica': {
+    color: '#2A804D',
+    glow: '#16a34a',
+    name: 'Mata Atlântica',
+    pts: '443.5,138.5 449,155.4 446.8,183.6 432.5,200.5 416,211.8 410.5,228.7 399.5,285.1 388.5,319 372,341.5 322.5,352.8 300.5,369.7 300.5,403.6 284,420.5 262,414.9 245.5,392.3 234.5,369.7 245.5,347.2 273,335.9 311.5,319 333.5,302.1 372,262.6 388.5,234.4 416,211.8 446.8,183.6 443.5,138.5'
+  },
+  'Pampa': {
+    color: '#8CAE38',
+    glow: '#84cc16',
+    name: 'Pampa',
+    pts: '262,414.9 284,420.5 267.5,443.1 245.5,462.3 223.5,437.4 201.5,420.5 218,403.6 240,409.2 262,414.9'
+  }
+};
+
+var UF_CENTROIDS = {
+  'RR': {lat: 2.73, lon: -61.30, x: 166.0, y: 57.6},
+  'AP': {lat: 1.41, lon: -51.77, x: 275.6, y: 72.8},
+  'AM': {lat: -3.41, lon: -65.85, x: 113.7, y: 128.2},
+  'PA': {lat: -3.97, lon: -52.48, x: 267.5, y: 134.7},
+  'AC': {lat: -9.02, lon: -70.81, x: 56.7, y: 192.7},
+  'RO': {lat: -10.83, lon: -62.87, x: 148.0, y: 213.5},
+  'MT': {lat: -12.68, lon: -55.42, x: 233.7, y: 234.8},
+  'TO': {lat: -10.25, lon: -48.25, x: 316.1, y: 206.9},
+  'MA': {lat: -5.42, lon: -45.44, x: 348.4, y: 151.3},
+  'PI': {lat: -7.71, lon: -42.72, x: 379.7, y: 177.7},
+  'CE': {lat: -5.20, lon: -39.53, x: 416.4, y: 148.8},
+  'RN': {lat: -5.81, lon: -36.59, x: 450.2, y: 155.8},
+  'PB': {lat: -7.28, lon: -36.72, x: 448.7, y: 172.7},
+  'PE': {lat: -8.38, lon: -37.86, x: 435.6, y: 185.4},
+  'AL': {lat: -9.57, lon: -36.78, x: 448.0, y: 199.1},
+  'SE': {lat: -10.57, lon: -37.45, x: 440.3, y: 210.6},
+  'BA': {lat: -12.57, lon: -41.70, x: 391.5, y: 233.6},
+  'GO': {lat: -15.98, lon: -49.86, x: 297.6, y: 272.8},
+  'DF': {lat: -15.79, lon: -47.86, x: 320.6, y: 270.6},
+  'MS': {lat: -20.51, lon: -54.54, x: 243.8, y: 324.9},
+  'MG': {lat: -18.10, lon: -44.38, x: 360.6, y: 297.2},
+  'ES': {lat: -19.56, lon: -40.63, x: 403.8, y: 313.9},
+  'RJ': {lat: -22.25, lon: -42.66, x: 380.4, y: 344.9},
+  'SP': {lat: -22.19, lon: -48.79, x: 309.9, y: 344.2},
+  'PR': {lat: -24.89, lon: -51.55, x: 278.2, y: 375.2},
+  'SC': {lat: -27.45, lon: -50.95, x: 285.1, y: 404.7},
+  'RS': {lat: -29.75, lon: -53.77, x: 252.6, y: 431.1}
+};
+
+function projLatLon(lat, lon){
+  var x = ((+lon + 74) / 40) * 440 + 20;
+  var y = ((5.5 - +lat) / 39) * 440 + 20;
+  return {x: Math.round(x * 10) / 10, y: Math.round(y * 10) / 10};
+}
+
+function renderBrazilMapSvg(spec, points, mode){
+  mode = mode || 'biomes';
+  points = points || [];
+  
+  var bioStr = (spec && spec.bio) || '';
+  var ufStr = (spec && spec.uf) || '';
+  
+  var svg = '<svg class="brazil-map-svg" viewBox="0 0 480 480" width="100%" height="auto" role="img" aria-label="Mapa de Distribuição no Brasil">';
+  
+  // Fundo sutil do território brasileiro (base outline)
+  svg += '<path d="M168.5,23.4 L267.5,32.4 L306,87.7 L344.5,110.3 L383,113.6 L410.5,121.5 L449,155.4 L446.8,183.6 L432.5,200.5 L410.5,228.7 L399.5,285.1 L372,341.5 L322.5,352.8 L300.5,403.6 L284,420.5 L267.5,443.1 L245.5,462.3 L223.5,437.4 L201.5,420.5 L196,324.6 L190.5,279.5 L174,240 L113.5,206.2 L22.2,161 L64,127.2 L97,65.1 L130,36.9 Z" fill="var(--surface)" stroke="var(--line)" stroke-width="2"/>';
+
+  // 1. Polígonos dos 6 Biomas
+  var bKeys = Object.keys(BIOMAS_BR);
+  bKeys.forEach(function(bName){
+    var b = BIOMAS_BR[bName];
+    var isActive = bioStr && bioStr.indexOf(bName) >= 0;
+    var opacity = (mode === 'states') ? 0.25 : (isActive ? 0.85 : 0.45);
+    var stroke = isActive ? '#FFFFFF' : 'rgba(255,255,255,0.2)';
+    var strokeW = isActive ? 2 : 1;
+    svg += '<polygon class="biome-poly" data-biome="' + esc(bName) + '" points="' + b.pts + '" fill="' + b.color + '" fill-opacity="' + opacity + '" stroke="' + stroke + '" stroke-width="' + strokeW + '">';
+    svg += '<title>Bioma ' + esc(bName) + (isActive ? ' (Ocorrência Confirmada)' : '') + '</title></polygon>';
+  });
+
+  // 2. Centróides e Siglas dos Estados (UFs)
+  var ufs = Object.keys(UF_CENTROIDS);
+  ufs.forEach(function(uf){
+    var c = UF_CENTROIDS[uf];
+    var isUfActive = ufStr && ufStr.indexOf(uf) >= 0;
+    if (mode === 'states' || isUfActive){
+      svg += '<circle cx="' + c.x + '" cy="' + c.y + '" r="' + (isUfActive ? 11 : 9) + '" fill="' + (isUfActive ? 'var(--accent)' : 'var(--surface-2)') + '" stroke="' + (isUfActive ? '#fff' : 'var(--line)') + '" stroke-width="1.5"/>';
+      svg += '<text class="state-text" x="' + c.x + '" y="' + (c.y + 3.5) + '" text-anchor="middle" fill="' + (isUfActive ? 'var(--on-accent)' : 'var(--muted)') + '" font-weight="700">' + uf + '</text>';
+    } else {
+      svg += '<text class="state-text" x="' + c.x + '" y="' + (c.y + 3.5) + '" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-size="8.5">' + uf + '</text>';
+    }
+  });
+
+  // 3. Pontos GPS de Ocorrência de Campo
+  points.forEach(function(pt, idx){
+    if (pt.lat == null || pt.lon == null) return;
+    var p = projLatLon(pt.lat, pt.lon);
+    svg += '<circle class="occ-dot" cx="' + p.x + '" cy="' + p.y + '" r="5.5" fill="#f59e0b" stroke="#ffffff" stroke-width="1.8">';
+    svg += '<title>' + esc(pt.name || 'Registro') + ' (' + (pt.count || 1) + 'x)\n' + (pt.date ? fDay(pt.date) : '') + '\n' + esc(pt.place || pt.observer || '') + '</title></circle>';
+  });
+
+  svg += '</svg>';
+  return svg;
+}
+
+function renderSpeciesReferencesHtml(r){
+  var sci = r.n;
+  var isAnfibio = r.c === 'Anfíbio';
+  var isAve = r.c === 'Ave';
+  var isMasto = r.c === 'Mamífero';
+  var isReptil = r.c === 'Réptil';
+
+  var h = '<div class="ref-box">' +
+    '<div class="ref-citation-card">' +
+      '<b>📑 Checklist Oficial de Referência (Brasil)</b>';
+
+  if (isAnfibio){
+    h += '<p style="margin:0 0 6px">• <i>Drummond L.O., Santana D.J., Lima A.P. &amp; Toledo L.F. (2026). List of amphibians of Brazil. Herpetologia Brasileira 15(2).</i></p>' +
+         '<p style="margin:0">• <i>Frost, Darrel R. (2024). Amphibian Species of the World: an Online Reference. Version 6.2. American Museum of Natural History (AMNH), New York, USA.</i></p>';
+  } else if (isAve){
+    h += '<p style="margin:0">• <i>Pacheco J.F. et al. (2021). Annotated checklist of the birds of Brazil by the Brazilian Ornithological Records Committee (CBRO) – 2nd edition. Ornithology Research 29: 94–105.</i></p>';
+  } else if (isMasto){
+    h += '<p style="margin:0">• <i>Abreu-Jr. E.F. et al. (2025). Lista de Mamíferos do Brasil (2025-1). Sociedade Brasileira de Mastozoologia (SBMz).</i></p>';
+  } else if (isReptil){
+    h += '<p style="margin:0">• <i>Costa H.C., Guedes T.B. &amp; Entiauspe-Neto O.M. (2026). Updated checklist of Brazilian Reptiles. Herpetologia Brasileira 15(2).</i></p>';
+  } else {
+    h += '<p style="margin:0">• <i>Catálogo Taxonômico da Fauna do Brasil (CTFB) / Ministério do Meio Ambiente (MMA).</i></p>';
+  }
+
+  h += '</div>';
+
+  h += '<h3 style="font-size:14px;margin:8px 0 4px;font-weight:700">Artigos Científicos &amp; Bases Oficiais</h3>' +
+    '<div class="ref-links-grid">' +
+      '<a class="ref-link-card" href="https://scholar.google.com/scholar?q=%22' + encodeURIComponent(sci) + '%22" target="_blank" rel="noopener">' +
+        '<span>🎓 <b>Google Acadêmico</b><small style="display:block;color:var(--muted)">Artigos &amp; Teses</small></span>' +
+        '<span class="ico-ext">↗</span>' +
+      '</a>' +
+      '<a class="ref-link-card" href="https://www.gbif.org/species/search?q=' + encodeURIComponent(sci) + '" target="_blank" rel="noopener">' +
+        '<span>🔬 <b>GBIF Global</b><small style="display:block;color:var(--muted)">Coleções &amp; Dados</small></span>' +
+        '<span class="ico-ext">↗</span>' +
+      '</a>';
+
+  if (isAnfibio){
+    h += '<a class="ref-link-card" href="https://amphibiansoftheworld.amnh.org/index.php?action=search&taxon=' + encodeURIComponent(sci) + '" target="_blank" rel="noopener" style="grid-column:1/3;background:color-mix(in srgb,var(--accent) 10%,var(--surface))">' +
+      '<span>🐸 <b>Amphibians of the World (AMNH / Frost)</b><small style="display:block;color:var(--muted)">Autoridade mundial em anfíbios, sinonímias e localidades-tipo</small></span>' +
+      '<span class="ico-ext">↗</span>' +
+    '</a>' +
+    '<a class="ref-link-card" href="https://amphibiaweb.org/cgi/amphib_query?where-scientific_name=' + encodeURIComponent(sci) + '" target="_blank" rel="noopener">' +
+      '<span>🌱 <b>AmphibiaWeb</b><small style="display:block;color:var(--muted)">Biologia e desenvolvimento</small></span>' +
+      '<span class="ico-ext">↗</span>' +
+    '</a>';
+  } else if (isAve){
+    h += '<a class="ref-link-card" href="https://www.wikiaves.com.br/wiki/' + encodeURIComponent(sci) + '" target="_blank" rel="noopener" style="grid-column:1/3">' +
+      '<span>🦅 <b>WikiAves Brasil</b><small style="display:block;color:var(--muted)">Fotos, cantos e mapas colaborativos</small></span>' +
+      '<span class="ico-ext">↗</span>' +
+    '</a>';
+  }
+
+  h += '<a class="ref-link-card" href="https://ala-bie.sibbr.gov.br/bie-hub/species/' + encodeURIComponent(sci) + '" target="_blank" rel="noopener">' +
+    '<span>🇧🇷 <b>SiBBr (MCTI)</b><small style="display:block;color:var(--muted)">Biodiversidade Brasileira</small></span>' +
+    '<span class="ico-ext">↗</span>' +
+  '</a>' +
+  '<a class="ref-link-card" href="https://www.inaturalist.org/taxa?q=' + encodeURIComponent(sci) + '" target="_blank" rel="noopener">' +
+    '<span>🌿 <b>iNaturalist</b><small style="display:block;color:var(--muted)">Ciência Cidadã Global</small></span>' +
+    '<span class="ico-ext">↗</span>' +
+  '</a>' +
+  '<a class="ref-link-card" href="https://pubmed.ncbi.nlm.nih.gov/?term=%22' + encodeURIComponent(sci) + '%22" target="_blank" rel="noopener">' +
+    '<span>📑 <b>PubMed / NCBI</b><small style="display:block;color:var(--muted)">Biologia e Genética</small></span>' +
+    '<span class="ico-ext">↗</span>' +
+  '</a>' +
+  '<a class="ref-link-card" href="https://search.scielo.org/?q=%22' + encodeURIComponent(sci) + '%22" target="_blank" rel="noopener">' +
+    '<span>📚 <b>SciELO Brasil</b><small style="display:block;color:var(--muted)">Periódicos Nacionais</small></span>' +
+    '<span class="ico-ext">↗</span>' +
+  '</a>';
+
+  h += '</div></div>';
+  return h;
+}
+
+function fetchSpeciesFieldPoints(sci, r){
+  var localPoints = [];
+  Object.keys(S.lists || {}).forEach(function(id){
+    var lst = S.lists[id];
+    if (!lst || !lst.species) return;
+    lst.species.forEach(function(s){
+      var isSame = (s.sci && norm(s.sci) === norm(sci)) || norm(s.name) === norm(r.n) || norm(s.name) === norm((r.pt || '').split(',')[0]);
+      if (isSame){
+        var lat = s.lat != null ? +s.lat : (lst.lat != null ? +lst.lat : null);
+        var lon = s.lon != null ? +s.lon : (lst.lon != null ? +lst.lon : null);
+        if (lat != null && lon != null){
+          localPoints.push({
+            lat: lat,
+            lon: lon,
+            name: s.name,
+            count: s.count || 1,
+            date: s.first || lst.start,
+            place: lst.place || lst.muni || 'Minhas Listas',
+            observer: lst.observers || 'Você'
+          });
+        }
+      }
+    });
+  });
+  
+  if (window.FIREBASE_CONFIG && navigator.onLine !== false && AUTH.fb){
+    return AUTH.fb.firestore().collection('distribuicao_especies')
+      .where('speciesSci', '==', r.n)
+      .limit(100)
+      .get()
+      .then(function(snap){
+        var commPoints = [];
+        snap.forEach(function(doc){
+          var d = doc.data();
+          if (d && d.lat != null && d.lon != null){
+            commPoints.push({
+              lat: +d.lat,
+              lon: +d.lon,
+              name: d.speciesName || r.n,
+              count: +d.count || 1,
+              date: d.date || '',
+              place: d.municipality || d.listTitle || '',
+              observer: d.observer || 'Pesquisador'
+            });
+          }
+        });
+        var all = localPoints.slice();
+        commPoints.forEach(function(cp){
+          var exists = all.some(function(lp){ return Math.abs(lp.lat - cp.lat) < 0.001 && Math.abs(lp.lon - cp.lon) < 0.001; });
+          if (!exists) all.push(cp);
+        });
+        return all;
+      }).catch(function(){ return localPoints; });
+  }
+  return Promise.resolve(localPoints);
+}
+
+function fetchSpeciesScientificData(sci, r){
+  var k = norm(sci);
+  if (MEDIA_CACHE[k]) return Promise.resolve(MEDIA_CACHE[k]);
+
+  var result = {
+    gbifKey: null,
+    scientificDesc: '',
+    descSource: '',
+    photo: null,
+    photoCredit: '',
+    audio: null,
+    audioCredit: '',
+    extract: ''
+  };
+
+  // 1. GBIF Match & Descriptions
+  var gbifP = fetch('https://api.gbif.org/v1/species/match?name=' + encodeURIComponent(sci))
+    .then(function(res){ return res.ok ? res.json() : null; })
+    .then(function(data){
+      if (data && data.usageKey){
+        result.gbifKey = data.usageKey;
+        return fetch('https://api.gbif.org/v1/species/' + data.usageKey + '/descriptions')
+          .then(function(res){ return res.ok ? res.json() : null; })
+          .then(function(descData){
+            if (descData && descData.results && descData.results.length){
+              var best = descData.results.find(function(d){ return d.description && d.description.length > 50; }) || descData.results[0];
+              if (best && best.description){
+                result.scientificDesc = best.description;
+                result.descSource = best.source || 'Tratamento Taxonômico (GBIF)';
+              }
+            }
+          });
+      }
+    }).catch(function(){});
+
+  // 2. iNaturalist Taxa (Foto)
+  var inatP = fetch('https://api.inaturalist.org/v1/taxa?q=' + encodeURIComponent(sci))
+    .then(function(res){ return res.ok ? res.json() : null; })
+    .then(function(data){
+      if (data && data.results && data.results[0] && data.results[0].default_photo){
+        var ph = data.results[0].default_photo;
+        result.photo = ph.medium_url || ph.square_url;
+        result.photoCredit = ph.attribution || 'iNaturalist';
+      }
+    }).catch(function(){});
+
+  // 3. iNaturalist Sons
+  var soundP = fetch('https://api.inaturalist.org/v1/observations?taxon_name=' + encodeURIComponent(sci) + '&has[]=sounds&per_page=1')
+    .then(function(res){ return res.ok ? res.json() : null; })
+    .then(function(data){
+      if (data && data.results && data.results[0] && data.results[0].sounds && data.results[0].sounds[0]){
+        result.audio = data.results[0].sounds[0].file_url;
+        result.audioCredit = data.results[0].sounds[0].attribution || (data.results[0].user && (data.results[0].user.name || data.results[0].user.login)) || 'iNaturalist';
+      }
+    }).catch(function(){});
+
+  // 4. Wikipédia em Português
+  var wikiP = fetch('https://pt.wikipedia.org/api/rest_v1/page/summary/' + encodeURIComponent(sci))
+    .then(function(res){ return res.ok ? res.json() : null; })
+    .then(function(data){
+      if (data){
+        if (data.extract) result.extract = data.extract;
+        if (!result.photo){
+          if (data.originalimage && data.originalimage.source){
+            result.photo = data.originalimage.source;
+            result.photoCredit = 'Wikipédia / Wikimedia Commons';
+          } else if (data.thumbnail && data.thumbnail.source){
+            result.photo = data.thumbnail.source;
+            result.photoCredit = 'Wikipédia / Wikimedia Commons';
+          }
+        }
+      }
+    }).catch(function(){});
+
+  return Promise.all([gbifP, inatP, soundP, wikiP]).then(function(){
+    MEDIA_CACHE[k] = result;
+    return result;
+  });
+}
+
 function openSpeciesDetail(sci){
   var r = dbGet(sci);
   if (!r) return;
@@ -4164,81 +4569,82 @@ function openSpeciesDetail(sci){
       '<div class="spec-head-sci">' + esc(r.n) + (r.a ? ' <small style="font-style:normal;font-size:12px;opacity:0.8">' + esc(r.a) + '</small>' : '') + '</div>' +
       '<div class="spec-head-tax">' + taxIcon + ' ' + esc(r.c || '') + (r.o ? ' · Ordem ' + esc(r.o) : '') + (r.f ? ' · Família ' + esc(r.f) : '') + '</div>' +
     '</div>' +
-    '<div class="spec-photo-wrap" id="spec-photo-box">' +
-      '<div class="spec-loading"><div class="spin"></div>Buscando foto da espécie…</div>' +
+
+    '<div class="spec-tabs" role="tablist">' +
+      '<button class="spec-tab active" data-act="spec-tab" data-tab="visao">🔬 Visão Geral &amp; Mídia</button>' +
+      '<button class="spec-tab" data-act="spec-tab" data-tab="mapa">🗺️ Mapa de Distribuição</button>' +
+      '<button class="spec-tab" data-act="spec-tab" data-tab="referencias">📚 Referências Científicas</button>' +
     '</div>' +
-    '<div id="spec-audio-box-wrap"></div>' +
-    '<div class="spec-info-grid">' +
-      '<div class="spec-info-cell"><span>Conservação</span><b>' + (isThreat ? '⚠️ ' : '') + esc(amenLabel) + (r.mma ? ' (MMA: ' + esc(r.mma) + ')' : '') + '</b></div>' +
-      '<div class="spec-info-cell"><span>Endemismo</span><b>' + (r.e === 'Sim' ? '🇧🇷 Endêmica do Brasil' : 'Ampla distribuição') + '</b></div>' +
-      '<div class="spec-info-cell" style="grid-column:1/3"><span>Biomas</span><b>' + esc(r.bio || 'Não informado') + '</b></div>' +
-      (r.uf ? '<div class="spec-info-cell" style="grid-column:1/3"><span>Ocorrência nos Estados</span><b>' + esc(r.uf) + '</b></div>' : '') +
-      (r.die || r.loc ? '<div class="spec-info-cell" style="grid-column:1/3"><span>Ecologia &amp; Hábito</span><b>' + (r.die ? 'Dieta: ' + esc(r.die) + '  ' : '') + (r.loc ? 'Locomoção: ' + esc(r.loc) : '') + '</b></div>' : '') +
+
+    '<div class="spec-tab-pane" data-pane="visao">' +
+      '<div class="spec-photo-wrap" id="spec-photo-box">' +
+        '<div class="spec-loading"><div class="spin"></div>Buscando foto da espécie…</div>' +
+      '</div>' +
+      '<div id="spec-audio-box-wrap"></div>' +
+      '<div class="spec-info-grid">' +
+        '<div class="spec-info-cell"><span>Conservação</span><b>' + (isThreat ? '⚠️ ' : '') + esc(amenLabel) + (r.mma ? ' (MMA: ' + esc(r.mma) + ')' : '') + '</b></div>' +
+        '<div class="spec-info-cell"><span>Endemismo</span><b>' + (r.e === 'Sim' ? '🇧🇷 Endêmica do Brasil' : 'Ampla distribuição') + '</b></div>' +
+        '<div class="spec-info-cell" style="grid-column:1/3"><span>Biomas de Ocorrência</span><b>' + esc(r.bio || 'Não informado') + '</b></div>' +
+        (r.uf ? '<div class="spec-info-cell" style="grid-column:1/3"><span>Estados (UFs)</span><b>' + esc(r.uf) + '</b></div>' : '') +
+        (r.die || r.loc ? '<div class="spec-info-cell" style="grid-column:1/3"><span>Ecologia &amp; Hábito</span><b>' + (r.die ? 'Dieta: ' + esc(r.die) + '  ' : '') + (r.loc ? 'Locomoção: ' + esc(r.loc) : '') + '</b></div>' : '') +
+      '</div>' +
+      '<div id="spec-desc-box-wrap"></div>' +
     '</div>' +
-    '<div id="spec-desc-box-wrap"></div>' +
-    '<div class="sheet-actions" style="display:flex;flex-direction:column;gap:8px">' +
+
+    '<div class="spec-tab-pane" data-pane="mapa" hidden>' +
+      '<div class="brazil-map-box" data-sci="' + esc(r.n) + '" id="spec-map-box">' +
+        '<div class="brazil-map-header">' +
+          '<b style="font-size:13px;color:var(--ink)">Distribuição por Biomas &amp; Estados</b>' +
+          '<div class="brazil-map-modes">' +
+            '<button class="on" data-act="map-mode" data-mode="biomes">Biomas</button>' +
+            '<button data-act="map-mode" data-mode="states">Estados</button>' +
+          '</div>' +
+        '</div>' +
+        '<div class="brazil-map-svg-wrap">' +
+          renderBrazilMapSvg(r, [], 'biomes') +
+        '</div>' +
+        '<div id="spec-map-pts-meta" style="font-size:11.5px;color:var(--muted);text-align:center">Buscando registros georreferenciados no Brasil…</div>' +
+        '<div class="map-legend">' +
+          '<span class="legend-item"><span class="legend-dot" style="background:#f59e0b;box-shadow:0 0 6px #f59e0b"></span> <b>Pontos GPS de Campo</b></span>' +
+          '<span class="legend-item"><span class="legend-dot" style="background:#1E6E38"></span> Amazônia</span>' +
+          '<span class="legend-item"><span class="legend-dot" style="background:#D99B26"></span> Cerrado</span>' +
+          '<span class="legend-item"><span class="legend-dot" style="background:#C86420"></span> Caatinga</span>' +
+          '<span class="legend-item"><span class="legend-dot" style="background:#2A804D"></span> Mata Atlântica</span>' +
+          '<span class="legend-item"><span class="legend-dot" style="background:#008080"></span> Pantanal</span>' +
+          '<span class="legend-item"><span class="legend-dot" style="background:#8CAE38"></span> Pampa</span>' +
+        '</div>' +
+      '</div>' +
+    '</div>' +
+
+    '<div class="spec-tab-pane" data-pane="referencias" hidden>' +
+      renderSpeciesReferencesHtml(r) +
+    '</div>' +
+
+    '<div class="sheet-actions" style="display:flex;flex-direction:column;gap:8px;margin-top:10px">' +
       (hasActive ? '<button class="btn btn-primary" data-act="spec-add-to-cur" data-sci="' + esc(r.n) + '" style="font-weight:700;padding:12px">+ Adicionar à lista ativa (' + esc(title(cur())) + ')</button>' : '') +
       '<button class="btn" data-act="close-sheet">Fechar</button>' +
     '</div>' +
   '</div>';
   
   openSheet(h);
-  fetchSpeciesMedia(r.n, primaryPop);
-}
-
-function fetchSpeciesMedia(sci, pop){
-  var k = norm(sci);
-  if (MEDIA_CACHE[k]){
-    applySpeciesMedia(MEDIA_CACHE[k]);
-    return;
-  }
   
-  var media = { photo: null, credit: '', audio: null, audioCredit: '', extract: '' };
-  
-  // 1. Wikipédia em Português (resumo e imagem)
-  var wikiP = fetch('https://pt.wikipedia.org/api/rest_v1/page/summary/' + encodeURIComponent(sci))
-    .then(function(res){ return res.ok ? res.json() : null; })
-    .then(function(data){
-      if (data){
-        if (data.extract) media.extract = data.extract;
-        if (data.originalimage && data.originalimage.source){
-          media.photo = data.originalimage.source;
-          media.credit = 'Wikipédia / Wikimedia Commons';
-        } else if (data.thumbnail && data.thumbnail.source){
-          media.photo = data.thumbnail.source;
-          media.credit = 'Wikipédia / Wikimedia Commons';
-        }
-      }
-    }).catch(function(){});
-    
-  // 2. iNaturalist fallback para foto
-  var inatPhotoP = wikiP.then(function(){
-    if (media.photo) return;
-    return fetch('https://api.inaturalist.org/v1/taxa?q=' + encodeURIComponent(sci))
-      .then(function(res){ return res.ok ? res.json() : null; })
-      .then(function(data){
-        if (data && data.results && data.results[0] && data.results[0].default_photo){
-          var ph = data.results[0].default_photo;
-          media.photo = ph.medium_url || ph.square_url;
-          media.credit = ph.attribution || 'iNaturalist';
-        }
-      }).catch(function(){});
+  fetchSpeciesScientificData(r.n, r).then(function(data){
+    applySpeciesMedia(data);
   });
-
-  // 3. iNaturalist sons / vocalizações
-  var inatSoundP = fetch('https://api.inaturalist.org/v1/observations?taxon_name=' + encodeURIComponent(sci) + '&has[]=sounds&per_page=1')
-    .then(function(res){ return res.ok ? res.json() : null; })
-    .then(function(data){
-      if (data && data.results && data.results[0] && data.results[0].sounds && data.results[0].sounds[0]){
-        var s = data.results[0].sounds[0];
-        media.audio = s.file_url;
-        media.audioCredit = s.attribution || (data.results[0].user && (data.results[0].user.name || data.results[0].user.login)) || 'iNaturalist';
+  
+  fetchSpeciesFieldPoints(r.n, r).then(function(pts){
+    var mapBox = $('#spec-map-box');
+    if (mapBox){
+      mapBox._points = pts;
+      var svgWrap = mapBox.querySelector('.brazil-map-svg-wrap');
+      if (svgWrap) svgWrap.innerHTML = renderBrazilMapSvg(r, pts, 'biomes');
+      var metaEl = $('#spec-map-pts-meta');
+      if (metaEl){
+        metaEl.innerHTML = pts.length
+          ? ('📍 <b>' + pts.length + '</b> ' + (pts.length === 1 ? 'registro de campo georreferenciado' : 'registros de campo georreferenciados') + ' no Brasil')
+          : 'Nenhum registro de campo georreferenciado gravado ainda para esta espécie.';
       }
-    }).catch(function(){});
-
-  Promise.all([wikiP, inatPhotoP, inatSoundP]).then(function(){
-    MEDIA_CACHE[k] = media;
-    applySpeciesMedia(media);
+    }
   });
 }
 
@@ -4250,7 +4656,7 @@ function applySpeciesMedia(media){
   if (photoBox){
     if (media.photo){
       photoBox.innerHTML = '<img src="' + esc(media.photo) + '" alt="" loading="lazy" referrerpolicy="no-referrer">' +
-        (media.credit ? '<span class="spec-photo-credit">Foto: ' + esc(media.credit) + '</span>' : '');
+        (media.photoCredit ? '<span class="spec-photo-credit">Foto: ' + esc(media.photoCredit) + '</span>' : '');
     } else {
       photoBox.innerHTML = '<div style="text-align:center;padding:24px;color:var(--muted)"><span style="font-size:36px;display:block;margin-bottom:6px">🌿</span><span>Foto não catalogada nesta espécie</span></div>';
     }
@@ -4268,12 +4674,154 @@ function applySpeciesMedia(media){
   }
   
   if (descWrap){
-    if (media.extract){
-      descWrap.innerHTML = '<div class="spec-desc-box"><p>' + esc(media.extract) + '</p><small>Fonte: Enciclopédia Wikipédia em Português</small></div>';
-    } else {
-      descWrap.innerHTML = '';
+    var textHtml = '';
+    if (media.scientificDesc){
+      textHtml += '<div class="spec-desc-box" style="margin-bottom:8px">' +
+        '<span style="font-size:11px;font-weight:700;color:var(--accent-strong);text-transform:uppercase;letter-spacing:0.5px;display:block;margin-bottom:4px">🔬 Diagnose / Descrição Científica</span>' +
+        '<p>' + esc(media.scientificDesc) + '</p>' +
+        '<small>Fonte: ' + esc(media.descSource) + '</small>' +
+      '</div>';
     }
+    if (media.extract){
+      textHtml += '<div class="spec-desc-box">' +
+        '<span style="font-size:11px;font-weight:700;color:var(--accent-strong);text-transform:uppercase;letter-spacing:0.5px;display:block;margin-bottom:4px">📖 História Natural &amp; Hábitos</span>' +
+        '<p>' + esc(media.extract) + '</p>' +
+        '<small>Fonte: Enciclopédia Wikipédia em Português</small>' +
+      '</div>';
+    }
+    if (!textHtml){
+      textHtml = '<div class="spec-desc-box"><p style="color:var(--muted)">Consulte a aba <b>Referências Científicas</b> para acessar diretamente os artigos acadêmicos e monografias desta espécie.</p></div>';
+    }
+    descWrap.innerHTML = textHtml;
   }
+}
+
+function uploadListToDb(c){
+  if (!c) return;
+  var uploader = (typeof PROF !== 'undefined' && PROF.nome ? PROF.nome() : '') || (AUTH.user && (AUTH.user.displayName || AUTH.user.email)) || c.observers || 'Observador';
+  var uploaderEmail = (AUTH.user && AUTH.user.email) || '';
+  var uploaderUid = (AUTH.user && AUTH.user.uid) || 'anon';
+  
+  toast('Upar lista para a base científica...');
+  
+  // 1. Envia ocorrências georreferenciadas individuais
+  syncOccurrences(c);
+  
+  // 2. Envia documento completo da lista para Firestore
+  var listDoc = {
+    id: c.id,
+    title: c.title || c.place || ('Lista ' + fDay(c.start)),
+    place: c.place || '',
+    muni: c.muni || '',
+    uf: c.uf || '',
+    group: c.group || 'Geral',
+    method: c.method || '',
+    start: c.start,
+    end: c.end,
+    observers: c.observers || uploader,
+    uploader: uploader,
+    uploaderEmail: uploaderEmail,
+    uploaderUid: uploaderUid,
+    totalEspecies: c.species.length,
+    totalIndividuos: c.species.reduce(function(acc, s){ return acc + (+s.count || 0); }, 0),
+    species: c.species.map(function(s){
+      return {
+        name: s.name,
+        sci: s.sci || (DB.byName && DB.byName[norm(s.name)] && DB.byName[norm(s.name)].sci) || '',
+        count: +s.count || 1,
+        cv: +s.cv || 0,
+        ca: +s.ca || 0,
+        co: +s.co || 0,
+        lat: s.lat != null ? +s.lat : (c.lat != null ? +c.lat : null),
+        lon: s.lon != null ? +s.lon : (c.lon != null ? +c.lon : null),
+        first: s.first || '',
+        note: s.note || '',
+        bio: s.bio || []
+      };
+    }),
+    coords: (c.lat != null && c.lon != null) ? {lat: +c.lat, lon: +c.lon} : null,
+    trackPtsCount: (c.track && c.track.pts) ? c.track.pts.length : 0,
+    trackDistMeters: (c.track && c.track.dist) ? c.track.dist : 0,
+    uploadedAt: Date.now()
+  };
+  
+  if (window.FIREBASE_CONFIG && navigator.onLine !== false){
+    (AUTH.fb ? Promise.resolve(AUTH.fb) : AUTH.load()).then(function(fb){
+      var db = fb.firestore();
+      return db.collection('listas_pesquisa').doc(c.id).set(listDoc, {merge: true});
+    }).then(function(){
+      c.uploadedDb = new Date().toISOString();
+      touch(c);
+      if (S.screen === 'list') renderList();
+      toast('✅ Lista upada com sucesso para a base científica de distribuição!');
+    }).catch(function(err){
+      console.warn('Erro ao upar lista:', err);
+      c.uploadedDb = new Date().toISOString();
+      touch(c);
+      if (S.screen === 'list') renderList();
+      toast('Lista salva na fila de upload. Subirá ao conectar.');
+    });
+  } else {
+    c.uploadedDb = new Date().toISOString();
+    touch(c);
+    if (S.screen === 'list') renderList();
+    toast('Lista salva na fila offline. Subirá ao conectar.');
+  }
+}
+
+function openListBrazilMap(c){
+  if (!c) return;
+  var points = [];
+  c.species.forEach(function(s){
+    var lat = s.lat != null ? +s.lat : (c.lat != null ? +c.lat : null);
+    var lon = s.lon != null ? +s.lon : (c.lon != null ? +c.lon : null);
+    if (lat != null && lon != null){
+      points.push({
+        lat: lat,
+        lon: lon,
+        name: s.name,
+        count: +s.count || 1,
+        date: s.first || c.start,
+        place: c.place || c.muni || '',
+        observer: c.observers || 'Você'
+      });
+    }
+  });
+
+  var h = '<div class="spec-modal">' +
+    '<div class="spec-head-wrap">' +
+      '<span class="eyebrow">Mapa de Campo</span>' +
+      '<h2 id="sheet-h" class="spec-head-pt">' + esc(title(c)) + '</h2>' +
+      '<p class="meta" style="margin:0">' + fDay(c.start) + ' · ' + points.length + ' registros georreferenciados</p>' +
+    '</div>' +
+    '<div class="brazil-map-box" data-sci="" id="list-map-box">' +
+      '<div class="brazil-map-header">' +
+        '<b style="font-size:13px;color:var(--ink)">Pontos no Território Nacional</b>' +
+        '<div class="brazil-map-modes">' +
+          '<button class="on" data-act="list-map-mode" data-mode="biomes">Biomas</button>' +
+          '<button data-act="list-map-mode" data-mode="states">Estados</button>' +
+        '</div>' +
+      '</div>' +
+      '<div class="brazil-map-svg-wrap">' +
+        renderBrazilMapSvg({bio: 'Amazônia Cerrado Caatinga Mata Atlântica Pantanal Pampa', uf: c.uf || ''}, points, 'biomes') +
+      '</div>' +
+      '<div class="map-legend">' +
+        '<span class="legend-item"><span class="legend-dot" style="background:#f59e0b;box-shadow:0 0 6px #f59e0b"></span> <b>Pontos da Lista (' + points.length + ')</b></span>' +
+        '<span class="legend-item"><span class="legend-dot" style="background:#1E6E38"></span> Amazônia</span>' +
+        '<span class="legend-item"><span class="legend-dot" style="background:#D99B26"></span> Cerrado</span>' +
+        '<span class="legend-item"><span class="legend-dot" style="background:#C86420"></span> Caatinga</span>' +
+        '<span class="legend-item"><span class="legend-dot" style="background:#2A804D"></span> Mata Atlântica</span>' +
+        '<span class="legend-item"><span class="legend-dot" style="background:#008080"></span> Pantanal</span>' +
+        '<span class="legend-item"><span class="legend-dot" style="background:#8CAE38"></span> Pampa</span>' +
+      '</div>' +
+    '</div>' +
+    '<div class="sheet-actions">' +
+      '<button class="btn btn-primary" data-act="close-sheet">Fechar</button>' +
+    '</div>' +
+  '</div>';
+  openSheet(h);
+  var box = $('#list-map-box');
+  if (box) box._points = points;
 }
 
 /* ---------- events ---------- */
@@ -4349,6 +4897,57 @@ var A = {
     var pop = (r.pt || '').split(',')[0].trim() || r.n;
     addEntry(c, pop, 1, r.n);
     closeSheet();
+  },
+  'spec-tab': function(b){
+    var tab = b.getAttribute('data-tab');
+    var allTabs = document.querySelectorAll('.spec-tab');
+    for (var i = 0; i < allTabs.length; i++) allTabs[i].classList.toggle('active', allTabs[i] === b);
+    var panes = document.querySelectorAll('.spec-tab-pane');
+    for (var j = 0; j < panes.length; j++) panes[j].hidden = panes[j].getAttribute('data-pane') !== tab;
+  },
+  'map-mode': function(b){
+    var mode = b.getAttribute('data-mode');
+    var p = b.closest('.brazil-map-box');
+    if (!p) return;
+    var btns = p.querySelectorAll('.brazil-map-modes button');
+    for (var i = 0; i < btns.length; i++) btns[i].classList.toggle('on', btns[i] === b);
+    var sci = p.getAttribute('data-sci');
+    var r = dbGet(sci);
+    var pts = p._points || [];
+    var svgWrap = p.querySelector('.brazil-map-svg-wrap');
+    if (svgWrap && r){
+      svgWrap.innerHTML = renderBrazilMapSvg(r, pts, mode);
+    }
+  },
+  'list-map-mode': function(b){
+    var mode = b.getAttribute('data-mode');
+    var p = b.closest('.brazil-map-box');
+    if (!p) return;
+    var btns = p.querySelectorAll('.brazil-map-modes button');
+    for (var i = 0; i < btns.length; i++) btns[i].classList.toggle('on', btns[i] === b);
+    var pts = p._points || [];
+    var svgWrap = p.querySelector('.brazil-map-svg-wrap');
+    if (svgWrap){
+      svgWrap.innerHTML = renderBrazilMapSvg({bio: 'Amazônia Cerrado Caatinga Mata Atlântica Pantanal Pampa'}, pts, mode);
+    }
+  },
+  'upload-db': function(){
+    var c = cur();
+    if (c) uploadListToDb(c);
+  },
+  'lp-upload-db': function(b){
+    var id = b.getAttribute('data-id');
+    var c = S.lists[id];
+    if (c){ closeSheet(); uploadListToDb(c); }
+  },
+  'lp-map': function(b){
+    var id = b.getAttribute('data-id');
+    var c = S.lists[id];
+    if (c) openListBrazilMap(c);
+  },
+  'view-list-map': function(){
+    var c = cur();
+    if (c) openListBrazilMap(c);
   },
   'details': openDetails,
   'close-sheet': closeSheet,

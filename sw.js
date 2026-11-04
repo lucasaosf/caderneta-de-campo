@@ -1,5 +1,5 @@
-const CACHE = 'caderneta-v19';
-const CORE = ['./', './index.html', './manifest.webmanifest', './especies.js?v=19', './planilha.js?v=19', './firebase-config.js?v=19',
+const CACHE = 'caderneta-v20';
+const CORE = ['./', './index.html', './manifest.webmanifest', './especies.js?v=20', './planilha.js?v=20', './firebase-config.js?v=20',
   './icon-192.png', './icon-512.png', './icon-maskable-512.png', './icon-claro-192.png', './icon-claro-512.png', './favicon.png', './apple-touch-icon.png',
   './logo-creme.png', './logo-verde.png', './logo-planilha.png', './capa.jpg', './capa-clara.jpg', './privacidade.html'];
 self.addEventListener('install', e => {
