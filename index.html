@@ -578,9 +578,14 @@ body.selecting .wm{display:none}
 .guide-list{display:grid;gap:8px}
 .guide-card{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 12px;border-radius:14px;background:var(--surface);border:1.5px solid var(--line);cursor:pointer;transition:transform .1s, border-color .15s;text-align:left;width:100%}
 .guide-card:active{transform:scale(0.99);border-color:var(--accent)}
-.guide-thumb-wrap{flex:none;width:56px;height:56px;border-radius:12px;overflow:hidden;position:relative;background:var(--surface-2);border:1.5px solid var(--line);display:grid;place-items:center;box-shadow:0 2px 6px rgba(0,0,0,0.06)}
+.guide-thumb-wrap{flex:none;width:58px;height:58px;border-radius:12px;overflow:hidden;position:relative;background:var(--surface-2);border:1.5px solid var(--line);display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,0.06);padding:2px}
+.guide-thumb-wrap.no-photo{background:color-mix(in srgb,var(--surface-2) 90%,black 10%);border-style:dashed}
+.guide-thumb-sil{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;width:100%;height:100%;color:var(--muted);text-align:center;user-select:none}
+.guide-thumb-sil svg{display:block;opacity:0.85;transition:transform .2s}
+.guide-card:hover .guide-thumb-sil svg{transform:scale(1.08)}
+.guide-thumb-no-txt{font-size:8px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:0.3px;line-height:1;margin-top:2px;white-space:nowrap;padding:1px 3px;border-radius:3px;background:color-mix(in srgb,var(--surface) 70%,transparent)}
 .guide-thumb-ph{font-size:24px;line-height:1;user-select:none;opacity:0.85;display:grid;place-items:center}
-.guide-thumb-img{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;display:block;opacity:0;transition:opacity .25s ease}
+.guide-thumb-img{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;display:block;opacity:0;transition:opacity .25s ease;z-index:2}
 .guide-thumb-img.loaded{opacity:1}
 .guide-card-main{min-width:0;flex:1}
 .guide-card-name{font-family:var(--body);font-size:15.5px;font-weight:700;color:var(--ink);line-height:1.25}
@@ -615,6 +620,34 @@ body.selecting .wm{display:none}
 .spec-gallery-dot{width:7px;height:7px;border-radius:50%;background:var(--line);border:none;padding:0;cursor:pointer;transition:all .2s}
 .spec-gallery-dot.active{background:var(--accent);width:18px;border-radius:4px}
 .spec-gallery-hint{font-size:11px;color:var(--muted);text-align:center;margin-top:2px}
+.spec-no-photo-card{display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px;padding:26px 16px;background:var(--surface-2);border:1.5px dashed var(--line);border-radius:14px;margin-bottom:12px}
+.spec-no-photo-sil{display:grid;place-items:center;padding:12px;border-radius:50%;background:color-mix(in srgb,var(--accent) 15%,transparent);color:var(--accent);margin-bottom:4px}
+.spec-no-photo-badge{font-size:11px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;padding:3px 8px;border-radius:6px;background:var(--surface);border:1px solid var(--line)}
+.spec-no-photo-title{font-size:14.5px;font-weight:700;color:var(--ink);line-height:1.3;max-width:320px;margin:2px 0 0}
+.spec-no-photo-desc{font-size:12px;color:var(--muted);line-height:1.4;margin:0;max-width:320px}
+.spec-contrib-btn{margin-top:6px;font-weight:700;padding:11px 18px;border-radius:10px;display:inline-flex;align-items:center;gap:6px;box-shadow:0 3px 10px rgba(0,0,0,0.12)}
+.spec-contrib-note{font-size:10.5px;color:var(--muted);line-height:1.35;max-width:320px;margin-top:4px}
+.spec-contrib-strip{margin-top:6px;display:flex;justify-content:center}
+.spec-contrib-link-btn{font-family:var(--body);font-size:11.5px;font-weight:600;color:var(--accent);background:none;border:none;cursor:pointer;padding:4px 8px;border-radius:6px;transition:all .15s}
+.spec-contrib-link-btn:hover{background:var(--accent-soft);text-decoration:underline}
+
+/* modal de upload e moderacao de foto */
+.photo-mod-modal{display:grid;gap:14px;text-align:left}
+.photo-mod-header{display:grid;gap:4px}
+.photo-mod-header h2{font-family:var(--display);font-size:20px;font-weight:700;margin:0;color:var(--ink)}
+.photo-mod-header p{font-size:12px;color:var(--muted);margin:0;line-height:1.35}
+.photo-mod-alert{display:flex;align-items:flex-start;gap:8px;padding:10px 12px;border-radius:10px;background:color-mix(in srgb,var(--bronze) 18%,var(--surface-2));border:1px solid var(--bronze);font-size:11.5px;line-height:1.4;color:var(--ink)}
+.photo-mod-dropzone{border:2px dashed var(--accent);border-radius:12px;padding:20px 14px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;cursor:pointer;background:color-mix(in srgb,var(--accent-soft) 40%,transparent);transition:all .18s;text-align:center}
+.photo-mod-dropzone:active{transform:scale(0.99);background:var(--accent-soft)}
+.photo-mod-preview-wrap{position:relative;border-radius:12px;overflow:hidden;background:#000;max-height:240px;display:flex;align-items:center;justify-content:center;border:1.5px solid var(--accent)}
+.photo-mod-preview-wrap img{width:100%;max-height:240px;object-fit:cover;display:block}
+.photo-mod-change-btn{position:absolute;bottom:8px;right:8px;background:rgba(0,0,0,0.75);color:#fff;border:1px solid rgba(255,255,255,0.4);border-radius:6px;padding:4px 9px;font-size:11px;font-weight:600;cursor:pointer;backdrop-filter:blur(4px)}
+.photo-mod-fields{display:grid;gap:10px}
+.photo-mod-field{display:grid;gap:4px}
+.photo-mod-field label{font-size:11.5px;font-weight:700;color:var(--ink);text-transform:uppercase;letter-spacing:0.3px}
+.photo-mod-field input,.photo-mod-field textarea{font-family:var(--body);font-size:13px;padding:9px 11px;border-radius:8px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);outline:none}
+.photo-mod-field input:focus,.photo-mod-field textarea:focus{border-color:var(--accent)}
+.photo-mod-actions{display:flex;flex-direction:column;gap:8px;margin-top:6px}
 .spec-photo-credit{position:absolute;bottom:0;left:0;right:0;padding:4px 8px;background:linear-gradient(transparent,rgba(0,0,0,0.75));color:#fff;font-size:10.5px;text-align:right}
 .spec-loading{display:flex;flex-direction:column;align-items:center;gap:8px;font-size:12.5px;color:var(--muted)}
 .spin{width:22px;height:22px;border:2.5px solid var(--line);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite}
@@ -1023,9 +1056,9 @@ body.selecting .wm{display:none}
 <div class="sel-bar" id="sel-bar" hidden></div>
 <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 <datalist id="dl-proj"></datalist><datalist id="dl-camp"></datalist><datalist id="dl-ua"></datalist><datalist id="dl-met"></datalist>
-<script src="especies.js?v=2.7"></script>
-<script src="planilha.js?v=2.7"></script>
-<script src="firebase-config.js?v=2.7"></script>
+<script src="especies.js?v=2.8"></script>
+<script src="planilha.js?v=2.8"></script>
+<script src="firebase-config.js?v=2.8"></script>
 
 <script>
 (function(){
@@ -1123,7 +1156,7 @@ var S = {
   sugg:[], suggIdx:0, undo:null, sheetClose:null, editingName:null, demo:3,
   alias:{}, defMode:LS.get('defMode', 'V'), theme:LS.get('theme', 'dark'), filterTax:''
 };
-var APP_V = '2.7';
+var APP_V = '2.8';
 function cmpVer(a, b){
   var pa = String(a).split('.').map(function(n){ return parseInt(n, 10) || 0; });
   var pb = String(b).split('.').map(function(n){ return parseInt(n, 10) || 0; });
@@ -1135,10 +1168,10 @@ function cmpVer(a, b){
   return 0;
 }
 var NOVIDADES = [
-  'Miniaturas fotográficas nos cards do Guia de Espécies e da Life List: identificação visual rápida antes de abrir a ficha da espécie, com carregamento assíncrono e cache local.',
-  'Rodagem aprimorada das fotos da espécie: navegação lateral por setas (‹ e ›), rotação contínua, contador, barra de miniaturas sincronizada e suporte a swipe por toque no celular.',
-  'Diagnoses com caracteres morfológicos detalhados: descrição precisa de porte, cabeça, focinho, olhos, escamas, textura da pele, pelagem, plumagem, membros, dígitos e cauda.',
-  'Chaves diferenciais de campo: orientações diagnósticas práticas para distinguir a espécie de congêneres semelhantes no bioma brasileiro.'
+  'Silhuetas anatômicas por grupo faunístico (Aves, Mamíferos, Anfíbios e Répteis) nos cards sem foto do Guia de Espécies e da Life List, com destaque "SEM FOTO".',
+  'Submissão colaborativa de fotos: possibilidade de qualquer usuário subir fotos de campo para espécies sem imagem disponível.',
+  'Moderação científica pelo desenvolvedor (Lucas Aosf): envio automático por e-mail (lucasaosf@gmail.com) e canal complementar via WhatsApp (+55 12 99182-1729) para validação taxonômica dos caracteres diagnósticos.',
+  'Visualização imediata em moderação: a imagem enviada é exibida instantaneamente no app com selo de moderação até a homologação final.'
 ];
 
 /* ---------- banco de espécies ---------- */
@@ -4377,7 +4410,50 @@ function toast(msg, undo, extra){
   clearTimeout(toastT); toastT = setTimeout(function(){ t.hidden = true; S.undo = null; S.toastExtra = null; }, extra ? 6500 : undo ? 4500 : 2600);
 }
 
-/* ---------- guia de espécies do brasil & thumbnails ---------- */
+/* ---------- guia de espécies do brasil, moderação de fotos & thumbnails ---------- */
+var USER_PHOTOS = (function(){
+  try {
+    return JSON.parse(localStorage.getItem('caderneta.v1.user_photos') || '{}');
+  } catch(e){
+    return {};
+  }
+})();
+function saveUserPhotos(){
+  try {
+    localStorage.setItem('caderneta.v1.user_photos', JSON.stringify(USER_PHOTOS));
+  } catch(e){}
+}
+
+function getFaunaSilhouetteSvg(group, size, color){
+  var sz = size || 26;
+  var col = color || 'currentColor';
+  var g = (group || '').toLowerCase();
+  
+  if (g.indexOf('ave') >= 0 || g.indexOf('bird') >= 0){
+    return '<svg viewBox="0 0 24 24" width="' + sz + '" height="' + sz + '" fill="' + col + '" aria-hidden="true">' +
+      '<path d="M22 6.2c-1.3.4-2.7.7-4 .8-.3-1.6-1.7-2.8-3.4-2.8-1.5 0-2.8.9-3.3 2.2-1.7 1-3.2 2.3-4.2 4-1.3 2.1-1.8 4.6-1.5 7L2 20.5l4.3-.8c1.3 1 2.8 1.6 4.5 1.6 4.7 0 8.7-3.5 9.2-8.2L23 8.3l-1-2.1zM8 9.5a1.2 1.2 0 1 1 0-2.4 1.2 1.2 0 0 1 0 2.4z"/>' +
+    '</svg>';
+  }
+  if (g.indexOf('mam') >= 0 || g.indexOf('mammal') >= 0){
+    return '<svg viewBox="0 0 24 24" width="' + sz + '" height="' + sz + '" fill="' + col + '" aria-hidden="true">' +
+      '<path d="M21.8 10.4c-.4-.9-1.2-1.6-2.1-1.9-.3-.8-.9-1.5-1.7-1.8-1-.4-2.1-.2-2.9.4-.8-.4-1.7-.5-2.6-.4-1.9.3-3.6 1.3-4.8 2.8-.7.9-1.6 1.5-2.7 1.8l-1.6.4C2.5 12 1.8 12.8 1.5 13.7c-.4 1.1 0 2.3.9 3 1 .8 2.4.9 3.5.3l.9-.5.2 2.5c0 .6.5 1 1 1h1.5c.6 0 1-.4 1-1v-2.2l2.6.2c.5 0 1-.2 1.4-.5l1.5-1.2.4 3.7c0 .6.5 1 1 1h1.5c.6 0 1-.4 1-1v-4.1c1.1-1 1.8-2.3 2.1-3.8.5-.2.9-.6 1.1-1.1.2-.5.2-1.1-.2-1.5zm-5.3-.9c.4 0 .7.3.7.7s-.3.7-.7.7-.7-.3-.7-.7.3-.7.7-.7z"/>' +
+    '</svg>';
+  }
+  if (g.indexOf('anf') >= 0 || g.indexOf('amphib') >= 0 || g.indexOf('sapo') >= 0 || g.indexOf('ra') >= 0){
+    return '<svg viewBox="0 0 24 24" width="' + sz + '" height="' + sz + '" fill="' + col + '" aria-hidden="true">' +
+      '<path d="M12 2.5c-.8 0-1.6.5-2 1.2-.8-.4-1.8-.3-2.5.3-.9.8-1 2.1-.3 3-.8 1.1-1.2 2.4-1.2 3.8 0 .8.2 1.6.5 2.3l-2.7 1.2c-.7.3-1.1 1-1 1.8.1.8.8 1.4 1.6 1.4h1.2l-1.8 2.2c-.5.6-.5 1.5 0 2.1.5.6 1.4.7 2 .2l2.6-2.1c1 .7 2.2 1.1 3.6 1.1s2.6-.4 3.6-1.1l2.6 2.1c.6.5 1.5.4 2-.2.5-.6.5-1.5 0-2.1l-1.8-2.2h1.2c.8 0 1.5-.6 1.6-1.4.1-.8-.3-1.5-1-1.8l-2.7-1.2c.3-.7.5-1.5.5-2.3 0-1.4-.4-2.7-1.2-3.8.7-.9.6-2.2-.3-3-.7-.6-1.7-.7-2.5-.3-.4-.7-1.2-1.2-2-1.2zm-3.5 4a1.2 1.2 0 1 1 0-2.4 1.2 1.2 0 0 1 0 2.4zm7 0a1.2 1.2 0 1 1 0-2.4 1.2 1.2 0 0 1 0 2.4zm-3.5 1.5c2.2 0 4 2 4 4.5 0 2.8-1.8 5-4 5s-4-2.2-4-5c0-2.5 1.8-4.5 4-4.5z"/>' +
+    '</svg>';
+  }
+  if (g.indexOf('rep') >= 0 || g.indexOf('reptil') >= 0 || g.indexOf('cobra') >= 0 || g.indexOf('serp') >= 0){
+    return '<svg viewBox="0 0 24 24" width="' + sz + '" height="' + sz + '" fill="' + col + '" aria-hidden="true">' +
+      '<path d="M19.5 4c-.8 0-1.6.4-2.1 1l-1.9 1.9c-.8.8-1.8 1.3-2.9 1.4-1.4.1-2.7-.4-3.7-1.3C7.4 5.6 5.2 5.5 3.6 6.7 2 7.9 1.5 10.1 2.5 11.8c.8 1.4 2.2 2.2 3.8 2.2.8 0 1.5-.2 2.2-.6l2.1-1.2c.9-.5 1.9-.7 2.9-.5 1.3.3 2.3 1.2 2.7 2.5.5 1.7-.1 3.5-1.5 4.6-1.6 1.2-3.8 1.3-5.5.2l-1.3-.9c-.6-.4-1.4-.3-1.8.3-.4.6-.3 1.4.3 1.8l1.3.9c2.4 1.6 5.5 1.5 7.8-.2 2.1-1.6 3-4.3 2.3-6.8-.5-1.8-1.9-3.2-3.7-3.7-.7-.2-1.5-.1-2.2.3l-2.1 1.2c-.4.2-.9.4-1.4.4-1 0-1.9-.5-2.4-1.4-.6-1-.3-2.3.7-3 1-.7 2.4-.6 3.4.3 1.4 1.2 3.2 1.9 5.1 1.7 1.6-.2 3.1-.9 4.2-2.1L20 8.2c.5-.5.8-1.2.8-2 0-1.2-1-2.2-2.2-2.2h.9zM21 2l-1.5 1.5 1.5 1.5 1.5-1.5L21 2z"/>' +
+    '</svg>';
+  }
+  return '<svg viewBox="0 0 24 24" width="' + sz + '" height="' + sz + '" fill="' + col + '" aria-hidden="true">' +
+    '<path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm1 17.9V13h3l-4-7-4 7h3v6.9c-3.9-.5-7-3.8-7-7.9 0-4.4 3.6-8 8-8s8 3.6 8 8c0 4.1-3.1 7.4-7 7.9z"/>' +
+  '</svg>';
+}
+
 var GUIDE_THUMB_CACHE = (function(){
   try {
     return JSON.parse(localStorage.getItem('caderneta.v1.guide_thumbs') || '{}');
@@ -4407,6 +4483,10 @@ function saveGuideThumbCacheThrottled(){
 }
 
 function fetchSpeciesThumbnailUrl(sci){
+  var userPh = USER_PHOTOS[sci] || USER_PHOTOS[norm(sci)];
+  if (userPh && userPh.dataUrl){
+    return Promise.resolve(userPh.dataUrl);
+  }
   var k = norm(sci);
   if (MEDIA_CACHE[k] && MEDIA_CACHE[k].photos && MEDIA_CACHE[k].photos.length){
     var p0 = MEDIA_CACHE[k].photos[0];
@@ -4448,9 +4528,20 @@ function processGuideThumbQueue(){
       for (var i = 0; i < allSame.length; i++){
         allSame[i].src = thumbUrl;
         allSame[i].classList.add('loaded');
+        if (allSame[i].parentElement){
+          allSame[i].parentElement.classList.remove('no-photo');
+          allSame[i].parentElement.classList.add('has-photo');
+        }
       }
     } else {
       GUIDE_THUMB_CACHE[item.sci] = '';
+      var sel = '.guide-thumb-img[data-sci="' + CSS.escape(item.sci) + '"]';
+      var allSame = document.querySelectorAll(sel);
+      for (var i = 0; i < allSame.length; i++){
+        if (allSame[i].parentElement){
+          allSame[i].parentElement.classList.add('no-photo');
+        }
+      }
     }
   }).catch(function(){
   }).finally(function(){
@@ -4467,14 +4558,28 @@ function hydrateGuideThumbnails(container){
     var img = imgs[i];
     var sci = img.getAttribute('data-sci');
     if (!sci) continue;
+    var userPh = USER_PHOTOS[sci] || USER_PHOTOS[norm(sci)];
+    if (userPh && userPh.dataUrl){
+      img.src = userPh.dataUrl;
+      img.classList.add('loaded');
+      if (img.parentElement){
+        img.parentElement.classList.remove('no-photo');
+        img.parentElement.classList.add('has-photo');
+      }
+      continue;
+    }
     var cached = GUIDE_THUMB_CACHE[sci];
     if (cached){
       if (!img.src || img.src === location.href){
         img.src = cached;
       }
       img.classList.add('loaded');
+      if (img.parentElement){
+        img.parentElement.classList.remove('no-photo');
+        img.parentElement.classList.add('has-photo');
+      }
     } else if (cached === ''){
-      // sem foto catalogada
+      if (img.parentElement) img.parentElement.classList.add('no-photo');
     } else {
       if (!GUIDE_THUMB_PENDING[sci]){
         GUIDE_THUMB_PENDING[sci] = true;
@@ -4584,12 +4689,17 @@ function renderGuideList(){
     var taxIcon = r.c === 'Ave' ? '🦅' : r.c === 'Mamífero' ? '🐾' : r.c === 'Anfíbio' ? '🐸' : r.c === 'Réptil' ? '🐍' : '🌿';
     var isThreat = isThreatened(r);
     var amenText = (r.mma && AMEN_MAP[r.mma]) ? r.mma : ((r.iucn && AMEN_MAP[r.iucn]) ? r.iucn : '');
-    var cachedThumb = GUIDE_THUMB_CACHE[r.n] || (MEDIA_CACHE[norm(r.n)] && MEDIA_CACHE[norm(r.n)].photos && MEDIA_CACHE[norm(r.n)].photos[0] && (MEDIA_CACHE[norm(r.n)].photos[0].thumbUrl || MEDIA_CACHE[norm(r.n)].photos[0].url));
+    var userPh = USER_PHOTOS[r.n] || USER_PHOTOS[norm(r.n)];
+    var cachedThumb = (userPh && userPh.dataUrl) || GUIDE_THUMB_CACHE[r.n] || (MEDIA_CACHE[norm(r.n)] && MEDIA_CACHE[norm(r.n)].photos && MEDIA_CACHE[norm(r.n)].photos[0] && (MEDIA_CACHE[norm(r.n)].photos[0].thumbUrl || MEDIA_CACHE[norm(r.n)].photos[0].url));
+    var silSvg = getFaunaSilhouetteSvg(r.c, 24, 'var(--accent)');
     
     h += '<div class="guide-card" data-act="guide-card" data-sci="' + esc(r.n) + '">' +
-      '<div class="guide-thumb-wrap">' +
-        '<span class="guide-thumb-ph" aria-hidden="true">' + taxIcon + '</span>' +
-        '<img class="guide-thumb-img' + (cachedThumb ? ' loaded' : '') + '" src="' + esc(cachedThumb || '') + '" data-sci="' + esc(r.n) + '" alt="" loading="lazy" decoding="async" onload="this.classList.add(\'loaded\')">' +
+      '<div class="guide-thumb-wrap' + (cachedThumb ? ' has-photo' : ' no-photo') + '">' +
+        '<div class="guide-thumb-sil">' +
+          silSvg +
+          '<span class="guide-thumb-no-txt">Sem foto</span>' +
+        '</div>' +
+        '<img class="guide-thumb-img' + (cachedThumb ? ' loaded' : '') + '" src="' + esc(cachedThumb || '') + '" data-sci="' + esc(r.n) + '" alt="" loading="lazy" decoding="async" onload="this.classList.add(\'loaded\');if(this.parentElement){this.parentElement.classList.remove(\'no-photo\');this.parentElement.classList.add(\'has-photo\');}" onerror="this.classList.remove(\'loaded\');this.style.display=\'none\';if(this.parentElement){this.parentElement.classList.add(\'no-photo\');}">' +
       '</div>' +
       '<div class="guide-card-main">' +
         '<div class="guide-card-name">' + esc(popName) + '</div>' +
@@ -4765,12 +4875,17 @@ function renderLifeListItems(){
     var taxIcon = r.group === 'Ave' ? '🦅' : r.group === 'Mamífero' ? '🐾' : r.group === 'Anfíbio' ? '🐸' : r.group === 'Réptil' ? '🐍' : '🌿';
     var isThreat = db ? isThreatened(db) : false;
     var amenText = db ? ((db.mma && AMEN_MAP[db.mma]) ? db.mma : ((db.iucn && AMEN_MAP[db.iucn]) ? db.iucn : '')) : '';
-    var cachedThumb = GUIDE_THUMB_CACHE[r.sci] || (MEDIA_CACHE[norm(r.sci)] && MEDIA_CACHE[norm(r.sci)].photos && MEDIA_CACHE[norm(r.sci)].photos[0] && (MEDIA_CACHE[norm(r.sci)].photos[0].thumbUrl || MEDIA_CACHE[norm(r.sci)].photos[0].url));
+    var userPh = USER_PHOTOS[r.sci] || USER_PHOTOS[norm(r.sci)];
+    var cachedThumb = (userPh && userPh.dataUrl) || GUIDE_THUMB_CACHE[r.sci] || (MEDIA_CACHE[norm(r.sci)] && MEDIA_CACHE[norm(r.sci)].photos && MEDIA_CACHE[norm(r.sci)].photos[0] && (MEDIA_CACHE[norm(r.sci)].photos[0].thumbUrl || MEDIA_CACHE[norm(r.sci)].photos[0].url));
+    var silSvg = getFaunaSilhouetteSvg(r.group, 24, 'var(--accent)');
 
     h += '<div class="guide-card ll-card" data-act="lifelist-card" data-sci="' + esc(r.sci) + '">' +
-      '<div class="guide-thumb-wrap">' +
-        '<span class="guide-thumb-ph" aria-hidden="true">' + taxIcon + '</span>' +
-        '<img class="guide-thumb-img' + (cachedThumb ? ' loaded' : '') + '" src="' + esc(cachedThumb || '') + '" data-sci="' + esc(r.sci) + '" alt="" loading="lazy" decoding="async" onload="this.classList.add(\'loaded\')">' +
+      '<div class="guide-thumb-wrap' + (cachedThumb ? ' has-photo' : ' no-photo') + '">' +
+        '<div class="guide-thumb-sil">' +
+          silSvg +
+          '<span class="guide-thumb-no-txt">Sem foto</span>' +
+        '</div>' +
+        '<img class="guide-thumb-img' + (cachedThumb ? ' loaded' : '') + '" src="' + esc(cachedThumb || '') + '" data-sci="' + esc(r.sci) + '" alt="" loading="lazy" decoding="async" onload="this.classList.add(\'loaded\');if(this.parentElement){this.parentElement.classList.remove(\'no-photo\');this.parentElement.classList.add(\'has-photo\');}" onerror="this.classList.remove(\'loaded\');this.style.display=\'none\';if(this.parentElement){this.parentElement.classList.add(\'no-photo\');}">' +
       '</div>' +
       '<div class="guide-card-main">' +
         '<div class="guide-card-name">' + esc(r.pop) + '</div>' +
@@ -5780,6 +5895,19 @@ function fetchSpeciesScientificData(sci, r){
     }).catch(function(){});
 
   return Promise.all([gbifP, xenoSoundP, inatSoundP, inatPhotosP, wikiP]).then(function(){
+    var userPh = USER_PHOTOS[sci] || USER_PHOTOS[norm(sci)];
+    if (userPh && userPh.dataUrl){
+      result.photos.unshift({
+        url: userPh.dataUrl,
+        largeUrl: userPh.dataUrl,
+        thumbUrl: userPh.dataUrl,
+        attribution: userPh.author || 'Observador / Usuário',
+        place: userPh.location || 'Brasil',
+        date: userPh.date || '',
+        source: 'Foto Colaborativa (' + (userPh.status === 'pending' ? '🟡 Em análise por Lucas' : 'Validada') + ')',
+        isUserPending: userPh.status === 'pending'
+      });
+    }
     if (result.photos.length > 0){
       result.photo = result.photos[0].largeUrl || result.photos[0].url;
       result.photoCredit = result.photos[0].attribution;
@@ -6543,6 +6671,11 @@ function applySpeciesMedia(media){
           '👈 Deslize ou use as setas para rodar as <b>' + photos.length + ' fotos disponíveis</b> (morfos, macho/fêmea, ângulos).' +
         '</div>';
       }
+      phHtml += '<div class="spec-contrib-strip">' +
+        '<button class="spec-contrib-link-btn" data-act="upload-spec-photo" data-sci="' + esc(sci) + '">' +
+          '📸 Enviar foto adicional / variação morfológica para o desenvolvedor' +
+        '</button>' +
+      '</div>';
       phHtml += '</div>';
       photoBox.innerHTML = phHtml;
 
@@ -6551,7 +6684,18 @@ function applySpeciesMedia(media){
         attachPhotoSwipeListeners(mainWrap, photoBox);
       }
     } else {
-      photoBox.innerHTML = '<div style="text-align:center;padding:24px;color:var(--muted)"><span style="font-size:36px;display:block;margin-bottom:6px">🌿</span><span>Foto não catalogada nesta espécie</span></div>';
+      var silSvgBig = getFaunaSilhouetteSvg(r ? r.c : '', 42, 'var(--accent)');
+      photoBox.innerHTML = '<div class="spec-no-photo-card">' +
+        '<div class="spec-no-photo-sil">' + silSvgBig + '</div>' +
+        '<span class="spec-no-photo-badge">Ainda não há imagem cadastrada</span>' +
+        '<h3 class="spec-no-photo-title">Foto não disponível para esta espécie</h3>' +
+        '<p class="spec-no-photo-desc">Você fotografou esta espécie em campo? Envie seu registro para conferência do administrador do app (Lucas). Após a validação taxonômica, a imagem se tornará a foto oficial da espécie no Guia!</p>' +
+        '<button class="btn btn-primary spec-contrib-btn" data-act="upload-spec-photo" data-sci="' + esc(sci) + '">' +
+          '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>' +
+          '<span>📸 Enviar Foto desta Espécie para Moderação</span>' +
+        '</button>' +
+        '<div class="spec-contrib-note">A foto será enviada diretamente para <b>lucasaosf@gmail.com</b> ou WhatsApp do desenvolvedor.</div>' +
+      '</div>';
     }
   }
 
@@ -6618,6 +6762,233 @@ function applySpeciesMedia(media){
     }
     descWrap.innerHTML = textHtml;
   }
+}
+
+/* ---------- submissão de fotos de espécies para moderação ---------- */
+var photoUploadDraft = {
+  sci: '',
+  dataUrl: '',
+  file: null,
+  author: '',
+  loc: '',
+  date: '',
+  notes: ''
+};
+
+function openPhotoUploadModal(sci){
+  var r = dbGet(sci);
+  var pop = (r && r.pt ? r.pt.split(',')[0].trim() : '') || sci;
+  var grp = (r && r.c) || 'Fauna';
+  var fam = (r && r.f) || '';
+  var userDef = (S.user && S.user.name) || (typeof PROF !== 'undefined' && PROF.cur && PROF.cur.nome) || '';
+  var today = (new Date()).toISOString().slice(0, 10);
+
+  photoUploadDraft = {
+    sci: sci,
+    dataUrl: '',
+    file: null,
+    author: userDef,
+    loc: '',
+    date: today,
+    notes: ''
+  };
+
+  renderPhotoUploadModalView(r, pop, grp, fam);
+}
+
+function renderPhotoUploadModalView(r, pop, grp, fam){
+  var sci = photoUploadDraft.sci;
+  var silSvg = getFaunaSilhouetteSvg(grp, 32, 'var(--accent)');
+  var hasImg = !!photoUploadDraft.dataUrl;
+
+  var h = '<div class="photo-mod-modal">' +
+    '<div style="display:flex;align-items:center;justify-content:space-between;gap:8px">' +
+      '<button class="btn-clean" data-act="up-spec-back" data-sci="' + esc(sci) + '" style="font-size:13px;color:var(--accent);font-weight:700">← Voltar para a espécie</button>' +
+      '<button class="icon-btn" data-act="close-sheet" aria-label="Fechar"><svg class="ico" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg></button>' +
+    '</div>' +
+    
+    '<div class="photo-mod-header">' +
+      '<div style="display:flex;align-items:center;gap:12px">' +
+        '<div style="padding:10px;border-radius:12px;background:var(--surface-2);border:1.5px solid var(--line);color:var(--accent);display:grid;place-items:center">' + silSvg + '</div>' +
+        '<div>' +
+          '<h2>Moderação de Foto</h2>' +
+          '<p><b>' + esc(pop) + '</b> (<i>' + esc(sci) + '</i>) · ' + esc(grp) + (fam ? ' · ' + esc(fam) : '') + '</p>' +
+        '</div>' +
+      '</div>' +
+    '</div>' +
+
+    '<div class="photo-mod-alert">' +
+      '<span style="font-size:22px;line-height:1">🛡️</span>' +
+      '<div>' +
+        '<b>Validação Científica do Administrador:</b>' +
+        '<div style="margin-top:2px">Sua foto passará pela conferência do desenvolvedor do app (<b>Lucas Aosf</b>) para confirmar os caracteres diagnósticos da espécie antes de se tornar a foto oficial do Guia.</div>' +
+      '</div>' +
+    '</div>' +
+
+    '<input type="file" id="up-spec-file" accept="image/*" style="display:none">' +
+
+    (!hasImg ? (
+      '<div class="photo-mod-dropzone" data-act="up-spec-pick">' +
+        '<div style="font-size:38px;line-height:1">📷</div>' +
+        '<b style="font-size:14.5px;color:var(--ink)">Toque para Tirar Foto ou Escolher da Galeria</b>' +
+        '<span style="font-size:11.5px;color:var(--muted)">Formatos: JPG, PNG, WEBP (câmera do celular ou arquivo salvo)</span>' +
+        '<button type="button" class="btn btn-primary" style="margin-top:4px;pointer-events:none">Selecionar Imagem</button>' +
+      '</div>'
+    ) : (
+      '<div class="photo-mod-preview-wrap">' +
+        '<img src="' + esc(photoUploadDraft.dataUrl) + '" alt="Preview">' +
+        '<button type="button" class="photo-mod-change-btn" data-act="up-spec-pick">🔄 Trocar Foto</button>' +
+      '</div>'
+    )) +
+
+    '<div class="photo-mod-fields">' +
+      '<div class="photo-mod-field">' +
+        '<label for="up-author">Autor da Fotografia</label>' +
+        '<input type="text" id="up-author" value="' + esc(photoUploadDraft.author) + '" placeholder="Seu nome ou fotógrafo do registro">' +
+      '</div>' +
+      '<div class="photo-mod-field">' +
+        '<label for="up-loc">Localidade do Registro</label>' +
+        '<input type="text" id="up-loc" value="' + esc(photoUploadDraft.loc) + '" placeholder="Ex.: Ubatuba - SP, Parque Estadual Serra do Mar">' +
+      '</div>' +
+      '<div class="photo-mod-field">' +
+        '<label for="up-date">Data do Registro</label>' +
+        '<input type="date" id="up-date" value="' + esc(photoUploadDraft.date) + '">' +
+      '</div>' +
+      '<div class="photo-mod-field">' +
+        '<label for="up-notes">Notas Ecológicas &amp; Morfológicas (Opcional)</label>' +
+        '<textarea id="up-notes" rows="2" placeholder="Ex.: Macho adulto sobre folhagem, padrão dorsal verrucoso, horário crepuscular...">' + esc(photoUploadDraft.notes) + '</textarea>' +
+      '</div>' +
+    '</div>' +
+
+    '<div class="photo-mod-actions">' +
+      '<button class="btn btn-primary" data-act="up-spec-send-email" style="font-weight:700;display:flex;align-items:center;justify-content:center;gap:8px;padding:12px 14px">' +
+        '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="M22 6l-10 7L2 6"/></svg>' +
+        '<span>Enviar para o Desenvolvedor por E-mail (lucasaosf@gmail.com)</span>' +
+      '</button>' +
+      '<button class="btn" data-act="up-spec-send-wa" style="font-weight:700;display:flex;align-items:center;justify-content:center;gap:8px;padding:11px 14px;background:color-mix(in srgb,#25d366 18%,var(--surface-2));border-color:#25d366;color:var(--ink)">' +
+        '<span style="font-size:16px">💬</span>' +
+        '<span>Enviar Também pelo WhatsApp do Desenvolvedor (+55 12 99182-1729)</span>' +
+      '</button>' +
+      '<button class="btn-clean" data-act="up-spec-back" data-sci="' + esc(sci) + '" style="font-size:12.5px;text-align:center;color:var(--muted);margin-top:2px">Cancelar e fechar</button>' +
+    '</div>' +
+  '</div>';
+
+  openSheet(h);
+
+  var fileInput = $('#up-spec-file');
+  if (fileInput && !fileInput._bound){
+    fileInput._bound = true;
+    fileInput.addEventListener('change', function(e){
+      var f = e.target.files && e.target.files[0];
+      if (!f) return;
+      var reader = new FileReader();
+      reader.onload = function(evt){
+        photoUploadDraft.dataUrl = evt.target.result;
+        photoUploadDraft.file = f;
+        renderPhotoUploadModalView(r, pop, grp, fam);
+      };
+      reader.readAsDataURL(f);
+    });
+  }
+}
+
+function sendPhotoForModeration(method){
+  if (!photoUploadDraft || !photoUploadDraft.sci){
+    toast('Nenhuma espécie selecionada.');
+    return;
+  }
+  if (!photoUploadDraft.dataUrl){
+    toast('Selecione uma foto da espécie antes de enviar.');
+    var fInput = $('#up-spec-file');
+    if (fInput) fInput.click();
+    return;
+  }
+
+  var sci = photoUploadDraft.sci;
+  var r = dbGet(sci);
+  var pop = (r && r.pt ? r.pt.split(',')[0].trim() : '') || sci;
+  var grp = (r && r.c) || 'Fauna';
+  var fam = (r && r.f) || '';
+
+  var author = ($('#up-author') ? $('#up-author').value.trim() : '') || photoUploadDraft.author || (S.user && S.user.name) || 'Observador';
+  var loc = ($('#up-loc') ? $('#up-loc').value.trim() : '') || photoUploadDraft.loc || 'Brasil';
+  var date = ($('#up-date') ? $('#up-date').value.trim() : '') || photoUploadDraft.date || (new Date()).toISOString().slice(0, 10);
+  var notes = ($('#up-notes') ? $('#up-notes').value.trim() : '') || photoUploadDraft.notes || '';
+
+  photoUploadDraft.author = author;
+  photoUploadDraft.loc = loc;
+  photoUploadDraft.date = date;
+  photoUploadDraft.notes = notes;
+
+  // Armazena localmente para visualização instantânea do usuário com status de moderação
+  USER_PHOTOS[sci] = {
+    dataUrl: photoUploadDraft.dataUrl,
+    author: author,
+    location: loc,
+    date: date,
+    notes: notes,
+    status: 'pending',
+    submittedAt: Date.now()
+  };
+  saveUserPhotos();
+  GUIDE_THUMB_CACHE[sci] = photoUploadDraft.dataUrl;
+  saveGuideThumbCacheThrottled();
+
+  // Limpa cache de mídia da espécie para recarregar com a foto do usuário
+  delete MEDIA_CACHE[norm(sci)];
+
+  if (method === 'whatsapp'){
+    var waMsg = 'Olá Lucas! Gostaria de submeter uma foto para moderação no app Lista de Campo:\n\n' +
+      '*Espécie:* ' + sci + ' (' + pop + ')\n' +
+      '*Grupo:* ' + grp + (fam ? ' · Família ' + fam : '') + '\n' +
+      '*Autor da Foto:* ' + author + '\n' +
+      '*Localidade:* ' + loc + '\n' +
+      '*Data do Registro:* ' + date + '\n' +
+      (notes ? ('*Notas Ecológicas:* ' + notes + '\n') : '') +
+      '\nEstou enviando a foto a seguir nesta conversa para você confirmar se é esta espécie e validar a identificação!';
+
+    var waUrl = 'https://wa.me/5512991821729?text=' + encodeURIComponent(waMsg);
+    window.open(waUrl, '_blank');
+    toast('✓ Foto salva no app e abrindo WhatsApp do desenvolvedor (12 99182-1729)! Anexe a imagem na conversa.');
+    openSpeciesDetail(sci);
+    return;
+  }
+
+  // Envio por e-mail (lucasaosf@gmail.com)
+  var subj = '[Lista de Campo] Moderação de Foto: ' + sci + ' (' + pop + ')';
+  var body = 'SOLICITAÇÃO DE MODERAÇÃO DE FOTO DE ESPÉCIE — APP LISTA DE CAMPO\n' +
+    '--------------------------------------------------\n\n' +
+    'Prezado Lucas (Desenvolvedor / Administrador),\n\n' +
+    'Submeto a fotografia em anexo para conferência científica e validação de caracteres morfológicos:\n\n' +
+    '• Nome Científico: ' + sci + '\n' +
+    '• Nome Popular: ' + pop + '\n' +
+    '• Grupo Faunístico: ' + grp + (fam ? ' (Família ' + fam + ')' : '') + '\n' +
+    '• Fotógrafo / Autor: ' + author + '\n' +
+    '• Localidade: ' + loc + '\n' +
+    '• Data do Registro: ' + date + '\n' +
+    (notes ? ('• Notas Ecológicas: ' + notes + '\n') : '') +
+    '\n' +
+    '--------------------------------------------------\n' +
+    'ANEXO: A foto selecionada foi salva no seu dispositivo para anexo neste e-mail.\n' +
+    '--------------------------------------------------\n' +
+    'Enviado através do aplicativo Caderneta de Campo (v' + APP_V + ').';
+
+  // Salva download da imagem com nome taxonômico limpo para facilitar o anexo
+  try {
+    var a = document.createElement('a');
+    a.href = photoUploadDraft.dataUrl;
+    var safeName = ('foto-' + sci + '-' + date).toLowerCase().replace(/[^a-z0-9_-]+/g, '_') + '.jpg';
+    a.download = safeName;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  } catch(e){}
+
+  var mailto = 'mailto:lucasaosf@gmail.com?subject=' + encodeURIComponent(subj) + '&body=' + encodeURIComponent(body);
+  window.location.href = mailto;
+
+  toast('✓ Foto salva e em moderação! Abrindo seu e-mail para enviar a lucasaosf@gmail.com.');
+  openSpeciesDetail(sci);
 }
 
 function uploadListToDb(c){
@@ -6918,6 +7289,25 @@ var A = {
     var photoBox = b.closest('#spec-photo-box');
     if (!photoBox) return;
     setSpecGalleryIndex(photoBox, idx);
+  },
+  'upload-spec-photo': function(b){
+    var sci = b.getAttribute('data-sci');
+    if (sci) openPhotoUploadModal(sci);
+  },
+  'up-spec-pick': function(){
+    var fi = $('#up-spec-file');
+    if (fi) fi.click();
+  },
+  'up-spec-send-email': function(){
+    sendPhotoForModeration('email');
+  },
+  'up-spec-send-wa': function(){
+    sendPhotoForModeration('whatsapp');
+  },
+  'up-spec-back': function(b){
+    var sci = b.getAttribute('data-sci');
+    if (sci) openSpeciesDetail(sci);
+    else closeSheet();
   },
   'spec-tab': function(b){
     var tab = b.getAttribute('data-tab');

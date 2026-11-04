@@ -1,11 +1,11 @@
 {
-  "v": "2.7",
-  "nome": "2.7",
+  "v": "2.8",
+  "nome": "2.8",
   "data": "2026-11-04",
   "novidades": [
-    "Miniaturas fotográficas nos cards do Guia de Espécies e da Life List: identificação visual rápida antes de abrir a ficha da espécie, com carregamento assíncrono e cache local",
-    "Rodagem aprimorada das fotos da espécie: navegação lateral por setas (‹ e ›), rotação contínua, contador, barra de miniaturas sincronizada e suporte a swipe por toque no celular",
-    "Diagnoses com caracteres morfológicos detalhados: descrição precisa de porte, cabeça, focinho, olhos, escamas, textura da pele, pelagem, plumagem, membros, dígitos e cauda",
-    "Chaves diferenciais de campo: orientações diagnósticas práticas para distinguir a espécie de congêneres semelhantes no bioma brasileiro"
+    "Silhuetas anatômicas por grupo faunístico (Aves, Mamíferos, Anfíbios e Répteis) nas espécies sem imagem do Guia e da Life List, com destaque visual 'SEM FOTO'",
+    "Submissão colaborativa de fotos: possibilidade de qualquer usuário subir fotos de campo para espécies sem imagem disponível",
+    "Moderação científica pelo desenvolvedor (Lucas Aosf): envio automático por e-mail (lucasaosf@gmail.com) e canal direto via WhatsApp (+55 12 99182-1729) para validação taxonômica dos caracteres diagnósticos",
+    "Visualização imediata em moderação: a imagem enviada é exibida instantaneamente no app com selo de moderação até a homologação final"
   ]
 }
