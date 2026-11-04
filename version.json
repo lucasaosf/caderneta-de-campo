@@ -1,13 +1,13 @@
 {
-  "v": 20,
-  "nome": "20",
+  "v": 21,
+  "nome": "21",
   "data": "2026-11-04",
   "novidades": [
+    "Aba completa da Life List: toque na Life List do seu perfil ou tela inicial para ver todas as espécies registradas em campo",
+    "Ficha da espécie integrada: veja quantas vezes você já registrou cada espécie na sua carreira e a data do último encontro",
+    "Filtros por grupo faunístico (Aves, Mamíferos, Anfíbios, Répteis) e ordenação por mais recentes ou mais avistadas na Life List",
     "Opção de upar listas finalizadas diretamente para a base de dados do desenvolvedor (Lucas Aøsf) para alimentar o mapa nacional de espécies",
     "Mapa interativo de distribuição do Brasil com separação dos 6 Biomas oficiais, 27 Estados (UFs) e pontos GPS de campo com coordenadas",
-    "Fontes de informação científica aprofundadas via GBIF, iNaturalist e referências ao Amphibians of the World (AMNH / Darrel Frost)",
-    "Aba dedicada de Referências Científicas & Artigos com links diretos com 1 clique para AMNH, AmphibiaWeb, WikiAves, GBIF, SiBBr, Google Acadêmico e PubMed",
-    "Suporte direto por WhatsApp com o desenvolvedor Lucas Aøsf ((12) 99182-1729)",
-    "Histórico vitalício de perfil (Life List) permanente que nunca diminui ao apagar listas antigas"
+    "Fontes de informação científica aprofundadas via GBIF, iNaturalist e referências ao Amphibians of the World (AMNH / Darrel Frost)"
   ]
 }

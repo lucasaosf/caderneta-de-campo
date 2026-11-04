@@ -693,6 +693,15 @@ body.selecting .wm{display:none}
 .prof-tags{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin-top:8px}
 .prof-tags span{padding:4px 10px;border-radius:999px;background:var(--surface-2);border:1px solid var(--line);font-size:13px;color:var(--muted)}
 .prof-tags b{color:var(--ink);font-weight:600}
+.prof-tags .prof-tag-btn{padding:4px 12px;border-radius:999px;background:color-mix(in srgb,var(--bronze) 18%,var(--surface-2));border:1.5px solid color-mix(in srgb,var(--bronze) 55%,var(--line));font-size:13px;color:var(--ink);cursor:pointer;display:inline-flex;align-items:center;gap:5px;font-family:inherit;transition:all .15s}
+.prof-tags .prof-tag-btn:hover,.prof-tags .prof-tag-btn:active{transform:scale(1.03);background:color-mix(in srgb,var(--bronze) 32%,var(--surface-2));border-color:var(--bronze)}
+.prof-tags .prof-tag-btn .tag-hint{font-size:11px;color:var(--bronze);font-weight:700}
+.spec-lifelist-badge{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:12px;background:color-mix(in srgb,var(--bronze) 16%,var(--surface-2));border:1.5px solid color-mix(in srgb,var(--bronze) 40%,transparent);color:var(--ink);font-size:12.5px;margin-bottom:6px}
+.spec-lifelist-badge b{display:block;font-size:13px;color:var(--bronze);font-weight:700}
+.spec-lifelist-badge small{color:var(--muted);font-size:11.5px;display:block;margin-top:1px}
+.ll-card{transition:transform .12s, border-color .15s, background .15s}
+.ll-card:hover{border-color:var(--bronze);background:color-mix(in srgb,var(--bronze) 6%,var(--surface))}
+.ll-card:active{transform:scale(0.99)}
 .prof-photo-row{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:12px}
 .prof-photo-row .btn{min-height:40px;padding:0 14px;font-size:14px}
 .prof-busy{opacity:.55;pointer-events:none}
@@ -749,6 +758,7 @@ body.selecting .wm{display:none}
     <div id="home-open"></div>
     <div id="home-lists"></div>
     <nav class="home-foot" aria-label="Outras opções">
+      <button class="btn" data-act="open-lifelist"><svg class="ico" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>Minha Life List <span class="num" id="home-lifelist-count"></span></button>
       <button class="btn" data-act="open-guide"><svg class="ico" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>Guia de Espécies <span class="num">~4,7k</span></button>
       <button class="btn" data-act="open-names">Meus nomes <span class="num" id="names-count"></span></button>
       <button class="btn" data-act="backup">Backup e exportação</button>
@@ -879,6 +889,54 @@ body.selecting .wm{display:none}
       <button class="btn" data-act="guide-load-more" style="width:100%;padding:12px;font-weight:600">Carregar mais espécies...</button>
     </div>
   </section>
+
+  <!-- MINHA LIFE LIST -->
+  <section id="lifelist" aria-label="Minha Life List" hidden>
+    <div class="page-nav">
+      <button class="icon-btn" data-act="lifelist-back" aria-label="Voltar"><svg class="ico" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg></button>
+      <div class="guide-head-info">
+        <h1 style="font-size:18px;margin:0;line-height:1.2;display:flex;align-items:center;gap:6px">⭐ Minha Life List</h1>
+        <small id="lifelist-count-sub" style="color:var(--muted);font-size:12px">Carregando espécies...</small>
+      </div>
+      <button class="icon-btn" data-act="lifelist-share" aria-label="Compartilhar Life List" title="Copiar resumo da Life List">
+        <svg class="ico" viewBox="0 0 24 24"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+      </button>
+    </div>
+    
+    <div class="guide-controls">
+      <!-- Filtros por Grupo de Fauna -->
+      <div class="seg seg-guide-tax" id="lifelist-seg-tax" role="group" aria-label="Grupo Faunístico">
+        <button class="seg-btn on" data-act="lifelist-tax" data-tax="">Todas (<span id="ll-count-all">0</span>)</button>
+        <button class="seg-btn" data-act="lifelist-tax" data-tax="Ave">🦅 Aves (<span id="ll-count-ave">0</span>)</button>
+        <button class="seg-btn" data-act="lifelist-tax" data-tax="Mamífero">🐾 Mamíferos (<span id="ll-count-mam">0</span>)</button>
+        <button class="seg-btn" data-act="lifelist-tax" data-tax="Anfíbio">🐸 Anfíbios (<span id="ll-count-anf">0</span>)</button>
+        <button class="seg-btn" data-act="lifelist-tax" data-tax="Réptil">🐍 Répteis (<span id="ll-count-rep">0</span>)</button>
+      </div>
+
+      <!-- Barra de Busca -->
+      <div class="guide-search-wrap">
+        <label class="vh" for="lifelist-q">Buscar na Life List</label>
+        <input class="filter" id="lifelist-q" type="search" placeholder="Buscar espécie ou família na sua Life List..." autocomplete="off" autocapitalize="none" spellcheck="false">
+      </div>
+
+      <!-- Ordenação & Filtros Rápidos -->
+      <div class="guide-chips-scroll">
+        <select id="lifelist-sort-sel" class="chip-select" aria-label="Ordenar Life List">
+          <option value="recent">Mais recentes (último encontro)</option>
+          <option value="count">Mais avistadas (indivíduos)</option>
+          <option value="alpha">Ordem alfabética (A-Z)</option>
+          <option value="tax">Ordem taxonômica</option>
+        </select>
+        <button class="chip-guide-filter" id="ll-threat-btn" data-act="lifelist-threat">⚠️ Ameaçadas</button>
+        <button class="chip-guide-filter" id="ll-endem-btn" data-act="lifelist-endem">🇧🇷 Endêmicas BR</button>
+      </div>
+    </div>
+
+    <div class="guide-list" id="lifelist-items"></div>
+    <div class="guide-more-wrap" id="lifelist-more-wrap" hidden>
+      <button class="btn" data-act="lifelist-load-more" style="width:100%;padding:12px;font-weight:600">Carregar mais espécies...</button>
+    </div>
+  </section>
 </div>
 
 <div class="sheet-wrap" id="sheet" hidden>
@@ -888,9 +946,9 @@ body.selecting .wm{display:none}
 <div class="sel-bar" id="sel-bar" hidden></div>
 <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 <datalist id="dl-proj"></datalist><datalist id="dl-camp"></datalist><datalist id="dl-ua"></datalist><datalist id="dl-met"></datalist>
-<script src="especies.js?v=20"></script>
-<script src="planilha.js?v=20"></script>
-<script src="firebase-config.js?v=20"></script>
+<script src="especies.js?v=21"></script>
+<script src="planilha.js?v=21"></script>
+<script src="firebase-config.js?v=21"></script>
 
 <script>
 (function(){
@@ -988,14 +1046,14 @@ var S = {
   sugg:[], suggIdx:0, undo:null, sheetClose:null, editingName:null, demo:3,
   alias:{}, defMode:LS.get('defMode', 'V'), theme:LS.get('theme', 'dark'), filterTax:''
 };
-var APP_V = 20;
+var APP_V = 21;
 var NOVIDADES = [
-  'Upar listas finalizadas diretamente para o banco de dados do desenvolvedor (Lucas Aøsf) para alimentar o mapa de distribuição.',
+  'Visualização completa da Life List: toque na Life List do seu perfil ou tela inicial para ver todas as espécies registradas com fotos, mapas e literatura.',
+  'Ficha da espécie integrada com Life List: veja quantas vezes você já registrou cada espécie na sua carreira e a data do último encontro.',
+  'Filtros por grupo faunístico (Aves, Mamíferos, Anfíbios, Répteis) e ordenação por mais recentes ou mais avistadas na Life List.',
+  'Upar listas finalizadas diretamente para o banco de dados do desenvolvedor (Lucas Aøsf) para alimentar o mapa nacional de espécies.',
   'Mapa interativo de distribuição do Brasil com separação dos 6 Biomas oficiais, 27 Estados (UFs) e pontos GPS de campo com coordenadas.',
-  'Fontes de informação científica aprofundadas via GBIF, iNaturalist e Amphibians of the World (AMNH / Darrel Frost).',
-  'Aba dedicada de Referências Científicas & Artigos com links diretos para AMNH, AmphibiaWeb, WikiAves, GBIF, SiBBr, Google Acadêmico e PubMed.',
-  'Suporte direto por WhatsApp com o desenvolvedor Lucas Aøsf ((12) 99182-1729).',
-  'Histórico vitalício de perfil (Life List) permanente que nunca diminui ao apagar listas antigas.'
+  'Fontes de informação científica aprofundadas via GBIF, iNaturalist e Amphibians of the World (AMNH / Darrel Frost).'
 ];
 
 /* ---------- banco de espécies ---------- */
@@ -1521,9 +1579,33 @@ function syncCareerWithLists(){
     var sumInd = 0;
     (lst.species || []).forEach(function(s){
       var k = norm(s.name);
-      if (k && !c.especies[k]){
-        c.especies[k] = true;
+      if (!k) return;
+      var curVal = c.especies[k];
+      var sci = s.sci || resolveSci(s.name) || '';
+      var dbItem = dbGet(sci || s.name);
+      if (!dbItem && DB.n && DB.n[k]) dbItem = DB.n[k];
+      var pop = (dbItem && dbItem.pt ? dbItem.pt.split(',')[0].trim() : s.name);
+      var sciFinal = (dbItem && dbItem.n) || sci || s.name;
+      var grp = (dbItem && dbItem.c) || lst.group || 'Fauna';
+
+      if (!curVal || typeof curVal !== 'object'){
+        c.especies[k] = {
+          name: s.name,
+          sci: sciFinal,
+          pop: pop,
+          group: grp,
+          count: +s.count || 0,
+          firstSeen: lst.start || '',
+          lastSeen: lst.start || '',
+          listsCount: 1
+        };
         changed = true;
+      } else {
+        if (!curVal.sci && sciFinal){ curVal.sci = sciFinal; changed = true; }
+        if (!curVal.pop && pop){ curVal.pop = pop; changed = true; }
+        if (!curVal.group && grp){ curVal.group = grp; changed = true; }
+        if (lst.start && (!curVal.firstSeen || lst.start < curVal.firstSeen)){ curVal.firstSeen = lst.start; changed = true; }
+        if (lst.start && (!curVal.lastSeen || lst.start > curVal.lastSeen)){ curVal.lastSeen = lst.start; changed = true; }
       }
       sumInd += (+s.count || 0);
     });
@@ -1544,6 +1626,103 @@ function profStats(){
     ind: Math.max(c.totalRegistros || 0, 0),
     curListas: curIds.length
   };
+}
+function getLifeListArray(){
+  var c = syncCareerWithLists();
+  var keys = Object.keys(c.especies || {});
+  var list = [];
+  
+  var liveData = {};
+  Object.keys(S.lists || {}).forEach(function(lid){
+    var lst = S.lists[lid];
+    if (!lst) return;
+    (lst.species || []).forEach(function(s){
+      var k = norm(s.name);
+      if (!k) return;
+      if (!liveData[k]) liveData[k] = { count: 0, dates: [], lists: 0 };
+      liveData[k].count += (+s.count || 0);
+      liveData[k].lists += 1;
+      if (lst.start) liveData[k].dates.push(lst.start);
+    });
+  });
+
+  keys.forEach(function(k){
+    var item = c.especies[k];
+    var sci = '';
+    var pop = '';
+    var group = '';
+    var count = 0;
+    var firstSeen = '';
+    var lastSeen = '';
+    var listsCount = 1;
+    
+    if (typeof item === 'object' && item !== null){
+      sci = item.sci || item.name || '';
+      pop = item.pop || item.name || '';
+      group = item.group || '';
+      count = item.count || 0;
+      firstSeen = item.firstSeen || '';
+      lastSeen = item.lastSeen || '';
+      listsCount = item.listsCount || 1;
+    } else {
+      sci = resolveSci(k) || k;
+      var dbItem = dbGet(sci) || (DB.n && DB.n[k]);
+      if (dbItem){
+        sci = dbItem.n;
+        pop = (dbItem.pt || '').split(',')[0].trim() || dbItem.n;
+        group = dbItem.c || 'Fauna';
+      } else {
+        pop = k;
+      }
+    }
+    
+    var ld = liveData[k];
+    if (ld){
+      if (ld.count > count) count = ld.count;
+      if (ld.lists > listsCount) listsCount = ld.lists;
+      if (ld.dates.length){
+        ld.dates.sort();
+        if (!firstSeen || ld.dates[0] < firstSeen) firstSeen = ld.dates[0];
+        if (!lastSeen || ld.dates[ld.dates.length - 1] > lastSeen) lastSeen = ld.dates[ld.dates.length - 1];
+      }
+    }
+    
+    var dbObj = dbGet(sci) || (DB.n && DB.n[norm(sci)]) || (DB.n && DB.n[k]);
+    if (dbObj){
+      sci = dbObj.n;
+      if (!pop || pop === k) pop = (dbObj.pt || '').split(',')[0].trim() || dbObj.n;
+      if (!group) group = dbObj.c || 'Fauna';
+    }
+    
+    list.push({
+      key: k,
+      sci: sci || k,
+      pop: pop || sci || k,
+      group: group || 'Fauna',
+      count: count,
+      firstSeen: firstSeen,
+      lastSeen: lastSeen,
+      listsCount: listsCount,
+      db: dbObj
+    });
+  });
+
+  var bySci = {};
+  list.forEach(function(sp){
+    var idKey = norm(sp.sci || sp.pop || sp.key);
+    if (!bySci[idKey]){
+      bySci[idKey] = sp;
+    } else {
+      var prev = bySci[idKey];
+      prev.count += sp.count;
+      prev.listsCount += sp.listsCount;
+      if (sp.firstSeen && (!prev.firstSeen || sp.firstSeen < prev.firstSeen)) prev.firstSeen = sp.firstSeen;
+      if (sp.lastSeen && (!prev.lastSeen || sp.lastSeen > prev.lastSeen)) prev.lastSeen = sp.lastSeen;
+      if (!prev.db && sp.db) prev.db = sp.db;
+    }
+  });
+
+  return Object.keys(bySci).map(function(k){ return bySci[k]; });
 }
 
 /* ---------- rede de ocorrências e distribuição de espécies (estilo WikiAves) ---------- */
@@ -1867,10 +2046,12 @@ function go(screen, id, noHist){
   $('#list').hidden = screen !== 'list';
   $('#names').hidden = screen !== 'names';
   var gEl = $('#guide'); if (gEl) gEl.hidden = screen !== 'guide';
+  var llEl = $('#lifelist'); if (llEl) llEl.hidden = screen !== 'lifelist';
   hideSugg();
   if (screen === 'cover') renderCover();
   if (screen === 'home') renderHome();
   if (screen === 'guide') renderGuide();
+  if (screen === 'lifelist') renderLifeList();
   if (screen === 'list'){
     var cl = cur();
     if (cl){
@@ -1885,7 +2066,7 @@ function go(screen, id, noHist){
   if (!noHist) histSync(screen);
 }
 /* Voltar do celular: lista → Minhas listas → capa → sai do app */
-var DEPTH = {cover:0, home:1, list:2, names:2, guide:2};
+var DEPTH = {cover:0, home:1, list:2, names:2, guide:2, lifelist:2};
 function histDepth(){ var st = history.state; return st && typeof st.d === 'number' ? st.d : 0; }
 function histSync(screen){
   if (FRAMED) return;
@@ -1914,15 +2095,18 @@ function renderCover(){
   if (done) bits.push(plural(done, 'lista finalizada', 'listas finalizadas'));
   if (open.length) bits.push(open.length + ' em andamento');
   $('#cover-stat').textContent = bits.length ? bits.join(' · ') : 'Nenhuma lista ainda — comece a primeira.';
+  var st = profStats();
   var h = '';
   if (open.length){
     h += '<button class="cover-btn primary" data-act="open" data-id="' + open[0].id + '"><span class="pill-on" aria-hidden="true"></span>Continuar: ' + esc(title(open[0])) + '</button>';
     h += '<button class="cover-btn ghost" data-act="to-home">Minhas listas</button>';
+    h += '<button class="cover-btn ghost" data-act="open-lifelist">⭐ Minha Life List' + (st.especies ? ' (' + st.especies + ')' : '') + '</button>';
     h += '<button class="cover-btn ghost" data-act="open-guide">📖 Guia de Espécies do Brasil</button>';
     h += '<button class="cover-btn ghost" data-act="new-list">+ Nova lista</button>';
   } else {
     h += '<button class="cover-btn primary" data-act="new-list">+ Nova lista</button>';
     h += '<button class="cover-btn ghost" data-act="to-home">Minhas listas' + (done ? ' (' + done + ')' : '') + '</button>';
+    h += '<button class="cover-btn ghost" data-act="open-lifelist">⭐ Minha Life List' + (st.especies ? ' (' + st.especies + ')' : '') + '</button>';
     h += '<button class="cover-btn ghost" data-act="open-guide">📖 Guia de Espécies do Brasil</button>';
   }
   $('#cover-actions').innerHTML = h;
@@ -2089,6 +2273,9 @@ function renderHome(){
   if (all.length) h += '<p class="lp-hint">' + ICO.hand + 'Segure uma lista para exportar, editar ou excluir.</p>';
   $('#home-lists').innerHTML = h;
   $('#names-count').textContent = S.names.length ? '(' + S.names.length + ')' : '';
+  var st = profStats();
+  var hlc = $('#home-lifelist-count');
+  if (hlc) hlc.textContent = st.especies ? '(' + st.especies + ')' : '';
   renderSync();
 }
 var CHECK = '<svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7"/></svg>';
@@ -3017,8 +3204,11 @@ function openAccount(){
       '<input class="vh" id="pf-file" type="file" accept="image/*">' +
       '<div class="prof-name">' + esc(nome || 'Seu perfil') + '</div>' +
       '<div class="prof-mail">' + esc(u.email || '') + (u.email ? ' · ' : '') + 'entrou com ' + via + '</div>' +
-      '<div class="prof-tags"><span title="Total histórico de listas criadas"><b>' + st.listas + '</b> ' + (st.listas === 1 ? 'lista' : 'listas') + '</span><span title="Life List: total de espécies diferentes observadas"><b>' + st.especies + '</b> ' + (st.especies === 1 ? 'espécie' : 'espécies') + ' (Life List)</span><span title="Total de indivíduos registrados"><b>' + st.ind.toLocaleString('pt-BR') + '</b> ' + (st.ind === 1 ? 'registro' : 'registros') + '</span></div>' +
+      '<div class="prof-tags"><span title="Total histórico de listas criadas"><b>' + st.listas + '</b> ' + (st.listas === 1 ? 'lista' : 'listas') + '</span><button class="prof-tag-btn" data-act="open-lifelist" title="Toque para abrir sua Life List"><b>' + st.especies + '</b> ' + (st.especies === 1 ? 'espécie' : 'espécies') + ' (Life List) <span class="tag-hint">▶</span></button><span title="Total de indivíduos registrados"><b>' + st.ind.toLocaleString('pt-BR') + '</b> ' + (st.ind === 1 ? 'registro' : 'registros') + '</span></div>' +
       (st.curListas !== st.listas ? '<div style="font-size:11.5px;color:var(--muted);margin-top:4px;text-align:center">✨ Histórico vitalício mantido (' + st.curListas + ' no aparelho)</div>' : '') +
+      '<button class="btn btn-primary" data-act="open-lifelist" style="width:100%;margin-top:10px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:8px;background:color-mix(in srgb,var(--bronze) 22%,var(--surface-2));border:1.5px solid var(--bronze);color:var(--ink)">' +
+      '<svg class="ico" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>' +
+      '<span>Ver Minha Life List (' + st.especies + ' ' + (st.especies === 1 ? 'espécie' : 'espécies') + ')</span></button>' +
       '<div class="prof-photo-row"><label class="btn" for="pf-file">' + (PROF.foto() ? 'Trocar foto' : 'Pôr foto') + '</label>' +
       (PROF.custom() ? '<button class="btn" data-act="pf-remove">' + (u.photoURL ? 'Usar foto do Google' : 'Remover foto') + '</button>' : '') + '</div>' +
       '</div>' +
@@ -3027,7 +3217,10 @@ function openAccount(){
       '<div class="inline-row"><button class="btn" data-act="auth-logout">Sair</button><button class="btn" data-act="auth-delete">Excluir minha conta</button></div></div>';
   } else if (AUTH.ready()){
     var st = profStats();
-    h += '<div class="prof-tags" style="margin-bottom:12px"><span title="Total de listas criadas"><b>' + st.listas + '</b> ' + (st.listas === 1 ? 'lista' : 'listas') + '</span><span title="Life List: espécies diferentes observadas"><b>' + st.especies + '</b> ' + (st.especies === 1 ? 'espécie' : 'espécies') + ' (Life List)</span><span title="Total de registros"><b>' + st.ind.toLocaleString('pt-BR') + '</b> ' + (st.ind === 1 ? 'registro' : 'registros') + '</span></div>' +
+    h += '<div class="prof-tags" style="margin-bottom:8px"><span title="Total de listas criadas"><b>' + st.listas + '</b> ' + (st.listas === 1 ? 'lista' : 'listas') + '</span><button class="prof-tag-btn" data-act="open-lifelist" title="Toque para abrir sua Life List"><b>' + st.especies + '</b> ' + (st.especies === 1 ? 'espécie' : 'espécies') + ' (Life List) <span class="tag-hint">▶</span></button><span title="Total de registros"><b>' + st.ind.toLocaleString('pt-BR') + '</b> ' + (st.ind === 1 ? 'registro' : 'registros') + '</span></div>' +
+      '<button class="btn btn-primary" data-act="open-lifelist" style="width:100%;margin-bottom:12px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:8px;background:color-mix(in srgb,var(--bronze) 22%,var(--surface-2));border:1.5px solid var(--bronze);color:var(--ink)">' +
+      '<svg class="ico" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>' +
+      '<span>Ver Minha Life List (' + st.especies + ' ' + (st.especies === 1 ? 'espécie' : 'espécies') + ')</span></button>' +
       '<p class="store-note">Entrar é opcional. Com uma conta, suas listas e apelidos ficam guardados na nuvem e aparecem em outro celular. Sem conta, tudo fica salvo só neste aparelho.</p>' +
       '<div class="form">' + (NATIVE ? '' : '<button class="btn btn-google" data-act="auth-google">' + G_SVG + 'Entrar com Google</button>') +
       (AUTH.apple_on() && !NATIVE ? '<button class="btn" data-act="auth-apple"> Entrar com Apple</button>' : '') +
@@ -4214,6 +4407,241 @@ function renderGuideList(){
   }
 }
 
+/* ---------- minha life list (histórico vitalício de espécies) ---------- */
+var LIFELIST = {
+  tax: '',
+  q: '',
+  sort: 'recent',
+  threatOnly: false,
+  endemOnly: false,
+  limit: 40,
+  step: 40,
+  hits: []
+};
+
+function initLifeListListeners(){
+  var q = $('#lifelist-q');
+  if (q && !q._bound){
+    q._bound = true;
+    q.addEventListener('input', function(){
+      LIFELIST.q = this.value;
+      renderLifeList();
+    });
+  }
+  var sel = $('#lifelist-sort-sel');
+  if (sel && !sel._bound){
+    sel._bound = true;
+    sel.addEventListener('change', function(){
+      LIFELIST.sort = this.value;
+      renderLifeList();
+    });
+  }
+}
+
+function renderLifeList(){
+  initLifeListListeners();
+  var all = getLifeListArray();
+  
+  var cAll = all.length;
+  var cAve = all.filter(function(x){ return x.group === 'Ave' || (x.db && x.db.c === 'Ave'); }).length;
+  var cMam = all.filter(function(x){ return x.group === 'Mamífero' || (x.db && x.db.c === 'Mamífero'); }).length;
+  var cAnf = all.filter(function(x){ return x.group === 'Anfíbio' || (x.db && x.db.c === 'Anfíbio'); }).length;
+  var cRep = all.filter(function(x){ return x.group === 'Réptil' || (x.db && x.db.c === 'Réptil'); }).length;
+  
+  var elAll = $('#ll-count-all'); if (elAll) elAll.textContent = cAll;
+  var elAve = $('#ll-count-ave'); if (elAve) elAve.textContent = cAve;
+  var elMam = $('#ll-count-mam'); if (elMam) elMam.textContent = cMam;
+  var elAnf = $('#ll-count-anf'); if (elAnf) elAnf.textContent = cAnf;
+  var elRep = $('#ll-count-rep'); if (elRep) elRep.textContent = cRep;
+  
+  var hits = all.filter(function(r){
+    if (LIFELIST.tax){
+      var g = r.group || (r.db && r.db.c) || '';
+      if (g !== LIFELIST.tax) return false;
+    }
+    if (LIFELIST.threatOnly){
+      if (!r.db || !isThreatened(r.db)) return false;
+    }
+    if (LIFELIST.endemOnly){
+      if (!r.db || r.db.e !== 'Sim') return false;
+    }
+    if (LIFELIST.q){
+      var words = norm(LIFELIST.q).split(/\s+/).filter(Boolean);
+      var str = norm((r.pop || '') + ' ' + (r.sci || '') + ' ' + ((r.db && r.db.f) || '') + ' ' + ((r.db && r.db.pt) || ''));
+      for (var w = 0; w < words.length; w++){
+        if (str.indexOf(words[w]) < 0) return false;
+      }
+    }
+    return true;
+  });
+
+  if (LIFELIST.sort === 'recent'){
+    hits.sort(function(a, b){
+      var da = a.lastSeen || a.firstSeen || '';
+      var db = b.lastSeen || b.firstSeen || '';
+      if (da && db) return db.localeCompare(da);
+      if (da) return -1;
+      if (db) return 1;
+      return a.pop.localeCompare(b.pop, 'pt');
+    });
+  } else if (LIFELIST.sort === 'count'){
+    hits.sort(function(a, b){
+      if (b.count !== a.count) return b.count - a.count;
+      return a.pop.localeCompare(b.pop, 'pt');
+    });
+  } else if (LIFELIST.sort === 'alpha'){
+    hits.sort(function(a, b){
+      return a.pop.localeCompare(b.pop, 'pt');
+    });
+  } else if (LIFELIST.sort === 'tax'){
+    hits.sort(function(a, b){
+      var da = a.db || {}, db = b.db || {};
+      var ka = (da.c || '~') + (da.o || '~') + (da.f || '~') + a.sci;
+      var kb = (db.c || '~') + (db.o || '~') + (db.f || '~') + b.sci;
+      return ka.localeCompare(kb, 'pt');
+    });
+  }
+
+  LIFELIST.hits = hits;
+  
+  var sub = $('#lifelist-count-sub');
+  if (sub){
+    if (hits.length === all.length){
+      var sumInd = 0;
+      all.forEach(function(x){ sumInd += (x.count || 0); });
+      sub.textContent = all.length.toLocaleString('pt-BR') + ' ' + (all.length === 1 ? 'espécie única' : 'espécies únicas') + (sumInd > 0 ? ' · ' + sumInd.toLocaleString('pt-BR') + ' registros de indivíduos' : '');
+    } else {
+      sub.textContent = hits.length.toLocaleString('pt-BR') + ' de ' + all.length.toLocaleString('pt-BR') + ' espécies na sua Life List';
+    }
+  }
+
+  renderLifeListItems();
+}
+
+function renderLifeListItems(){
+  var box = $('#lifelist-items');
+  if (!box) return;
+  var all = getLifeListArray();
+  
+  if (!all.length){
+    box.innerHTML = '<div class="empty-hint" style="text-align:center;padding:40px 16px">' +
+      '<div style="font-size:46px;margin-bottom:12px">⭐</div>' +
+      '<h2 style="font-size:19px;margin:0 0 6px;font-family:var(--display)">Sua Life List ainda está vazia</h2>' +
+      '<p style="font-size:13.5px;color:var(--muted);max-width:340px;margin:0 auto 18px;line-height:1.45">As espécies registradas nas suas listas de campo aparecerão aqui com fotos, sons, mapa de distribuição do Brasil e referências científicas.</p>' +
+      '<div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">' +
+      '<button class="btn btn-primary" data-act="new-list">+ Criar primeira lista</button>' +
+      '<button class="btn" data-act="open-guide">📖 Ver Guia de Espécies</button>' +
+      '</div></div>';
+    var mw = $('#lifelist-more-wrap'); if (mw) mw.hidden = true;
+    return;
+  }
+
+  var visible = LIFELIST.hits.slice(0, LIFELIST.limit);
+  if (!visible.length){
+    box.innerHTML = '<div class="empty-hint" style="text-align:center;padding:32px 16px">' +
+      '<p style="font-size:15px;font-weight:600;margin:0 0 6px">Nenhuma espécie encontrada com esses filtros</p>' +
+      '<small style="color:var(--muted)">Tente ajustar o grupo de fauna selecionado ou limpar o campo de busca.</small>' +
+      '</div>';
+    var mw = $('#lifelist-more-wrap'); if (mw) mw.hidden = true;
+    return;
+  }
+
+  var h = '';
+  for (var i = 0; i < visible.length; i++){
+    var r = visible[i];
+    var db = r.db;
+    var taxIcon = r.group === 'Ave' ? '🦅' : r.group === 'Mamífero' ? '🐾' : r.group === 'Anfíbio' ? '🐸' : r.group === 'Réptil' ? '🐍' : '🌿';
+    var isThreat = db ? isThreatened(db) : false;
+    var amenText = db ? ((db.mma && AMEN_MAP[db.mma]) ? db.mma : ((db.iucn && AMEN_MAP[db.iucn]) ? db.iucn : '')) : '';
+
+    h += '<div class="guide-card ll-card" data-act="lifelist-card" data-sci="' + esc(r.sci) + '">' +
+      '<div class="guide-card-main">' +
+        '<div class="guide-card-name">' + esc(r.pop) + '</div>' +
+        '<div class="guide-card-sci">' + esc(r.sci) + (db && db.a ? ' <small style="font-style:normal;font-size:11px;opacity:0.8">' + esc(db.a) + '</small>' : '') + '</div>' +
+        '<div class="guide-card-tags">' +
+          '<span class="guide-tag tax">' + taxIcon + ' ' + esc(r.group) + (db && db.f ? ' · ' + esc(db.f) : '') + '</span>' +
+          (r.count > 0 ? '<span class="guide-tag" style="background:color-mix(in srgb,var(--bronze) 20%,var(--surface-2));color:var(--bronze);font-weight:700">★ ' + r.count + ' ' + (r.count === 1 ? 'indivíduo' : 'indivíduos') + '</span>' : '') +
+          (r.lastSeen ? '<span class="guide-tag">Último: ' + fDay(r.lastSeen) + '</span>' : '') +
+          (isThreat ? '<span class="guide-tag amen">⚠️ ' + esc(amenText) + '</span>' : '') +
+          (db && db.e === 'Sim' ? '<span class="guide-tag endem">🇧🇷 Endêmica BR</span>' : '') +
+        '</div>' +
+      '</div>' +
+      '<div class="guide-card-arrow"><svg class="ico" viewBox="0 0 24 24" width="18" height="18"><path d="M9 18l6-6-6-6" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>' +
+    '</div>';
+  }
+  box.innerHTML = h;
+
+  var mw = $('#lifelist-more-wrap');
+  if (mw){
+    if (LIFELIST.hits.length > LIFELIST.limit){
+      mw.hidden = false;
+      var btn = mw.querySelector('button');
+      if (btn) btn.textContent = 'Carregar mais (' + LIFELIST.limit + ' de ' + LIFELIST.hits.length + ')…';
+    } else {
+      mw.hidden = true;
+    }
+  }
+}
+
+function shareLifeList(){
+  var list = getLifeListArray();
+  if (!list.length){ toast('Sua Life List ainda está vazia.'); return; }
+  var nome = (typeof PROF !== 'undefined' && PROF.nome ? PROF.nome() : '') || 'Observador';
+  var st = profStats();
+  var text = '⭐ *[Lista de Campo — Minha Life List]*\n' +
+    '👤 *Observador:* ' + nome + '\n' +
+    '📋 *Total:* ' + list.length + ' espécies únicas (' + st.ind.toLocaleString('pt-BR') + ' registros de indivíduos)\n\n';
+  
+  var byGroup = { 'Ave': [], 'Mamífero': [], 'Anfíbio': [], 'Réptil': [], 'Outro': [] };
+  list.forEach(function(sp){
+    var g = sp.group;
+    if (!byGroup[g]) g = 'Outro';
+    byGroup[g].push(sp);
+  });
+
+  var groupTitles = {
+    'Ave': '🦅 Aves',
+    'Mamífero': '🐾 Mamíferos',
+    'Anfíbio': '🐸 Anfíbios',
+    'Réptil': '🐍 Répteis',
+    'Outro': '🌿 Outros Grupos'
+  };
+
+  Object.keys(groupTitles).forEach(function(gk){
+    var items = byGroup[gk];
+    if (items && items.length){
+      text += '*' + groupTitles[gk] + ' (' + items.length + ')*:\n';
+      items.slice(0, 30).forEach(function(sp, idx){
+        text += (idx + 1) + '. ' + sp.pop + ' (_' + sp.sci + '_)' + (sp.count > 0 ? ' — ' + sp.count + ' ind.' : '') + '\n';
+      });
+      if (items.length > 30){
+        text += '... e mais ' + (items.length - 30) + ' espécies.\n';
+      }
+      text += '\n';
+    }
+  });
+
+  text += '---\n📱 Gerado pelo app Lista de Campo';
+
+  if (typeof navigator !== 'undefined' && navigator.share){
+    navigator.share({title:'Minha Life List — Lista de Campo', text:text}).catch(function(){
+      if (typeof navigator.clipboard !== 'undefined' && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(text).then(function(){ toast('Resumo da Life List copiado!'); });
+      } else {
+        toast('Resumo da Life List pronto.');
+      }
+    });
+  } else if (typeof navigator !== 'undefined' && navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(function(){
+      toast('Resumo da Life List copiado para a área de transferência!');
+    }).catch(function(){
+      toast('Resumo pronto para compartilhar.');
+    });
+  } else {
+    toast('Resumo pronto para compartilhar.');
+  }
+}
+
 /* ---------- mapa de distribuição do brasil (biomas & estados) ---------- */
 var BIOMAS_BR = {
   'Amazônia': {
@@ -4562,6 +4990,21 @@ function openSpeciesDetail(sci){
   var amenLabel = (r.mma && AMEN_MAP[r.mma]) ? r.mma : ((r.iucn && AMEN_MAP[r.iucn]) ? r.iucn : (r.iucn || r.mma || 'LC'));
   var hasActive = !!cur();
   
+  var llList = getLifeListArray();
+  var inLife = llList.find(function(x){ return norm(x.sci) === norm(r.n) || norm(x.pop) === norm(primaryPop); });
+  var lifeBadge = '';
+  if (inLife){
+    lifeBadge = '<div class="spec-lifelist-badge">' +
+      '<span style="font-size:18px">⭐</span>' +
+      '<div>' +
+        '<b>Registrada na sua Life List!</b>' +
+        '<small>' + (inLife.count > 0 ? (inLife.count + (inLife.count === 1 ? ' indivíduo registrado' : ' indivíduos registrados')) : 'Presente no seu histórico de campo') +
+        (inLife.lastSeen ? ' · Último encontro em ' + fDay(inLife.lastSeen) : '') +
+        (inLife.listsCount > 1 ? ' (em ' + inLife.listsCount + ' listas)' : '') + '</small>' +
+      '</div>' +
+    '</div>';
+  }
+  
   var h = '<div class="spec-modal">' +
     '<div class="spec-head-wrap">' +
       '<h2 id="sheet-h" class="spec-head-pt">' + esc(primaryPop) + '</h2>' +
@@ -4569,6 +5012,7 @@ function openSpeciesDetail(sci){
       '<div class="spec-head-sci">' + esc(r.n) + (r.a ? ' <small style="font-style:normal;font-size:12px;opacity:0.8">' + esc(r.a) + '</small>' : '') + '</div>' +
       '<div class="spec-head-tax">' + taxIcon + ' ' + esc(r.c || '') + (r.o ? ' · Ordem ' + esc(r.o) : '') + (r.f ? ' · Família ' + esc(r.f) : '') + '</div>' +
     '</div>' +
+    lifeBadge +
 
     '<div class="spec-tabs" role="tablist">' +
       '<button class="spec-tab active" data-act="spec-tab" data-tab="visao">🔬 Visão Geral &amp; Mídia</button>' +
@@ -4887,6 +5331,36 @@ var A = {
   'guide-card': function(b){
     var sci = b.getAttribute('data-sci');
     if (sci) openSpeciesDetail(sci);
+  },
+  'open-lifelist': function(){ closeSheet(); go('lifelist'); },
+  'lifelist-back': function(){ go(S.cur ? 'list' : 'home'); },
+  'lifelist-tax': function(b){
+    var tax = b.getAttribute('data-tax') || '';
+    LIFELIST.tax = tax;
+    var all = document.querySelectorAll('#lifelist-seg-tax .seg-btn');
+    for (var i = 0; i < all.length; i++) all[i].classList.toggle('on', all[i] === b);
+    renderLifeList();
+  },
+  'lifelist-threat': function(b){
+    LIFELIST.threatOnly = !LIFELIST.threatOnly;
+    b.classList.toggle('on', LIFELIST.threatOnly);
+    renderLifeList();
+  },
+  'lifelist-endem': function(b){
+    LIFELIST.endemOnly = !LIFELIST.endemOnly;
+    b.classList.toggle('on', LIFELIST.endemOnly);
+    renderLifeList();
+  },
+  'lifelist-load-more': function(){
+    LIFELIST.limit += LIFELIST.step;
+    renderLifeListItems();
+  },
+  'lifelist-card': function(b){
+    var sci = b.getAttribute('data-sci');
+    if (sci) openSpeciesDetail(sci);
+  },
+  'lifelist-share': function(){
+    shareLifeList();
   },
   'spec-add-to-cur': function(b){
     var sci = b.getAttribute('data-sci');
@@ -5237,7 +5711,7 @@ window.addEventListener('online', retryAll);
 function tick(){ if (S.screen === 'list') renderNav(); else if (S.screen === 'home'){ if (!S.sel) renderHome(); } else if (S.screen === 'cover') renderCover(); }
 setInterval(tick, 20000);
 
-function renderAll(){ if (S.screen === 'cover') renderCover(); else if (S.screen === 'home') renderHome(); else if (S.screen === 'list') renderList(); else if (S.screen === 'guide') renderGuide(); else renderNames(); renderSync(); }
+function renderAll(){ if (S.screen === 'cover') renderCover(); else if (S.screen === 'home') renderHome(); else if (S.screen === 'list') renderList(); else if (S.screen === 'guide') renderGuide(); else if (S.screen === 'lifelist') renderLifeList(); else renderNames(); renderSync(); }
 
 /* ---------- boot ---------- */
 loadLocal();
