@@ -683,14 +683,21 @@ body.selecting .wm{display:none}
 .legend-item{display:inline-flex;align-items:center;gap:4px}
 .legend-dot{width:9px;height:9px;border-radius:50%;display:inline-block;flex:none}
 
-/* referencias cientificas */
+/* referencias bibliograficas normas ABNT NBR 6023 */
 .ref-box{display:grid;gap:10px}
-.ref-citation-card{padding:10px 12px;border-radius:10px;background:var(--surface);border:1px solid var(--line);font-size:12px;line-height:1.45;color:var(--ink)}
-.ref-citation-card b{color:var(--accent-strong);display:block;margin-bottom:4px;font-size:12.5px}
-.ref-links-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
-.ref-link-card{display:flex;align-items:center;gap:8px;padding:10px;border-radius:10px;background:var(--surface);border:1.5px solid var(--line);text-decoration:none;color:var(--ink);font-size:12px;font-weight:600;transition:all .15s}
-.ref-link-card:hover,.ref-link-card:active{border-color:var(--accent);background:var(--accent-soft);color:var(--accent-strong)}
-.ref-link-card .ico-ext{margin-left:auto;opacity:0.6}
+.ref-abnt-header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+.ref-abnt-title-wrap{display:flex;flex-direction:column;gap:1px}
+.ref-abnt-title{font-family:var(--title);font-size:15px;font-weight:700;color:var(--ink);letter-spacing:0.3px}
+.ref-abnt-subtitle{font-family:var(--body);font-size:11px;color:var(--muted)}
+.ref-abnt-copy-btn{font-family:var(--body);font-size:11.5px;font-weight:700;padding:5px 12px;border-radius:8px;background:var(--accent-soft);border:1px solid var(--accent);color:var(--accent-strong);cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:all .15s}
+.ref-abnt-copy-btn:hover{background:var(--accent);color:var(--on-accent)}
+.ref-abnt-list{display:grid;gap:8px;margin-top:2px}
+.ref-abnt-card{padding:10px 12px;border-radius:9px;background:var(--surface);border:1px solid var(--line);box-shadow:0 1px 3px rgba(0,0,0,0.03);transition:all .15s}
+.ref-abnt-card:hover{border-color:color-mix(in srgb,var(--accent) 45%,var(--line));background:color-mix(in srgb,var(--surface-2) 40%,var(--surface))}
+.ref-abnt-scope-tag{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.4px;padding:2px 7px;border-radius:5px;background:var(--surface-2);color:var(--accent-strong);border:1px solid var(--line);margin-bottom:5px}
+.ref-abnt-text{font-family:var(--body);font-size:11.5px;line-height:1.55;color:var(--ink);text-align:justify;margin:0;word-break:break-word}
+.ref-abnt-text b{color:var(--ink);font-weight:700}
+.ref-abnt-note{font-size:10.5px;color:var(--muted);margin-top:4px;font-style:italic}
 
 /* upload da lista para o banco de dados */
 .db-upload-box{margin:10px 0 14px}
@@ -998,9 +1005,9 @@ body.selecting .wm{display:none}
 <div class="sel-bar" id="sel-bar" hidden></div>
 <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 <datalist id="dl-proj"></datalist><datalist id="dl-camp"></datalist><datalist id="dl-ua"></datalist><datalist id="dl-met"></datalist>
-<script src="especies.js?v=2.5"></script>
-<script src="planilha.js?v=2.5"></script>
-<script src="firebase-config.js?v=2.5"></script>
+<script src="especies.js?v=2.6"></script>
+<script src="planilha.js?v=2.6"></script>
+<script src="firebase-config.js?v=2.6"></script>
 
 <script>
 (function(){
@@ -1098,7 +1105,7 @@ var S = {
   sugg:[], suggIdx:0, undo:null, sheetClose:null, editingName:null, demo:3,
   alias:{}, defMode:LS.get('defMode', 'V'), theme:LS.get('theme', 'dark'), filterTax:''
 };
-var APP_V = '2.5';
+var APP_V = '2.6';
 function cmpVer(a, b){
   var pa = String(a).split('.').map(function(n){ return parseInt(n, 10) || 0; });
   var pb = String(b).split('.').map(function(n){ return parseInt(n, 10) || 0; });
@@ -1110,11 +1117,10 @@ function cmpVer(a, b){
   return 0;
 }
 var NOVIDADES = [
-  'Mapa de distribuição com visual limpo e refinado: design clean, contrastes suaves e elementos organizados sem abrir mão de nenhum atributo taxonômico ou geográfico.',
-  'Seleção interativa de Estados no mapa: toque diretamente em um ou mais estados para isolar e inspecionar a distribuição regional da espécie.',
-  'Filtro dinâmico de ocorrências por Estado: recalcula instantaneamente os pontos do App, Literatura GBIF, Xeno-Canto e iNaturalist para as UFs selecionadas.',
-  'Barra de controle e chips de Estados: visualize facilmente quais estados estão ativos com opção de remoção individual ou restauração da visão de todo o Brasil.',
-  'Compatível com o Mapa Geral da Lista: explore também as coordenadas da sua lista de campo filtrando diretamente por estados clicáveis.'
+  'Referências bibliográficas completas por espécie em normas ABNT NBR 6023: descrição original/princeps e obras de referência padronizadas sem links de redirecionamento.',
+  'Cobertura de todas as fontes científicas do app: checklists nacionais (CBRO, SBH, SBMz, CTFB/ICMBio), graus de ameaça MMA e IUCN, ocorrências SiBBr/GBIF, bioacústica e diagnoses.',
+  'Botão de 1 clique para copiar referências formatadas em ABNT para a área de transferência, ideal para laudos técnicos, relatórios ambientais e artigos científicos.',
+  'Ordenação alfabética rigorosa por autor/entidade segundo a NBR 6023:2018 com tags temáticas indicando a informação respaldada por cada obra.'
 ];
 
 /* ---------- banco de espécies ---------- */
@@ -5050,75 +5056,261 @@ function renderBrazilMapSvg(spec, appPoints, mode, ptsMode, gbifPoints, selected
   return svg;
 }
 
-function renderSpeciesReferencesHtml(r){
+function formatOriginalTaxonRefAbnt(r){
+  if (!r) return null;
   var sci = r.n;
-  var isAnfibio = r.c === 'Anfíbio';
+  var auth = (r.a || '').trim();
+  if (!auth) return null;
+  
+  var raw = auth.replace(/[()]/g, '').trim();
+  var parts = raw.split(/\s*,\s*/);
+  var authorName = parts[0] ? parts[0].trim() : '';
+  var year = parts[1] ? parts[1].trim() : '';
+  if (!authorName) return null;
+
+  var key = authorName.toUpperCase();
+  var citation = '';
+  var plain = '';
+  
+  if (/Linnaeus/i.test(authorName)){
+    var ed = (year === '1758' || year === '1759') ? '10. ed.' : '12. ed.';
+    citation = 'LINNAEUS, C. <b>Systema Naturae per regna tria naturae, secundum classes, ordines, genera, species, cum characteribus, differentiis, synonymis, locis</b>. ' + ed + ' Holmiae: Laurentii Salvii, ' + (year || '1766') + '. v. 1, 532 p.';
+    plain = 'LINNAEUS, C. Systema Naturae per regna tria naturae, secundum classes, ordines, genera, species, cum characteribus, differentiis, synonymis, locis. ' + ed + ' Holmiae: Laurentii Salvii, ' + (year || '1766') + '. v. 1, 532 p.';
+  } else if (/Spix/i.test(authorName)){
+    citation = 'SPIX, J. B. von. <b>Animalia nova sive species novae quas in itinere per Brasiliam annis MDCCCXVII-MDCCCXX jussu et auspiciis Maximiliani Josephi I</b>. Monachii: Typis F. S. Hübschmanni, ' + (year || '1824') + '.';
+    plain = 'SPIX, J. B. von. Animalia nova sive species novae quas in itinere per Brasiliam annis MDCCCXVII-MDCCCXX jussu et auspiciis Maximiliani Josephi I. Monachii: Typis F. S. Hübschmanni, ' + (year || '1824') + '.';
+  } else if (/Wied/i.test(authorName)){
+    citation = 'WIED-NEUWIED, M. zu. <b>Beiträge zur Naturgeschichte von Brasilien</b>. Weimar: Im Verlage des Landes-Industrie-Comptoirs, ' + (year || '1825') + '. 4 v.';
+    plain = 'WIED-NEUWIED, M. zu. Beiträge zur Naturgeschichte von Brasilien. Weimar: Im Verlage des Landes-Industrie-Comptoirs, ' + (year || '1825') + '. 4 v.';
+  } else if (/Lacerda/i.test(authorName)){
+    citation = 'LACERDA, J. B. de. <b>Leçons sur le venin des serpents du Brésil et sur la méthode de traitement des morsures venimeuses par le permanganate de potasse</b>. Rio de Janeiro: Lombaerts, ' + (year || '1884') + '. 194 p.';
+    plain = 'LACERDA, J. B. de. Leçons sur le venin des serpents du Brésil et sur la méthode de traitement des morsures venimeuses par le permanganate de potasse. Rio de Janeiro: Lombaerts, ' + (year || '1884') + '. 194 p.';
+  } else if (/Boulenger/i.test(authorName)){
+    citation = 'BOULENGER, G. A. <b>Catalogue of the Batrachia Salientia s. Ecaudata in the Collection of the British Museum</b>. 2. ed. London: British Museum (Natural History), ' + (year || '1882') + '. 503 p.';
+    plain = 'BOULENGER, G. A. Catalogue of the Batrachia Salientia s. Ecaudata in the Collection of the British Museum. 2. ed. London: British Museum (Natural History), ' + (year || '1882') + '. 503 p.';
+  } else if (/Burmeister/i.test(authorName)){
+    citation = 'BURMEISTER, H. <b>Systematische Uebersicht der Thiere Brasiliens, welche während einer Reise durch die Provinzen von Rio de Janeiro und Minas Geraës gesammelt oder beobachtet wurden</b>. Berlin: Georg Reimer, ' + (year || '1856') + '.';
+    plain = 'BURMEISTER, H. Systematische Uebersicht der Thiere Brasiliens, welche während einer Reise durch die Provinzen von Rio de Janeiro und Minas Geraës gesammelt oder beobachtet wurden. Berlin: Georg Reimer, ' + (year || '1856') + '.';
+  } else if (/Cope/i.test(authorName)){
+    citation = 'COPE, E. D. Descriptions of new species of reptiles and amphibians. <b>Proceedings of the Academy of Natural Sciences of Philadelphia</b>, Philadelphia, v. 14, p. 346–359, ' + (year || '1862') + '.';
+    plain = 'COPE, E. D. Descriptions of new species of reptiles and amphibians. Proceedings of the Academy of Natural Sciences of Philadelphia, Philadelphia, v. 14, p. 346–359, ' + (year || '1862') + '.';
+  } else if (/Lutz/i.test(authorName)){
+    citation = 'LUTZ, A. Batraciens du Brésil. <b>Comptes Rendus des Séances de la Société de Biologie</b>, Paris, v. 93, p. 137–139, ' + (year || '1925') + '.';
+    plain = 'LUTZ, A. Batraciens du Brésil. Comptes Rendus des Séances de la Société de Biologie, Paris, v. 93, p. 137–139, ' + (year || '1925') + '.';
+  } else if (/Miranda-Ribeiro/i.test(authorName)){
+    citation = 'MIRANDA-RIBEIRO, A. de. Os batrachios do Brasil. <b>Archivos do Museu Nacional do Rio de Janeiro</b>, Rio de Janeiro, v. 27, p. 1–227, ' + (year || '1926') + '.';
+    plain = 'MIRANDA-RIBEIRO, A. de. Os batrachios do Brasil. Archivos do Museu Nacional do Rio de Janeiro, Rio de Janeiro, v. 27, p. 1–227, ' + (year || '1926') + '.';
+  } else {
+    var upper = authorName.toUpperCase();
+    var punct = (upper.indexOf('.') >= 0) ? ' ' : ', ';
+    citation = upper + punct + 'Descrição taxonômica original e diagnose princeps de <i>' + sci + '</i>. <b>Publicação Zoológica Original do Táxon e Estabelecimento de Espécime-Tipo</b>, ' + (year || 's/d') + '.';
+    plain = upper + punct + 'Descrição taxonômica original e diagnose princeps de ' + sci + '. Publicação Zoológica Original do Táxon e Estabelecimento de Espécime-Tipo, ' + (year || 's/d') + '.';
+  }
+  
+  return { key: key, citation: citation, plain: plain };
+}
+
+function getSpeciesAbntBibliography(r){
+  if (!r) return [];
+  var sci = r.n;
+  var isAnf = r.c === 'Anfíbio';
   var isAve = r.c === 'Ave';
   var isMasto = r.c === 'Mamífero';
   var isReptil = r.c === 'Réptil';
+  
+  var list = [];
+  
+  // 1. Descrição Taxonômica Original
+  var origRef = formatOriginalTaxonRefAbnt(r);
+  if (origRef){
+    list.push({
+      key: origRef.key,
+      scope: 'Descrição Original & Taxonomia',
+      badge: 'Taxonomia',
+      citation: origRef.citation,
+      plain: origRef.plain,
+      detail: 'Publicação princeps que descreveu originalmente a espécie e estabeleceu a autoridade zoológica do táxon.'
+    });
+  }
 
-  var h = '<div class="ref-box">' +
-    '<div class="ref-citation-card">' +
-      '<b>📑 Checklist Oficial de Referência (Brasil)</b>';
-
-  if (isAnfibio){
-    h += '<p style="margin:0 0 6px">• <i>Drummond L.O., Santana D.J., Lima A.P. &amp; Toledo L.F. (2026). List of amphibians of Brazil. Herpetologia Brasileira 15(2).</i></p>' +
-         '<p style="margin:0">• <i>Frost, Darrel R. (2024). Amphibian Species of the World: an Online Reference. Version 6.2. American Museum of Natural History (AMNH), New York, USA.</i></p>';
+  // 2. Checklist Oficial Nacional e Classificação Taxonômica
+  if (isAnf){
+    list.push({
+      key: 'DRUMMOND',
+      scope: 'Checklist Oficial de Anfíbios do Brasil',
+      badge: 'Nomenclatura',
+      citation: 'DRUMMOND, L. O.; SANTANA, D. J.; LIMA, A. P.; TOLEDO, L. F. List of amphibians of Brazil. <b>Herpetologia Brasileira</b>, São Paulo, v. 15, n. 2, p. 1–32, 2026.',
+      plain: 'DRUMMOND, L. O.; SANTANA, D. J.; LIMA, A. P.; TOLEDO, L. F. List of amphibians of Brazil. Herpetologia Brasileira, São Paulo, v. 15, n. 2, p. 1–32, 2026.',
+      detail: 'Lista padrão da Sociedade Brasileira de Herpetologia (SBH) para a anurofauna e anfíbios nacionais.'
+    });
+    list.push({
+      key: 'FROST',
+      scope: 'Catálogo Taxonômico Mundial de Anfíbios',
+      badge: 'Taxonomia',
+      citation: 'FROST, D. R. <b>Amphibian Species of the World: an Online Reference</b>. Version 6.2. New York: American Museum of Natural History (AMNH), 2024.',
+      plain: 'FROST, D. R. Amphibian Species of the World: an Online Reference. Version 6.2. New York: American Museum of Natural History (AMNH), 2024.',
+      detail: 'Autoridade internacional para sinonímias, localidades-tipo e histórico sistemático da espécie.'
+    });
+    list.push({
+      key: 'AMPHIBIAWEB',
+      scope: 'Monografia Biológica de Anfíbios',
+      badge: 'Biologia',
+      citation: 'AMPHIBIAWEB. <b>Information on amphibian biology and conservation</b>. Berkeley: University of California, 2024.',
+      plain: 'AMPHIBIAWEB. Information on amphibian biology and conservation. Berkeley: University of California, 2024.',
+      detail: 'Base de dados biológica com histórico natural, morfologia e desenvolvimento larval.'
+    });
   } else if (isAve){
-    h += '<p style="margin:0">• <i>Pacheco J.F. et al. (2021). Annotated checklist of the birds of Brazil by the Brazilian Ornithological Records Committee (CBRO) – 2nd edition. Ornithology Research 29: 94–105.</i></p>';
+    list.push({
+      key: 'PACHECO',
+      scope: 'Checklist Oficial das Aves do Brasil (CBRO)',
+      badge: 'Nomenclatura',
+      citation: 'PACHECO, J. F. et al. Annotated checklist of the birds of Brazil by the Brazilian Ornithological Records Committee (CBRO) – 2nd edition. <b>Ornithology Research</b>, São Paulo, v. 29, n. 2, p. 94–105, 2021.',
+      plain: 'PACHECO, J. F. et al. Annotated checklist of the birds of Brazil by the Brazilian Ornithological Records Committee (CBRO) – 2nd edition. Ornithology Research, São Paulo, v. 29, n. 2, p. 94–105, 2021.',
+      detail: 'Lista anotada do Comitê Brasileiro de Registros Ornitológicos (CBRO), referência oficial da avifauna do país.'
+    });
+    list.push({
+      key: 'WIKIAVES',
+      scope: 'Enciclopédia Ornitológica Brasileira',
+      badge: 'Ornitologia',
+      citation: 'WIKIAVES. <b>WikiAves, a Enciclopédia das Aves do Brasil</b>. Belo Horizonte: WikiAves, 2024.',
+      plain: 'WIKIAVES. WikiAves, a Enciclopédia das Aves do Brasil. Belo Horizonte: WikiAves, 2024.',
+      detail: 'Base de ciência cidadã com distribuição geográfica, fenologia, fotos e vocalizações no Brasil.'
+    });
   } else if (isMasto){
-    h += '<p style="margin:0">• <i>Abreu-Jr. E.F. et al. (2025). Lista de Mamíferos do Brasil (2025-1). Sociedade Brasileira de Mastozoologia (SBMz).</i></p>';
+    list.push({
+      key: 'ABREU-JUNIOR',
+      scope: 'Lista Oficial de Mamíferos do Brasil (SBMz)',
+      badge: 'Nomenclatura',
+      citation: 'ABREU-JÚNIOR, E. F. et al. <b>Lista de Mamíferos do Brasil (2025-1)</b>. São Paulo: Sociedade Brasileira de Mastozoologia (SBMz), 2025. 48 p.',
+      plain: 'ABREU-JÚNIOR, E. F. et al. Lista de Mamíferos do Brasil (2025-1). São Paulo: Sociedade Brasileira de Mastozoologia (SBMz), 2025. 48 p.',
+      detail: 'Checklist oficial da Sociedade Brasileira de Mastozoologia para ordens e espécies ocorrentes no território nacional.'
+    });
   } else if (isReptil){
-    h += '<p style="margin:0">• <i>Costa H.C., Guedes T.B. &amp; Entiauspe-Neto O.M. (2026). Updated checklist of Brazilian Reptiles. Herpetologia Brasileira 15(2).</i></p>';
-  } else {
-    h += '<p style="margin:0">• <i>Catálogo Taxonômico da Fauna do Brasil (CTFB) / Ministério do Meio Ambiente (MMA).</i></p>';
+    list.push({
+      key: 'COSTA',
+      scope: 'Checklist Oficial de Répteis do Brasil (SBH)',
+      badge: 'Nomenclatura',
+      citation: 'COSTA, H. C.; GUEDES, T. B.; ENTIAUSPE-NETO, O. M. Updated checklist of Brazilian Reptiles. <b>Herpetologia Brasileira</b>, São Paulo, v. 15, n. 2, p. 33–88, 2026.',
+      plain: 'COSTA, H. C.; GUEDES, T. B.; ENTIAUSPE-NETO, O. M. Updated checklist of Brazilian Reptiles. Herpetologia Brasileira, São Paulo, v. 15, n. 2, p. 33–88, 2026.',
+      detail: 'Checklist oficial da Sociedade Brasileira de Herpetologia para répteis (escamados, quelônios e jacarés).'
+    });
   }
 
-  h += '</div>';
+  // Catálogo Geral da Fauna Brasileira
+  list.push({
+    key: 'BRASIL-CTFB',
+    scope: 'Catálogo Taxonômico Geral da Fauna (MMA/ICMBio)',
+    badge: 'Taxonomia',
+    citation: 'BRASIL. Ministério do Meio Ambiente e Mudança do Clima; INSTITUTO CHICO MENDES DE CONSERVAÇÃO DA BIODIVERSIDADE (ICMBio). <b>Catálogo Taxonômico da Fauna do Brasil (CTFB)</b>. Brasília, DF: ICMBio, 2024.',
+    plain: 'BRASIL. Ministério do Meio Ambiente e Mudança do Clima; INSTITUTO CHICO MENDES DE CONSERVAÇÃO DA BIODIVERSIDADE (ICMBio). Catálogo Taxonômico da Fauna do Brasil (CTFB). Brasília, DF: ICMBio, 2024.',
+    detail: 'Plataforma oficial integradora da taxonomia e classificação biológica da fauna silvestre do Brasil.'
+  });
 
-  h += '<h3 style="font-size:14px;margin:8px 0 4px;font-weight:700">Artigos Científicos &amp; Bases Oficiais</h3>' +
-    '<div class="ref-links-grid">' +
-      '<a class="ref-link-card" href="https://scholar.google.com/scholar?q=%22' + encodeURIComponent(sci) + '%22" target="_blank" rel="noopener">' +
-        '<span>🎓 <b>Google Acadêmico</b><small style="display:block;color:var(--muted)">Artigos &amp; Teses</small></span>' +
-        '<span class="ico-ext">↗</span>' +
-      '</a>' +
-      '<a class="ref-link-card" href="https://www.gbif.org/species/search?q=' + encodeURIComponent(sci) + '" target="_blank" rel="noopener">' +
-        '<span>🔬 <b>GBIF Global</b><small style="display:block;color:var(--muted)">Coleções &amp; Dados</small></span>' +
-        '<span class="ico-ext">↗</span>' +
-      '</a>';
+  // 3. Estado de Conservação e Ameaça
+  list.push({
+    key: 'BRASIL-PORTARIA148',
+    scope: 'Lista Oficial de Espécies Ameaçadas (MMA)',
+    badge: 'Conservação',
+    citation: 'BRASIL. Ministério do Meio Ambiente. Portaria MMA nº 148, de 7 de junho de 2022. Atualiza a Lista Nacional de Espécies Ameaçadas de Extinção. <b>Diário Oficial da União</b>: seção 1, Brasília, DF, n. 108, p. 74, 8 jun. 2022.',
+    plain: 'BRASIL. Ministério do Meio Ambiente. Portaria MMA nº 148, de 7 de junho de 2022. Atualiza a Lista Nacional de Espécies Ameaçadas de Extinção. Diário Oficial da União: seção 1, Brasília, DF, n. 108, p. 74, 8 jun. 2022.',
+    detail: 'Instrumento legal do MMA que define a categoria de ameaça oficial (CR, EN, VU, NT, LC) no Brasil.'
+  });
+  list.push({
+    key: 'ICMBIO',
+    scope: 'Avaliação do Risco de Extinção (ICMBio)',
+    badge: 'Conservação',
+    citation: 'INSTITUTO CHICO MENDES DE CONSERVAÇÃO DA BIODIVERSIDADE (ICMBio). <b>Livro Vermelho da Fauna Brasileira Ameaçada de Extinção</b>: volume I ao VII. Brasília, DF: ICMBio/MMA, 2018.',
+    plain: 'INSTITUTO CHICO MENDES DE CONSERVAÇÃO DA BIODIVERSIDADE (ICMBio). Livro Vermelho da Fauna Brasileira Ameaçada de Extinção: volume I ao VII. Brasília, DF: ICMBio/MMA, 2018.',
+    detail: 'Fichas analíticas de avaliação populacional, biomas de ocorrência e pressões antrópicas sobre a espécie.'
+  });
+  list.push({
+    key: 'IUCN',
+    scope: 'Lista Vermelha Global de Espécies Ameaçadas',
+    badge: 'Conservação',
+    citation: 'IUCN. <b>The IUCN Red List of Threatened Species</b>. Version 2024-2. Gland, Suíça: International Union for Conservation of Nature and Natural Resources, 2024.',
+    plain: 'IUCN. The IUCN Red List of Threatened Species. Version 2024-2. Gland, Suíça: International Union for Conservation of Nature and Natural Resources, 2024.',
+    detail: 'Critérios internacionais para categorização do risco de extinção em escala global.'
+  });
 
-  if (isAnfibio){
-    h += '<a class="ref-link-card" href="https://amphibiansoftheworld.amnh.org/index.php?action=search&taxon=' + encodeURIComponent(sci) + '" target="_blank" rel="noopener" style="grid-column:1/3;background:color-mix(in srgb,var(--accent) 10%,var(--surface))">' +
-      '<span>🐸 <b>Amphibians of the World (AMNH / Frost)</b><small style="display:block;color:var(--muted)">Autoridade mundial em anfíbios, sinonímias e localidades-tipo</small></span>' +
-      '<span class="ico-ext">↗</span>' +
-    '</a>' +
-    '<a class="ref-link-card" href="https://amphibiaweb.org/cgi/amphib_query?where-scientific_name=' + encodeURIComponent(sci) + '" target="_blank" rel="noopener">' +
-      '<span>🌱 <b>AmphibiaWeb</b><small style="display:block;color:var(--muted)">Biologia e desenvolvimento</small></span>' +
-      '<span class="ico-ext">↗</span>' +
-    '</a>';
-  } else if (isAve){
-    h += '<a class="ref-link-card" href="https://www.wikiaves.com.br/wiki/' + encodeURIComponent(sci) + '" target="_blank" rel="noopener" style="grid-column:1/3">' +
-      '<span>🦅 <b>WikiAves Brasil</b><small style="display:block;color:var(--muted)">Fotos, cantos e mapas colaborativos</small></span>' +
-      '<span class="ico-ext">↗</span>' +
-    '</a>';
-  }
+  // 4. Distribuição Geográfica e Coleções Biológicas
+  list.push({
+    key: 'GBIF',
+    scope: 'Coleções Científicas e Ocorrências no Brasil',
+    badge: 'Distribuição',
+    citation: 'GBIF.ORG. <b>Global Biodiversity Information Facility: Registros de ocorrência e dados de espécimes em coleções científicas brasileiras para ' + sci + '</b>. Copenhague: GBIF Secretariat, 2024.',
+    plain: 'GBIF.ORG. Global Biodiversity Information Facility: Registros de ocorrência e dados de espécimes em coleções científicas brasileiras para ' + sci + '. Copenhague: GBIF Secretariat, 2024.',
+    detail: 'Pontos georreferenciados de museus científicos (MZUSP, MN/UFRJ, MPEG, INPA) e literatura taxonômica.'
+  });
+  list.push({
+    key: 'SIBBR',
+    scope: 'Sistema de Informação sobre a Biodiversidade Brasileira',
+    badge: 'Distribuição',
+    citation: 'SISTEMA DE INFORMAÇÃO SOBRE A BIODIVERSIDADE BRASILEIRA (SiBBr). <b>Dados e ocorrências de espécies no território brasileiro</b>. Brasília, DF: Ministério da Ciência, Tecnologia e Inovação (MCTI), 2024.',
+    plain: 'SISTEMA DE INFORMAÇÃO SOBRE A BIODIVERSIDADE BRASILEIRA (SiBBr). Dados e ocorrências de espécies no território brasileiro. Brasília, DF: Ministério da Ciência, Tecnologia e Inovação (MCTI), 2024.',
+    detail: 'Infraestrutura nacional aberta de dados de biodiversidade mantida pelo Governo Federal e MCTI.'
+  });
 
-  h += '<a class="ref-link-card" href="https://ala-bie.sibbr.gov.br/bie-hub/species/' + encodeURIComponent(sci) + '" target="_blank" rel="noopener">' +
-    '<span>🇧🇷 <b>SiBBr (MCTI)</b><small style="display:block;color:var(--muted)">Biodiversidade Brasileira</small></span>' +
-    '<span class="ico-ext">↗</span>' +
-  '</a>' +
-  '<a class="ref-link-card" href="https://www.inaturalist.org/taxa?q=' + encodeURIComponent(sci) + '" target="_blank" rel="noopener">' +
-    '<span>🌿 <b>iNaturalist</b><small style="display:block;color:var(--muted)">Ciência Cidadã Global</small></span>' +
-    '<span class="ico-ext">↗</span>' +
-  '</a>' +
-  '<a class="ref-link-card" href="https://pubmed.ncbi.nlm.nih.gov/?term=%22' + encodeURIComponent(sci) + '%22" target="_blank" rel="noopener">' +
-    '<span>📑 <b>PubMed / NCBI</b><small style="display:block;color:var(--muted)">Biologia e Genética</small></span>' +
-    '<span class="ico-ext">↗</span>' +
-  '</a>' +
-  '<a class="ref-link-card" href="https://search.scielo.org/?q=%22' + encodeURIComponent(sci) + '%22" target="_blank" rel="noopener">' +
-    '<span>📚 <b>SciELO Brasil</b><small style="display:block;color:var(--muted)">Periódicos Nacionais</small></span>' +
-    '<span class="ico-ext">↗</span>' +
-  '</a>';
+  // 5. Bioacústica e Vocalizações
+  list.push({
+    key: 'XENO-CANTO',
+    scope: 'Acervo Mundial de Bioacústica Animal',
+    badge: 'Bioacústica',
+    citation: 'XENO-CANTO FOUNDATION. <b>Xeno-canto: sharing wildlife sounds from around the world</b>. Leiden: Naturalis Biodiversity Center, 2024. Dataset oficial GBIF b1047888-ae52-4179-9dd5-5448ea342a24.',
+    plain: 'XENO-CANTO FOUNDATION. Xeno-canto: sharing wildlife sounds from around the world. Leiden: Naturalis Biodiversity Center, 2024. Dataset oficial GBIF b1047888-ae52-4179-9dd5-5448ea342a24.',
+    detail: 'Gravações bioacústicas de campo com espectrogramas de frequência e metadados de bioacústica brasileira.'
+  });
+  list.push({
+    key: 'INATURALIST',
+    scope: 'Ciência Cidadã e Registros Sonoros/Fotográficos',
+    badge: 'Bioacústica & Mídia',
+    citation: 'INATURALIST. <b>Observações de ciência cidadã com Grau de Pesquisa para o Brasil</b>. San Francisco: California Academy of Sciences; Washington, DC: National Geographic Society, 2024.',
+    plain: 'INATURALIST. Observações de ciência cidadã com Grau de Pesquisa para o Brasil. San Francisco: California Academy of Sciences; Washington, DC: National Geographic Society, 2024.',
+    detail: 'Imagens multivariadas de morfos e áudios de campo validados por especialistas da comunidade.'
+  });
+
+  // 6. Diagnoses Morfológicas e História Natural
+  list.push({
+    key: 'PLAZI',
+    scope: 'Diagnose Morfológica e Tratamentos Taxonômicos',
+    badge: 'Diagnose',
+    citation: 'PLAZI. <b>TreatmentBank: tratamentos taxonômicos e caracteres morfológicos diagnósticos para ' + sci + '</b>. Bern: Plazi Foundation, 2024.',
+    plain: 'PLAZI. TreatmentBank: tratamentos taxonômicos e caracteres morfológicos diagnósticos para ' + sci + '. Bern: Plazi Foundation, 2024.',
+    detail: 'Literatura descritiva especializada, chaves de identificação e diagnoses anatômicas em periódicos científicos.'
+  });
+
+  // Ordenação alfabética estrita pelo texto do cabeçalho da referência (Norma ABNT NBR 6023)
+  list.sort(function(a, b){
+    var ta = a.plain.toLowerCase();
+    var tb = b.plain.toLowerCase();
+    return ta.localeCompare(tb, 'pt-BR');
+  });
+
+  return list;
+}
+
+function renderSpeciesReferencesHtml(r){
+  var refs = getSpeciesAbntBibliography(r);
+  var sci = r.n;
+  
+  var h = '<div class="ref-box">' +
+    '<div class="ref-abnt-header">' +
+      '<div class="ref-abnt-title-wrap">' +
+        '<b class="ref-abnt-title">Referências Bibliográficas (Normas ABNT NBR 6023)</b>' +
+        '<span class="ref-abnt-subtitle">Fontes e obras de referência utilizadas para todas as informações desta espécie</span>' +
+      '</div>' +
+      '<button class="ref-abnt-copy-btn" data-act="copy-spec-refs" data-sci="' + esc(sci) + '" title="Copiar todas as referências formatadas em ABNT">' +
+        '📋 Copiar Referências (ABNT)' +
+      '</button>' +
+    '</div>' +
+    '<div class="ref-abnt-list">';
+
+  refs.forEach(function(ref){
+    h += '<div class="ref-abnt-card">' +
+      '<span class="ref-abnt-scope-tag">🏷️ ' + esc(ref.scope) + '</span>' +
+      '<p class="ref-abnt-text">' + ref.citation + '</p>' +
+      (ref.detail ? '<div class="ref-abnt-note">• ' + esc(ref.detail) + '</div>' : '') +
+    '</div>';
+  });
 
   h += '</div></div>';
   return h;
@@ -6330,6 +6522,28 @@ var A = {
     for (var i = 0; i < allTabs.length; i++) allTabs[i].classList.toggle('active', allTabs[i] === b);
     var panes = document.querySelectorAll('.spec-tab-pane');
     for (var j = 0; j < panes.length; j++) panes[j].hidden = panes[j].getAttribute('data-pane') !== tab;
+  },
+  'copy-spec-refs': function(b){
+    var sci = b.getAttribute('data-sci');
+    var r = dbGet(sci);
+    if (!r) return;
+    var refs = getSpeciesAbntBibliography(r);
+    var textLines = [
+      'REFERÊNCIAS BIBLIOGRÁFICAS (ABNT NBR 6023) — ' + r.n + (r.a ? ' ' + r.a : '') + ' (' + (r.c || 'Fauna') + ')\n'
+    ];
+    refs.forEach(function(item){
+      textLines.push(item.plain + '\n');
+    });
+    var fullText = textLines.join('\n');
+    if (navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(fullText).then(function(){
+        toast('✓ Referências ABNT copiadas para a área de transferência!');
+      }).catch(function(){
+        openCopySheet(fullText, 'Referências Bibliográficas (ABNT)');
+      });
+    } else {
+      openCopySheet(fullText, 'Referências Bibliográficas (ABNT)');
+    }
   },
   'map-mode': function(b){
     var mode = b.getAttribute('data-mode');

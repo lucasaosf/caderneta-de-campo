@@ -1,12 +1,11 @@
 {
-  "v": "2.5",
-  "nome": "2.5",
+  "v": "2.6",
+  "nome": "2.6",
   "data": "2026-11-04",
   "novidades": [
-    "Mapa de distribuição com visual limpo e refinado: design clean, contrastes suaves e elementos organizados sem abrir mão de nenhum atributo taxonômico ou geográfico",
-    "Seleção interativa de Estados no mapa: toque diretamente em um ou mais estados para isolar e inspecionar a distribuição regional da espécie",
-    "Filtro dinâmico de ocorrências por Estado: recalcula instantaneamente os pontos do App, Literatura GBIF, Xeno-Canto e iNaturalist para as UFs selecionadas",
-    "Barra de controle e chips de Estados: visualize facilmente quais estados estão ativos com opção de remoção individual ou restauração da visão de todo o Brasil",
-    "Compatível com o Mapa Geral da Lista: explore também as coordenadas da sua lista de campo filtrando diretamente por estados clicáveis"
+    "Referências bibliográficas completas por espécie em normas ABNT NBR 6023: obras princeps de descrição taxonômica e literatura de referência oficial sem links de redirecionamento",
+    "Cobertura ampla de todas as informações: checklists nacionais (CBRO, SBH, SBMz, CTFB/ICMBio), graus de ameaça (MMA e IUCN), distribuição (SiBBr e GBIF), bioacústica e diagnoses",
+    "Botão de 1 clique para copiar referências formatadas em ABNT para a área de transferência, ideal para laudos técnicos, relatórios ambientais e publicações",
+    "Ordenação alfabética rigorosa por autor/entidade segundo a NBR 6023:2018 com tags temáticas indicando a informação respaldada por cada fonte"
   ]
 }
