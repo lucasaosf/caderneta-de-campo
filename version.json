@@ -1,12 +1,12 @@
 {
-  "v": "2.4",
-  "nome": "2.4",
+  "v": "2.5",
+  "nome": "2.5",
   "data": "2026-11-04",
   "novidades": [
-    "Galeria fotográfica multivariada: visualize múltiplos padrões por espécie (morfos, fases de cor, dimorfismo sexual, juvenil/adulto) com miniaturas e alta resolução",
-    "Bioacústica e vocalizações de alta fidelidade: gravações integradas de Xeno-Canto com espectrograma e iNaturalist Grau de Pesquisa",
-    "Mapa de distribuição ampliado: pontos georreferenciados reunindo Literatura Oficial / Museus (GBIF), Xeno-Canto (Bioacústica), iNaturalist e encontros do app",
-    "Filtros dedicados no mapa por plataforma: alterne entre Encontros do App, Literatura Oficial GBIF, Xeno-Canto e iNaturalist",
-    "Acervos e portais externos: atalhos diretos para WikiAves, eBird / Macaulay Library, AmphibiaWeb, Biofaces, Xeno-Canto e GBIF"
+    "Mapa de distribuição com visual limpo e refinado: design clean, contrastes suaves e elementos organizados sem abrir mão de nenhum atributo taxonômico ou geográfico",
+    "Seleção interativa de Estados no mapa: toque diretamente em um ou mais estados para isolar e inspecionar a distribuição regional da espécie",
+    "Filtro dinâmico de ocorrências por Estado: recalcula instantaneamente os pontos do App, Literatura GBIF, Xeno-Canto e iNaturalist para as UFs selecionadas",
+    "Barra de controle e chips de Estados: visualize facilmente quais estados estão ativos com opção de remoção individual ou restauração da visão de todo o Brasil",
+    "Compatível com o Mapa Geral da Lista: explore também as coordenadas da sua lista de campo filtrando diretamente por estados clicáveis"
   ]
 }
