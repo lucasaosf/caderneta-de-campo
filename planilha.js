@@ -1,5 +1,5 @@
 /* Lista de Campo — gerador da planilha de análises (.xlsx e .csv)
-   Identidade visual: Pesquisa & Soluções Ambientais · Lucas Aøsf
+   Identidade visual: BIOKURI — Pesquisa e Soluções Ambientais · Lucas Aøsf
    Funciona no navegador e no Node (para testes). Sem bibliotecas externas. */
 (function (root) {
   'use strict';
@@ -161,7 +161,7 @@
     o.push('<pageMargins left="0.51" right="0.51" top="0.98" bottom="0.79" header="0.3" footer="0.3"/>');
     o.push('<pageSetup paperSize="9" orientation="' + (this.opt.landscape ? 'landscape' : 'portrait') + '" fitToWidth="' + (this.opt.fitW || 1) + '" fitToHeight="0"/>');
     var tab = xe(this.name).replace(/&amp;/g, '&amp;&amp;');
-    o.push('<headerFooter><oddHeader>' + xe('&L&"' + SERIF + ',Regular"&13&K' + C.verde + 'Lucas Aøsf\n&"' + FONT + ',Regular"&6&K' + C.cinza + 'BIÓLOGO · PESQUISADOR · GESTOR AMBIENTAL&C&"' + FONT + ',Bold"&8&K' + C.verde + '&A\n&"' + FONT + ',Italic"&7&K' + C.cinza + 'Pesquisa e Soluções Ambientais&R&G') +
+    o.push('<headerFooter><oddHeader>' + xe('&L&"' + SERIF + ',Regular"&13&K' + C.verde + 'Lucas Aøsf\n&"' + FONT + ',Regular"&6&K' + C.cinza + 'BIÓLOGO · PESQUISADOR · GESTOR AMBIENTAL&C&"' + FONT + ',Bold"&9&K' + C.verde + 'BIOKURI\n&"' + FONT + ',Italic"&7&K' + C.cinza + 'Pesquisa e Soluções Ambientais&R&G') +
       '</oddHeader><oddFooter>' + xe('&L&"' + FONT + ',Regular"&7&K' + C.cinza + CONTATO + '&R&"' + SERIF + ',Regular"&11&K' + C.verde + '&P&"' + FONT + ',Regular"&7&K' + C.cinza + ' / &N') + '</oddFooter></headerFooter>');
     if (this.breaks && this.breaks.length) o.push('<rowBreaks count="' + this.breaks.length + '" manualBreakCount="' + this.breaks.length + '">' + this.breaks.map(function (b) { return '<brk id="' + b + '" max="16383" man="1"/>'; }).join('') + '</rowBreaks>');
     if (this.charts.length) o.push('<drawing r:id="' + rels.drawing + '"/>');
@@ -280,8 +280,8 @@
     files.push({ name: 'xl/_rels/workbook.xml.rels', data: '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">' + wbRels.join('') + '</Relationships>' });
     files.push({ name: 'xl/styles.xml', data: this.styles.xml() });
     var m = this.meta, now = new Date().toISOString().replace(/\.\d+Z$/, 'Z');
-    files.push({ name: 'docProps/core.xml', data: '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n<cp:coreProperties xmlns:cp="http://schemas.openxmlformats.org/package/2006/metadata/core-properties" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><dc:title>' + xe(m.title || 'Lista de Campo') + '</dc:title><dc:creator>' + xe(m.author || 'Lista de Campo · Lucas Aøsf') + '</dc:creator><dcterms:created xsi:type="dcterms:W3CDTF">' + now + '</dcterms:created></cp:coreProperties>' });
-    files.push({ name: 'docProps/app.xml', data: '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n<Properties xmlns="http://schemas.openxmlformats.org/officeDocument/2006/extended-properties"><Application>Lista de Campo · Lucas Aøsf</Application></Properties>' });
+    files.push({ name: 'docProps/core.xml', data: '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n<cp:coreProperties xmlns:cp="http://schemas.openxmlformats.org/package/2006/metadata/core-properties" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><dc:title>' + xe(m.title || 'Lista de Campo') + '</dc:title><dc:creator>' + xe(m.author || 'BIOKURI — Pesquisa e Soluções Ambientais · Lucas Aøsf') + '</dc:creator><dcterms:created xsi:type="dcterms:W3CDTF">' + now + '</dcterms:created></cp:coreProperties>' });
+    files.push({ name: 'docProps/app.xml', data: '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n<Properties xmlns="http://schemas.openxmlformats.org/officeDocument/2006/extended-properties"><Application>BIOKURI — Lista de Campo</Application><Company>BIOKURI — Pesquisa e Soluções Ambientais</Company></Properties>' });
     files.unshift({ name: '_rels/.rels', data: '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/><Relationship Id="rId2" Type="http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties" Target="docProps/core.xml"/><Relationship Id="rId3" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/extended-properties" Target="docProps/app.xml"/></Relationships>' });
     files.unshift({ name: '[Content_Types].xml', data: '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Default Extension="png" ContentType="image/png"/><Default Extension="vml" ContentType="application/vnd.openxmlformats-officedocument.vmlDrawing"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/><Override PartName="/docProps/core.xml" ContentType="application/vnd.openxmlformats-package.core-properties+xml"/><Override PartName="/docProps/app.xml" ContentType="application/vnd.openxmlformats-officedocument.extended-properties+xml"/>' + ct.join('') + '</Types>' });
     return zip(files);
@@ -531,7 +531,7 @@
 
   /* ===================== montagem da planilha ===================== */
   function gerar(input) {
-    var D = preparar(input), B = new Book({ title: input.titulo, author: 'Lista de Campo · Lucas Aøsf' });
+    var D = preparar(input), B = new Book({ title: input.titulo, author: 'BIOKURI — Pesquisa e Soluções Ambientais · Lucas Aøsf' });
     if (input.logo) B.logo = input.logo;
     var nS = D.sp.length, nU = D.uas.length, nC = D.camps.length, nL = D.listas.length;
     var titulo = input.titulo || 'Levantamento de fauna';
@@ -546,9 +546,19 @@
     /* ---------- 1. Resumo ---------- */
     var R = B.sheet('Resumo', { landscape: false });
     [34, 15, 15, 15, 15, 15].forEach(function (w, i) { R.width(i, w); });
-    var r = R.title(0, titulo, 'Planilha gerada pelo app Lista de Campo · ' + periodo, 6);
+    var r = R.title(0, titulo, 'BIOKURI — Pesquisa e Soluções Ambientais · Planilha gerada pelo app Lista de Campo · ' + periodo, 6);
     R.set(r, 0, 'Dados do levantamento', S.secao); R.fill(r, 1, r, 5, S.secao); r += 1;
-    var info = [['Projeto / área', input.projeto || (D.listas[0] && D.listas[0].projeto) || '—'], ['Campanhas', D.camps.map(function (c) { return c.nome; }).join(', ')], ['Período', periodo], ['Unidades amostrais', D.uas.map(function (u) { return u.nome; }).join(', ')], ['Métodos', D.mets.map(function (m) { return m.nome; }).join(', ')], ['Grupos registrados', gruposTxt || '—'], ['Observadores (máx. por lista)', Math.max.apply(null, D.listas.map(function (L) { return L.observadores || 1; }).concat([1]))]];
+    var info = [
+      ['Empresa / Consultoria', 'BIOKURI — Pesquisa e Soluções Ambientais'],
+      ['Projeto / área', input.projeto || (D.listas[0] && D.listas[0].projeto) || '—'],
+      ['Campanhas', D.camps.map(function (c) { return c.nome; }).join(', ')],
+      ['Período', periodo],
+      ['Unidades amostrais', D.uas.map(function (u) { return u.nome; }).join(', ')],
+      ['Métodos', D.mets.map(function (m) { return m.nome; }).join(', ')],
+      ['Grupos registrados', gruposTxt || '—'],
+      ['Observadores (máx. por lista)', Math.max.apply(null, D.listas.map(function (L) { return L.observadores || 1; }).concat([1]))],
+      ['Responsável técnico', input.responsavel || 'Lucas Aøsf (CRBio 127233/01-D)']
+    ];
     info.forEach(function (x) { R.set(r, 0, x[0], S.totl); R.set(r, 1, x[1], st('tdl', { wrap: true })); R.merge(r, 1, r, 5, st('tdl')); r++; });
     r++;
     R.set(r, 0, 'Resultados', S.secao); R.fill(r, 1, r, 5, S.secao); r += 1;
@@ -689,6 +699,7 @@
 
       Bm.set(rB, 0, 'Metadados da amostragem', S.secao); Bm.fill(rB, 1, rB, 23, S.secao); rB += 1;
       var bInfo = [
+        ['Empresa / Consultoria', 'BIOKURI — Pesquisa e Soluções Ambientais'],
         ['Projeto / Área', input.projeto || (D.listas[0] && D.listas[0].projeto) || '—'],
         ['Método', 'Pitfall (Armadilhas de Interceptação e Queda)'],
         ['Período', periodo],
@@ -1120,7 +1131,7 @@
 
     /* ---------- 13. Legenda e fontes ---------- */
     var Lg = B.sheet('Legenda e fontes', { landscape: false });
-    r = Lg.title(0, 'Legenda, critérios e fontes', 'Lista de Campo · criado por Lucas Aøsf', 4);
+    r = Lg.title(0, 'Legenda, critérios e fontes', 'BIOKURI — Pesquisa e Soluções Ambientais · Lista de Campo · criado por Lucas Aøsf', 4);
     Lg.width(0, 26); Lg.width(1, 70);
     var leg = [
       ['Tipo de registro', 'V – visual; A – auditivo (vocalização); O – ocasional (encontro fortuito, carcaça, vestígio, fora de transecto/horário). "Sem tipo": listas antigas, anteriores à marcação V/A/O.'],

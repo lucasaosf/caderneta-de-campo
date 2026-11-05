@@ -1,11 +1,11 @@
 {
-  "v": "2.8",
-  "nome": "2.8",
-  "data": "2026-11-04",
+  "v": "2.9",
+  "nome": "2.9",
+  "data": "2026-11-05",
   "novidades": [
-    "Silhuetas anatômicas por grupo faunístico (Aves, Mamíferos, Anfíbios e Répteis) nas espécies sem imagem do Guia e da Life List, com destaque visual 'SEM FOTO'",
-    "Submissão colaborativa de fotos: possibilidade de qualquer usuário subir fotos de campo para espécies sem imagem disponível",
-    "Moderação científica pelo desenvolvedor (Lucas Aosf): envio automático por e-mail (lucasaosf@gmail.com) e canal direto via WhatsApp (+55 12 99182-1729) para validação taxonômica dos caracteres diagnósticos",
-    "Visualização imediata em moderação: a imagem enviada é exibida instantaneamente no app com selo de moderação até a homologação final"
+    "Nova Identidade Visual da Empresa: incorporação oficial da marca BIOKURI (Pesquisa e Soluções Ambientais) com o símbolo das Araucárias",
+    "Logos ajustadas para modo claro e escuro: versão clara no mesmo alinhamento vertical elegante da versão verde, com tipografia bronze e verde-floresta em alta definição",
+    "Identificação empresarial nas planilhas Excel (.xlsx): todas as planilhas geradas agora exibem o nome BIOKURI no cabeçalho oficial, metadados do documento e abas de Resumo e Biometria",
+    "Novo ícone institucional de navegação: emblema das Araucárias no botão de retorno ao início no topo do app"
   ]
 }

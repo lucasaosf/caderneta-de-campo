@@ -1,7 +1,7 @@
-const CACHE = 'caderneta-v2.8';
-const CORE = ['./', './index.html', './manifest.webmanifest', './especies.js?v=2.8', './planilha.js?v=2.8', './firebase-config.js?v=2.8',
+const CACHE = 'caderneta-v2.9';
+const CORE = ['./', './index.html', './manifest.webmanifest', './especies.js?v=2.9', './planilha.js?v=2.9', './firebase-config.js?v=2.9',
   './icon-192.png', './icon-512.png', './icon-maskable-512.png', './icon-claro-192.png', './icon-claro-512.png', './favicon.png', './apple-touch-icon.png',
-  './logo-creme.png', './logo-verde.png', './logo-planilha.png', './capa.jpg', './capa-clara.jpg', './privacidade.html'];
+  './logo-creme.png', './logo-verde.png', './logo-planilha.png', './logo-emblem-creme.png', './logo-emblem-verde.png', './logo-biokuri-verde.png', './logo-biokuri-clara.png', './capa.jpg', './capa-clara.jpg', './privacidade.html'];
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(CORE)).then(() => self.skipWaiting()));
 });

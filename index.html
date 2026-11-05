@@ -1,6 +1,6 @@
 <!doctype html><html lang="pt-BR"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Lista de Campo</title>
+<title>Lista de Campo · BIOKURI</title>
 <meta name="theme-color" content="#0E2515">
 <meta name="description" content="Caderneta de campo para listas de espécies avistadas">
 <link rel="manifest" href="manifest.webmanifest">
@@ -318,7 +318,7 @@ body.sheet-open .toast{bottom:auto;top:calc(env(safe-area-inset-top,0px) + 14px)
 .cover{position:fixed;inset:0;z-index:40;display:flex;flex-direction:column;align-items:center;overflow:hidden;
   background:#0E2515 url("capa.jpg") center bottom / cover no-repeat;color:#F2EBDD;text-align:center;
   padding:calc(env(safe-area-inset-top,0px) + 7vh) 24px calc(env(safe-area-inset-bottom,0px) + 22px)}
-.cover-logo{width:min(38vw,168px);height:auto;display:block;filter:drop-shadow(0 6px 18px rgba(0,0,0,.35));animation:rise .9s ease-out both}
+.cover-logo{width:min(44vw,200px);height:auto;display:block;filter:drop-shadow(0 6px 18px rgba(0,0,0,.35));animation:rise .9s ease-out both}
 .cover-tag{margin:14px 0 0;font-family:var(--display);font-style:italic;font-size:19px;color:#CDD8C1;animation:rise .9s .08s ease-out both}
 .cover-rule{width:64px;height:1.5px;background:#B08854;margin:22px auto 18px;border:0;animation:rise .9s .14s ease-out both}
 .cover h1{font-family:var(--display);font-weight:600;font-size:clamp(42px,12vw,58px);line-height:.98;color:#F3EEE3;animation:rise .9s .18s ease-out both}
@@ -462,6 +462,8 @@ body.selecting .wm{display:none}
 :root[data-theme="light"] .cover{background:#F3EEE3 url("capa-clara.jpg") center bottom / cover no-repeat;color:#13301A}
 :root[data-theme="light"] .logo-dark{display:none}
 :root[data-theme="light"] .logo-light{display:block}
+:root[data-theme="light"] .home-logo{background:var(--surface-2);border:1.5px solid var(--line)}
+:root[data-theme="light"] .home-logo img{content:url("logo-emblem-verde.png")}
 :root[data-theme="light"] .cover-tag{color:#5B675A}
 :root[data-theme="light"] .cover h1{color:#13301A}
 :root[data-theme="light"] .cover-sub{color:#86602E}
@@ -826,8 +828,7 @@ body.selecting .wm{display:none}
 <!-- CAPA -->
 <section id="cover" class="cover" aria-label="Lista de Campo">
   <div class="cover-top"><button class="theme-btn" data-act="theme" aria-label="Trocar modo claro ou escuro"><span class="t-sun" aria-hidden="true">☀︎</span><span class="t-moon" aria-hidden="true">☾</span></button><span id="cover-install"></span><button class="theme-btn acct-btn" data-act="account" aria-label="Conta e backup" id="cover-acct"><svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg></button></div>
-  <img class="cover-logo logo-dark" src="logo-creme.png" alt="Logo Pesquisa &amp; Soluções Ambientais" width="168" height="168"><img class="cover-logo logo-light" src="logo-verde.png" alt="Logo Pesquisa &amp; Soluções Ambientais" width="168" height="168">
-  <p class="cover-tag">Pesquisa &amp; Soluções Ambientais</p>
+  <img class="cover-logo logo-dark" src="logo-creme.png" alt="BIOKURI Pesquisa e Soluções Ambientais" width="200" height="185"><img class="cover-logo logo-light" src="logo-verde.png" alt="BIOKURI Pesquisa e Soluções Ambientais" width="200" height="185">
   <hr class="cover-rule">
   <h1>Lista<br>de Campo</h1>
   <p class="cover-sub">Listas de espécies · contagem · GPS</p>
@@ -840,7 +841,7 @@ body.selecting .wm{display:none}
 <!-- ENTRAR: login, cadastro ou sem login -->
 <section id="login" class="login" aria-label="Entrar no Lista de Campo" hidden></section>
 
-<div class="wm" aria-hidden="true"><small>Lista de Campo</small>Lucas Aøsf</div>
+<div class="wm" aria-hidden="true"><small>Lista de Campo</small>BIOKURI · Lucas Aøsf</div>
 <div class="pocket" id="pocket" hidden><div class="pocket-in"><span class="rec-dot"></span><b>Gravando a trilha</b><span id="pocket-info"></span><small>Deslize para cima para voltar</small></div></div>
 <div class="update-bar" id="update-bar" hidden></div>
 
@@ -849,7 +850,7 @@ body.selecting .wm{display:none}
   <section id="home" aria-label="Minhas listas" hidden>
     <header class="home-head">
       <div class="brand">
-        <button class="home-logo" data-act="cover" aria-label="Voltar para a capa"><img src="logo-creme.png" alt=""></button>
+        <button class="home-logo" data-act="cover" aria-label="Voltar para a capa"><img src="logo-emblem-creme.png" alt="BIOKURI"></button>
         <div class="brand-text">
           <span class="eyebrow">Lista de Campo</span>
           <h1>Minhas listas</h1>
@@ -1056,9 +1057,9 @@ body.selecting .wm{display:none}
 <div class="sel-bar" id="sel-bar" hidden></div>
 <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 <datalist id="dl-proj"></datalist><datalist id="dl-camp"></datalist><datalist id="dl-ua"></datalist><datalist id="dl-met"></datalist>
-<script src="especies.js?v=2.8"></script>
-<script src="planilha.js?v=2.8"></script>
-<script src="firebase-config.js?v=2.8"></script>
+<script src="especies.js?v=2.9"></script>
+<script src="planilha.js?v=2.9"></script>
+<script src="firebase-config.js?v=2.9"></script>
 
 <script>
 (function(){
@@ -1156,7 +1157,7 @@ var S = {
   sugg:[], suggIdx:0, undo:null, sheetClose:null, editingName:null, demo:3,
   alias:{}, defMode:LS.get('defMode', 'V'), theme:LS.get('theme', 'dark'), filterTax:''
 };
-var APP_V = '2.8';
+var APP_V = '2.9';
 function cmpVer(a, b){
   var pa = String(a).split('.').map(function(n){ return parseInt(n, 10) || 0; });
   var pb = String(b).split('.').map(function(n){ return parseInt(n, 10) || 0; });
@@ -1168,10 +1169,10 @@ function cmpVer(a, b){
   return 0;
 }
 var NOVIDADES = [
-  'Silhuetas anatômicas por grupo faunístico (Aves, Mamíferos, Anfíbios e Répteis) nos cards sem foto do Guia de Espécies e da Life List, com destaque "SEM FOTO".',
-  'Submissão colaborativa de fotos: possibilidade de qualquer usuário subir fotos de campo para espécies sem imagem disponível.',
-  'Moderação científica pelo desenvolvedor (Lucas Aosf): envio automático por e-mail (lucasaosf@gmail.com) e canal complementar via WhatsApp (+55 12 99182-1729) para validação taxonômica dos caracteres diagnósticos.',
-  'Visualização imediata em moderação: a imagem enviada é exibida instantaneamente no app com selo de moderação até a homologação final.'
+  'Nova Identidade Visual da Empresa: incorporação oficial da marca BIOKURI (Pesquisa e Soluções Ambientais) com o símbolo das Araucárias.',
+  'Logos ajustadas para modo claro e escuro: versão clara no mesmo alinhamento vertical elegante da versão verde, com tipografia bronze e verde-floresta em alta definição.',
+  'Identificação empresarial nas planilhas Excel (.xlsx): todas as planilhas geradas agora exibem o nome BIOKURI no cabeçalho oficial, metadados do documento e abas de Resumo e Biometria.',
+  'Novo ícone institucional de navegação: emblema das Araucárias no botão de retorno ao início no topo do app.'
 ];
 
 /* ---------- banco de espécies ---------- */
@@ -3287,8 +3288,8 @@ function renderLogin(){
   var keep = {e: v('#lg-email'), n: v('#lg-nome')};
   var theme = '<button class="theme-btn" data-act="theme" aria-label="Trocar modo claro ou escuro"><span class="t-sun" aria-hidden="true">☀︎</span><span class="t-moon" aria-hidden="true">☾</span></button>';
   var back = '<button class="theme-btn" data-act="lg-back" aria-label="Voltar"><svg class="ico" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>';
-  var brand = '<img class="cover-logo logo-dark" src="logo-creme.png" alt="Logo Pesquisa &amp; Soluções Ambientais" width="168" height="168"><img class="cover-logo logo-light" src="logo-verde.png" alt="Logo Pesquisa &amp; Soluções Ambientais" width="168" height="168">' +
-    '<p class="cover-tag">Pesquisa &amp; Soluções Ambientais</p><hr class="cover-rule">';
+  var brand = '<img class="cover-logo logo-dark" src="logo-creme.png" alt="BIOKURI Pesquisa e Soluções Ambientais" width="200" height="185"><img class="cover-logo logo-light" src="logo-verde.png" alt="BIOKURI Pesquisa e Soluções Ambientais" width="200" height="185">' +
+    '<hr class="cover-rule">';
   var h;
   if (m === 'menu'){
     h = '<div class="cover-top">' + theme + '</div><div class="login-in menu">' + brand +
@@ -3697,7 +3698,7 @@ function drawCard(canvas, c){
   
   ctx.fillStyle = '#D4B277';
   ctx.font = '700 12px -apple-system, BlinkMacSystemFont, "Jost", sans-serif';
-  ctx.fillText('LISTA DE CAMPO · PESQUISA & SOLUÇÕES AMBIENTAIS', pad, y);
+  ctx.fillText('LISTA DE CAMPO · BIOKURI PESQUISA E SOLUÇÕES AMBIENTAIS', pad, y);
   
   y += 34;
   ctx.fillStyle = '#F3EEE3';
