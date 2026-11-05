@@ -625,119 +625,56 @@
     for (var k2 = 0; k2 < uaCols * 3; k2++) E.width(c0 + k2, 5.5);
     [6, 8, 8, 7, 10, 18, 10, 9, 18, 6, 6, 7, 8, 8, 26, 30].forEach(function (w, i) { E.width(cAfter + i, w); });
 
-    /* ---------- 2b. Biometria (Pitfall - Herpetofauna & Rede de Neblina - Aves) ---------- */
+    /* ---------- 2b. Biometria (Pitfall - Herpetofauna) ---------- */
     var hasPitfall = D.listas.some(function (L) {
       var m = norm(L.metodo);
       return m.indexOf('pitfall') >= 0 || m.indexOf('queda') >= 0;
     });
-    var hasRede = D.listas.some(function (L) {
-      var m = norm(L.metodo);
-      return m.indexOf('rede') >= 0 || m.indexOf('neblina') >= 0;
-    });
-    var hasMackinnon = D.listas.some(function (L) {
-      var m = norm(L.metodo);
-      return m.indexOf('mackinnon') >= 0;
-    });
-
-    var bioRowsHerp = [];
-    var bioRowsAves = [];
-
+    var bioRows = [];
     D.listas.forEach(function (L) {
-      var isListRede = norm(L.metodo).indexOf('rede') >= 0 || norm(L.metodo).indexOf('neblina') >= 0;
-      var isListPit = norm(L.metodo).indexOf('pitfall') >= 0 || norm(L.metodo).indexOf('queda') >= 0;
-
       (L.registros || []).forEach(function (r) {
         var d = r.sci ? D.db(r.sci) : (r.info || null);
         var sciName = r.sci || r.nome;
         var pName = r.nomePop || (d && d.pt ? d.pt.split(',')[0].trim() : '');
-        var isBird = (d && d.c === 'A') || isListRede || (L.grupo === 'Ornitofauna');
-
+        var grp = (d && d.c === 'Amphibia') ? 'Anfíbio (Anuro)' : ((d && d.c === 'Reptilia') ? ((d.o === 'Squamata' && d.so === 'Serpentes') ? 'Réptil (Serpente)' : 'Réptil (Lagarto)') : 'Herpetofauna');
         if (Array.isArray(r.bio) && r.bio.length) {
           r.bio.forEach(function (b) {
-            if (isBird || b.anilha || b.asa != null || b.culmen != null || b.tarso != null) {
-              bioRowsAves.push({
-                data: b.data || fmtDate(r.hora || L.inicio),
-                hora: b.hora || (r.hora ? pad(new Date(r.hora).getHours()) + ':' + pad(new Date(r.hora).getMinutes()) : '—'),
-                rede: b.rede || b.estacao || L.ua || '—',
-                resp: b.resp || b.responsavel || input.responsavel || 'Lucas Aøsf',
-                sp: sciName,
-                pop: pName,
-                anilha: b.anilha || b.marcacao || '—',
-                status: b.status || 'N',
-                sexo: b.sexo || 'Ind',
-                idade: b.idade || 'Ind',
-                cp: b.cp != null && b.cp !== '' ? +b.cp : (b.crc != null && b.crc !== '' ? +b.crc : null),
-                asa: b.asa != null && b.asa !== '' ? +b.asa : null,
-                cauda: b.cauda != null && b.cauda !== '' ? +b.cauda : null,
-                culmen: b.culmen != null && b.culmen !== '' ? +b.culmen : null,
-                tarso: b.tarso != null && b.tarso !== '' ? +b.tarso : null,
-                peso: b.peso != null && b.peso !== '' ? +b.peso : null,
-                placa: b.placa != null ? String(b.placa) : '0',
-                gordura: b.gordura != null ? String(b.gordura) : '0',
-                muda: b.muda || 'Ausente',
-                clima: b.clima || L.clima || '—',
-                obs: b.obs || r.obs || ''
-              });
-            } else {
-              var grp = (d && d.c === 'Amphibia') ? 'Anfíbio (Anuro)' : ((d && d.c === 'Reptilia') ? ((d.o === 'Squamata' && d.so === 'Serpentes') ? 'Réptil (Serpente)' : 'Réptil (Lagarto)') : 'Herpetofauna');
-              bioRowsHerp.push({
-                data: b.data || fmtDate(r.hora || L.inicio),
-                hora: b.hora || (r.hora ? pad(new Date(r.hora).getHours()) + ':' + pad(new Date(r.hora).getMinutes()) : '—'),
-                estacao: b.estacao || L.ua || '—',
-                resp: b.resp || input.responsavel || 'Lucas Aøsf',
-                grp: b.grp || grp,
-                sp: sciName,
-                pop: pName,
-                marcacao: b.marcacao || 'Natural',
-                status: b.status || 'N',
-                sexo: b.sexo || 'Ind',
-                reprod: b.reprod || 'N.A.',
-                crc: b.crc != null && b.crc !== '' ? +b.crc : null,
-                cauda: b.cauda != null && b.cauda !== '' ? +b.cauda : null,
-                peso: b.peso != null && b.peso !== '' ? +b.peso : null,
-                ac: b.ac != null && b.ac !== '' ? +b.ac : null,
-                lc: b.lc != null && b.lc !== '' ? +b.lc : null,
-                ac2: b.ac2 != null && b.ac2 !== '' ? +b.ac2 : null,
-                lc2: b.lc2 != null && b.lc2 !== '' ? +b.lc2 : null,
-                sl: b.sl || '',
-                il: b.il || '',
-                sc: b.sc || '',
-                cl: b.cl || '',
-                clima: b.clima || L.clima || '—',
-                obs: b.obs || r.obs || ''
-              });
-            }
-          });
-        } else if (isListRede && isBird && (r.tot || r.N)) {
-          var qtdA = r.tot || r.N || 1;
-          for (var qiA = 0; qiA < qtdA; qiA++) {
-            bioRowsAves.push({
-              data: fmtDate(r.hora || L.inicio),
-              hora: r.hora ? pad(new Date(r.hora).getHours()) + ':' + pad(new Date(r.hora).getMinutes()) : '—',
-              rede: L.ua || '—',
-              resp: input.responsavel || 'Lucas Aøsf',
+            bioRows.push({
+              data: b.data || fmtDate(r.hora || L.inicio),
+              hora: b.hora || (r.hora ? pad(new Date(r.hora).getHours()) + ':' + pad(new Date(r.hora).getMinutes()) : '—'),
+              estacao: b.estacao || L.ua || '—',
+              resp: b.resp || input.responsavel || 'Lucas Aøsf',
+              grp: b.grp || grp,
               sp: sciName,
               pop: pName,
-              anilha: '',
-              status: 'N',
-              sexo: 'Ind',
-              idade: 'Ind',
-              cp: null, asa: null, cauda: null, culmen: null, tarso: null, peso: null,
-              placa: '0', gordura: '0', muda: 'Ausente',
-              clima: L.clima || '—',
-              obs: r.obs || ''
+              marcacao: b.marcacao || 'Natural',
+              status: b.status || 'N',
+              sexo: b.sexo || 'Ind',
+              reprod: b.reprod || 'N.A.',
+              crc: b.crc != null && b.crc !== '' ? +b.crc : null,
+              cauda: b.cauda != null && b.cauda !== '' ? +b.cauda : null,
+              peso: b.peso != null && b.peso !== '' ? +b.peso : null,
+              ac: b.ac != null && b.ac !== '' ? +b.ac : null,
+              lc: b.lc != null && b.lc !== '' ? +b.lc : null,
+              ac2: b.ac2 != null && b.ac2 !== '' ? +b.ac2 : null,
+              lc2: b.lc2 != null && b.lc2 !== '' ? +b.lc2 : null,
+              sl: b.sl || '',
+              il: b.il || '',
+              sc: b.sc || '',
+              cl: b.cl || '',
+              clima: b.clima || L.clima || '—',
+              obs: b.obs || r.obs || ''
             });
-          }
-        } else if (isListPit && (r.tot || r.N)) {
-          var qtdH = r.tot || r.N || 1;
-          var grpH = (d && d.c === 'Amphibia') ? 'Anfíbio (Anuro)' : ((d && d.c === 'Reptilia') ? ((d.o === 'Squamata' && d.so === 'Serpentes') ? 'Réptil (Serpente)' : 'Réptil (Lagarto)') : 'Herpetofauna');
-          for (var qiH = 0; qiH < qtdH; qiH++) {
-            bioRowsHerp.push({
+          });
+        } else if (hasPitfall && (r.tot || r.N)) {
+          var qtd = r.tot || r.N || 1;
+          for (var qi = 0; qi < qtd; qi++) {
+            bioRows.push({
               data: fmtDate(r.hora || L.inicio),
               hora: r.hora ? pad(new Date(r.hora).getHours()) + ':' + pad(new Date(r.hora).getMinutes()) : '—',
               estacao: L.ua || '—',
               resp: input.responsavel || 'Lucas Aøsf',
-              grp: grpH,
+              grp: grp,
               sp: sciName,
               pop: pName,
               marcacao: '',
@@ -755,12 +692,9 @@
       });
     });
 
-    var showPitfall = hasPitfall || bioRowsHerp.length > 0;
-    var showRede = hasRede || bioRowsAves.length > 0;
-
-    if (showPitfall) {
-      var bmName = showRede ? 'Biometria — Herpeto' : 'Biometria';
-      var Bm = B.sheet(bmName, { landscape: true, freeze: { r: 8, c: 6 }, printTitles: [6, 7], fitW: 3 });
+    var showBiometria = hasPitfall || bioRows.length > 0;
+    if (showBiometria) {
+      var Bm = B.sheet('Biometria', { landscape: true, freeze: { r: 8, c: 6 }, printTitles: [6, 7], fitW: 3 });
       var rB = Bm.title(0, 'Biometria de campo — Pitfall (Armadilhas de Interceptação e Queda)', titulo + ' · ' + periodo + ' · Morfometria, folidose e histórico de capturas.', 24);
 
       Bm.set(rB, 0, 'Metadados da amostragem', S.secao); Bm.fill(rB, 1, rB, 23, S.secao); rB += 1;
@@ -780,12 +714,12 @@
       });
       rB++;
 
-      var nCapturas = bioRowsHerp.length;
-      var nNovos = bioRowsHerp.filter(function (b) { return b.status === 'N'; }).length;
-      var nRecapt = bioRowsHerp.filter(function (b) { return b.status === 'R'; }).length;
+      var nCapturas = bioRows.length;
+      var nNovos = bioRows.filter(function (b) { return b.status === 'N'; }).length;
+      var nRecapt = bioRows.filter(function (b) { return b.status === 'R'; }).length;
       var txRecapt = nCapturas ? round(100 * nRecapt / nCapturas, 1) + '%' : '0%';
-      var nReprod = bioRowsHerp.filter(function (b) { return b.reprod === 'F.O.' || b.reprod === 'M' || b.reprod === 'A.P.' || b.reprod === 'V'; }).length;
-      var estCounts = {}; bioRowsHerp.forEach(function (b) { if (b.estacao && b.estacao !== '—') estCounts[b.estacao] = (estCounts[b.estacao] || 0) + 1; });
+      var nReprod = bioRows.filter(function (b) { return b.reprod === 'F.O.' || b.reprod === 'M' || b.reprod === 'A.P.' || b.reprod === 'V'; }).length;
+      var estCounts = {}; bioRows.forEach(function (b) { if (b.estacao && b.estacao !== '—') estCounts[b.estacao] = (estCounts[b.estacao] || 0) + 1; });
       var topEst = Object.keys(estCounts).sort(function (a, b) { return estCounts[b] - estCounts[a]; })[0] || '—';
 
       Bm.set(rB, 0, 'Resultados e Métricas de Captura', S.secao); Bm.fill(rB, 1, rB, 23, S.secao); rB += 1;
@@ -834,7 +768,7 @@
       var bWidths = [11, 8, 15, 16, 14, 25, 18, 22, 8, 8, 12, 10, 10, 10, 9, 9, 9, 9, 11, 10, 12, 11, 22, 28];
       bWidths.forEach(function (w, i) { Bm.width(i, w); });
 
-      bioRowsHerp.forEach(function (b, bi) {
+      bioRows.forEach(function (b, bi) {
         var alt = bi % 2 === 1;
         var tdBase = alt ? st('td', { fill: C.branco }) : S.td;
         var tdlBase = alt ? st('tdl', { fill: C.branco }) : S.tdl;
@@ -881,351 +815,6 @@
       Bm.set(rB, 0, legTxt, S.legenda);
       Bm.merge(rB, 0, rB + 4, 23, S.legenda);
       Bm.height(rB, 18);
-    }
-
-    if (showRede) {
-      var Ba = B.sheet('Biometria — Aves', { landscape: true, freeze: { r: 8, c: 6 }, printTitles: [6, 7], fitW: 3 });
-      var rA = Ba.title(0, 'Biometria de campo — Aves (Rede de Neblina & Anilhamento)', titulo + ' · ' + periodo + ' · Morfometria, condição corporal e anilhamento (CEMAVE/SNA).', 21);
-
-      Ba.set(rA, 0, 'Metadados da amostragem', S.secao); Ba.fill(rA, 1, rA, 20, S.secao); rA += 1;
-      var baInfo = [
-        ['Empresa / Consultoria', 'BIOKURI — Pesquisa e Soluções Ambientais'],
-        ['Projeto / Área', input.projeto || (D.listas[0] && D.listas[0].projeto) || '—'],
-        ['Método', 'Rede de neblina (Mist-netting) & Anilhamento'],
-        ['Período', periodo],
-        ['Unidades amostrais', D.uas.map(function (u) { return u.nome; }).join(', ')],
-        ['Responsável técnico', input.responsavel || 'Lucas Aøsf (CRBio 127233/01-D)']
-      ];
-      baInfo.forEach(function (x) {
-        Ba.set(rA, 0, x[0], S.totl);
-        Ba.set(rA, 1, x[1], st('tdl', { wrap: true }));
-        Ba.merge(rA, 1, rA, 20, st('tdl'));
-        rA++;
-      });
-      rA++;
-
-      var nCaptAves = bioRowsAves.length;
-      var nNovosAves = bioRowsAves.filter(function (b) { return b.status === 'N'; }).length;
-      var nRecaptAves = bioRowsAves.filter(function (b) { return b.status === 'R' || b.status === 'RE'; }).length;
-      var txRecaptAves = nCaptAves ? round(100 * nRecaptAves / nCaptAves, 1) + '%' : '0%';
-      var nMudaAves = bioRowsAves.filter(function (b) { return b.muda && b.muda !== 'Ausente' && b.muda !== '—'; }).length;
-      var redeCounts = {}; bioRowsAves.forEach(function (b) { if (b.rede && b.rede !== '—') redeCounts[b.rede] = (redeCounts[b.rede] || 0) + 1; });
-      var topRede = Object.keys(redeCounts).sort(function (a, b) { return redeCounts[b] - redeCounts[a]; })[0] || '—';
-
-      Ba.set(rA, 0, 'Resultados e Métricas de Captura de Aves', S.secao); Ba.fill(rA, 1, rA, 20, S.secao); rA += 1;
-      var baKpis = [
-        [nCaptAves, 'Total de capturas'],
-        [nNovosAves, 'Novos anilhados (N)'],
-        [nRecaptAves, 'Recapturas (R / RE)'],
-        [txRecaptAves, 'Taxa de recaptura'],
-        [nMudaAves, 'Indivíduos em muda'],
-        [topRede, 'Rede mais produtiva']
-      ];
-      baKpis.forEach(function (k, i) {
-        var cStart = Math.floor(i * (21 / 6)), cEnd = i === 5 ? 20 : (Math.floor((i + 1) * (21 / 6)) - 1);
-        Ba.set(rA, cStart, k[0], st('kpiNum', { nf: typeof k[0] === 'number' && k[0] % 1 ? '0.0' : '0' }));
-        Ba.merge(rA, cStart, rA, cEnd, S.kpiNum);
-        Ba.set(rA + 1, cStart, k[1], S.kpiLab);
-        Ba.merge(rA + 1, cStart, rA + 1, cEnd, S.kpiLab);
-      });
-      Ba.height(rA, 28); Ba.height(rA + 1, 24); rA += 3;
-
-      var superAves = [
-        ['Identificação da Captura e Taxonomia', 0, 6],
-        ['Demografia e Anilhamento', 7, 9],
-        ['Morfometria (mm e g)', 10, 15],
-        ['Condição Corporal e Fisiologia', 16, 18],
-        ['Campo e Observações', 19, 20]
-      ];
-      superAves.forEach(function (sc) {
-        Ba.set(rA, sc[1], sc[0], S.th2);
-        Ba.merge(rA, sc[1], rA, sc[2], S.th2);
-      });
-      Ba.height(rA, 22); rA += 1;
-
-      var baHeaders = [
-        'Data', 'Hora', 'Rede nº / Ponto', 'Responsável', 'Nome da Espécie', 'Nome Popular',
-        'Nº Anilha (SNA/CEMAVE)', 'Status', 'Sexo', 'Idade',
-        'CP (mm)', 'Asa (mm)', 'Cauda (mm)', 'Cúlmen (mm)', 'Tarso (mm)', 'Peso (g)',
-        'Placa Inc.', 'Gordura (0-5)', 'Muda de Penas',
-        'Condições Climáticas', 'Observações'
-      ];
-      baHeaders.forEach(function (h, i) { Ba.set(rA, i, h, S.th); });
-      Ba.height(rA, 26); rA += 1;
-
-      var baWidths = [11, 8, 15, 18, 26, 20, 20, 8, 8, 8, 10, 10, 10, 10, 10, 10, 11, 12, 16, 20, 28];
-      baWidths.forEach(function (w, i) { Ba.width(i, w); });
-
-      bioRowsAves.forEach(function (b, bi) {
-        var alt = bi % 2 === 1;
-        var tdBase = alt ? st('td', { fill: C.branco }) : S.td;
-        var tdlBase = alt ? st('tdl', { fill: C.branco }) : S.tdl;
-        var spBase = alt ? st('sp', { fill: C.branco }) : S.sp;
-
-        Ba.set(rA, 0, b.data, tdBase);
-        Ba.set(rA, 1, b.hora, tdBase);
-        Ba.set(rA, 2, b.rede, tdlBase);
-        Ba.set(rA, 3, b.resp, tdlBase);
-        Ba.set(rA, 4, b.sp, spBase);
-        Ba.set(rA, 5, b.pop, tdlBase);
-        Ba.set(rA, 6, b.anilha || '—', tdlBase);
-        Ba.set(rA, 7, b.status || 'N', tdBase);
-        Ba.set(rA, 8, b.sexo || 'Ind', tdBase);
-        Ba.set(rA, 9, b.idade || 'Ind', tdBase);
-
-        Ba.set(rA, 10, b.cp != null ? b.cp : null, st(tdBase, { nf: '0.0' }));
-        Ba.set(rA, 11, b.asa != null ? b.asa : null, st(tdBase, { nf: '0.0' }));
-        Ba.set(rA, 12, b.cauda != null ? b.cauda : null, st(tdBase, { nf: '0.0' }));
-        Ba.set(rA, 13, b.culmen != null ? b.culmen : null, st(tdBase, { nf: '0.0' }));
-        Ba.set(rA, 14, b.tarso != null ? b.tarso : null, st(tdBase, { nf: '0.0' }));
-        Ba.set(rA, 15, b.peso != null ? b.peso : null, st(tdBase, { nf: '0.0' }));
-
-        Ba.set(rA, 16, b.placa != null ? String(b.placa) : '0', tdBase);
-        Ba.set(rA, 17, b.gordura != null ? String(b.gordura) : '0', tdBase);
-        Ba.set(rA, 18, b.muda || 'Ausente', tdBase);
-
-        Ba.set(rA, 19, b.clima || '—', tdlBase);
-        Ba.set(rA, 20, b.obs || '', tdlBase);
-        rA++;
-      });
-
-      rA += 1;
-      Ba.set(rA, 0, 'Dicionário de Códigos e Protocolos de Biometria (Aves — CEMAVE / SNA)', S.secao);
-      Ba.fill(rA, 1, rA, 20, S.secao); rA += 1;
-      var legAves = 'Status do anilhamento: N – Novo indivíduo anilhado; R – Recaptura própria (mesmo projeto); RE – Recaptura estrangeira (anilha de outra origem/projeto).\n' +
-        'Sexo: M – Macho; F – Fêmea; Ind – Indeterminado.\n' +
-        'Idade: J – Jovem / Imaturo; S – Subadulto; A – Adulto; Ind – Indeterminado.\n' +
-        'Morfometria (mm e g): CP – Comprimento Total (do bico à ponta da cauda); Asa – Comprimento da corda máxima da asa fechada; Cauda – Comprimento das retrizes centrais (do uropígio à ponta); Cúlmen – Comprimento total do bico (da fronte à ponta); Tarso – Comprimento do tarso-metatarso; Peso em gramas (g).\n' +
-        'Placa de incubação: 0 – Ausente; 1 – Início da vascularização e perda de penas; 2 – Desenvolvida (edemaciada e avermelhada); 3 – Em regressão (penas em broto).\n' +
-        'Gordura subcutânea: escala de 0 a 5 na região fúrcula/abdômen (0: nula, 1: traços, 2: fina camada, 3: espessa, 4: abundante, 5: protuberante).\n' +
-        'Muda de penas: Ausente, Rêmiges (asas), Retrizes (cauda), Penas de contorno / Corpo ou Geral. Padrões alinhados às diretrizes do CEMAVE/ICMBio.';
-      Ba.set(rA, 0, legAves, S.legenda);
-      Ba.merge(rA, 0, rA + 5, 20, S.legenda);
-      Ba.height(rA, 18);
-    }
-
-    if (hasMackinnon) {
-      var mackLists = D.listas.filter(function (L) {
-        var m = norm(L.metodo);
-        return m.indexOf('mackinnon') >= 0;
-      });
-
-      var sublistCols = [];
-      mackLists.forEach(function (L, lidx) {
-        var maxK = L.mackinnonCurrent || 1;
-        (L.registros || []).forEach(function (r) {
-          if (Array.isArray(r.mLists)) {
-            r.mLists.forEach(function (k) { if (k > maxK) maxK = k; });
-          }
-        });
-        for (var k = 1; k <= maxK; k++) {
-          var colLabel = mackLists.length === 1 ? ('Lista ' + pad(k)) : ((L.titulo || ('Amostra ' + (lidx + 1))) + ' · L' + pad(k));
-          sublistCols.push({ checklist: L, k: k, label: colLabel, key: (L.titulo || lidx) + '_' + k });
-        }
-      });
-      if (sublistCols.length === 0) sublistCols.push({ checklist: mackLists[0] || D.listas[0], k: 1, label: 'Lista 01', key: '0_1' });
-
-      var nColsK = sublistCols.length;
-      var totalColsMk = 4 + nColsK + 2; // [Família, Espécie, Nome Pop, Categoria] + [L01..Lk] + [Total, F%]
-
-      var Mk = B.sheet('MacKinnon — Aves', { landscape: true, freeze: { r: 8, c: 3 }, printTitles: [6, 7], fitW: 3 });
-      var rM = Mk.title(0, 'Análise Metodológica — Listas de MacKinnon (Ornitologia)', titulo + ' · ' + periodo + ' · Matriz de incidência, frequência de ocorrência e suficiência amostral.', totalColsMk);
-
-      Mk.set(rM, 0, 'Metadados da amostragem (Listas de MacKinnon)', S.secao); Mk.fill(rM, 1, rM, totalColsMk - 1, S.secao); rM += 1;
-      var mkInfo = [
-        ['Empresa / Consultoria', 'BIOKURI — Pesquisa e Soluções Ambientais'],
-        ['Projeto / Área', input.projeto || (D.listas[0] && D.listas[0].projeto) || '—'],
-        ['Método', 'Listas de Espécies de MacKinnon (MacKinnon & Phillipps 1993, Herzog et al. 2002)'],
-        ['Tamanho padrão por lista', (mackLists[0] && mackLists[0].mackinnonSize ? mackLists[0].mackinnonSize : 10) + ' espécies por sub-lista'],
-        ['Total de sub-listas concluídas', nColsK + ' lista(s) de campo'],
-        ['Responsável técnico', input.responsavel || 'Lucas Aøsf (CRBio 127233/01-D)']
-      ];
-      mkInfo.forEach(function (x) {
-        Mk.set(rM, 0, x[0], S.totl);
-        Mk.set(rM, 1, x[1], st('tdl', { wrap: true }));
-        Mk.merge(rM, 1, rM, totalColsMk - 1, st('tdl'));
-        rM++;
-      });
-      rM++;
-
-      // Mapear espécies e presenças
-      var mackSpMap = {};
-      sublistCols.forEach(function (sc) {
-        (sc.checklist.registros || []).forEach(function (r) {
-          var hasInSublist = Array.isArray(r.mLists) && r.mLists.indexOf(sc.k) >= 0;
-          if (!hasInSublist && (!r.mLists || r.mLists.length === 0) && sc.k === 1) {
-            hasInSublist = true;
-          }
-          if (hasInSublist) {
-            var sci = r.sci || r.nome;
-            if (!mackSpMap[sci]) {
-              var d = r.sci ? D.db(r.sci) : (r.info || null);
-              mackSpMap[sci] = {
-                sp: sci,
-                pop: r.nomePop || (d && d.pt ? d.pt.split(',')[0].trim() : ''),
-                familia: (d && d.f) || '—',
-                ordem: (d && d.o) || '—',
-                iucn: (d && d.iucn) || '',
-                sublists: {}
-              };
-            }
-            mackSpMap[sci].sublists[sc.key] = true;
-          }
-        });
-      });
-
-      var mackSpList = Object.keys(mackSpMap).map(function (k) { return mackSpMap[k]; });
-      mackSpList.forEach(function (sp) {
-        var occ = 0;
-        sublistCols.forEach(function (sc) {
-          if (sp.sublists[sc.key]) occ++;
-        });
-        sp.occ = occ;
-        sp.frec = nColsK ? occ / nColsK : 0;
-        sp.frecPct = sp.frec * 100;
-        sp.categoria = sp.frecPct >= 75 ? 'Muito Frequente' : (sp.frecPct >= 50 ? 'Frequente' : (sp.frecPct >= 25 ? 'Pouco Frequente' : 'Rara'));
-      });
-
-      // Ordenar por Frequência desc, depois família, depois espécie
-      mackSpList.sort(function (a, b) {
-        if (b.occ !== a.occ) return b.occ - a.occ;
-        if (a.familia !== b.familia) return a.familia.localeCompare(b.familia);
-        return a.sp.localeCompare(b.sp);
-      });
-
-      // Métricas e KPIs
-      var totalSpMk = mackSpList.length;
-      var nMuitoFreq = mackSpList.filter(function (s) { return s.frecPct >= 75; }).length;
-      var nFreq = mackSpList.filter(function (s) { return s.frecPct >= 50 && s.frecPct < 75; }).length;
-      var nPoucoFreq = mackSpList.filter(function (s) { return s.frecPct >= 25 && s.frecPct < 50; }).length;
-      var nRaras = mackSpList.filter(function (s) { return s.frecPct < 25; }).length;
-      var nSingletons = mackSpList.filter(function (s) { return s.occ === 1; }).length;
-      var mediaSpLista = nColsK ? round(totalSpMk / nColsK, 1) : 0;
-
-      Mk.set(rM, 0, 'Indicadores Sintéticos de MacKinnon', S.secao); Mk.fill(rM, 1, rM, totalColsMk - 1, S.secao); rM += 1;
-      var mkKpis = [
-        [nColsK, 'Sub-listas (K)'],
-        [totalSpMk, 'Riqueza total (S)'],
-        [mediaSpLista, 'Espécies / lista (média)'],
-        [nMuitoFreq, 'Muito Frequentes (≥75%)'],
-        [nRaras, 'Espécies Raras (<25%)'],
-        [nSingletons, 'Singletons (1 única lista)']
-      ];
-      mkKpis.forEach(function (k, i) {
-        var colW = Math.floor(totalColsMk / 6);
-        var cStart = i * colW, cEnd = i === 5 ? (totalColsMk - 1) : ((i + 1) * colW - 1);
-        Mk.set(rM, cStart, k[0], st('kpiNum', { nf: typeof k[0] === 'number' && k[0] % 1 ? '0.0' : '0' }));
-        Mk.merge(rM, cStart, rM, cEnd, S.kpiNum);
-        Mk.set(rM + 1, cStart, k[1], S.kpiLab);
-        Mk.merge(rM + 1, cStart, rM + 1, cEnd, S.kpiLab);
-      });
-      Mk.height(rM, 28); Mk.height(rM + 1, 24); rM += 3;
-
-      // Super Headers
-      Mk.set(rM, 0, 'Taxonomia & Diagnóstico', S.th2);
-      Mk.merge(rM, 0, rM, 3, S.th2);
-      Mk.set(rM, 4, 'Matriz de Incidência (1 = Presente, 0 = Ausente)', S.th2);
-      Mk.merge(rM, 4, rM, 3 + nColsK, S.th2);
-      Mk.set(rM, 4 + nColsK, 'Estatísticas de Ocorrência', S.th2);
-      Mk.merge(rM, 4 + nColsK, rM, totalColsMk - 1, S.th2);
-      Mk.height(rM, 22); rM += 1;
-
-      // Headers das colunas
-      Mk.set(rM, 0, 'Família', S.th);
-      Mk.set(rM, 1, 'Nome Científico', S.th);
-      Mk.set(rM, 2, 'Nome Popular', S.th);
-      Mk.set(rM, 3, 'Categoria Freq.', S.th);
-      sublistCols.forEach(function (sc, si) {
-        Mk.set(rM, 4 + si, sc.label, S.th);
-      });
-      Mk.set(rM, 4 + nColsK, 'Listas (n)', S.th);
-      Mk.set(rM, 5 + nColsK, 'Frequência (F%)', S.th);
-      Mk.height(rM, 26); rM += 1;
-
-      // Larguras
-      Mk.width(0, 18);
-      Mk.width(1, 26);
-      Mk.width(2, 22);
-      Mk.width(3, 16);
-      sublistCols.forEach(function (sc, si) {
-        Mk.width(4 + si, Math.max(sc.label.length + 3, 11));
-      });
-      Mk.width(4 + nColsK, 12);
-      Mk.width(5 + nColsK, 16);
-
-      // Linhas da matriz de espécies
-      mackSpList.forEach(function (sp, spi) {
-        var alt = spi % 2 === 1;
-        var tdBase = alt ? st('td', { fill: C.branco }) : S.td;
-        var tdlBase = alt ? st('tdl', { fill: C.branco }) : S.tdl;
-        var spBase = alt ? st('sp', { fill: C.branco }) : S.sp;
-
-        Mk.set(rM, 0, sp.familia, tdlBase);
-        Mk.set(rM, 1, sp.sp, spBase);
-        Mk.set(rM, 2, sp.pop, tdlBase);
-        Mk.set(rM, 3, sp.categoria, tdBase);
-
-        sublistCols.forEach(function (sc, si) {
-          var pres = sp.sublists[sc.key] ? 1 : 0;
-          Mk.set(rM, 4 + si, pres, st(tdBase, { nf: '0' }));
-        });
-
-        Mk.set(rM, 4 + nColsK, sp.occ, st(tdBase, { nf: '0' }));
-        Mk.set(rM, 5 + nColsK, round(sp.frec, 3), st(tdBase, { nf: '0.0%' }));
-        rM++;
-      });
-
-      // Linha de totais de cada lista
-      Mk.set(rM, 0, 'Total de sp na lista', S.totl);
-      Mk.merge(rM, 0, rM, 3, S.totl);
-      sublistCols.forEach(function (sc, si) {
-        var spInList = mackSpList.filter(function (s) { return s.sublists[sc.key]; }).length;
-        Mk.set(rM, 4 + si, spInList, st('tot', { nf: '0' }));
-      });
-      Mk.set(rM, 4 + nColsK, totalSpMk, st('tot', { nf: '0' }));
-      Mk.set(rM, 5 + nColsK, '100.0%', S.tot);
-      rM += 2;
-
-      // Tabela da Curva de Acumulação de Espécies
-      Mk.set(rM, 0, 'Curva do Coletor Acumulada (Suficiência Amostral)', S.secao);
-      Mk.fill(rM, 1, rM, 5, S.secao); rM += 1;
-
-      var curHeaders = ['Nº Sub-lista', 'Identificador', 'Espécies na Lista', 'Espécies Novas', 'Riqueza Acumulada (S)', 'Esforço Acumulado'];
-      curHeaders.forEach(function (h, ci) { Mk.set(rM, ci, h, S.th); });
-      Mk.height(rM, 24); rM += 1;
-
-      var seenSp = {};
-      var accumCount = 0;
-      sublistCols.forEach(function (sc, si) {
-        var inThisList = mackSpList.filter(function (s) { return s.sublists[sc.key]; });
-        var newThisList = inThisList.filter(function (s) { return !seenSp[s.sp]; });
-        newThisList.forEach(function (s) { seenSp[s.sp] = true; });
-        accumCount = Object.keys(seenSp).length;
-
-        var alt = si % 2 === 1;
-        var tdBase = alt ? st('td', { fill: C.branco }) : S.td;
-        var tdlBase = alt ? st('tdl', { fill: C.branco }) : S.tdl;
-
-        Mk.set(rM, 0, si + 1, st(tdBase, { nf: '0' }));
-        Mk.set(rM, 1, sc.label, tdlBase);
-        Mk.set(rM, 2, inThisList.length, st(tdBase, { nf: '0' }));
-        Mk.set(rM, 3, newThisList.length, st(tdBase, { nf: '0' }));
-        Mk.set(rM, 4, accumCount, st(tdBase, { nf: '0', f: { b: true } }));
-        Mk.set(rM, 5, (si + 1) + ' listas', tdBase);
-        rM++;
-      });
-
-      rM += 1;
-      Mk.set(rM, 0, 'Fundamentação Metodológica — Listas de MacKinnon', S.secao);
-      Mk.fill(rM, 1, rM, totalColsMk - 1, S.secao); rM += 1;
-      var legMack = 'O método das Listas de MacKinnon (MacKinnon & Phillipps 1993, adaptado por Herzog et al. 2002 e Ribon 2010) é um método quantitativo padronizado para ornitofauna.\n' +
-        'Procedimento: O observador caminha pela área de estudo registrando cada nova espécie de ave vista ou ouvida até totalizar uma cota fixa (10 ou 20 espécies), completando uma sub-lista. Em seguida, inicia imediatamente a lista seguinte. Cada espécie só pode ser listada uma única vez por sub-lista.\n' +
-        'Não há contagem de indivíduos: Isso elimina as distorções comuns em matas tropicais causadas por bandos mistos e revoadas, focando no esforço amostral homogêneo.\n' +
-        'Frequência de Ocorrência (F%): F% = (Nº de sub-listas com a espécie / Total de sub-listas K) × 100%. Classificação: Muito Frequente (≥ 75%), Frequente (50–74%), Pouco Frequente (25–49%) e Rara (< 25%).\n' +
-        'Curva de Acumulação: Permite avaliar a suficiência amostral comparando o incremento de novas espécies a cada sub-lista adicionada ao esforço total.';
-      Mk.set(rM, 0, legMack, S.legenda);
-      Mk.merge(rM, 0, rM + 5, totalColsMk - 1, S.legenda);
-      Mk.height(rM, 18);
     }
 
     /* ---------- 2c. Ficha das espécies: taxonomia completa e todas as informações das listas ---------- */

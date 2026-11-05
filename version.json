@@ -7,6 +7,6 @@
     "Método de Listas de MacKinnon (Ornito): listas de 10 ou 20 sp sem contagem de indivíduos, controle de sub-listas (L1, L2, L3...), avanço automático e banner interativo com curva do coletor e frequência (F%)",
     "Biometria completa para Rede de Neblina (Aves): número de anilha SNA/CEMAVE, rede/estação, sexo, idade, morfometria completa (CP, Asa, Cauda, Cúlmen, Tarso, Peso), placa de incubação (0-3), gordura furcular (0-5) e muda de penas",
     "Vestígios de Mamíferos: chips rápidos de fezes, pelos, pegadas, ranhuras, tocas, carcaça e odor nas observações de campo",
-    "Novas abas na planilha BIOKURI: 'MacKinnon — Aves' (matriz de incidência, suficiência amostral e curva de acumulação) e 'Biometria — Aves' (padrão CEMAVE) além da 'Biometria — Herpeto'"
+    "Novos recursos no app: análise em tempo real de MacKinnon com curva do coletor e cálculo automático de F% direto na tela do celular"
   ]
 }
