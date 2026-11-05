@@ -1109,9 +1109,9 @@ body.selecting .wm{display:none}
 <div class="sel-bar" id="sel-bar" hidden></div>
 <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 <datalist id="dl-proj"></datalist><datalist id="dl-camp"></datalist><datalist id="dl-ua"></datalist><datalist id="dl-met"></datalist>
-<script src="especies.js?v=3.0"></script>
-<script src="planilha.js?v=3.0"></script>
-<script src="firebase-config.js?v=3.0"></script>
+<script src="especies.js?v=3.1"></script>
+<script src="planilha.js?v=3.1"></script>
+<script src="firebase-config.js?v=3.1"></script>
 
 <script>
 (function(){
@@ -3763,24 +3763,6 @@ function saveBio(sid, bioIdx){
   };
   if (bioIdx >= 0 && bioIdx < s.bio.length) {
     s.bio[bioIdx] = item;
-    toast('Captura #' + (bioIdx + 1) + ' atualizada');
-  } else {
-    s.bio.push(item);
-    if (s.count < s.bio.length) {
-      var diff = s.bio.length - s.count;
-      s.count = s.bio.length;
-      if (s.mode === 'A') s.ca = (s.ca || 0) + diff;
-      else if (s.mode === 'O') s.co = (s.co || 0) + diff;
-      else s.cv = (s.cv || 0) + diff;
-    }
-    toast('Captura #' + s.bio.length + ' registrada');
-  }
-  touch(c);
-  renderSpecies(sid);
-  renderNav();
-  S.sheetClose = null;
-  openSpEdit(sid);
-}
     toast('Captura #' + (bioIdx + 1) + ' atualizada');
   } else {
     s.bio.push(item);
