@@ -1,66 +1,168 @@
-<!doctype html><html lang="pt-BR"><head><meta charset="utf-8">
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Política de Privacidade · Lista de Campo</title>
+<title>Política de Privacidade & Proteção de Dados · BIOKURI Lista de Campo</title>
 <meta name="theme-color" content="#0E2515">
 <link rel="icon" href="favicon.png" type="image/png">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Jost:wght@400;500;600&display=swap">
-<script>(function(){try{var t=localStorage.getItem("caderneta.v1.theme");t=t?JSON.parse(t):"dark";document.documentElement.setAttribute("data-theme",t);}catch(e){document.documentElement.setAttribute("data-theme","dark");}})();</script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Jost:wght@400;500;600;700&display=swap">
+<script>
+(function(){
+  try{
+    var t = localStorage.getItem("caderneta.v1.theme");
+    t = t ? JSON.parse(t) : "dark";
+    document.documentElement.setAttribute("data-theme", t);
+  }catch(e){
+    document.documentElement.setAttribute("data-theme", "dark");
+  }
+})();
+function toggleTheme(){
+  var cur = document.documentElement.getAttribute("data-theme") === "light" ? "dark" : "light";
+  document.documentElement.setAttribute("data-theme", cur);
+  try{ localStorage.setItem("caderneta.v1.theme", JSON.stringify(cur)); }catch(e){}
+}
+</script>
 <style>
-:root{--bg:#F3EEE3;--surface:#FBF8F1;--ink:#1D2A1F;--muted:#5B675A;--line:#DDD5C3;--accent:#173A1E;--bronze:#86602E}
-:root[data-theme="dark"]{--bg:#0E2515;--surface:#132F1C;--ink:#F2EBDD;--muted:#B2C2A5;--line:#24502F;--accent:#B2C2A5;--bronze:#D4B277;color-scheme:dark}
+:root{
+  --bg:#F3EEE3;--surface:#FBF8F1;--surface-2:#EFE9DC;--ink:#1D2A1F;--muted:#5B675A;
+  --line:#DDD5C3;--accent:#173A1E;--bronze:#86602E;--font-display:"Cormorant Garamond",Georgia,serif;
+  --font-body:"Jost",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+:root[data-theme="dark"]{
+  --bg:#0E2515;--surface:#132F1C;--surface-2:#1A3D25;--ink:#F2EBDD;--muted:#B2C2A5;
+  --line:#24502F;--accent:#B2C2A5;--bronze:#D4B277;color-scheme:dark;
+}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 "Jost",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
-main{max-width:720px;margin:0 auto;padding:32px 16px 64px}
-.eyebrow{font-size:12px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--bronze)}
-h1{font-family:"Cormorant Garamond",Georgia,serif;font-size:40px;line-height:1.05;margin:6px 0 4px}
-h2{font-family:"Cormorant Garamond",Georgia,serif;font-size:25px;margin:28px 0 6px}
-.meta{color:var(--muted);font-size:14px;margin:0 0 24px}
-ul{padding-left:20px}
-li{margin:4px 0}
-.box{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
-a{color:var(--accent);font-weight:600}
-footer{margin-top:40px;color:var(--muted);font-size:14px;border-top:1px solid var(--line);padding-top:16px}
-</style></head><body><main>
-<p class="eyebrow">Lista de Campo · Pesquisa &amp; Soluções Ambientais</p>
-<h1>Política de Privacidade</h1>
-<p class="meta">Atualizada em 24 de outubro de 2026</p>
+body{
+  margin:0;background:var(--bg);color:var(--ink);
+  font:16px/1.6 var(--font-body);
+  padding:calc(env(safe-area-inset-top,0px) + 20px) 16px calc(env(safe-area-inset-bottom,0px) + 60px);
+  min-height:100vh;
+}
+main{max-width:760px;margin:0 auto}
+.top-nav{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:24px}
+.btn-back{
+  display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:10px;
+  background:var(--surface);border:1.5px solid var(--line);color:var(--ink);
+  text-decoration:none;font-weight:600;font-size:14px;transition:transform .15s;
+}
+.btn-back:active{transform:scale(.96)}
+.theme-toggle{
+  background:var(--surface);border:1.5px solid var(--line);border-radius:50%;width:38px;height:38px;
+  display:inline-flex;align-items:center;justify-content:center;color:var(--ink);cursor:pointer;font-size:16px;
+}
+.header-brand{text-align:center;margin-bottom:28px}
+.brand-emblem{width:64px;height:64px;border-radius:50%;margin:0 auto 12px;display:block;box-shadow:0 4px 14px rgba(0,0,0,.15)}
+.eyebrow{font-size:12px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--bronze);margin:0 0 6px}
+h1{font-family:var(--font-display);font-size:clamp(32px,6vw,44px);line-height:1.1;margin:0 0 8px;font-weight:700}
+.meta{color:var(--muted);font-size:14px;margin:0}
+.box-highlight{
+  background:var(--surface);border:1.5px solid var(--line);border-radius:16px;padding:18px 20px;
+  margin:20px 0 28px;box-shadow:0 6px 20px rgba(0,0,0,.06);
+}
+.box-highlight b{color:var(--bronze);font-size:17px;display:block;margin-bottom:6px}
+.sec-card{
+  background:var(--surface);border:1px solid var(--line);border-radius:16px;
+  padding:20px;margin-bottom:18px;box-shadow:0 4px 14px rgba(0,0,0,.04);
+}
+.sec-card h2{
+  font-family:var(--font-display);font-size:24px;margin:0 0 10px;color:var(--ink);
+  display:flex;align-items:center;gap:10px;font-weight:700;
+}
+.sec-card p{margin:0 0 10px;color:var(--ink);line-height:1.6}
+.sec-card p:last-child{margin-bottom:0}
+ul{margin:8px 0 0;padding-left:22px;display:grid;gap:6px}
+li{line-height:1.5}
+a{color:var(--bronze);font-weight:600;text-decoration:underline;text-underline-offset:3px}
+.footer-note{
+  margin-top:40px;border-top:1px solid var(--line);padding-top:24px;text-align:center;
+  color:var(--muted);font-size:14px;display:grid;gap:10px;
+}
+</style>
+</head>
+<body>
+<main>
+  <div class="top-nav">
+    <a href="./" class="btn-back">← Voltar ao app</a>
+    <button class="theme-toggle" onclick="toggleTheme()" aria-label="Alternar tema claro ou escuro">☀︎/☾</button>
+  </div>
 
-<div class="box">Resumo: o app guarda suas listas no seu celular. Se você escolher entrar com uma conta, as listas e os apelidos também ficam guardados na nuvem, só para você. Nada é vendido nem usado para publicidade.</div>
+  <header class="header-brand">
+    <img src="logo-emblem-creme.png" alt="BIOKURI" class="brand-emblem">
+    <p class="eyebrow">BIOKURI · Pesquisa &amp; Soluções Ambientais</p>
+    <h1>Política de Privacidade &amp; Proteção de Dados</h1>
+    <p class="meta">Lista de Campo · Em conformidade com a LGPD (Lei nº 13.709/2018) · Versão 3.0</p>
+  </header>
 
-<h2>Quais dados o app usa</h2>
-<ul>
-<li><b>Listas de espécies</b>: nomes, contagens, horários, observações, projeto, campanha e observadores que você digita.</li>
-<li><b>Localização</b>: coordenadas dos registros e a trilha GPS, só quando você usa essas funções. A trilha pode continuar com a tela bloqueada na versão das lojas, sempre com um aviso fixo na tela do celular.</li>
-<li><b>Apelidos de espécies</b> que você cria.</li>
-<li><b>Conta (opcional)</b>: se você entrar com Google, Apple ou e-mail e senha, o app recebe seu e-mail e um identificador da conta.</li>
-</ul>
+  <div class="box-highlight">
+    <b>🌿 Princípio Offline-First e Soberania dos Seus Dados</b>
+    O <b>Lista de Campo</b> foi construído desde o primeiro dia sob a premissa de que os dados científicos gerados em campo pertencem única e exclusivamente ao pesquisador. Suas anotações, contagens, pontos georreferenciados (GPS), dados biométricos de Pitfall e histórico de carreira ficam armazenados diretamente no seu dispositivo móvel. Nada é comercializado, cedido ou compartilhado com terceiros para fins publicitários.
+  </div>
 
-<h2>Onde os dados ficam</h2>
-<ul>
-<li>Sem conta, tudo fica apenas no armazenamento do seu aparelho.</li>
-<li>Com conta, uma cópia fica no Google Firebase (Autenticação e Firestore), acessível apenas pela sua própria conta.</li>
-<li>Planilhas e arquivos exportados são criados no seu aparelho e só vão para onde você enviar.</li>
-</ul>
+  <section class="sec-card">
+    <h2>1. Quais Dados Coletamos e Para Qual Finalidade</h2>
+    <p>Para cumprir sua finalidade de caderneta digital e automação científica de campo, o app processa as seguintes informações estritamente fornecidas por você:</p>
+    <ul>
+      <li><b>Registros Faunísticos:</b> Nomes populares, nomes científicos, contagens de indivíduos, modalidades de registro (Visual, Auditivo, Ocasional), dados meteorológicos, projeto e campanha.</li>
+      <li><b>Dados Biométricos &amp; Pitfall:</b> Medidas corporais (CRC, peso, folidose, biometria de anuros), condições reprodutivas e identificação de baldes/estações amostrais.</li>
+      <li><b>Geolocalização (GPS) &amp; Trilha:</b> Coordenadas de avistamentos individuais e gravação de rota percorrida, ativadas somente sob sua demanda durante a amostragem em campo. O app conta com o Modo Bolso com aviso permanente na tela para poupar bateria e evitar toques acidentais.</li>
+      <li><b>Conta de Usuário (Opcional):</b> E-mail e identificador de autenticação caso você opte pelo login (Google, Apple ou e-mail/senha) para fins exclusivos de sincronização e backup em nuvem.</li>
+      <li><b>Fotos Colaborativas (Opcional):</b> Fotografias de fauna submetidas para espécies sem imagem no banco de dados passam pela curadoria técnica de identificação do biólogo e desenvolvedor Lucas Aøsf.</li>
+    </ul>
+  </section>
 
-<h2>O que o app não faz</h2>
-<ul>
-<li>Não vende nem compartilha seus dados com terceiros.</li>
-<li>Não mostra anúncios e não rastreia você entre outros apps ou sites.</li>
-<li>Não usa sua localização fora das listas e trilhas que você grava.</li>
-</ul>
+  <section class="sec-card">
+    <h2>2. Onde e Como Seus Dados Ficam Guardados</h2>
+    <ul>
+      <li><b>Modo Local (Offline):</b> Sem login, 100% dos dados residem unicamente no banco de dados local criptografado do seu próprio aparelho (IndexedDB / LocalStorage).</li>
+      <li><b>Sincronização em Nuvem Segura:</b> Com login ativo, suas listas e apelidos são espelhados no Google Firebase (Firestore e Authentication) com tráfego sob conexão HTTPS e regras rígidas de segurança acessíveis exclusivamente pela sua conta.</li>
+      <li><b>Planilhas Geradas (.xlsx, .csv):</b> Todas as planilhas oficiais BIOKURI, arquivos Darwin Core (DwC), KML e relatórios estatísticos são compilados localmente no seu dispositivo. Você decide para onde enviá-los.</li>
+    </ul>
+  </section>
 
-<h2>Como excluir seus dados</h2>
-<ul>
-<li>No app: <b>Conta e backup → Excluir minha conta</b>. A conta e todas as listas e apelidos na nuvem são apagados. As listas continuam no seu aparelho até você excluí-las.</li>
-<li>Para apagar do aparelho, exclua as listas no app ou desinstale o app.</li>
-<li>Você também pode pedir a exclusão por e-mail (abaixo).</li>
-</ul>
+  <section class="sec-card">
+    <h2>3. O que Nós NUNCA Fazemos</h2>
+    <ul>
+      <li><b>Nenhum Anúncio ou Publicidade:</b> O Lista de Campo é um software limpo e profissional, livre de banners, pop-ups ou links patrocinados.</li>
+      <li><b>Nenhum Rastreamento Entre Sites ou Apps:</b> Não utilizamos cookies invasivos, pixels ou SDKs de terceiros para monitorar seu comportamento fora do aplicativo.</li>
+      <li><b>Nenhuma Comercialização:</b> Jamais vendemos, alugamos ou transferimos listas de campo ou ocorrências biológicas a empresas de inteligência comercial.</li>
+      <li><b>Respeito ao GPS:</b> O sinal de localização só é lido durante as listas e trilhas ativamente iniciadas por você.</li>
+    </ul>
+  </section>
 
-<h2>Crianças</h2>
-<p>O app é voltado a pesquisadores e observadores de fauna e não se destina a menores de 13 anos.</p>
+  <section class="sec-card">
+    <h2>4. Direitos do Titular (LGPD) e Exclusão Total de Dados</h2>
+    <p>Em total conformidade com o Artigo 18 da Lei Geral de Proteção de Dados (LGPD), você possui controle integral sobre todas as suas informações:</p>
+    <ul>
+      <li><b>Exclusão Local:</b> Você pode apagar qualquer lista individual ou em lote na tela inicial do app. Para limpar o app do aparelho, basta excluir os dados ou desinstalar o aplicativo.</li>
+      <li><b>Exclusão Completa da Conta em Nuvem:</b> No menu <b>Meu perfil / Conta e backup → Excluir minha conta</b>, você elimina permanentemente sua conta e todos os dados armazenados no Firebase.</li>
+      <li><b>Preservação da Life List:</b> Ao excluir listas de campo, o app preserva suas espécies acumuladas na Life List vitalícia por padrão de carreira, mas você pode redefinir o catálogo a qualquer momento.</li>
+      <li><b>Exportação e Portabilidade:</b> Exporte todo o seu histórico em formato aberto (.xlsx, .csv ou backup JSON) com um único toque.</li>
+    </ul>
+  </section>
 
-<h2>Contato</h2>
-<p>Lucas Aøsf · Pesquisa &amp; Soluções Ambientais<br><a href="mailto:lucasaosf@gmail.com">lucasaosf@gmail.com</a></p>
+  <section class="sec-card">
+    <h2>5. Proteção de Crianças e Adolescentes</h2>
+    <p>O aplicativo é uma ferramenta técnica de uso profissional voltada para biólogos, engenheiros ambientais, consultores e observadores de fauna, não sendo direcionado para crianças menores de 13 anos.</p>
+  </section>
 
-<footer>Lista de Campo — criado por Lucas Aøsf. <a href="./">Abrir o app</a></footer>
-</main></body></html>
+  <section class="sec-card">
+    <h2>6. Encarregado pelo Tratamento de Dados (DPO) e Contato</h2>
+    <p>Para dúvidas sobre privacidade, requisições sobre seus dados ou suporte técnico:</p>
+    <p>
+      <b>Lucas Aøsf</b><br>
+      <i>Biólogo &amp; Desenvolvedor</i><br>
+      <b>BIOKURI — Pesquisa e Soluções Ambientais</b><br>
+      E-mail: <a href="mailto:lucasaosf@gmail.com">lucasaosf@gmail.com</a><br>
+      WhatsApp: <a href="https://wa.me/5512991821729" target="_blank" rel="noopener">+55 (12) 99182-1729</a>
+    </p>
+  </section>
+
+  <div class="footer-note">
+    <span>BIOKURI — Lista de Campo · Criado por Lucas Aøsf</span>
+    <span><a href="./">← Retornar ao aplicativo</a></span>
+  </div>
+</main>
+</body>
+</html>

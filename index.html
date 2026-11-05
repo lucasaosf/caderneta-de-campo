@@ -315,32 +315,33 @@ body.sheet-open .toast{bottom:auto;top:calc(env(safe-area-inset-top,0px) + 14px)
 
 
 /* ---------- capa ---------- */
-.cover{position:fixed;inset:0;z-index:40;display:flex;flex-direction:column;align-items:center;overflow:hidden;
+.cover{position:fixed;inset:0;z-index:40;display:flex;flex-direction:column;align-items:center;
+  overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;
   background:#0E2515 url("capa.jpg") center bottom / cover no-repeat;color:#F2EBDD;text-align:center;
-  padding:calc(env(safe-area-inset-top,0px) + 7vh) 24px calc(env(safe-area-inset-bottom,0px) + 22px)}
-.cover-logo{width:min(44vw,200px);height:auto;display:block;filter:drop-shadow(0 6px 18px rgba(0,0,0,.35));animation:rise .9s ease-out both}
-.cover-tag{margin:14px 0 0;font-family:var(--display);font-style:italic;font-size:19px;color:#CDD8C1;animation:rise .9s .08s ease-out both}
-.cover-rule{width:64px;height:1.5px;background:#B08854;margin:22px auto 18px;border:0;animation:rise .9s .14s ease-out both}
-.cover h1{font-family:var(--display);font-weight:600;font-size:clamp(42px,12vw,58px);line-height:.98;color:#F3EEE3;animation:rise .9s .18s ease-out both}
-.cover-sub{margin:12px 0 0;font-family:var(--body);font-weight:600;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#D4B277;animation:rise .9s .24s ease-out both}
-.cover-stat{margin:18px 0 0;font-size:14px;color:#CDD8C1;min-height:20px}
-.cover-actions{margin-top:auto;width:100%;max-width:420px;display:grid;gap:10px;animation:rise .9s .3s ease-out both}
-.cover-btn{display:flex;align-items:center;justify-content:center;gap:10px;min-height:56px;border-radius:14px;font-family:var(--body);font-weight:600;font-size:17px;letter-spacing:.01em}
+  padding:calc(env(safe-area-inset-top,0px) + max(32px, 4vh)) 20px calc(env(safe-area-inset-bottom,0px) + 38px)}
+.cover-logo{width:min(38vw,165px);height:auto;display:block;filter:drop-shadow(0 6px 18px rgba(0,0,0,.35));animation:rise .9s ease-out both}
+.cover-tag{margin:12px 0 0;font-family:var(--display);font-style:italic;font-size:18px;color:#CDD8C1;animation:rise .9s .08s ease-out both}
+.cover-rule{width:64px;height:1.5px;background:#B08854;margin:16px auto 14px;border:0;animation:rise .9s .14s ease-out both}
+.cover h1{font-family:var(--display);font-weight:600;font-size:clamp(38px,11vw,54px);line-height:.98;color:#F3EEE3;animation:rise .9s .18s ease-out both}
+.cover-sub{margin:10px 0 0;font-family:var(--body);font-weight:600;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#D4B277;animation:rise .9s .24s ease-out both}
+.cover-stat{margin:14px 0 0;font-size:14px;color:#CDD8C1;min-height:18px}
+.cover-actions{margin-top:auto;padding-top:16px;width:100%;max-width:420px;display:grid;gap:10px;animation:rise .9s .3s ease-out both}
+.cover-btn{display:flex;align-items:center;justify-content:center;gap:10px;min-height:54px;border-radius:14px;font-family:var(--body);font-weight:600;font-size:16px;letter-spacing:.01em}
 .cover-btn.primary{background:#F3EEE3;color:#0E2515;box-shadow:0 10px 30px rgba(0,0,0,.28)}
 .cover-btn.primary:active{background:#E2E5D5}
 .cover-btn.ghost{background:rgba(14,37,21,.55);color:#F3EEE3;border:1.5px solid rgba(242,235,221,.45);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
 .cover-btn.ghost:active{background:rgba(14,37,21,.8)}
 .cover-btn .pill-on{display:inline-block;width:9px;height:9px;border-radius:50%;background:#A8402E;animation:pulse 1.4s ease-in-out infinite}
-.cover-sign{margin:18px 0 0;font-family:var(--display);font-style:italic;font-size:16px;color:rgba(242,235,221,.72);letter-spacing:.02em}
+.cover-sign{margin:14px 0 0;font-family:var(--display);font-style:italic;font-size:15px;color:rgba(242,235,221,.75);letter-spacing:.02em}
 .cover-sign b{font-weight:600;color:#F3EEE3}
 @keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-.cover-foot{margin-top:12px;color:rgba(242,235,221,.75)}
-.cover-foot a,.cover-foot button{color:#F3EEE3}
+.cover-foot{margin-top:10px;padding-bottom:12px;color:rgba(242,235,221,.85);display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;justify-content:center}
+.cover-foot a,.cover-foot button{color:#F3EEE3;background:none;border:none;padding:2px 4px;font-family:inherit;font-size:13px;font-weight:600;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
 
 /* ---------- entrar (antes da capa) ---------- */
 .login{position:fixed;inset:0;z-index:42;display:flex;flex-direction:column;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;
   background:#0E2515 url("capa.jpg") center bottom / cover no-repeat;color:#F2EBDD;text-align:center;
-  padding:calc(env(safe-area-inset-top,0px) + max(62px, 7vh)) 22px calc(env(safe-area-inset-bottom,0px) + 18px)}
+  padding:calc(env(safe-area-inset-top,0px) + max(48px, 6vh)) 22px calc(env(safe-area-inset-bottom,0px) + 36px)}
 .login[hidden]{display:none}
 .login.calm *{animation:none!important}
 .login-in{flex:1 0 auto;width:100%;max-width:420px;margin:0 auto;display:flex;flex-direction:column;align-items:center}
@@ -364,22 +365,24 @@ body.sheet-open .toast{bottom:auto;top:calc(env(safe-area-inset-top,0px) + 14px)
 .login-note{margin:12px 6px 0;font-size:13px;line-height:1.4;color:#CDD8C1}
 /* celulares de tela baixa: capa e entrada mais compactas para os botões caberem sem rolar */
 @media (max-height:720px){
-  .cover-logo{width:min(28vw,112px)}
-  .cover-tag{margin-top:10px;font-size:17px}
-  .cover-rule{margin:14px auto 12px}
-  .cover h1,.login-in.menu h1{font-size:clamp(36px,11vw,46px)}
-  .cover-stat{margin-top:10px}
-  .cover-actions{gap:8px}
-  .cover-btn{min-height:50px;font-size:16px}
-  .cover-sign{margin-top:10px}
-  .cover-foot{margin-top:8px}
+  .cover{padding-top:calc(env(safe-area-inset-top,0px) + 16px);padding-bottom:calc(env(safe-area-inset-bottom,0px) + 32px)}
+  .cover-logo{width:min(28vw,110px)}
+  .cover-tag{margin-top:8px;font-size:16px}
+  .cover-rule{margin:10px auto 8px}
+  .cover h1,.login-in.menu h1{font-size:clamp(32px,10vw,42px)}
+  .cover-sub{margin-top:6px}
+  .cover-stat{margin-top:6px}
+  .cover-actions{gap:8px;padding-top:10px}
+  .cover-btn{min-height:48px;font-size:15px}
+  .cover-sign{margin-top:8px}
+  .cover-foot{margin-top:8px;padding-bottom:8px}
   .login-note{margin-top:8px}
-  .login-in.menu .cover-actions{padding-top:18px}
+  .login-in.menu .cover-actions{padding-top:16px}
 }
 @media (max-height:600px){
-  .cover-logo{width:min(24vw,88px)}
-  .cover-sub{margin-top:8px}
-  .cover-btn{min-height:46px}
+  .cover-logo{width:min(22vw,78px)}
+  .cover-sub{margin-top:4px}
+  .cover-btn{min-height:44px}
   .cover-sign{display:none}
   .login-note{font-size:12px}
 }
@@ -800,8 +803,9 @@ body.selecting .wm{display:none}
 .seg button{min-height:42px;border-radius:9px;font-weight:600;color:var(--muted)}
 .seg button[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:var(--shadow)}
 .acct-sec{margin:18px 0 8px;font-family:var(--display);font-size:21px;font-weight:600}
-.acct-foot{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;justify-content:center;margin-top:16px;font-size:13px;color:var(--muted)}
-.acct-foot a,.acct-foot button{color:var(--accent);font-weight:600;text-decoration:underline;text-underline-offset:3px}
+.acct-foot{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;justify-content:center;margin-top:16px;font-size:13px;color:var(--muted);line-height:1.45}
+.acct-foot a,.acct-foot button{color:var(--accent);font-weight:600;text-decoration:underline;text-underline-offset:3px;background:none;border:none;padding:2px 4px;font-family:inherit;font-size:inherit;cursor:pointer}
+.home-acct-foot{margin-top:28px;padding:16px 0 28px;border-top:1px solid var(--line)}
 /* ---------- perfil: foto no ícone de login e página Meu perfil ---------- */
 .av{display:block;width:100%;height:100%;border-radius:50%;object-fit:cover;background:var(--surface-2)}
 .av-ini{display:grid;place-items:center;background:#1E472A;color:#F3EEE3;font-family:var(--display);font-weight:600;letter-spacing:.02em;line-height:1}
@@ -890,6 +894,7 @@ body.selecting .wm{display:none}
       <button class="btn" data-act="backup">Backup e exportação</button>
       <button class="btn" data-act="support"><svg class="ico" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="M22 6l-10 7L2 6"/></svg>Contato &amp; suporte</button>
     </nav>
+    <div class="acct-foot home-acct-foot" id="home-foot"></div>
   </section>
 
   <!-- CHECKLIST -->
@@ -3308,7 +3313,7 @@ function applyTheme(t){
 /* ---------- conta, backup e aparência ---------- */
 var G_SVG = '<svg class="ico" viewBox="0 0 24 24" style="stroke:none"><path fill="#4285F4" d="M22 12.2c0-.7-.1-1.4-.2-2H12v3.8h5.6a4.8 4.8 0 0 1-2.1 3.1v2.6h3.4c2-1.8 3.1-4.5 3.1-7.5z"/><path fill="#34A853" d="M12 22c2.8 0 5.2-.9 6.9-2.5l-3.4-2.6c-.9.6-2.1 1-3.5 1-2.7 0-5-1.8-5.8-4.3H2.7v2.7A10 10 0 0 0 12 22z"/><path fill="#FBBC05" d="M6.2 13.6a6 6 0 0 1 0-3.8V7.1H2.7a10 10 0 0 0 0 8.9z"/><path fill="#EA4335" d="M12 6c1.5 0 2.9.5 4 1.5l3-3A10 10 0 0 0 2.7 7.1l3.5 2.7C7 7.8 9.3 6 12 6z"/></svg>';
 function footLinks(){
-  return '<span>Versão ' + APP_V + '</span><button data-act="news">Novidades</button><button data-act="support">Suporte</button><a href="https://lucasaosf.github.io/caderneta-de-campo/como-usar.html" target="_blank" rel="noopener">Como usar (vídeo)</a><a href="privacidade.html" target="_blank" rel="noopener">Política de privacidade</a>';
+  return '<span>Versão ' + APP_V + '</span><button type="button" data-act="news">Novidades</button><button type="button" data-act="support">Suporte</button><a href="https://lucasaosf.github.io/caderneta-de-campo/como-usar.html" target="_blank" rel="noopener">Como usar (vídeo)</a><button type="button" data-act="privacy">Política de privacidade</button>';
 }
 function footHTML(cls){ return '<div class="acct-foot' + (cls ? ' ' + cls : '') + '">' + footLinks() + '</div>'; }
 
@@ -3432,6 +3437,55 @@ function openAccount(){
 function openNews(){
   openSheet('<h2 id="sheet-h">Novidades da versão ' + APP_V + '</h2><div class="news"><ul>' + NOVIDADES.map(function(x){ return '<li>' + esc(x) + '</li>'; }).join('') + '</ul></div>' +
     '<div class="sheet-actions"><button class="btn btn-primary" data-act="close-sheet">Entendi</button></div>');
+}
+function openPrivacy(){
+  var h = '<div class="lp-head">' +
+    '<span class="eyebrow" style="color:var(--bronze)">BIOKURI · Transparência &amp; LGPD</span>' +
+    '<h2 id="sheet-h">Política de Privacidade</h2>' +
+    '<p class="meta" style="margin:0">Lista de Campo · Em conformidade com a LGPD · Versão ' + APP_V + '</p></div>' +
+    '<div class="privacy-scroll" style="max-height:62vh;overflow-y:auto;padding-right:6px;margin:12px 0;display:grid;gap:12px;font-size:14px;line-height:1.55;color:var(--ink)">' +
+      '<div style="background:var(--surface-2);border:1px solid var(--line);border-radius:12px;padding:12px 14px;font-size:13.5px">' +
+        '<b>Resumo Rápido:</b> O Lista de Campo é um aplicativo biológico 100% <i>offline-first</i>. Suas listas, contagens faunísticas, pontos de GPS e biometrias pertencem unicamente a você. Nada é vendido, compartilhado com terceiros ou usado para fins publicitários.' +
+      '</div>' +
+      '<div>' +
+        '<h3 style="font-size:15px;font-weight:700;margin:0 0 4px;color:var(--accent)">1. Dados Coletados e Sua Finalidade</h3>' +
+        '<ul style="margin:0;padding-left:18px;display:grid;gap:3px">' +
+          '<li><b>Listas de Campo &amp; Espécies:</b> nomes populares, científicos, abundância, anotações de campo, projetos, campanhas, datas e horários que você registra.</li>' +
+          '<li><b>Geolocalização (GPS) &amp; Trilha:</b> coordenadas individuais de avistamentos e gravação da trilha percorrida, ativadas apenas com seu consentimento durante a amostragem em campo. O Modo Bolso exibe aviso contínuo na tela.</li>' +
+          '<li><b>Conta de Usuário (Opcional):</b> se escolher entrar com Google, Apple ou e-mail, sincronizamos seus dados criptografados via Google Firebase. O app opera perfeitamente sem login.</li>' +
+          '<li><b>Fotos Colaborativas:</b> imagens enviadas para espécies sem foto passam por moderação direta do desenvolvedor (Lucas Aøsf) para conferência biológica.</li>' +
+        '</ul>' +
+      '</div>' +
+      '<div>' +
+        '<h3 style="font-size:15px;font-weight:700;margin:0 0 4px;color:var(--accent)">2. Armazenamento e Segurança</h3>' +
+        '<ul style="margin:0;padding-left:18px;display:grid;gap:3px">' +
+          '<li><b>Armazenamento Local:</b> seus dados residem no banco local seguro do seu navegador ou smartphone (IndexedDB / localStorage).</li>' +
+          '<li><b>Nuvem Segura:</b> cópias de segurança são trafegadas em HTTPS com chave privada no Firebase Firestore.</li>' +
+          '<li><b>Planilhas Geradas:</b> arquivos Excel (.xlsx) e CSV são compilados no próprio aparelho e pertencem exclusivamente a você.</li>' +
+        '</ul>' +
+      '</div>' +
+      '<div>' +
+        '<h3 style="font-size:15px;font-weight:700;margin:0 0 4px;color:var(--accent)">3. O que o App NUNCA Faz</h3>' +
+        '<ul style="margin:0;padding-left:18px;display:grid;gap:3px">' +
+          '<li>Não comercializa e não compartilha dados com terceiros.</li>' +
+          '<li>Não exibe anúncios publicitários e não usa rastreadores externos.</li>' +
+          '<li>Não utiliza GPS fora dos momentos ativos de amostragem em campo.</li>' +
+        '</ul>' +
+      '</div>' +
+      '<div>' +
+        '<h3 style="font-size:15px;font-weight:700;margin:0 0 4px;color:var(--accent)">4. Exclusão e Direitos do Titular (LGPD)</h3>' +
+        '<p style="margin:0">Você pode excluir suas listas a qualquer momento na tela inicial. Para apagar completamente sua conta e dados da nuvem, use <b>Meu perfil → Excluir minha conta</b>, ou entre em contato pelo e-mail do desenvolvedor.</p>' +
+      '</div>' +
+      '<div>' +
+        '<h3 style="font-size:15px;font-weight:700;margin:0 0 4px;color:var(--accent)">5. Desenvolvedor e Contato Oficial</h3>' +
+        '<p style="margin:0"><b>Lucas Aøsf</b><br>BIOKURI — Pesquisa e Soluções Ambientais<br>E-mail: <a href="mailto:lucasaosf@gmail.com" style="color:var(--accent);font-weight:600">lucasaosf@gmail.com</a> · WhatsApp: <a href="https://wa.me/5512991821729" target="_blank" rel="noopener" style="color:var(--accent);font-weight:600">(12) 99182-1729</a></p>' +
+      '</div>' +
+    '</div>' +
+    '<div class="sheet-actions" style="display:grid;grid-template-columns:1fr auto;gap:8px">' +
+      '<button class="btn btn-primary" data-act="close-sheet">Fechar</button>' +
+      '<a class="btn" href="privacidade.html" target="_blank" rel="noopener" style="text-decoration:none;display:inline-flex;align-items:center;justify-content:center">Página externa ↗</a>' +
+    '</div>';
+  openSheet(h);
 }
 function openSupport(){
   var u = AUTH.user, nome = (typeof PROF !== 'undefined' && PROF.nome ? PROF.nome() : '');
@@ -7238,6 +7292,7 @@ var A = {
   'account': function(){ openAccount(); },
   'news': function(){ openNews(); },
   'support': function(){ openSupport(); },
+  'privacy': function(){ openPrivacy(); },
   'send-support-wa': function(){ sendSupportWa(); },
   'send-support': function(){ sendSupport(); },
   'install': function(){ doInstall(); },
@@ -7843,6 +7898,7 @@ renderHome();
 if (!FRAMED){ try { var d0 = histDepth(); if (d0 > 0) history.go(-d0); } catch(e){} }
 go('cover', null, true);
 $('#cover-foot').innerHTML = footLinks();
+var hf = $('#home-foot'); if (hf) hf.innerHTML = footLinks();
 /* página de entrar: aparece até a pessoa entrar ou escolher "Entrar sem login" (quem já entrou antes não vê) */
 if (AUTH.ready() && !LS.get('logado', LS.get('cloudUid', null) ? true : false) && !LS.get('semLogin', false)) showLogin();
 renderInstall();
