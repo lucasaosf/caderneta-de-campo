@@ -1,12 +1,12 @@
 {
-  "v": "3.0",
-  "nome": "3.0",
+  "v": "3.1",
+  "nome": "3.1",
   "data": "2026-11-05",
   "novidades": [
-    "Seleção múltipla de listas ao segurar (long-press): ativa instantaneamente o modo de seleção com a lista já marcada",
-    "Exclusão em lote com segurança: apague várias listas selecionadas de uma vez, com modal de confirmação e botão Desfazer",
-    "Preservação da Life List: espécies continuam contabilizadas na sua Life List vitalícia mesmo após apagar listas",
-    "Geração de planilha unificada: exporte uma planilha consolidada (.xlsx / .csv) de todas as listas selecionadas com cabeçalho BIOKURI",
-    "Nova barra inferior de ações rápidas: contador em tempo real de listas, espécies e dias de campo selecionados"
+    "Métodos especializados por grupo: Transecto, Listas de MacKinnon, Ponto de escuta e Rede de neblina (Ornitologia); Busca ativa, Vestígios e Câmera trap (Mastofauna); Pitfall e Busca ativa (Herpetofauna)",
+    "Método de Listas de MacKinnon (Ornito): listas de 10 ou 20 sp sem contagem de indivíduos, controle de sub-listas (L1, L2, L3...), avanço automático e banner interativo com curva do coletor e frequência (F%)",
+    "Biometria completa para Rede de Neblina (Aves): número de anilha SNA/CEMAVE, rede/estação, sexo, idade, morfometria completa (CP, Asa, Cauda, Cúlmen, Tarso, Peso), placa de incubação (0-3), gordura furcular (0-5) e muda de penas",
+    "Vestígios de Mamíferos: chips rápidos de fezes, pelos, pegadas, ranhuras, tocas, carcaça e odor nas observações de campo",
+    "Novas abas na planilha BIOKURI: 'MacKinnon — Aves' (matriz de incidência, suficiência amostral e curva de acumulação) e 'Biometria — Aves' (padrão CEMAVE) além da 'Biometria — Herpeto'"
   ]
 }

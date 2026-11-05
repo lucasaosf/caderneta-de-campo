@@ -553,6 +553,37 @@ body.selecting .wm{display:none}
 .alias-chip{display:inline-flex;align-items:center;gap:4px;min-height:34px;padding:2px 4px 2px 12px;border-radius:999px;background:var(--accent-soft);color:var(--accent-strong);font-weight:600;font-size:14px}
 .alias-chip button{width:28px;height:28px;border-radius:50%;display:grid;place-items:center}
 .alias-chip .ico{width:14px;height:14px}
+
+/* MacKinnon List UI */
+.mack-panel{margin:10px 0 14px;padding:12px 14px;border-radius:14px;background:var(--surface-2);border:1.5px solid color-mix(in srgb,var(--accent) 35%,var(--line));display:grid;gap:10px}
+.mack-head{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.mack-title{display:flex;align-items:center;gap:10px;min-width:0;flex:1}
+.mack-icon{font-size:24px;line-height:1;flex:none}
+.mack-title b{font-size:14.5px;color:var(--ink);display:block}
+.mack-title small{font-size:11.5px;color:var(--muted);display:block;margin-top:1px}
+.mack-size-pills{display:inline-flex;background:var(--surface);border-radius:999px;padding:2px;border:1px solid var(--line);flex:none}
+.mack-pill{border:none;background:transparent;color:var(--muted);font-size:11.5px;font-weight:700;padding:4px 9px;border-radius:999px;cursor:pointer;transition:all .15s}
+.mack-pill.active{background:var(--accent);color:var(--on-accent)}
+.mack-progress-box{display:grid;gap:4px}
+.mack-prog-label{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);font-weight:600}
+.mack-prog-label b{color:var(--ink)}
+.mack-bar-track{height:8px;border-radius:999px;background:var(--surface);border:1px solid var(--line);overflow:hidden}
+.mack-bar-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--bronze));border-radius:999px;transition:width .25s ease}
+.mack-actions{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.btn-analysis{background:color-mix(in srgb,var(--bronze) 18%,var(--surface));border-color:color-mix(in srgb,var(--bronze) 50%,transparent);color:var(--bronze);font-weight:700}
+.mack-badge{display:inline-block;padding:1px 6px;border-radius:6px;font-size:10px;font-weight:800;background:var(--surface);border:1px solid var(--line);color:var(--muted);margin-right:2px}
+.mack-badge.cur{background:var(--accent-soft);border-color:var(--accent);color:var(--accent-strong)}
+.mack-ctr{display:flex;align-items:center;gap:4px}
+.mack-btn{font-family:var(--body);font-size:12px;font-weight:700;padding:6px 10px;border-radius:8px;border:1.5px solid var(--line);cursor:pointer;transition:all .15s;min-height:36px;white-space:nowrap}
+.mack-btn.in-cur{background:var(--accent-soft);border-color:var(--accent);color:var(--accent-strong)}
+.mack-btn.not-in-cur{background:var(--surface);color:var(--muted)}
+.mack-btn.not-in-cur:hover{border-color:var(--accent);color:var(--ink)}
+.sp.mack-sp.in-current{border-left:3.5px solid var(--accent)}
+
+/* Vestígios Masto */
+.vest-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.vest-chip{font-family:var(--body);font-size:12.5px;font-weight:600;padding:5px 10px;border-radius:999px;background:var(--surface);border:1.2px solid var(--line);color:var(--ink);cursor:pointer;transition:all .15s}
+.vest-chip:hover,.vest-chip:active{background:var(--accent-soft);border-color:var(--accent);color:var(--accent-strong)}
 .link-res{list-style:none;margin:0;padding:0;display:grid;gap:4px;max-height:280px;overflow:auto}
 .link-res button{width:100%;text-align:left;padding:8px 10px;border-radius:10px;min-height:48px;background:var(--surface)}
 .link-res button:active{background:var(--accent-soft)}
@@ -930,6 +961,7 @@ body.selecting .wm{display:none}
       <div id="cl-loc"></div>
       <div id="cl-trk"></div>
     </div>
+    <div id="mack-banner"></div>
     <div class="sp-tools">
       <p class="tot" id="tot"></p>
       <label class="sort" for="sort-sel">Ordem
@@ -1177,7 +1209,7 @@ var S = {
   sugg:[], suggIdx:0, undo:null, sheetClose:null, editingName:null, demo:3,
   alias:{}, defMode:LS.get('defMode', 'V'), theme:LS.get('theme', 'dark'), filterTax:''
 };
-var APP_V = '3.0';
+var APP_V = '3.1';
 function cmpVer(a, b){
   var pa = String(a).split('.').map(function(n){ return parseInt(n, 10) || 0; });
   var pb = String(b).split('.').map(function(n){ return parseInt(n, 10) || 0; });
@@ -1189,10 +1221,11 @@ function cmpVer(a, b){
   return 0;
 }
 var NOVIDADES = [
-  'Seleção Múltipla ao Segurar a Lista: ao pressionar e segurar qualquer lista de campo, o app entra instantaneamente no modo de seleção com aquela lista já marcada.',
-  'Exclusão em Lote com Segurança: botão para apagar várias listas de uma vez só, com diálogo de confirmação detalhado e opção de Desfazer.',
-  'Preservação da Life List: todas as espécies registradas continuam contabilizadas na sua Life List vitalícia mesmo após apagar as listas de campo.',
-  'Geração de Planilha Unificada: exportação consolidada em Excel (.xlsx) ou CSV com todas as listas selecionadas, curvas de rarefação e cabeçalho BIOKURI.'
+  'Métodos Especializados por Grupo Faunístico: seletores inteligentes adaptados para Ornitologia, Mastozoologia e Herpetofauna.',
+  'Listas de MacKinnon (Ornito): método de listas padronizadas de 10 ou 20 espécies sem contagem de indivíduos, com avanço automático, matriz de incidência e análise de curva do coletor e frequência (F%).',
+  'Rede de Neblina & Biometria de Aves: formulário e planilha dedicados com código de anilha (CEMAVE/SNA), idade, sexo, morfometria completa (asa, cauda, bico, tarso, peso), placa e gordura.',
+  'Mastozoologia (Mamíferos): opções de Busca Ativa, Camera Trap e Vestígios com chips rápidos para pegadas, fezes, pelos, ranhuras, tocas e carcaças.',
+  'Planilhas Excel Especializadas: geração automática das abas "Biometria — Aves" e "MacKinnon — Aves" com identidade visual BIOKURI.'
 ];
 
 /* ---------- banco de espécies ---------- */
@@ -1978,11 +2011,93 @@ function cur(){ return S.lists[S.cur]; }
 function title(c){ return c.title || c.place || ('Lista de ' + fDay(c.start)); }
 var AMEN_MAP = {'CR':1, 'EN':1, 'VU':1};
 function isThreatened(d){ if (!d) return false; return !!((d.mma && AMEN_MAP[d.mma]) || (d.iucn && AMEN_MAP[d.iucn])); }
+function isMacKinnon(c){
+  if (!c || !c.metodo) return false;
+  var m = norm(c.metodo);
+  return m.indexOf('mackinnon') >= 0;
+}
+function getMackinnonState(c){
+  var size = (c && c.mackinnonSize === 20) ? 20 : 10;
+  var curList = Math.max(1, parseInt(c && c.mackinnonCurrent, 10) || 1);
+  var maxList = curList;
+  var listSpecies = {};
+
+  if (c && c.species){
+    c.species.forEach(function(s){
+      var mls = Array.isArray(s.mLists) && s.mLists.length ? s.mLists : [1];
+      s.mLists = mls;
+      mls.forEach(function(ln){
+        var n = Math.max(1, parseInt(ln, 10) || 1);
+        if (n > maxList) maxList = n;
+        if (!listSpecies[n]) listSpecies[n] = [];
+        listSpecies[n].push(s);
+      });
+    });
+  }
+
+  var curListSp = listSpecies[curList] || [];
+  var curCount = curListSp.length;
+
+  var seenSoFar = {};
+  var accumCurve = [];
+  for (var i = 1; i <= maxList; i++){
+    var spInL = listSpecies[i] || [];
+    var newInL = 0;
+    spInL.forEach(function(sp){
+      var key = sp.sci || sp.name;
+      if (!seenSoFar[key]){
+        seenSoFar[key] = true;
+        newInL++;
+      }
+    });
+    accumCurve.push({
+      list: i,
+      count: spInL.length,
+      newSp: newInL,
+      accum: Object.keys(seenSoFar).length
+    });
+  }
+
+  return {
+    size: size,
+    current: curList,
+    totalLists: maxList,
+    curCount: curCount,
+    curListSp: curListSp,
+    remaining: Math.max(0, size - curCount),
+    isFull: curCount >= size,
+    listSpecies: listSpecies,
+    accumCurve: accumCurve,
+    totalUnique: Object.keys(seenSoFar).length
+  };
+}
+function checkMackinnonAdvance(c, curL){
+  var st = getMackinnonState(c);
+  if (st.curCount >= st.size){
+    try { if (navigator.vibrate) navigator.vibrate([40, 60, 40, 80]); } catch(e){}
+    var nxt = curL + 1;
+    c.mackinnonCurrent = nxt;
+    touch(c);
+    renderNav();
+    renderMackBanner();
+    renderSpecies();
+    toast('🎉 Sublista ' + curL + ' concluída (' + st.size + '/' + st.size + ' sp)! Iniciando Lista ' + nxt + '.', function(){
+      c.mackinnonCurrent = curL;
+      touch(c);
+      renderNav();
+      renderMackBanner();
+      renderSpecies();
+    });
+  }
+}
 function totals(c){
   var sp = 0, ind = 0, amen = 0;
+  if (!c || !c.species) return {sp:0, ind:0, amen:0};
+  var isMack = isMacKinnon(c);
   c.species.forEach(function(s){
-    if (s.count > 0){
-      sp++; ind += s.count;
+    if (s.count > 0 || (isMack && s.mLists && s.mLists.length)){
+      sp++;
+      ind += isMack ? (s.mLists ? s.mLists.length : 1) : s.count;
       var d = dbGet(s.sci || resolveSci(s.name));
       if (isThreatened(d)) amen++;
     }
@@ -2017,6 +2132,46 @@ function addEntry(c, name, n, sci){
   name = clean(name); if (!name) return;
   n = Math.max(1, n || 1);
   if (sci === undefined) sci = resolveSci(name);
+  var isMack = isMacKinnon(c);
+
+  if (isMack){
+    var curL = Math.max(1, parseInt(c.mackinnonCurrent, 10) || 1);
+    var sp = findSp(c, name, sci);
+    if (sp){
+      if (!Array.isArray(sp.mLists)) sp.mLists = [1];
+      if (sp.mLists.indexOf(curL) >= 0){
+        toast('⚠️ ' + sp.name + ' já registrada na Lista ' + curL + '! No método MacKinnon registra-se 1x por lista.');
+        renderSpecies(sp.id);
+        return;
+      }
+      var before = clone(c.species);
+      sp.mLists.push(curL);
+      sp.count = sp.mLists.length;
+      if (sp.mode === 'A') sp.ca = (sp.ca || 0) + 1;
+      else if (sp.mode === 'O') sp.co = (sp.co || 0) + 1;
+      else sp.cv = (sp.cv || 0) + 1;
+      if (!sp.sci && sci) sp.sci = sci;
+      touch(c); renderSpecies(sp.id); renderNav(); renderMackBanner();
+      try { if (navigator.vibrate) navigator.vibrate([15, 30, 20]); } catch(e){}
+      toast('+1 ' + sp.name + ' (adicionada à Lista ' + curL + ')', function(){ c.species = before; touch(c); renderSpecies(); renderNav(); renderMackBanner(); });
+      checkMackinnonAdvance(c, curL);
+      return;
+    } else {
+      var before = clone(c.species);
+      var p = c.end ? null : freshPos(), mode = S.defMode === 'A' ? 'A' : (S.defMode === 'O' ? 'O' : 'V');
+      sp = {id:rid('s'), name:name, sci:sci || '', count:1, mLists:[curL], cv:mode === 'V' ? 1 : 0, ca:mode === 'A' ? 1 : 0, co:mode === 'O' ? 1 : 0, mode:mode, bio:[], first:new Date().toISOString(), note:''};
+      if (p){ sp.lat = +fCoord(p.lat); sp.lon = +fCoord(p.lon); }
+      c.species.push(sp); if (!sci) learnName(name);
+      touch(c); renderSpecies(sp.id); renderNav(); renderMackBanner();
+      try { if (navigator.vibrate) navigator.vibrate([15, 30, 20]); } catch(e){}
+      var sid = sp.id;
+      toast('Nova: ' + name + ' (Lista ' + curL + ')', function(){ c.species = before; touch(c); renderSpecies(); renderNav(); renderMackBanner(); },
+        sp.sci && norm(sp.name) === norm(sp.sci) ? {label:'Apelidar', fn:function(){ openSpEdit(sid, 'alias'); }} : (!sp.sci ? {label:'Ligar', fn:function(){ openSpEdit(sid, 'link'); }} : null));
+      checkMackinnonAdvance(c, curL);
+      return;
+    }
+  }
+
   var before = clone(c.species), sp = findSp(c, name, sci), msg, isNew = false;
   if (sp){ sp.count += n; if (sp.mode === 'A') sp.ca = (sp.ca || 0) + n; else if (sp.mode === 'O') sp.co = (sp.co || 0) + n; else sp.cv = (sp.cv || 0) + n; if (!sp.sci && sci) sp.sci = sci; msg = '+' + n + ' ' + sp.name + ' (' + sp.count + ')'; }
   else {
@@ -2543,6 +2698,188 @@ function startNewList(grp, tax){
 function newList(){ openNewListSheet(); }
 
 /* ---------- checklist ---------- */
+function isMacKinnon(c){
+  if (!c || !c.metodo) return false;
+  var m = norm(c.metodo);
+  return m.indexOf('mackinnon') >= 0;
+}
+function renderMackBanner(){
+  var box = $('#mack-banner'); if (!box) return;
+  var c = cur();
+  if (!c || !isMacKinnon(c)){
+    box.innerHTML = '';
+    box.hidden = true;
+    return;
+  }
+  box.hidden = false;
+  var st = getMackinnonState(c);
+  var pct = Math.min(100, Math.round((st.curCount / st.size) * 100));
+  var ro = readOnly(c);
+
+  var h = '<div class="mack-panel">' +
+    '<div class="mack-head">' +
+      '<div class="mack-title">' +
+        '<span class="mack-icon">📋</span>' +
+        '<div>' +
+          '<b>Método de MacKinnon · Sublista <span class="num">' + st.current + '</span></b>' +
+          '<small>Listas padronizadas de ' + st.size + ' sp (sem contagem de indivíduos)</small>' +
+        '</div>' +
+      '</div>' +
+      (!ro ? '<div class="mack-size-pills" title="Alterar tamanho da lista">' +
+        '<button type="button" class="mack-pill' + (st.size === 10 ? ' active' : '') + '" data-act="set-mack-size" data-v="10">10 sp</button>' +
+        '<button type="button" class="mack-pill' + (st.size === 20 ? ' active' : '') + '" data-act="set-mack-size" data-v="20">20 sp</button>' +
+      '</div>' : '') +
+    '</div>' +
+    '<div class="mack-progress-box">' +
+      '<div class="mack-prog-label">' +
+        '<span>Progresso da Sublista ' + st.current + ': <b>' + st.curCount + ' / ' + st.size + ' espécies</b></span>' +
+        '<span>' + (st.isFull ? '✅ Sublista completa!' : 'Faltam ' + st.remaining + ' sp') + '</span>' +
+      '</div>' +
+      '<div class="mack-bar-track">' +
+        '<div class="mack-bar-fill" style="width:' + pct + '%"></div>' +
+      '</div>' +
+    '</div>' +
+    '<div class="mack-actions">' +
+      (!ro && st.current > 1 ? '<button type="button" class="btn btn-sm" data-act="mack-prev-list">◀ Lista ' + (st.current - 1) + '</button>' : '') +
+      (!ro ? '<button type="button" class="btn btn-sm' + (st.isFull ? ' btn-primary' : '') + '" data-act="mack-next-list">' + (st.isFull ? 'Avançar para Lista ' + (st.current + 1) + ' ▶' : '+ Fechar e Iniciar Lista ' + (st.current + 1)) + '</button>' : '') +
+      '<button type="button" class="btn btn-sm btn-analysis" data-act="mack-analysis">📊 Análise de MacKinnon</button>' +
+    '</div>' +
+  '</div>';
+
+  box.innerHTML = h;
+}
+
+function openMackinnonAnalysis(c){
+  if (!c) return;
+  var st = getMackinnonState(c);
+  var totalL = Math.max(1, st.totalLists);
+
+  var spRank = c.species.map(function(s){
+    var mls = Array.isArray(s.mLists) && s.mLists.length ? s.mLists : [1];
+    var occ = mls.length;
+    var fo = (occ / totalL) * 100;
+    var cat = fo >= 75 ? 'Muito Frequente' : (fo >= 50 ? 'Frequente' : (fo >= 25 ? 'Pouco Frequente' : 'Rara / Ocasional'));
+    var catColor = fo >= 75 ? 'var(--accent-strong)' : (fo >= 50 ? '#10B981' : (fo >= 25 ? 'var(--bronze)' : 'var(--muted)'));
+    var d = dbGet(s.sci || resolveSci(s.name));
+    return {
+      sp: s,
+      d: d,
+      occ: occ,
+      fo: fo,
+      cat: cat,
+      catColor: catColor,
+      mls: mls.slice().sort(function(a,b){return a-b;})
+    };
+  }).sort(function(a, b){
+    return (b.occ - a.occ) || a.sp.name.localeCompare(b.sp.name, 'pt');
+  });
+
+  var curve = st.accumCurve;
+  var W = 320, H = 140, padL = 36, padR = 16, padT = 16, padB = 24;
+  var maxS = Math.max(1, st.totalUnique);
+  var maxLists = Math.max(1, curve.length);
+  var scaleX = function(l){ return padL + (maxLists > 1 ? ((l - 1) / (maxLists - 1)) * (W - padL - padR) : (W - padL - padR) / 2); };
+  var scaleY = function(s){ return H - padB - (s / maxS) * (H - padT - padB); };
+
+  var ptsSvg = curve.map(function(pt){
+    return scaleX(pt.list).toFixed(1) + ',' + scaleY(pt.accum).toFixed(1);
+  }).join(' ');
+
+  var dotsSvg = curve.map(function(pt){
+    var cx = scaleX(pt.list).toFixed(1), cy = scaleY(pt.accum).toFixed(1);
+    return '<circle cx="' + cx + '" cy="' + cy + '" r="4" fill="var(--accent)" stroke="#fff" stroke-width="1.5"/>' +
+      '<text x="' + cx + '" y="' + (cy - 7) + '" font-size="10" font-weight="700" text-anchor="middle" fill="var(--ink)">' + pt.accum + '</text>';
+  }).join('');
+
+  var xTicks = curve.map(function(pt){
+    var cx = scaleX(pt.list).toFixed(1);
+    return '<text x="' + cx + '" y="' + (H - 8) + '" font-size="10" text-anchor="middle" fill="var(--muted)">L' + pt.list + '</text>';
+  }).join('');
+
+  var svgHtml = '<svg viewBox="0 0 ' + W + ' ' + H + '" style="width:100%;max-width:400px;height:auto;background:var(--surface);border-radius:12px;border:1px solid var(--line);margin:10px auto;display:block">' +
+    '<line x1="' + padL + '" y1="' + padT + '" x2="' + padL + '" y2="' + (H - padB) + '" stroke="var(--line)" stroke-width="1"/>' +
+    '<line x1="' + padL + '" y1="' + (H - padB) + '" x2="' + (W - padR) + '" y2="' + (H - padB) + '" stroke="var(--line)" stroke-width="1"/>' +
+    '<text x="' + (padL - 6) + '" y="' + (padT + 8) + '" font-size="10" text-anchor="end" fill="var(--muted)">' + maxS + '</text>' +
+    '<text x="' + (padL - 6) + '" y="' + (H - padB) + '" font-size="10" text-anchor="end" fill="var(--muted)">0</text>' +
+    (curve.length > 1 ? '<polyline points="' + ptsSvg + '" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>' : '') +
+    dotsSvg + xTicks +
+  '</svg>';
+
+  var tableCurve = '<div style="overflow-x:auto;margin:8px 0">' +
+    '<table style="width:100%;border-collapse:collapse;font-size:12.5px;text-align:center">' +
+      '<thead><tr style="background:var(--surface-2);color:var(--muted)">' +
+        '<th style="padding:6px;border:1px solid var(--line)">Sublista</th>' +
+        '<th style="padding:6px;border:1px solid var(--line)">Espécies na Lista</th>' +
+        '<th style="padding:6px;border:1px solid var(--line)">Novas Espécies</th>' +
+        '<th style="padding:6px;border:1px solid var(--line)">Riqueza Acumulada</th>' +
+      '</tr></thead><tbody>' +
+      curve.map(function(pt){
+        return '<tr>' +
+          '<td style="padding:6px;border:1px solid var(--line);font-weight:700">Lista ' + pt.list + '</td>' +
+          '<td style="padding:6px;border:1px solid var(--line)">' + pt.count + '</td>' +
+          '<td style="padding:6px;border:1px solid var(--line);color:var(--accent);font-weight:700">+' + pt.newSp + '</td>' +
+          '<td style="padding:6px;border:1px solid var(--line);font-weight:800;background:var(--surface-2)">' + pt.accum + '</td>' +
+        '</tr>';
+      }).join('') +
+    '</tbody></table>' +
+  '</div>';
+
+  var tableFreq = '<div style="overflow-x:auto;margin:8px 0">' +
+    '<table style="width:100%;border-collapse:collapse;font-size:12.5px">' +
+      '<thead><tr style="background:var(--surface-2);color:var(--muted);text-align:left">' +
+        '<th style="padding:6px;border:1px solid var(--line)">#</th>' +
+        '<th style="padding:6px;border:1px solid var(--line)">Espécie</th>' +
+        '<th style="padding:6px;border:1px solid var(--line);text-align:center">Sublistas</th>' +
+        '<th style="padding:6px;border:1px solid var(--line);text-align:center">Ocorrência</th>' +
+        '<th style="padding:6px;border:1px solid var(--line);text-align:center">Frequência (F%)</th>' +
+        '<th style="padding:6px;border:1px solid var(--line)">Categoria</th>' +
+      '</tr></thead><tbody>' +
+      spRank.map(function(r, idx){
+        var bTags = r.mls.map(function(ln){ return '<span class="mack-badge">L' + ln + '</span>'; }).join('');
+        return '<tr>' +
+          '<td style="padding:6px;border:1px solid var(--line);font-weight:700;color:var(--muted)">' + (idx + 1) + '</td>' +
+          '<td style="padding:6px;border:1px solid var(--line)">' +
+            '<b>' + esc(r.sp.name) + '</b>' +
+            (r.sp.sci ? '<br><i style="font-size:11px;color:var(--muted)">' + esc(r.sp.sci) + '</i>' : '') +
+          '</td>' +
+          '<td style="padding:6px;border:1px solid var(--line);text-align:center">' + bTags + '</td>' +
+          '<td style="padding:6px;border:1px solid var(--line);text-align:center;font-weight:700">' + r.occ + '/' + totalL + '</td>' +
+          '<td style="padding:6px;border:1px solid var(--line);text-align:center;font-weight:800;color:var(--accent-strong)">' + r.fo.toFixed(1) + '%</td>' +
+          '<td style="padding:6px;border:1px solid var(--line);font-weight:600;color:' + r.catColor + '">' + r.cat + '</td>' +
+        '</tr>';
+      }).join('') +
+    '</tbody></table>' +
+  '</div>';
+
+  var h = '<div class="lp-head">' +
+    '<span class="eyebrow" style="color:var(--bronze)">Ornitologia · Esforço Amostral Padronizado</span>' +
+    '<h2 id="sheet-h">Análise de Listas de MacKinnon</h2>' +
+    '<p class="meta" style="margin:0">Método de John MacKinnon (1993) · Tamanho padrão: ' + st.size + ' espécies</p>' +
+  '</div>' +
+  '<div class="form" style="margin-top:12px">' +
+    '<div class="row2">' +
+      '<div style="background:var(--surface-2);padding:10px;border-radius:10px;border:1px solid var(--line);text-align:center">' +
+        '<div style="font-size:22px;font-weight:800;color:var(--accent)">' + st.totalLists + '</div>' +
+        '<small style="color:var(--muted);font-weight:600">Sublistas Amostradas</small>' +
+      '</div>' +
+      '<div style="background:var(--surface-2);padding:10px;border-radius:10px;border:1px solid var(--line);text-align:center">' +
+        '<div style="font-size:22px;font-weight:800;color:var(--bronze)">' + st.totalUnique + '</div>' +
+        '<small style="color:var(--muted);font-weight:600">Riqueza Total Acumulada</small>' +
+      '</div>' +
+    '</div>' +
+    '<h3 style="font-family:var(--display);font-size:16px;margin:12px 0 4px">Curva de Acumulação de Espécies</h3>' +
+    '<p class="small-meta" style="margin:0">Esforço medido em número de listas completadas (' + st.size + ' sp cada). A curva mostra a velocidade de adição de novas espécies à amostragem.</p>' +
+    svgHtml +
+    tableCurve +
+    '<h3 style="font-family:var(--display);font-size:16px;margin:16px 0 4px">Ranking de Frequência de Ocorrência (F%)</h3>' +
+    '<p class="small-meta" style="margin:0">No método MacKinnon, indivíduos não são contados. A abundância relativa é calculada pela frequência com que a espécie aparece entre as sublistas consecutivas.</p>' +
+    tableFreq +
+  '</div>' +
+  '<div class="sheet-actions"><button type="button" class="btn btn-primary" data-act="close-sheet">Fechar Análise</button></div>';
+
+  openSheet(h);
+}
+
 function readOnly(c){ return !!(c && c.end && S.unlocked !== c.id); }
 function renderList(){
   var c = cur(); if (!c){ go('home'); return; }
@@ -2577,7 +2914,7 @@ function renderList(){
       : '<span>Corrigindo a lista finalizada</span><button class="btn btn-primary" data-act="lock">Concluir</button>';
   } else { bar.hidden = true; bar.innerHTML = ''; }
   $('#sort-sel').value = S.sort;
-  renderNav(); renderLoc(); renderTrack(); renderSpecies(); renderEnd(); renderExport(); renderSync();
+  renderNav(); renderMackBanner(); renderLoc(); renderTrack(); renderSpecies(); renderEnd(); renderExport(); renderSync();
 }
 function renderNav(){
   var c = cur(); if (!c || S.screen !== 'list') return;
@@ -2590,7 +2927,12 @@ function renderNav(){
   if (c.ua) bits.push(c.ua);
   $('#nav-meta').textContent = bits.join(' · ');
   var amenHtml = t.amen > 0 ? ' · <span class="tot-amen" style="color:#E05A47;font-weight:600">⚠️ <b>' + t.amen + '</b> ' + (t.amen === 1 ? 'ameaçada' : 'ameaçadas') + '</span>' : '';
-  $('#tot').innerHTML = '<b>' + t.sp + '</b> ' + (t.sp === 1 ? 'espécie' : 'espécies') + ' · <b>' + t.ind + '</b> ' + (t.ind === 1 ? 'indivíduo' : 'indivíduos') + amenHtml;
+  if (isMacKinnon(c)){
+    var st = getMackinnonState(c);
+    $('#tot').innerHTML = '<b>' + t.sp + '</b> ' + (t.sp === 1 ? 'espécie' : 'espécies') + ' · <b>' + st.totalLists + '</b> ' + (st.totalLists === 1 ? 'sublista' : 'sublistas') + ' (Lista ' + st.current + ': ' + st.curCount + '/' + st.size + ' sp)' + amenHtml;
+  } else {
+    $('#tot').innerHTML = '<b>' + t.sp + '</b> ' + (t.sp === 1 ? 'espécie' : 'espécies') + ' · <b>' + t.ind + '</b> ' + (t.ind === 1 ? 'indivíduo' : 'indivíduos') + amenHtml;
+  }
 }
 function renderLoc(){
   var c = cur(); if (!c) return;
@@ -2637,15 +2979,45 @@ function spNameHtml(s){
   return '<span class="sp-name">' + esc(s.name) + '</span>';
 }
 function spRow(s, demo, ro){
-  var vaTxt = demo ? '' : [s.cv ? '<span class="va-n">' + s.cv + ' V</span>' : '', s.ca ? '<span class="va-n">' + s.ca + ' A</span>' : '', s.co ? '<span class="va-n">' + s.co + ' O</span>' : ''].filter(Boolean).join(' · ');
-  var isBio = (s.bio && s.bio.length > 0) ? (' · <span class="va-n" style="color:var(--accent);font-weight:700">📏 ' + s.bio.length + ' bio</span>') : '';
-  var meta = demo ? 'primeiro às ' + fTime(s.first) : 'primeiro às <span class="num">' + fTime(s.first) + '</span>' + (vaTxt ? ' · ' + vaTxt : '') + isBio + (s.note ? ' · ' + esc(s.note.length > 60 ? s.note.slice(0, 58) + '…' : s.note) : '');
+  var c = cur();
+  var isMack = !demo && c && isMacKinnon(c);
   var nm = esc(s.name), a = demo ? 'demo-' : '';
-  var va = demo ? '' : '<div class="va" role="group" aria-label="Tipo de registro"><button data-act="mode" data-m="V" data-sid="' + s.id + '" aria-pressed="' + (s.mode === 'V' || (!s.mode && s.mode !== 'A' && s.mode !== 'O')) + '" aria-label="Visual">V</button><button data-act="mode" data-m="A" data-sid="' + s.id + '" aria-pressed="' + (s.mode === 'A') + '" aria-label="Auditivo">A</button><button data-act="mode" data-m="O" data-sid="' + s.id + '" aria-pressed="' + (s.mode === 'O') + '" aria-label="Ocasional">O</button></div>';
-
   var infoBtn = demo ? '' : ('<button class="sp-info-btn" data-act="sp-info" data-sid="' + s.id + '" title="Ver informações, diagnose e cantos de ' + nm + '" aria-label="Informações da espécie ' + nm + '">' +
     '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>' +
   '</button>');
+
+  if (isMack){
+    var st = getMackinnonState(c);
+    var curL = st.current;
+    var mls = Array.isArray(s.mLists) && s.mLists.length ? s.mLists : [1];
+    var inCur = mls.indexOf(curL) >= 0;
+    var freqPct = Math.round((mls.length / Math.max(1, st.totalLists)) * 100);
+    var mBadges = mls.slice().sort(function(x,y){return x-y;}).map(function(ln){
+      return '<span class="mack-badge' + (ln === curL ? ' cur' : '') + '">L' + ln + '</span>';
+    }).join('');
+    var metaMack = 'Lista(s): ' + mBadges + ' · <b class="num">' + mls.length + '/' + st.totalLists + '</b> (<span class="num">' + freqPct + '%</span>)' + (s.note ? ' · ' + esc(s.note.length > 50 ? s.note.slice(0, 48) + '…' : s.note) : '');
+
+    var btnAct = inCur
+      ? '<button type="button" class="mack-btn in-cur" data-act="mack-toggle" data-sid="' + s.id + '" data-l="' + curL + '" title="Registrada na Lista ' + curL + ' (toque para remover)">✓ L' + curL + '</button>'
+      : '<button type="button" class="mack-btn not-in-cur" data-act="mack-toggle" data-sid="' + s.id + '" data-l="' + curL + '" title="Adicionar à Lista ' + curL + '">+ L' + curL + '</button>';
+
+    if (ro) {
+      return '<li class="sp ro mack-sp' + (inCur ? ' in-current' : '') + '" data-sid="' + s.id + '">' +
+        '<div class="sp-left">' + infoBtn + '<div class="sp-main">' + spNameHtml(s) + '<span class="sp-meta">' + metaMack + '</span></div></div>' +
+        '<div class="ctr mack-ctr"><span class="cnt">' + mls.length + 'L</span></div>' +
+      '</li>';
+    }
+
+    return '<li class="sp mack-sp' + (inCur ? ' in-current' : '') + '" data-sid="' + s.id + '">' +
+      '<div class="sp-left">' + infoBtn + '<button class="sp-main" data-act="edit-sp" data-sid="' + s.id + '">' + spNameHtml(s) + '<span class="sp-meta">' + metaMack + '</span></button></div>' +
+      '<div class="ctr mack-ctr">' + btnAct + '</div>' +
+    '</li>';
+  }
+
+  var vaTxt = demo ? '' : [s.cv ? '<span class="va-n">' + s.cv + ' V</span>' : '', s.ca ? '<span class="va-n">' + s.ca + ' A</span>' : '', s.co ? '<span class="va-n">' + s.co + ' O</span>' : ''].filter(Boolean).join(' · ');
+  var isBio = (s.bio && s.bio.length > 0) ? (' · <span class="va-n" style="color:var(--accent);font-weight:700">📏 ' + s.bio.length + ' bio</span>') : '';
+  var meta = demo ? 'primeiro às ' + fTime(s.first) : 'primeiro às <span class="num">' + fTime(s.first) + '</span>' + (vaTxt ? ' · ' + vaTxt : '') + isBio + (s.note ? ' · ' + esc(s.note.length > 60 ? s.note.slice(0, 58) + '…' : s.note) : '');
+  var va = demo ? '' : '<div class="va" role="group" aria-label="Tipo de registro"><button data-act="mode" data-m="V" data-sid="' + s.id + '" aria-pressed="' + (s.mode === 'V' || (!s.mode && s.mode !== 'A' && s.mode !== 'O')) + '" aria-label="Visual">V</button><button data-act="mode" data-m="A" data-sid="' + s.id + '" aria-pressed="' + (s.mode === 'A') + '" aria-label="Auditivo">A</button><button data-act="mode" data-m="O" data-sid="' + s.id + '" aria-pressed="' + (s.mode === 'O') + '" aria-label="Ocasional">O</button></div>';
 
   if (ro) return '<li class="sp ro' + (s.count === 0 ? ' is-zero' : '') + '" data-sid="' + s.id + '">' +
     '<div class="sp-left">' + infoBtn + '<div class="sp-main">' + (demo ? '<span class="sp-name">' + nm + '</span>' : spNameHtml(s)) + '<span class="sp-meta">' + meta + '</span></div></div>' +
@@ -2901,8 +3273,67 @@ function closeSheet(){
   $('#sheet').hidden = true; $('#sheet-body').innerHTML = ''; document.body.style.overflow = ''; document.body.classList.remove('sheet-open');
 }
 function dateVal(d){ d = new Date(d); return d.getFullYear() + '-' + p2(d.getMonth()+1) + '-' + p2(d.getDate()); }
+var METODOS_POR_GRUPO = {
+  'Ornitofauna': [
+    { nome: 'Transecto', icon: '🚶', desc: 'Transecto linear' },
+    { nome: 'Listas de MacKinnon', icon: '📋', desc: 'Listas padronizadas de 10 ou 20 sp sem contagem de indivíduo' },
+    { nome: 'Ponto de escuta', icon: '👂', desc: 'Pontos fixos com raio e tempo definidos' },
+    { nome: 'Rede de neblina', icon: '🕸️', desc: 'Captura, anilhamento e biometria de aves' }
+  ],
+  'Mastofauna': [
+    { nome: 'Busca ativa', icon: '🔍', desc: 'Diurna ou noturna (visual e auditivo)' },
+    { nome: 'Vestígios', icon: '🐾', desc: 'Pegadas, fezes, pelos, ranhuras, tocas, carcaças' },
+    { nome: 'Camera trap', icon: '📷', desc: 'Armadilhas fotográficas' }
+  ],
+  'Herpetofauna': [
+    { nome: 'Busca ativa', icon: '🔍', desc: 'Visual e auditiva em sítios reprodutivos' },
+    { nome: 'Pitfall', icon: '🪤', desc: 'Armadilhas de interceptação e queda' },
+    { nome: 'Busca ativa + Pitfall', icon: '🔍+🪤', desc: 'Método combinado' }
+  ],
+  'Geral': [
+    { nome: 'Busca ativa', icon: '🔍' },
+    { nome: 'Transecto', icon: '🚶' },
+    { nome: 'Ponto de escuta', icon: '👂' },
+    { nome: 'Listas de MacKinnon', icon: '📋' },
+    { nome: 'Camera trap', icon: '📷' },
+    { nome: 'Pitfall', icon: '🪤' },
+    { nome: 'Rede de neblina', icon: '🕸️' },
+    { nome: 'Vestígios', icon: '🐾' }
+  ]
+};
+var METODOS = [
+  'Busca ativa', 'Transecto', 'Listas de MacKinnon', 'Ponto de escuta',
+  'Rede de neblina', 'Camera trap', 'Vestígios', 'Pitfall',
+  'Busca ativa + Pitfall', 'Censo visual', 'Armadilha Sherman/Tomahawk',
+  'Encontro ocasional', 'Playback', 'Gravação (bioacústica)'
+];
+
+function getMetodosForGroup(grp){
+  return METODOS_POR_GRUPO[grp] || METODOS_POR_GRUPO['Geral'];
+}
+
+function renderMetChipsHtml(grp, currentMetodo){
+  var list = getMetodosForGroup(grp);
+  return list.map(function(m){
+    var act = currentMetodo === m.nome;
+    return '<button type="button" class="met-chip' + (act ? ' active' : '') + '" data-act="set-met" data-v="' + esc(m.nome) + '" title="' + esc(m.desc || m.nome) + '">' +
+      (m.icon ? m.icon + ' ' : '') + esc(m.nome) +
+    '</button>';
+  }).join('');
+}
+
+function updateMackConfigVisibility(){
+  var cfg = $('#d-mack-config');
+  var c = cur();
+  if (cfg && c){
+    cfg.style.display = isMacKinnon(c) ? '' : 'none';
+  }
+}
+
 function openDetails(){
   var c = cur(); if (!c) return;
+  var isMack = isMacKinnon(c);
+  var sz = c.mackinnonSize === 20 ? 20 : 10;
   var h = '<h2 id="sheet-h">Detalhes da lista</h2><div class="form" id="det">' +
     '<label class="field"><span>Título</span><input id="d-title" value="' + esc(c.title) + '" placeholder="' + esc(c.place || ('Lista de ' + fDay(c.start))) + '"></label>' +
     '<div class="row2"><label class="field"><span>Data</span><input id="d-date" type="date" value="' + dateVal(c.start) + '"></label><label class="field"><span>Início</span><input id="d-start" type="time" value="' + fTime(c.start) + '"></label></div>' +
@@ -2915,11 +3346,15 @@ function openDetails(){
     '</select></label>' +
     '<label class="field"><span>Projeto / área de estudo</span><input id="d-proj" list="dl-proj" value="' + esc(c.projeto) + '" placeholder="Ex.: PCH Cayman, Fazenda Boa Vista" autocapitalize="sentences"></label>' +
     '<div class="row2"><label class="field"><span>Campanha</span><input id="d-camp" list="dl-camp" value="' + esc(c.campanha) + '" placeholder="Ex.: 7ª Campanha"></label><label class="field"><span>Unidade amostral</span><input id="d-ua" list="dl-ua" value="' + esc(c.ua) + '" placeholder="Ex.: A01, P3"></label></div>' +
-    '<label class="field"><span>Método</span><input id="d-met" list="dl-met" value="' + esc(c.metodo) + '" placeholder="Busca ativa, pitfall, ponto de escuta…"></label>' +
-    '<div class="met-chips" id="d-met-chips">' +
-      '<button type="button" class="met-chip' + (c.metodo === 'Busca ativa' ? ' active' : '') + '" data-act="set-met" data-v="Busca ativa">🔍 Busca ativa</button>' +
-      '<button type="button" class="met-chip' + (c.metodo === 'Pitfall' ? ' active' : '') + '" data-act="set-met" data-v="Pitfall">🪤 Pitfall</button>' +
-      '<button type="button" class="met-chip' + (c.metodo === 'Busca ativa + Pitfall' ? ' active' : '') + '" data-act="set-met" data-v="Busca ativa + Pitfall">🔍+🪤 Busca ativa + Pitfall</button>' +
+    '<label class="field"><span>Método</span><input id="d-met" list="dl-met" value="' + esc(c.metodo) + '" placeholder="Transecto, listas de mackinnon, ponto de escuta…"></label>' +
+    '<div class="met-chips" id="d-met-chips">' + renderMetChipsHtml(c.grupo, c.metodo) + '</div>' +
+    '<div class="field" id="d-mack-config"' + (isMack ? '' : ' style="display:none"') + '>' +
+      '<span>Configuração: Listas de MacKinnon</span>' +
+      '<p class="small-meta" style="margin:2px 0 6px">Sem contagem de indivíduos. As espécies são acumuladas em sublistas consecutivas de tamanho fixo.</p>' +
+      '<div class="row2">' +
+        '<button type="button" class="btn btn-sm' + (sz === 10 ? ' btn-primary' : '') + '" data-act="set-mack-size-det" data-v="10">10 espécies (padrão)</button>' +
+        '<button type="button" class="btn btn-sm' + (sz === 20 ? ' btn-primary' : '') + '" data-act="set-mack-size-det" data-v="20">20 espécies</button>' +
+      '</div>' +
     '</div>' +
     '<label class="field"><span>Observadores</span><input id="d-obs" type="number" min="1" inputmode="numeric" value="' + c.observers + '"></label>' +
     '<label class="field"><span>Local</span><input id="d-place" value="' + esc(c.place) + '" placeholder="Ex.: Trilha do Rio, Parque Estadual" autocapitalize="sentences"></label>' +
@@ -2930,7 +3365,6 @@ function openDetails(){
   fillDatalists();
   openSheet(h, function(){ renderList(); });
 }
-var METODOS = ['Busca ativa', 'Busca ativa limitada por tempo', 'Pitfall (armadilha de queda)', 'Ponto de escuta', 'Transecto', 'Censo visual', 'Armadilha fotográfica', 'Rede de neblina', 'Armadilha Sherman/Tomahawk', 'Encontro ocasional', 'Playback', 'Gravação (bioacústica)', 'Busca em sítio reprodutivo', 'Vestígios (pegadas, fezes)'];
 function fillDatalists(){
   var vals = {proj:{}, camp:{}, ua:{}, met:{}};
   Object.keys(S.lists).forEach(function(id){ var L = S.lists[id]; if (L.projeto) vals.proj[L.projeto] = 1; if (L.campanha) vals.camp[L.campanha] = 1; if (L.ua) vals.ua[L.ua] = 1; if (L.metodo) vals.met[L.metodo] = 1; });
@@ -2947,6 +3381,9 @@ function applyDetails(target){
     else if (v === 'Mastofauna') { c.filterTax = 'Mamífero'; S.filterTax = 'Mamífero'; }
     else if (v === 'Herpetofauna') { c.filterTax = 'Herpeto'; S.filterTax = 'Herpeto'; }
     else { c.filterTax = ''; S.filterTax = ''; }
+    var chips = $('#d-met-chips');
+    if (chips) chips.innerHTML = renderMetChipsHtml(c.grupo, c.metodo);
+    updateMackConfigVisibility();
     renderList();
   }
   else if (id === 'd-proj') c.projeto = clean(v);
@@ -2960,6 +3397,7 @@ function applyDetails(target){
         ch.classList.toggle('active', ch.dataset.v === c.metodo);
       });
     }
+    updateMackConfigVisibility();
   }
   else if (id === 'd-place') c.place = clean(v);
   else if (id === 'd-notes') c.notes = v;
@@ -3003,21 +3441,26 @@ function openSpEdit(sid, focus){
   var leg = spLegacy(s), d = dbGet(s.sci);
   var taxo = d ? '<p class="small-meta" style="margin:0"><i>' + esc(d.n) + '</i> ' + esc(d.a || '') + ' · ' + esc([CLS[d.c], d.o, d.f].filter(Boolean).join(' · ')) + (d.pt ? ' · ' + esc(d.pt.split(',')[0]) : '') + '</p>' : '';
   var isPitfall = (c.metodo && c.metodo.toLowerCase().indexOf('pitfall') >= 0);
+  var isRede = (c.metodo && (c.metodo.toLowerCase().indexOf('rede') >= 0 || c.metodo.toLowerCase().indexOf('neblina') >= 0));
+  var isMasto = (c.grupo === 'Mastofauna') || (c.metodo && c.metodo.toLowerCase().indexOf('vest') >= 0);
   var hasBio = s.bio && s.bio.length > 0;
+  var isBioMethod = isPitfall || isRede || hasBio;
   var bioHtml = '';
-  if (isPitfall || hasBio) {
+  if (isBioMethod) {
     var bioCards = (s.bio && s.bio.length) ? s.bio.map(function(b, idx){
       var tags = [
-        b.estacao ? ('Estação ' + esc(b.estacao)) : '',
+        b.anilha ? ('Anilha: ' + esc(b.anilha)) : (b.estacao ? ('Estação ' + esc(b.estacao)) : ''),
+        b.rede ? ('Rede ' + esc(b.rede)) : '',
         b.status ? ('Status: ' + (b.status === 'N' ? 'Novo (N)' : 'Recaptura (R)')) : '',
         b.sexo ? ('Sexo: ' + esc(b.sexo)) : '',
-        b.reprod && b.reprod !== 'N.A.' ? ('Reprod: ' + esc(b.reprod)) : '',
-        b.crc != null ? ('CRC: ' + b.crc + 'mm') : '',
+        b.idade && b.idade !== 'Ind' ? ('Idade: ' + esc(b.idade)) : '',
+        b.asa != null ? ('Asa: ' + b.asa + 'mm') : '',
+        b.crc != null ? ('CRC: ' + b.crc + 'mm') : (b.cp != null ? ('CP: ' + b.cp + 'mm') : ''),
         b.peso != null ? ('Peso: ' + b.peso + 'g') : ''
       ].filter(Boolean).join(' · ');
       return '<div class="bio-card">' +
         '<div class="bio-card-info">' +
-          '<b>Indivíduo #' + (idx + 1) + (b.estacao ? ' · ' + esc(b.estacao) : '') + '</b>' +
+          '<b>Indivíduo #' + (idx + 1) + (b.anilha ? ' · Anilha ' + esc(b.anilha) : (b.rede ? ' · Rede ' + esc(b.rede) : (b.estacao ? ' · ' + esc(b.estacao) : ''))) + '</b>' +
           '<div class="bio-card-meta">' + tags + '</div>' +
         '</div>' +
         '<div class="bio-card-acts">' +
@@ -3025,7 +3468,7 @@ function openSpEdit(sid, focus){
           '<button class="btn btn-sm btn-danger" type="button" data-act="bio-del" data-sid="' + s.id + '" data-idx="' + idx + '" title="Excluir indivíduo">' + ICO.trash + '</button>' +
         '</div>' +
       '</div>';
-    }).join('') : '<p class="small-meta" style="margin:4px 0">Nenhum indivíduo com biometria detalhada ainda. Toque abaixo para registrar medidas morfométricas (CRC, cauda, peso, folidose).</p>';
+    }).join('') : '<p class="small-meta" style="margin:4px 0">Nenhum indivíduo com biometria detalhada ainda. Toque abaixo para registrar medidas morfométricas' + (c.grupo === 'Ornitofauna' || isRede ? ' (anilha, asa, cauda, bico, tarso, peso, muda).' : ' (CRC, cauda, peso, folidose).') + '</p>';
 
     bioHtml = '<div class="bio-block">' +
       '<div class="bio-hdr">' +
@@ -3035,6 +3478,25 @@ function openSpEdit(sid, focus){
       '<div class="bio-list">' + bioCards + '</div>' +
     '</div>';
   }
+
+  var vestHtml = '';
+  if (isMasto){
+    vestHtml = '<div class="field" style="margin-top:6px">' +
+      '<span>Tipo de Registro / Vestígio</span>' +
+      '<div class="vest-chips">' +
+        '<button type="button" class="vest-chip" data-act="vest-tag" data-v="🐾 Pegada">🐾 Pegada</button>' +
+        '<button type="button" class="vest-chip" data-act="vest-tag" data-v="💩 Fezes">💩 Fezes</button>' +
+        '<button type="button" class="vest-chip" data-act="vest-tag" data-v="🧶 Pelo">🧶 Pelo</button>' +
+        '<button type="button" class="vest-chip" data-act="vest-tag" data-v="🪵 Ranhura">🪵 Ranhura</button>' +
+        '<button type="button" class="vest-chip" data-act="vest-tag" data-v="🕳️ Toca">🕳️ Toca</button>' +
+        '<button type="button" class="vest-chip" data-act="vest-tag" data-v="🦴 Carcaça">🦴 Carcaça</button>' +
+        '<button type="button" class="vest-chip" data-act="vest-tag" data-v="👃 Odor">👃 Odor</button>' +
+        '<button type="button" class="vest-chip" data-act="vest-tag" data-v="🔊 Vocalização">🔊 Vocalização</button>' +
+        '<button type="button" class="vest-chip" data-act="vest-tag" data-v="👁️ Visual">👁️ Visual</button>' +
+      '</div>' +
+    '</div>';
+  }
+
   var h = '<h2 id="sheet-h">Editar espécie</h2><div class="form">' +
     '<label class="field"><span>Nome na lista</span><input id="e-name" value="' + esc(s.name) + '" autocapitalize="sentences" spellcheck="false"></label>' + taxo +
     '<div class="va-edit">' +
@@ -3043,6 +3505,7 @@ function openSpEdit(sid, focus){
       '<div class="field"><span id="e-co-l">Ocasional (O)</span><div class="big-ctr"><button class="minus" data-act="e-step" data-t="e-co" data-d="-1" aria-label="Menos um ocasional">−</button><input id="e-co" type="number" min="0" inputmode="numeric" value="' + (s.co || 0) + '" aria-labelledby="e-co-l"><button class="plus" data-act="e-step" data-t="e-co" data-d="1" aria-label="Mais um ocasional">+</button></div></div>' +
     '</div>' +
     (leg ? '<div class="field"><span id="e-lg-l">Sem tipo (registros antigos)</span><div class="big-ctr"><button class="minus" data-act="e-step" data-t="e-lg" data-d="-1" aria-label="Menos um">−</button><input id="e-lg" type="number" min="0" inputmode="numeric" value="' + leg + '" aria-labelledby="e-lg-l"><button class="plus" data-act="e-step" data-t="e-lg" data-d="1" aria-label="Mais um">+</button></div></div>' : '') +
+    vestHtml +
     bioHtml +
     '<div style="margin:6px 0">' +
       '<button class="btn" type="button" data-act="sp-info" data-sid="' + s.id + '" style="width:100%;font-weight:700;display:flex;align-items:center;justify-content:center;gap:6px;background:var(--surface-2);border-color:var(--accent);color:var(--accent-strong)">' +
@@ -3051,7 +3514,7 @@ function openSpEdit(sid, focus){
       '</button>' +
     '</div>' +
     (s.sci ? aliasBox(s) : linkBox(s)) +
-    '<label class="field"><span>Observação</span><textarea id="e-note" placeholder="Comportamento, idade, sexo, plumagem…">' + esc(s.note) + '</textarea></label>' +
+    '<label class="field"><span>Observação</span><textarea id="e-note" placeholder="Comportamento, idade, sexo, plumagem, vestígios…">' + esc(s.note) + '</textarea></label>' +
     '<p class="small-meta">Primeiro registro às ' + fTime(s.first) + where + '</p></div>' +
     '<div class="sheet-actions"><button class="btn btn-danger" data-act="e-remove">' + ICO.trash + 'Remover da lista</button><button class="btn btn-primary" data-act="close-sheet">Pronto</button></div>';
   var removed = false;
@@ -3093,28 +3556,97 @@ function openBioModal(sid, bioIdx){
   var now = new Date();
   var dtStr = b.data || (s.first ? dateVal(s.first) : dateVal(now));
   var hrStr = b.hora || (s.first ? fTime(s.first) : fTime(now));
-  var estStr = b.estacao || c.ua || '';
-  var respStr = b.responsavel || '';
+  var estStr = b.rede || b.estacao || c.ua || '';
+  var respStr = b.resp || b.responsavel || '';
   var climaStr = b.clima || c.notes || '';
   var st = b.status || 'N';
   var sx = b.sexo || 'Ind';
-  var rp = b.reprod || 'N.A.';
   var d = dbGet(s.sci || resolveSci(s.name));
-  var isAnuro = d && (d.o === 'Anura' || d.c === 'A');
+  var isBird = (d && d.c === 'A') || (c.grupo === 'Ornitofauna') || (c.metodo && (c.metodo.toLowerCase().indexOf('rede') >= 0 || c.metodo.toLowerCase().indexOf('neblina') >= 0));
+  var isAnuro = d && (d.o === 'Anura');
   var isSerp = d && (d.o === 'Squamata' && d.f && /Colubridae|Viperidae|Elapidae|Boidae|Dipsadidae/.test(d.f));
 
-  var h = '<h2 id="sheet-h">' + (isNew ? 'Nova Captura & Biometria' : 'Editar Captura #' + (bioIdx + 1)) + '</h2>' +
-    '<p class="small-meta" style="margin:-6px 0 12px"><i>' + esc(s.name) + '</i>' + (d && d.c ? ' · ' + (CLS[d.c] || d.c) : '') + '</p>' +
-    '<div class="form" id="bio-form">' +
-      '<div class="row2">' +
-        '<label class="field"><span>Data</span><input id="bio-date" type="date" value="' + esc(dtStr) + '"></label>' +
-        '<label class="field"><span>Hora</span><input id="bio-time" type="time" value="' + esc(hrStr) + '"></label>' +
+  var titleModal = isBird
+    ? (isNew ? 'Nova Captura — Rede de Neblina / Aves' : 'Editar Captura de Ave #' + (bioIdx + 1))
+    : (isNew ? 'Nova Captura & Biometria' : 'Editar Captura #' + (bioIdx + 1));
+
+  var birdFields = '';
+  if (isBird){
+    var idadeStr = b.idade || 'Ind';
+    var placaStr = b.placa != null ? String(b.placa) : '0';
+    var gordStr = b.gordura != null ? String(b.gordura) : '0';
+    var mudaStr = b.muda || 'Ausente';
+    birdFields =
+      '<div class="alias-box" style="margin-top:4px">' +
+        '<b style="font-size:15px;color:var(--bronze)">Anilhamento &amp; Identificação (Aves)</b>' +
+        '<div class="row2">' +
+          '<label class="field"><span>Anilha nº (CEMAVE / SNA)</span><input id="bio-anilha" value="' + esc(b.anilha || b.marcacao || '') + '" placeholder="Ex.: A-789123"></label>' +
+          '<label class="field"><span>Rede nº / Ponto</span><input id="bio-rede" value="' + esc(b.rede || b.estacao || '') + '" placeholder="Ex.: R01, Rede 3"></label>' +
+        '</div>' +
+        '<div class="row2">' +
+          '<label class="field"><span>Status</span><select id="bio-status">' +
+            '<option value="N"' + (st === 'N' ? ' selected' : '') + '>N — Novo anilhamento</option>' +
+            '<option value="R"' + (st === 'R' ? ' selected' : '') + '>R — Recaptura</option>' +
+          '</select></label>' +
+          '<label class="field"><span>Idade</span><select id="bio-idade">' +
+            '<option value="Ind"' + (idadeStr === 'Ind' ? ' selected' : '') + '>Ind — Indeterminada</option>' +
+            '<option value="J"' + (idadeStr === 'J' ? ' selected' : '') + '>J — Jovem</option>' +
+            '<option value="SA"' + (idadeStr === 'SA' ? ' selected' : '') + '>SA — Subadulto</option>' +
+            '<option value="A"' + (idadeStr === 'A' ? ' selected' : '') + '>A — Adulto</option>' +
+          '</select></label>' +
+        '</div>' +
+        '<div class="row2">' +
+          '<label class="field"><span>Sexo</span><select id="bio-sexo">' +
+            '<option value="Ind"' + (sx === 'Ind' ? ' selected' : '') + '>Ind — Indeterminado</option>' +
+            '<option value="M"' + (sx === 'M' ? ' selected' : '') + '>M — Macho</option>' +
+            '<option value="F"' + (sx === 'F' ? ' selected' : '') + '>F — Fêmea</option>' +
+          '</select></label>' +
+          '<label class="field"><span>CP — Comp. Total (mm)</span><input id="bio-cp" type="number" step="0.1" inputmode="decimal" value="' + (b.cp != null ? b.cp : (b.crc != null ? b.crc : '')) + '" placeholder="Ex.: 145.0"></label>' +
+        '</div>' +
       '</div>' +
-      '<div class="row2">' +
-        '<label class="field"><span>Estação / Balde</span><input id="bio-est" value="' + esc(estStr) + '" placeholder="Ex.: E01, Balde 4, P1"></label>' +
-        '<label class="field"><span>Responsável</span><input id="bio-resp" value="' + esc(respStr) + '" placeholder="Ex.: Lucas Aøsf"></label>' +
+
+      '<div class="alias-box" style="margin-top:4px">' +
+        '<b style="font-size:15px;color:var(--bronze)">Morfometria de Aves (mm e g)</b>' +
+        '<div class="row2">' +
+          '<label class="field"><span>Asa / Corda máxima (mm)</span><input id="bio-asa" type="number" step="0.1" inputmode="decimal" value="' + (b.asa != null ? b.asa : '') + '" placeholder="Ex.: 78.5"></label>' +
+          '<label class="field"><span>Cauda (mm)</span><input id="bio-cauda" type="number" step="0.1" inputmode="decimal" value="' + (b.cauda != null ? b.cauda : '') + '" placeholder="Ex.: 62.0"></label>' +
+        '</div>' +
+        '<div class="row2">' +
+          '<label class="field"><span>Cúlmen / Bico (mm)</span><input id="bio-culmen" type="number" step="0.1" inputmode="decimal" value="' + (b.culmen != null ? b.culmen : '') + '" placeholder="Ex.: 14.2"></label>' +
+          '<label class="field"><span>Tarso (mm)</span><input id="bio-tarso" type="number" step="0.1" inputmode="decimal" value="' + (b.tarso != null ? b.tarso : '') + '" placeholder="Ex.: 19.8"></label>' +
+        '</div>' +
+        '<label class="field"><span>Peso corporal (g)</span><input id="bio-peso" type="number" step="0.1" inputmode="decimal" value="' + (b.peso != null ? b.peso : '') + '" placeholder="Ex.: 24.5"></label>' +
       '</div>' +
-      '<label class="field"><span>Condições climáticas</span><input id="bio-clima" value="' + esc(climaStr) + '" placeholder="Ex.: Sol, nublado, garoa, noite úmida"></label>' +
+
+      '<div class="alias-box" style="margin-top:4px">' +
+        '<b style="font-size:15px;color:var(--bronze)">Condição &amp; Fenologia (Aves)</b>' +
+        '<div class="row2">' +
+          '<label class="field"><span>Placa de incubação</span><select id="bio-placa">' +
+            '<option value="0"' + (placaStr === '0' ? ' selected' : '') + '>0 — Ausente</option>' +
+            '<option value="1"' + (placaStr === '1' ? ' selected' : '') + '>1 — Inicial (perda penas)</option>' +
+            '<option value="2"' + (placaStr === '2' ? ' selected' : '') + '>2 — Plena (vascularizada)</option>' +
+            '<option value="3"' + (placaStr === '3' ? ' selected' : '') + '>3 — Regredindo</option>' +
+          '</select></label>' +
+          '<label class="field"><span>Gordura (fúrcula)</span><select id="bio-gordura">' +
+            '<option value="0"' + (gordStr === '0' ? ' selected' : '') + '>0 — Sem gordura</option>' +
+            '<option value="1"' + (gordStr === '1' ? ' selected' : '') + '>1 — Traços</option>' +
+            '<option value="2"' + (gordStr === '2' ? ' selected' : '') + '>2 — Fúrcula 1/3</option>' +
+            '<option value="3"' + (gordStr === '3' ? ' selected' : '') + '>3 — Fúrcula 2/3</option>' +
+            '<option value="4"' + (gordStr === '4' ? ' selected' : '') + '>4 — Fúrcula cheia</option>' +
+            '<option value="5"' + (gordStr === '5' ? ' selected' : '') + '>5 — Abdominal</option>' +
+          '</select></label>' +
+        '</div>' +
+        '<label class="field"><span>Muda de penas</span><select id="bio-muda">' +
+          '<option value="Ausente"' + (mudaStr === 'Ausente' ? ' selected' : '') + '>Ausente — Sem muda ativa</option>' +
+          '<option value="Asa"' + (mudaStr === 'Asa' ? ' selected' : '') + '>Asa — Rêmiges em muda</option>' +
+          '<option value="Cauda"' + (mudaStr === 'Cauda' ? ' selected' : '') + '>Cauda — Retrizes em muda</option>' +
+          '<option value="Corpo"' + (mudaStr === 'Corpo' ? ' selected' : '') + '>Corpo — Penas de contorno</option>' +
+          '<option value="Geral"' + (mudaStr === 'Geral' ? ' selected' : '') + '>Geral — Muda corporal e rêmiges</option>' +
+        '</select></label>' +
+      '</div>';
+  } else {
+    var rp = b.reprod || 'N.A.';
+    birdFields =
       '<div class="row2">' +
         '<label class="field"><span>Status</span><select id="bio-status">' +
           '<option value="N"' + (st === 'N' ? ' selected' : '') + '>N — Novo indivíduo</option>' +
@@ -3137,7 +3669,6 @@ function openBioModal(sid, bioIdx){
         '</select></label>' +
         '<label class="field"><span>Marcação & Local</span><input id="bio-marc" value="' + esc(b.marcacao || '') + '" placeholder="Ex.: Falange 1-3, Elastômero"></label>' +
       '</div>' +
-
       '<div class="alias-box" style="margin-top:4px">' +
         '<b style="font-size:15px;color:var(--bronze)">Morfometria Geral</b>' +
         '<div class="row2">' +
@@ -3146,7 +3677,6 @@ function openBioModal(sid, bioIdx){
         '</div>' +
         '<label class="field"><span>Peso corporal (g)</span><input id="bio-peso" type="number" step="0.1" inputmode="decimal" value="' + (b.peso != null ? b.peso : '') + '" placeholder="Ex.: 15.8"></label>' +
       '</div>' +
-
       '<details class="alias-box" style="margin-top:4px"' + (isAnuro || (b.ac != null || b.lc != null) ? ' open' : '') + '>' +
         '<summary style="font-weight:700;color:var(--bronze);cursor:pointer">Medidas Anuros (mm)</summary>' +
         '<div class="row2" style="margin-top:8px">' +
@@ -3158,7 +3688,6 @@ function openBioModal(sid, bioIdx){
           '<label class="field"><span>LC2 — Compr. tíbia/membro</span><input id="bio-lc2" type="number" step="0.1" inputmode="decimal" value="' + (b.lc2 != null ? b.lc2 : '') + '" placeholder="Ex.: 22.5"></label>' +
         '</div>' +
       '</details>' +
-
       '<details class="alias-box" style="margin-top:4px"' + (isSerp || (b.sl || b.il || b.sc || b.cl) ? ' open' : '') + '>' +
         '<summary style="font-weight:700;color:var(--bronze);cursor:pointer">Folidose — Serpentes</summary>' +
         '<div class="row2" style="margin-top:8px">' +
@@ -3169,9 +3698,23 @@ function openBioModal(sid, bioIdx){
           '<label class="field"><span>SC — Subcaudais</span><input id="bio-sc" value="' + esc(b.sc || '') + '" placeholder="Ex.: 45"></label>' +
           '<label class="field"><span>CL — Placa Cloacal</span><input id="bio-cl" value="' + esc(b.cl || '') + '" placeholder="Ex.: Dividida"></label>' +
         '</div>' +
-      '</details>' +
+      '</details>';
+  }
 
-      '<label class="field"><span>Observações da captura</span><textarea id="bio-obs" placeholder="Coloração, perda de cauda, ectoparasitas…">' + esc(b.obs || '') + '</textarea></label>' +
+  var h = '<h2 id="sheet-h">' + titleModal + '</h2>' +
+    '<p class="small-meta" style="margin:-6px 0 12px"><i>' + esc(s.name) + '</i>' + (d && d.c ? ' · ' + (CLS[d.c] || d.c) : '') + '</p>' +
+    '<div class="form" id="bio-form">' +
+      '<div class="row2">' +
+        '<label class="field"><span>Data</span><input id="bio-date" type="date" value="' + esc(dtStr) + '"></label>' +
+        '<label class="field"><span>Hora</span><input id="bio-time" type="time" value="' + esc(hrStr) + '"></label>' +
+      '</div>' +
+      '<div class="row2">' +
+        '<label class="field"><span>' + (isBird ? 'Rede nº / Ponto' : 'Estação / Balde') + '</span><input id="bio-est" value="' + esc(estStr) + '" placeholder="' + (isBird ? 'Ex.: R01, Rede 2' : 'Ex.: E01, Balde 4, P1') + '"></label>' +
+        '<label class="field"><span>Responsável</span><input id="bio-resp" value="' + esc(respStr) + '" placeholder="Ex.: Lucas Aøsf"></label>' +
+      '</div>' +
+      '<label class="field"><span>Condições climáticas</span><input id="bio-clima" value="' + esc(climaStr) + '" placeholder="Ex.: Sol, nublado, garoa, vento fraco"></label>' +
+      birdFields +
+      '<label class="field"><span>Observações da captura</span><textarea id="bio-obs" placeholder="Coloração, anomalias, parasitas, plumagem…">' + esc(b.obs || '') + '</textarea></label>' +
     '</div>' +
     '<div class="sheet-actions">' +
       '<button class="btn" type="button" data-act="bio-back" data-sid="' + sid + '">Voltar</button>' +
@@ -3189,15 +3732,25 @@ function saveBio(sid, bioIdx){
     data: $('#bio-date') ? $('#bio-date').value : '',
     hora: $('#bio-time') ? $('#bio-time').value : '',
     estacao: $('#bio-est') ? clean($('#bio-est').value) : '',
+    rede: $('#bio-rede') ? clean($('#bio-rede').value) : ($('#bio-est') ? clean($('#bio-est').value) : ''),
     responsavel: $('#bio-resp') ? clean($('#bio-resp').value) : '',
     clima: $('#bio-clima') ? clean($('#bio-clima').value) : '',
     status: $('#bio-status') ? $('#bio-status').value : 'N',
     sexo: $('#bio-sexo') ? $('#bio-sexo').value : 'Ind',
+    idade: $('#bio-idade') ? $('#bio-idade').value : 'Ind',
+    anilha: $('#bio-anilha') ? clean($('#bio-anilha').value) : '',
+    marcacao: $('#bio-anilha') ? clean($('#bio-anilha').value) : ($('#bio-marc') ? clean($('#bio-marc').value) : ''),
     reprod: $('#bio-reprod') ? $('#bio-reprod').value : 'N.A.',
-    marcacao: $('#bio-marc') ? clean($('#bio-marc').value) : '',
-    crc: parseNum($('#bio-crc') ? $('#bio-crc').value : ''),
+    crc: parseNum($('#bio-crc') ? $('#bio-crc').value : ($('#bio-cp') ? $('#bio-cp').value : '')),
+    cp: parseNum($('#bio-cp') ? $('#bio-cp').value : ($('#bio-crc') ? $('#bio-crc').value : '')),
+    asa: parseNum($('#bio-asa') ? $('#bio-asa').value : ''),
     cauda: parseNum($('#bio-cauda') ? $('#bio-cauda').value : ''),
+    culmen: parseNum($('#bio-culmen') ? $('#bio-culmen').value : ''),
+    tarso: parseNum($('#bio-tarso') ? $('#bio-tarso').value : ''),
     peso: parseNum($('#bio-peso') ? $('#bio-peso').value : ''),
+    placa: $('#bio-placa') ? $('#bio-placa').value : '0',
+    gordura: $('#bio-gordura') ? $('#bio-gordura').value : '0',
+    muda: $('#bio-muda') ? $('#bio-muda').value : 'Ausente',
     ac: parseNum($('#bio-ac') ? $('#bio-ac').value : ''),
     lc: parseNum($('#bio-lc') ? $('#bio-lc').value : ''),
     ac2: parseNum($('#bio-ac2') ? $('#bio-ac2').value : ''),
@@ -3210,6 +3763,24 @@ function saveBio(sid, bioIdx){
   };
   if (bioIdx >= 0 && bioIdx < s.bio.length) {
     s.bio[bioIdx] = item;
+    toast('Captura #' + (bioIdx + 1) + ' atualizada');
+  } else {
+    s.bio.push(item);
+    if (s.count < s.bio.length) {
+      var diff = s.bio.length - s.count;
+      s.count = s.bio.length;
+      if (s.mode === 'A') s.ca = (s.ca || 0) + diff;
+      else if (s.mode === 'O') s.co = (s.co || 0) + diff;
+      else s.cv = (s.cv || 0) + diff;
+    }
+    toast('Captura #' + s.bio.length + ' registrada');
+  }
+  touch(c);
+  renderSpecies(sid);
+  renderNav();
+  S.sheetClose = null;
+  openSpEdit(sid);
+}
     toast('Captura #' + (bioIdx + 1) + ' atualizada');
   } else {
     s.bio.push(item);
@@ -4383,13 +4954,16 @@ function planInput(ls, titulo){
         projeto: c.projeto,
         ua: c.ua || c.place,
         metodo: c.metodo,
+        grupo: c.grupo || '',
+        mackinnonSize: c.mackinnonSize || 10,
+        mackinnonCurrent: c.mackinnonCurrent || 1,
         clima: c.notes || '',
         lat: c.lat,
         lon: c.lon,
         observadores: c.observers,
         distKm: c.track.dist ? c.track.dist / 1000 : 0,
         durMin: Math.round(elapsed(c) / 60000),
-        registros: c.species.filter(function(s){ return s.count > 0; }).map(function(s){
+        registros: c.species.filter(function(s){ return s.count > 0 || (isMacKinnon(c) && s.mLists && s.mLists.length); }).map(function(s){
           var d = dbGet(s.sci || resolveSci(s.name));
           return {
             sci: d ? d.n : '',
@@ -4400,6 +4974,8 @@ function planInput(ls, titulo){
             oc: s.co || 0,
             outro: spLegacy(s),
             bio: s.bio || [],
+            mLists: s.mLists || [],
+            vestigio: s.vestigio || '',
             hora: s.first,
             lat: s.lat,
             lon: s.lon,
@@ -7605,6 +8181,101 @@ var A = {
       Array.prototype.forEach.call(chips.querySelectorAll('.met-chip'), function(ch){
         ch.classList.toggle('active', ch.dataset.v === v);
       });
+    }
+    updateMackConfigVisibility();
+  },
+  'set-mack-size': function(b){
+    var c = cur(), sz = parseInt(b.dataset.v, 10) || 10;
+    if (!c) return;
+    c.mackinnonSize = sz;
+    touch(c);
+    renderMackBanner();
+    renderNav();
+    toast('Tamanho da Lista de MacKinnon: ' + sz + ' espécies');
+  },
+  'set-mack-size-det': function(b){
+    var c = cur(), sz = parseInt(b.dataset.v, 10) || 10;
+    if (!c) return;
+    c.mackinnonSize = sz;
+    touch(c);
+    var p = b.parentElement;
+    if (p){
+      Array.prototype.forEach.call(p.querySelectorAll('button'), function(btn){
+        btn.classList.toggle('btn-primary', btn === b);
+      });
+    }
+    toast('Tamanho da Lista de MacKinnon: ' + sz + ' espécies');
+  },
+  'mack-toggle': function(b){
+    var c = cur(), sid = b.dataset.sid, ln = parseInt(b.dataset.l, 10) || 1;
+    if (!c || !sid) return;
+    var sp = c.species.filter(function(x){ return x.id === sid; })[0];
+    if (!sp) return;
+    if (!Array.isArray(sp.mLists)) sp.mLists = [1];
+    var idx = sp.mLists.indexOf(ln);
+    if (idx >= 0){
+      if (sp.mLists.length === 1){
+        arm(b, 'Remover da lista?', function(){
+          removeSp(c, sid);
+        });
+        return;
+      }
+      sp.mLists.splice(idx, 1);
+      sp.count = sp.mLists.length;
+      touch(c);
+      renderSpecies(sid);
+      renderNav();
+      renderMackBanner();
+      toast('Removida da Lista ' + ln + ': ' + sp.name);
+    } else {
+      sp.mLists.push(ln);
+      sp.count = sp.mLists.length;
+      touch(c);
+      renderSpecies(sid);
+      renderNav();
+      renderMackBanner();
+      toast('+1 ' + sp.name + ' (adicionada à Lista ' + ln + ')');
+      checkMackinnonAdvance(c, ln);
+    }
+  },
+  'mack-next-list': function(){
+    var c = cur(); if (!c) return;
+    var st = getMackinnonState(c);
+    var nextL = st.current + 1;
+    c.mackinnonCurrent = nextL;
+    touch(c);
+    renderSpecies();
+    renderNav();
+    renderMackBanner();
+    toast('Iniciada Sublista ' + nextL + ' de MacKinnon');
+  },
+  'mack-prev-list': function(){
+    var c = cur(); if (!c) return;
+    var st = getMackinnonState(c);
+    if (st.current <= 1) return;
+    var prevL = st.current - 1;
+    c.mackinnonCurrent = prevL;
+    touch(c);
+    renderSpecies();
+    renderNav();
+    renderMackBanner();
+    toast('Voltando para a Sublista ' + prevL + ' de MacKinnon');
+  },
+  'mack-analysis': function(){
+    var c = cur(); if (!c) return;
+    openMackinnonAnalysis(c);
+  },
+  'vest-tag': function(b){
+    var v = b.dataset.v;
+    var inp = $('#e-note');
+    if (inp){
+      var curVal = inp.value.trim();
+      if (curVal.indexOf(v) < 0){
+        inp.value = curVal ? curVal + ' · ' + v : v;
+        toast('Adicionado vestígio: ' + v);
+      } else {
+        toast('Vestígio já anotado');
+      }
     }
   },
   'bio-new': function(b){
