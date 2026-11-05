@@ -4,9 +4,9 @@
   "data": "2026-11-05",
   "novidades": [
     "Métodos especializados por grupo: Transecto, Listas de MacKinnon, Ponto de escuta e Rede de neblina (Ornitologia); Busca ativa, Vestígios e Câmera trap (Mastofauna); Pitfall e Busca ativa (Herpetofauna)",
-    "Método de Listas de MacKinnon (Ornito): listas de 10 ou 20 sp sem contagem de indivíduos, controle de sub-listas (L1, L2, L3...), avanço automático e banner interativo com curva do coletor e frequência (F%)",
-    "Biometria completa para Rede de Neblina (Aves): número de anilha SNA/CEMAVE, rede/estação, sexo, idade, morfometria completa (CP, Asa, Cauda, Cúlmen, Tarso, Peso), placa de incubação (0-3), gordura furcular (0-5) e muda de penas",
-    "Vestígios de Mamíferos: chips rápidos de fezes, pelos, pegadas, ranhuras, tocas, carcaça e odor nas observações de campo",
-    "Novos recursos no app: análise em tempo real de MacKinnon com curva do coletor e cálculo automático de F% direto na tela do celular"
+    "Método de Listas de MacKinnon (Ornito): listas de 10 ou 20 sp sem contagem de indivíduos, controle de sub-listas (L1, L2, L3...) e avanço automático",
+    "Curva do Coletor no app: análise em tempo real de suficiência amostral e cálculo automático de frequência de ocorrência (F%)",
+    "Biometria para Rede de Neblina no app: anilha SNA/CEMAVE, rede/estação, sexo, idade, morfometria completa (CP, Asa, Cauda, Cúlmen, Tarso, Peso), placa e gordura",
+    "Vestígios de Mamíferos: chips rápidos de 1 toque para registro de fezes, pelos, pegadas, ranhuras, tocas, carcaça e odor nas observações de campo"
   ]
 }
