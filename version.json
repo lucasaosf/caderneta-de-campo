@@ -1,11 +1,12 @@
 {
-  "v": "2.9",
-  "nome": "2.9",
+  "v": "3.0",
+  "nome": "3.0",
   "data": "2026-11-05",
   "novidades": [
-    "Nova Identidade Visual da Empresa: incorporação oficial da marca BIOKURI (Pesquisa e Soluções Ambientais) com o símbolo das Araucárias",
-    "Logos ajustadas para modo claro e escuro: versão clara no mesmo alinhamento vertical elegante da versão verde, com tipografia bronze e verde-floresta em alta definição",
-    "Identificação empresarial nas planilhas Excel (.xlsx): todas as planilhas geradas agora exibem o nome BIOKURI no cabeçalho oficial, metadados do documento e abas de Resumo e Biometria",
-    "Novo ícone institucional de navegação: emblema das Araucárias no botão de retorno ao início no topo do app"
+    "Seleção múltipla de listas ao segurar (long-press): ativa instantaneamente o modo de seleção com a lista já marcada",
+    "Exclusão em lote com segurança: apague várias listas selecionadas de uma vez, com modal de confirmação e botão Desfazer",
+    "Preservação da Life List: espécies continuam contabilizadas na sua Life List vitalícia mesmo após apagar listas",
+    "Geração de planilha unificada: exporte uma planilha consolidada (.xlsx / .csv) de todas as listas selecionadas com cabeçalho BIOKURI",
+    "Nova barra inferior de ações rápidas: contador em tempo real de listas, espécies e dias de campo selecionados"
   ]
 }

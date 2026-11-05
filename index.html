@@ -428,13 +428,28 @@ body.sheet-open .toast{bottom:auto;top:calc(env(safe-area-inset-top,0px) + 14px)
 .sec-row{display:flex;align-items:baseline;justify-content:space-between;gap:8px}
 .sec-row .link{font-size:13px;min-height:36px}
 .open-tag{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--bronze)}
-.sel-bar{position:fixed;left:0;right:0;bottom:0;z-index:45;background:var(--surface);border-top:1px solid var(--line);box-shadow:0 -6px 20px rgba(0,0,0,.12);padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px))}
-.sel-bar-in{max-width:640px;margin:0 auto;display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:8px;align-items:center}
-.sel-bar-info{font-size:14px;color:var(--muted);line-height:1.3}
-.sel-bar-info b{color:var(--ink);font-size:16px}
-.sel-bar .btn{min-height:46px;padding:8px 14px}
-.sel-bar .btn-primary[disabled]{opacity:.45}
-body.selecting .toast{bottom:calc(92px + env(safe-area-inset-bottom,0px))}
+.sel-bar{position:fixed;left:0;right:0;bottom:0;z-index:45;background:var(--surface);border-top:1px solid var(--line);box-shadow:0 -8px 24px rgba(0,0,0,.15);padding:10px 16px calc(12px + env(safe-area-inset-bottom,0px))}
+.sel-bar-in{max-width:640px;margin:0 auto;display:flex;flex-direction:column;gap:8px}
+.sel-bar-top{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.sel-bar-info{font-size:13px;color:var(--muted);line-height:1.25}
+.sel-bar-info b{color:var(--ink);font-size:15px;font-weight:700}
+.sel-bar-info small{color:var(--muted);font-size:12px}
+.sel-bar-top-acts{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.btn-close-sel{background:var(--surface-2);border:1px solid var(--line);border-radius:50%;width:32px;height:32px;display:inline-flex;align-items:center;justify-content:center;font-size:14px;font-weight:bold;color:var(--ink);cursor:pointer}
+.btn-close-sel:active{transform:scale(.92)}
+.chip-sm{padding:4px 10px;font-size:12px;border-radius:999px;min-height:28px}
+.sel-bar-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;align-items:stretch}
+.sel-bar-actions.has-single{grid-template-columns:1fr 1fr auto}
+.sel-bar .btn{min-height:44px;padding:8px 12px;font-size:14px;border-radius:10px;display:inline-flex;align-items:center;justify-content:center;gap:6px;font-weight:600}
+.sel-bar .btn-danger{background:var(--danger, #d9534f);color:#fff;border:none}
+.sel-bar .btn-danger:hover{opacity:.9}
+.sel-bar .btn-sub{background:var(--surface-2);border:1px solid var(--line);color:var(--ink);font-size:13px;padding:8px 10px}
+.sel-bar .btn[disabled]{opacity:.45;pointer-events:none}
+@media (max-width: 420px){
+  .sel-bar-actions.has-single{grid-template-columns:1fr 1fr;grid-template-rows:auto auto}
+  .sel-bar-actions.has-single .btn-sub{grid-column:1 / -1;min-height:36px}
+}
+body.selecting .toast{bottom:calc(110px + env(safe-area-inset-bottom,0px))}
 body.selecting .wm{display:none}
 
 /* ---------- marca d'água ---------- */
@@ -1057,9 +1072,9 @@ body.selecting .wm{display:none}
 <div class="sel-bar" id="sel-bar" hidden></div>
 <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 <datalist id="dl-proj"></datalist><datalist id="dl-camp"></datalist><datalist id="dl-ua"></datalist><datalist id="dl-met"></datalist>
-<script src="especies.js?v=2.9"></script>
-<script src="planilha.js?v=2.9"></script>
-<script src="firebase-config.js?v=2.9"></script>
+<script src="especies.js?v=3.0"></script>
+<script src="planilha.js?v=3.0"></script>
+<script src="firebase-config.js?v=3.0"></script>
 
 <script>
 (function(){
@@ -1157,7 +1172,7 @@ var S = {
   sugg:[], suggIdx:0, undo:null, sheetClose:null, editingName:null, demo:3,
   alias:{}, defMode:LS.get('defMode', 'V'), theme:LS.get('theme', 'dark'), filterTax:''
 };
-var APP_V = '2.9';
+var APP_V = '3.0';
 function cmpVer(a, b){
   var pa = String(a).split('.').map(function(n){ return parseInt(n, 10) || 0; });
   var pb = String(b).split('.').map(function(n){ return parseInt(n, 10) || 0; });
@@ -1169,10 +1184,10 @@ function cmpVer(a, b){
   return 0;
 }
 var NOVIDADES = [
-  'Nova Identidade Visual da Empresa: incorporação oficial da marca BIOKURI (Pesquisa e Soluções Ambientais) com o símbolo das Araucárias.',
-  'Logos ajustadas para modo claro e escuro: versão clara no mesmo alinhamento vertical elegante da versão verde, com tipografia bronze e verde-floresta em alta definição.',
-  'Identificação empresarial nas planilhas Excel (.xlsx): todas as planilhas geradas agora exibem o nome BIOKURI no cabeçalho oficial, metadados do documento e abas de Resumo e Biometria.',
-  'Novo ícone institucional de navegação: emblema das Araucárias no botão de retorno ao início no topo do app.'
+  'Seleção Múltipla ao Segurar a Lista: ao pressionar e segurar qualquer lista de campo, o app entra instantaneamente no modo de seleção com aquela lista já marcada.',
+  'Exclusão em Lote com Segurança: botão para apagar várias listas de uma vez só, com diálogo de confirmação detalhado e opção de Desfazer.',
+  'Preservação da Life List: todas as espécies registradas continuam contabilizadas na sua Life List vitalícia mesmo após apagar as listas de campo.',
+  'Geração de Planilha Unificada: exportação consolidada em Excel (.xlsx) ou CSV com todas as listas selecionadas, curvas de rarefação e cabeçalho BIOKURI.'
 ];
 
 /* ---------- banco de espécies ---------- */
@@ -2197,6 +2212,7 @@ function histSync(screen){
 }
 window.addEventListener('popstate', function(){
   if (FRAMED) return;
+  if (S.sel){ S.sel = null; renderHome(); try { history.pushState({d:DEPTH[S.screen] || 0}, ''); } catch(e){} return; }
   if (loginOn() && LG.mode !== 'menu' && !(history.state && history.state.lg)){ loginMode('menu'); return; }
   var d = histDepth(), now = DEPTH[S.screen] || 0;
   if (d === now) return;
@@ -2377,7 +2393,7 @@ function renderHome(){
       '<ul class="tips"><li>Digite “12 quero-quero” para já somar 12.</li><li>Nome que você já usou aparece como sugestão. Toque nele e ele soma +1.</li><li>Errou para mais? O − desconta.</li><li>Ao finalizar, a lista fica guardada aqui e entra na planilha Excel.</li></ul></div>';
   } else if (done.length){
     var lastKey = '';
-    h = '<div class="done-head"><h2>Listas finalizadas<span class="num">' + done.length + '</span></h2><button class="btn" data-act="sel-start">' + ICO.table + 'Planilha do campo</button></div>';
+    h = '<div class="done-head"><h2>Listas finalizadas<span class="num">' + done.length + '</span></h2><button class="btn" data-act="sel-start"><svg class="ico" viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Selecionar listas</button></div>';
     h += done.map(function(c){
       var d = new Date(c.start), key = d.getFullYear() + '-' + d.getMonth(), t = totals(c), head = '';
       if (key !== lastKey){ head = (lastKey ? '</ul>' : '') + '<h2 class="sec">' + MOL[d.getMonth()] + ' de ' + d.getFullYear() + '</h2><ul class="hl">'; lastKey = key; }
@@ -2388,8 +2404,8 @@ function renderHome(){
         '<span class="hl-sp"><b>' + t.sp + '</b><small>' + (t.sp === 1 ? 'espécie' : 'espécies') + '</small>' + (t.amen ? '<span style="color:#E05A47;font-size:10px;font-weight:700">⚠️ ' + t.amen + ' ame.</span>' : '') + '</span></button></li>';
     }).join('') + '</ul>';
   }
-  if (!done.length && open.length) h += '<div class="done-head"><span></span><button class="btn" data-act="sel-start">' + ICO.table + 'Planilha do campo</button></div>';
-  if (all.length) h += '<p class="lp-hint">' + ICO.hand + 'Segure uma lista para exportar, editar ou excluir.</p>';
+  if (!done.length && open.length) h += '<div class="done-head"><span></span><button class="btn" data-act="sel-start"><svg class="ico" viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Selecionar listas</button></div>';
+  if (all.length) h += '<p class="lp-hint">' + ICO.hand + 'Segure uma lista para selecionar várias, apagar ou gerar planilha.</p>';
   $('#home-lists').innerHTML = h;
   $('#names-count').textContent = S.names.length ? '(' + S.names.length + ')' : '';
   var st = profStats();
@@ -2399,23 +2415,40 @@ function renderHome(){
 }
 var CHECK = '<svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7"/></svg>';
 function dayKey(d){ d = new Date(d); return d.getFullYear() + '-' + p2(d.getMonth()+1) + '-' + p2(d.getDate()); }
-function selLists(){ return Object.keys(S.sel).filter(function(id){ return S.sel[id] && S.lists[id]; }).map(function(id){ return S.lists[id]; }).sort(function(a, b){ return a.start < b.start ? -1 : 1; }); }
+function selLists(){ return Object.keys(S.sel || {}).filter(function(id){ return S.sel && S.sel[id] && S.lists[id]; }).map(function(id){ return S.lists[id]; }).sort(function(a, b){ return a.start < b.start ? -1 : 1; }); }
+function startListSelection(id){
+  S.sel = {};
+  if (id && S.lists[id]) S.sel[id] = true;
+  S.selFrom = ''; S.selTo = '';
+  renderHome();
+  if (id){
+    try {
+      setTimeout(function(){
+        var row = document.querySelector('.hl-row.sel[data-id="' + id + '"]');
+        if (row && typeof row.scrollIntoView === 'function'){
+          row.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+        }
+      }, 50);
+    } catch(_){}
+  }
+}
 function renderSelect(all){
   $('#home-open').innerHTML = '';
   var first = all.length ? dayKey(all[all.length-1].start) : '', last = all.length ? dayKey(all[0].start) : '';
-  var h = '<section class="sel-panel" aria-label="Planilha do campo"><h2>Planilha do campo</h2>' +
-    '<p>Marque as listas que entram numa planilha só, com o dia e as anotações de cada registro.</p>' +
+  var h = '<section class="sel-panel" aria-label="Seleção de listas"><h2>Seleção de listas</h2>' +
+    '<p>Selecione as listas para gerar planilha unificada ou apagar em lote.</p>' +
     '<div class="sel-range"><label>De<input type="date" id="sel-from" value="' + (S.selFrom || '') + '" min="' + first + '" max="' + last + '"></label>' +
     '<label>Até<input type="date" id="sel-to" value="' + (S.selTo || '') + '" min="' + first + '" max="' + last + '"></label>' +
     '<button class="btn" data-act="sel-range">Marcar</button></div>' +
-    '<div class="sel-quick"><button class="chip" data-act="sel-all">Marcar todas</button><button class="chip" data-act="sel-none">Desmarcar</button></div>' + projChips(all) + '</section>';
+    '<div class="sel-quick"><button class="chip" data-act="sel-all">Marcar todas (' + all.length + ')</button><button class="chip" data-act="sel-none">Desmarcar todas</button></div>' + projChips(all) + '</section>';
   var lastKey = '';
   h += all.map(function(c){
-    var d = new Date(c.start), key = d.getFullYear() + '-' + d.getMonth(), t = totals(c), head = '', on = !!S.sel[c.id];
+    var d = new Date(c.start), key = d.getFullYear() + '-' + d.getMonth(), t = totals(c), head = '', on = !!(S.sel && S.sel[c.id]);
     if (key !== lastKey){ head = (lastKey ? '</ul>' : '') + '<div class="sec-row"><h2 class="sec">' + MOL[d.getMonth()] + ' de ' + d.getFullYear() + '</h2><button class="link" data-act="sel-month" data-k="' + key + '">Marcar o mês</button></div><ul class="hl">'; lastKey = key; }
+    var grp = getCardGroup(c);
     var bits = [WD[d.getDay()], fTime(d), plural(t.ind, 'indivíduo', 'indivíduos')];
     return head + '<li><button class="hl-row sel" role="checkbox" aria-checked="' + on + '" data-act="sel-toggle" data-id="' + c.id + '"><span class="ck">' + CHECK + '</span><span class="hl-date"><b>' + d.getDate() + '</b><small>' + MO[d.getMonth()] + '</small></span>' +
-      '<span class="hl-main"><span class="hl-title">' + esc(title(c)) + '</span><span class="hl-meta">' + bits.join(' · ') + (c.end ? '' : ' · <span class="open-tag">em andamento</span>') + '</span></span>' +
+      '<span class="hl-main"><span class="hl-title">' + esc(title(c)) + '</span><span class="hl-meta"><span class="grp-badge grp-badge-sm">' + grp.icon + ' ' + esc(grp.name) + '</span> · ' + bits.join(' · ') + (c.end ? '' : ' · <span class="open-tag">em andamento</span>') + '</span></span>' +
       '<span class="hl-sp"><b>' + t.sp + '</b><small>' + (t.sp === 1 ? 'espécie' : 'espécies') + '</small></span></button></li>';
   }).join('') + (all.length ? '</ul>' : '');
   $('#home-lists').innerHTML = h;
@@ -2433,12 +2466,31 @@ function renderSelBar(){
   ls.forEach(function(c){ liveSpecies(c).forEach(function(s){ sp[norm(s.name)] = 1; ind += s.count; }); });
   var n = Object.keys(sp).length, days = {}; ls.forEach(function(c){ days[dayKey(c.start)] = 1; });
   var bar = $('#sel-bar'); bar.hidden = false; document.body.classList.add('selecting');
-  bar.innerHTML = '<div class="sel-bar-in"><span class="sel-bar-info"><b>' + plural(ls.length, 'lista', 'listas') + '</b><br>' +
-    (ls.length ? plural(Object.keys(days).length, 'dia', 'dias') + ' · ' + plural(n, 'espécie', 'espécies') : 'Nenhuma marcada') + '</span>' +
-    '<button class="btn" data-act="sel-cancel">Cancelar</button>' +
-    '<button class="btn btn-primary" data-act="sel-export"' + (ls.length ? '' : ' disabled') + '>' + ICO.table + 'Gerar planilha</button></div>';
+  
+  var infoHtml = (ls.length ? '<b>' + plural(ls.length, 'lista selecionada', 'listas selecionadas') + '</b>' : '<b>Nenhuma lista marcada</b>') +
+    '<br><small>' + (ls.length ? plural(Object.keys(days).length, 'dia', 'dias') + ' · ' + plural(n, 'espécie', 'espécies') + ' · ' + plural(ind, 'indivíduo', 'indivíduos') : 'Toque nas listas para marcar') + '</small>';
+
+  var singleAct = '';
+  if (ls.length === 1){
+    singleAct = '<button class="btn btn-sub" data-act="sel-single-menu" data-id="' + ls[0].id + '" title="Mais opções desta lista">⚙️ Opções da lista</button>';
+  }
+
+  bar.innerHTML = '<div class="sel-bar-in">' +
+    '<div class="sel-bar-top">' +
+      '<div class="sel-bar-info">' + infoHtml + '</div>' +
+      '<div class="sel-bar-top-acts">' +
+        (ls.length ? '<button class="chip chip-sm" data-act="sel-none">Desmarcar</button>' : '<button class="chip chip-sm" data-act="sel-all">Todas</button>') +
+        '<button class="btn-close-sel" data-act="sel-cancel" aria-label="Cancelar seleção">✕</button>' +
+      '</div>' +
+    '</div>' +
+    '<div class="sel-bar-actions' + (singleAct ? ' has-single' : '') + '">' +
+      '<button class="btn btn-danger" data-act="sel-delete"' + (ls.length ? '' : ' disabled') + '>' + ICO.trash + 'Apagar (' + ls.length + ')</button>' +
+      '<button class="btn btn-primary" data-act="sel-export"' + (ls.length ? '' : ' disabled') + '>' + ICO.table + 'Gerar planilha (' + ls.length + ')</button>' +
+      singleAct +
+    '</div>' +
+  '</div>';
 }
-function setSel(fn){ Object.keys(S.lists).forEach(function(id){ S.sel[id] = fn(S.lists[id]); }); renderHome(); }
+function setSel(fn){ if (!S.sel) S.sel = {}; Object.keys(S.lists).forEach(function(id){ S.sel[id] = fn(S.lists[id]); }); renderHome(); }
 
 function openNewListSheet(){
   var h = '<h2 id="sheet-h">Nova lista de campo</h2>' +
@@ -4373,6 +4425,7 @@ function openListMenu(id){
     '<button class="btn" data-act="lp-xlsx" data-id="' + id + '">' + ICO.table + 'Exportar planilha (Excel ou CSV)</button>' +
     '<button class="btn" data-act="lp-summary" data-id="' + id + '">' + ICO.copy + 'Copiar resumo em texto</button>' +
     '<button class="btn" data-act="lp-edit" data-id="' + id + '">' + ICO.pencil + (c.end ? 'Editar (corrigir) lista' : 'Abrir e editar lista') + '</button>' +
+    '<button class="btn" data-act="sel-mode" data-id="' + id + '"><svg class="ico" viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Selecionar várias listas</button>' +
     '<button class="btn btn-danger" data-act="lp-delete" data-id="' + id + '">' + ICO.trash + 'Excluir lista</button>' +
     '<button class="btn" data-act="close-sheet">Cancelar</button></div>');
 }
@@ -4385,9 +4438,9 @@ document.addEventListener('pointerdown', function(e){
   el.classList.add('pressing');
   LP.t = setTimeout(function(){
     LP.fired = true; LP.until = Date.now() + 900; var id = el.dataset.id; lpCancel();
-    try { if (navigator.vibrate) navigator.vibrate(20); } catch(_){}
-    openListMenu(id);
-  }, 500);
+    try { if (navigator.vibrate) navigator.vibrate(30); } catch(_){}
+    startListSelection(id);
+  }, 450);
 });
 document.addEventListener('pointermove', function(e){ if (LP.el && (Math.abs(e.clientX - LP.x) > 10 || Math.abs(e.clientY - LP.y) > 10)) lpCancel(); }, {passive:true});
 document.addEventListener('pointerup', function(){ if (LP.fired) LP.until = Date.now() + 450; lpCancel(); }, true);
@@ -4396,7 +4449,7 @@ window.addEventListener('scroll', lpCancel, {passive:true});
 document.addEventListener('contextmenu', function(e){
   var el = lpTarget(e); if (!el) return;
   e.preventDefault();
-  if (!LP.fired && LP.type === 'mouse'){ lpCancel(); openListMenu(el.dataset.id); }
+  if (!LP.fired && LP.type === 'mouse'){ lpCancel(); startListSelection(el.dataset.id); }
 });
 document.addEventListener('click', function(e){
   if (Date.now() < LP.until){ LP.until = 0; LP.fired = false; e.preventDefault(); e.stopPropagation(); }
@@ -7550,9 +7603,51 @@ var A = {
   'cover': function(){ go('cover'); },
   'sel-start': function(){ S.sel = {}; S.selFrom = ''; S.selTo = ''; renderHome(); window.scrollTo(0, 0); },
   'sel-cancel': function(){ S.sel = null; renderHome(); },
-  'sel-toggle': function(b){ var id = b.dataset.id; S.sel[id] = !S.sel[id]; b.setAttribute('aria-checked', String(!!S.sel[id])); renderSelBar(); },
+  'sel-toggle': function(b){ var id = b.dataset.id; if (!S.sel) S.sel = {}; S.sel[id] = !S.sel[id]; b.setAttribute('aria-checked', String(!!S.sel[id])); renderSelBar(); },
   'sel-all': function(){ setSel(function(){ return true; }); },
   'sel-none': function(){ setSel(function(){ return false; }); },
+  'sel-single-menu': function(b){ var id = b.dataset.id; if (id && S.lists[id]) openListMenu(id); },
+  'sel-mode': function(b){ closeSheet(); startListSelection(b.dataset.id); },
+  'sel-delete': function(){
+    var ls = selLists();
+    if (!ls.length){ toast('Selecione ao menos uma lista para apagar'); return; }
+    var spMap = {};
+    ls.forEach(function(c){ liveSpecies(c).forEach(function(s){ spMap[norm(s.name)] = 1; }); });
+    var nSp = Object.keys(spMap).length;
+    var msg = '<div class="lp-head"><span class="eyebrow" style="color:var(--danger, #e05a47)">Exclusão em lote</span>' +
+      '<h2 id="sheet-h">Excluir ' + plural(ls.length, 'lista selecionada', 'listas selecionadas') + '?</h2>' +
+      '<p class="meta" style="margin:0">Você selecionou <b>' + plural(ls.length, 'lista', 'listas') + '</b> contendo <b>' + plural(nSp, 'espécie diferente', 'espécies diferentes') + '</b>.</p></div>' +
+      '<div style="background:rgba(224,90,71,.08);border:1px solid rgba(224,90,71,.25);border-radius:12px;padding:12px;margin:12px 0;font-size:13px;line-height:1.45;color:var(--ink)">' +
+        '⚠️ <b>Atenção:</b> Esta ação removerá as listas selecionadas do seu histórico de campo. Os registros de espécies continuarão contabilizados na sua <b>Life List vitalícia</b>.' +
+      '</div>' +
+      '<div class="sheet-actions" style="display:flex;flex-direction:column;gap:8px;margin-top:12px">' +
+        '<button class="btn btn-danger" data-act="sel-delete-confirm" style="font-weight:700">Sim, excluir ' + plural(ls.length, 'lista', 'listas') + '</button>' +
+        '<button class="btn" data-act="close-sheet">Cancelar</button>' +
+      '</div>';
+    openSheet(msg);
+  },
+  'sel-delete-confirm': function(){
+    var ls = selLists();
+    if (!ls.length){ closeSheet(); return; }
+    var copies = ls.map(function(c){ return clone(c); });
+    var count = ls.length;
+    S.sheetClose = null;
+    closeSheet();
+    copies.forEach(function(c){ deleteList(c.id); });
+    S.sel = null;
+    renderHome();
+    toast(plural(count, 'lista excluída', 'listas excluídas'), function(){
+      copies.forEach(function(c){
+        S.lists[c.id] = fixList(c);
+        S.tomb = S.tomb.filter(function(x){ return x !== c.id; });
+        touch(S.lists[c.id]);
+      });
+      LS.set('tomb', S.tomb);
+      updateWatch();
+      renderAll();
+      toast(plural(count, 'lista recuperada', 'listas recuperadas'));
+    });
+  },
   'sel-month': function(b){ var k = b.dataset.k, ids = Object.keys(S.lists).filter(function(id){ var d = new Date(S.lists[id].start); return d.getFullYear() + '-' + d.getMonth() === k; });
     var allOn = ids.every(function(id){ return S.sel[id]; }); ids.forEach(function(id){ S.sel[id] = !allOn; }); renderHome(); },
   'sel-range': function(){
