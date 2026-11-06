@@ -8562,6 +8562,66 @@ renderInstall();
 setTimeout(function(){ checkUpdate(true); }, 2500);
 updateWatch();
 initCloud();
+(function(){
+  try {
+    var p = new URLSearchParams(location.search);
+    var snap = p.get('snap');
+    if (!snap) return;
+    var demoList = {
+      id: 'demo-snap-list',
+      title: 'Parque Nacional do Itatiaia',
+      campanha: 'Campanha de Primavera 2026',
+      projeto: 'Monitoramento da Avifauna da Mantiqueira',
+      ua: 'Trilha dos Três Picos (Ponto 02)',
+      place: 'Itatiaia / RJ',
+      lat: -22.421, lon: -44.625,
+      observers: 'Lucas Aøsf (CRBio 127233/01-D)',
+      metodo: 'Listas de MacKinnon',
+      grupo: 'Ornitofauna',
+      mackinnonSize: 10,
+      mackinnonCurrent: 2,
+      start: new Date(Date.now() - 3600000 * 3).toISOString(),
+      end: null,
+      track: { on: false, pts: [], dist: 2840 },
+      species: [
+        { id: 'sp1', name: 'Tangara seledon', sci: 'Tangara seledon', count: 1, cv: 1, ca: 0, co: 0, mLists: [1], first: new Date(Date.now() - 3600000 * 2.8).toISOString(), note: 'Casal forrageando no dossel' },
+        { id: 'sp2', name: 'Pyroderus scutatus', sci: 'Pyroderus scutatus', count: 1, cv: 1, ca: 0, co: 0, mLists: [1], first: new Date(Date.now() - 3600000 * 2.5).toISOString() },
+        { id: 'sp3', name: 'Ramphastos dicolorus', sci: 'Ramphastos dicolorus', count: 1, cv: 0, ca: 1, co: 0, mLists: [1], first: new Date(Date.now() - 3600000 * 2.2).toISOString() },
+        { id: 'sp4', name: 'Triclaria malachitacea', sci: 'Triclaria malachitacea', count: 1, cv: 0, ca: 1, co: 0, mLists: [1], first: new Date(Date.now() - 3600000 * 2).toISOString() },
+        { id: 'sp5', name: 'Dryocopus galeatus', sci: 'Dryocopus galeatus', count: 1, cv: 1, ca: 0, co: 0, mLists: [1], first: new Date(Date.now() - 3600000 * 1.8).toISOString() },
+        { id: 'sp6', name: 'Chiroxiphia caudata', sci: 'Chiroxiphia caudata', count: 1, cv: 1, ca: 0, co: 0, mLists: [1, 2], first: new Date(Date.now() - 3600000 * 1.5).toISOString() },
+        { id: 'sp7', name: 'Procnias nudicollis', sci: 'Procnias nudicollis', count: 1, cv: 0, ca: 1, co: 0, mLists: [1], first: new Date(Date.now() - 3600000 * 1.3).toISOString() },
+        { id: 'sp8', name: 'Campylopterus macrourus', sci: 'Campylopterus macrourus', count: 1, cv: 1, ca: 0, co: 0, mLists: [1], first: new Date(Date.now() - 3600000 * 1.1).toISOString() },
+        { id: 'sp9', name: 'Thalurania glaucopis', sci: 'Thalurania glaucopis', count: 1, cv: 1, ca: 0, co: 0, mLists: [1], first: new Date(Date.now() - 3600000 * 0.9).toISOString() },
+        { id: 'sp10', name: 'Stephanoxis lalandi', sci: 'Stephanoxis lalandi', count: 1, cv: 1, ca: 0, co: 0, mLists: [1], first: new Date(Date.now() - 3600000 * 0.7).toISOString() },
+        { id: 'sp11', name: 'Penelope obscura', sci: 'Penelope obscura', count: 1, cv: 1, ca: 0, co: 0, mLists: [2], first: new Date(Date.now() - 3600000 * 0.5).toISOString() },
+        { id: 'sp12', name: 'Turdus flavipes', sci: 'Turdus flavipes', count: 1, cv: 1, ca: 0, co: 0, mLists: [2], first: new Date(Date.now() - 3600000 * 0.2).toISOString(), bio: [
+          { data: '05/11/2026', hora: '08:30', rede: 'Rede 03', resp: 'Lucas Aøsf', anilha: 'CEMAVE-A94821', status: 'N', sexo: 'M', idade: 'A', cp: 215, asa: 112, cauda: 86, culmen: 18.5, tarso: 27.2, peso: 68.4, placa: '1', gordura: '2', muda: 'Ausente', clima: 'Nublado 19°C', obs: 'Indivíduo vigoroso anilhado e solto' }
+        ]}
+      ]
+    };
+    S.lists['demo-snap-list'] = demoList;
+    S.curId = 'demo-snap-list';
+    if (snap === 'claro') { applyTheme('light'); go('list', 'demo-snap-list'); }
+    else if (snap === 'home') { go('home'); }
+    else if (snap === 'lista') { go('list', 'demo-snap-list'); }
+    else if (snap === 'mackinnon') { go('list', 'demo-snap-list'); setTimeout(function(){ openMackinnonAnalysis(demoList); }, 250); }
+    else if (snap === 'biometria') { go('list', 'demo-snap-list'); setTimeout(function(){ openBioModal('sp12', 0); }, 250); }
+    else if (snap === 'guia') { go('guide'); }
+    else if (snap === 'detalhes') { go('guide'); setTimeout(function(){ openSpecModal('Tangara seledon'); }, 350); }
+    else if (snap === 'vestigios') {
+      var mastoList = JSON.parse(JSON.stringify(demoList));
+      mastoList.id = 'demo-masto';
+      mastoList.grupo = 'Mastofauna';
+      mastoList.metodo = 'Vestígios';
+      mastoList.species = [{ id: 'msp1', name: 'Panthera onca', sci: 'Panthera onca', count: 1, cv: 1, ca: 0, co: 0, note: 'Pegada nítida em solo úmido à margem do riacho', vestigio: 'Pegada' }];
+      S.lists['demo-masto'] = mastoList;
+      S.curId = 'demo-masto';
+      go('list', 'demo-masto');
+      setTimeout(function(){ openSpEdit('msp1'); }, 250);
+    }
+  } catch(e){}
+})();
 })();
 </script>
 
