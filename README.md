@@ -4,10 +4,10 @@
 
 <p align="center">
   <img src="https://img.shields.io/badge/Vers%C3%A3o-3.1-173A1E?style=for-the-badge&logoColor=white" alt="Versão 3.1">
-  <img src="https://img.shields.io/badge/Plataforma-PWA%20Offline--First-C9A06A?style=for-the-badge" alt="PWA Offline-First">
+  <img src="https://img.shields.io/badge/Status-Projeto%20em%20Andamento-C9A06A?style=for-the-badge" alt="Projeto em Andamento">
+  <img src="https://img.shields.io/badge/Futuramente-Play%20Store%20%26%20App%20Store-173A1E?style=for-the-badge" alt="Play Store e App Store">
   <img src="https://img.shields.io/badge/Banco_Taxon%C3%B4mico-4.903_Esp%C3%A9cies-173A1E?style=for-the-badge" alt="4.903 Espécies">
   <img src="https://img.shields.io/badge/Empresa-BIOKURI-0E2515?style=for-the-badge" alt="BIOKURI">
-  <img src="https://img.shields.io/badge/Conformidade-LGPD-8FA37F?style=for-the-badge" alt="LGPD">
 </p>
 
 <h1 align="center">Lista de Campo · BIOKURI</h1>
@@ -27,7 +27,11 @@
 
 ## 🌿 Sobre o Projeto
 
-O **Lista de Campo** é um Progressive Web App (PWA) de alto desempenho, concebido especificamente para substituir pranchetas de papel e cadernetas físicas no trabalho de campo de consultores ambientais, peritos e pesquisadores da biodiversidade. 
+O **Lista de Campo** é um **projeto em andamento** e desenvolvimento contínuo, concebido especificamente para substituir pranchetas de papel e cadernetas físicas no trabalho de campo de consultores ambientais, peritos e pesquisadores da biodiversidade. 
+
+> [!IMPORTANT]
+> **Evolução do Projeto — De PWA para Lojas Nativas (Play Store & App Store):**  
+> O aplicativo atualmente opera como um Progressive Web App (PWA) de alto desempenho e arquitetura 100% offline-first. **Futuramente, o Lista de Campo deixará de ser um PWA e se tornará um aplicativo nativo completo instalável diretamente pelas lojas oficiais de aplicativos: Google Play Store (Android) e Apple App Store (iOS).**
 
 Projetado com arquitetura **100% offline-first**, o aplicativo opera com autonomia total em áreas remotas e unidades de conservação sem sinal de internet ou cobertura celular. Conta com um banco taxonômico oficial integrado de **4.903 espécies brasileiras** (aves, mamíferos, répteis e anfíbios), fluxos metodológicos padronizados, análises ecológicas automáticas e exportação multiformato.
 
@@ -157,9 +161,9 @@ A planilha gerada pelo aplicativo atende a todos os critérios e padrões exigid
 
 ---
 
-## 📲 Como Instalar e Usar
+## 📲 Como Instalar e Usar (Versão Atual)
 
-O **Lista de Campo** é um PWA leve que não consome espaço na memória do aparelho e não exige download via lojas de aplicativos:
+Enquanto a versão nativa para as lojas de aplicativos (**Google Play Store** e **Apple App Store**) está em desenvolvimento, você já pode utilizar e instalar o **Lista de Campo** diretamente pelo navegador em seu smartphone ou tablet, com funcionamento 100% offline:
 
 1. **No Android (Google Chrome):**
    - Acesse **[https://lucasaosf.github.io/caderneta-de-campo/](https://lucasaosf.github.io/caderneta-de-campo/)**
@@ -169,7 +173,7 @@ O **Lista de Campo** é um PWA leve que não consome espaço na memória do apar
    - Toque no botão de **Compartilhar** (`Compartilhar`) → **Adicionar à Tela de Início**.
 
 > [!TIP]
-> Uma vez aberto pela primeira vez, o aplicativo e todo o seu banco taxonômico de 4.903 espécies ficam salvos localmente no dispositivo via Service Worker. Você pode utilizá-lo normalmente em modo avião ou em florestas sem sinal.
+> Uma vez aberto pela primeira vez, o aplicativo e todo o seu banco taxonômico de 4.903 espécies ficam salvos localmente no dispositivo via Service Worker. Você pode utilizá-lo normalmente em modo avião ou em florestas sem sinal. Futuramente, a transição para o app oficial das lojas será anunciada diretamente pelo aplicativo.
 
 ---
 
