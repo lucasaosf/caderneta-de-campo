@@ -8552,14 +8552,28 @@ if (!FRAMED){ try { var d0 = histDepth(); if (d0 > 0) history.go(-d0); } catch(e
 go('cover', null, true);
 $('#cover-foot').innerHTML = footLinks();
 var hf = $('#home-foot'); if (hf) hf.innerHTML = footLinks();
+var IS_SNAP = false;
+try { IS_SNAP = !!(new URLSearchParams(location.search).get('snap')); } catch(e){}
+if (IS_SNAP) {
+  try {
+    LS.set('semLogin', true);
+    LS.set('logado', true);
+    LS.set('appVersion', APP_V);
+    var _noAnim = document.createElement('style');
+    _noAnim.id = 'snap-no-anim';
+    _noAnim.textContent = '* { animation: none !important; transition: none !important; opacity: 1 !important; }';
+    document.head.appendChild(_noAnim);
+  } catch(e){}
+}
 /* página de entrar: aparece até a pessoa entrar ou escolher "Entrar sem login" (quem já entrou antes não vê) */
-if (AUTH.ready() && !LS.get('logado', LS.get('cloudUid', null) ? true : false) && !LS.get('semLogin', false)) showLogin();
+if (!IS_SNAP && AUTH.ready() && !LS.get('logado', LS.get('cloudUid', null) ? true : false) && !LS.get('semLogin', false)) showLogin();
 renderInstall();
 (function(){
+  if (IS_SNAP) return;
   var seen = String(LS.get('appVersion', '0'));
   if (seen !== String(APP_V)){ if (seen !== '0' || Object.keys(S.lists).length) setTimeout(openNews, 700); LS.set('appVersion', APP_V); }
 })();
-setTimeout(function(){ checkUpdate(true); }, 2500);
+setTimeout(function(){ if (!IS_SNAP) checkUpdate(true); }, 2500);
 updateWatch();
 initCloud();
 (function(){
@@ -8567,6 +8581,12 @@ initCloud();
     var p = new URLSearchParams(location.search);
     var snap = p.get('snap');
     if (!snap) return;
+
+    var lg = $('#login'); if (lg) { lg.hidden = true; lg.style.display = 'none'; }
+    var nm = $('#news-modal'); if (nm) { nm.hidden = true; }
+    var tm = $('#toast'); if (tm) { tm.remove(); }
+    if (typeof hydrateGuideThumbnails === 'function') hydrateGuideThumbnails = function(){};
+
     var demoList = {
       id: 'demo-snap-list',
       title: 'Parque Nacional do Itatiaia',
@@ -8600,25 +8620,58 @@ initCloud();
         ]}
       ]
     };
+
+    var demoList2 = {
+      id: 'demo-snap-masto',
+      title: 'Resgate de Fauna — UHE Teles Pires',
+      campanha: 'Fase de Enchimento do Reservatório',
+      projeto: 'Manejo e Salvamento da Mastofauna Silvestre',
+      ua: 'Área de Influência Direta (Canteiro Norte)',
+      place: 'Paranaíta / MT',
+      lat: -9.458, lon: -56.512,
+      observers: 'Lucas Aøsf (CRBio 127233/01-D)',
+      metodo: 'Vestígios',
+      grupo: 'Mastofauna',
+      start: new Date(Date.now() - 86400000 * 2).toISOString(),
+      end: new Date(Date.now() - 86400000).toISOString(),
+      track: { on: false, pts: [], dist: 1420 },
+      species: [
+        { id: 'msp1', name: 'Panthera onca', sci: 'Panthera onca', count: 1, cv: 1, ca: 0, co: 0, note: 'Pegada nítida em solo úmido à margem do riacho', vestigio: 'Pegada' },
+        { id: 'msp2', name: 'Tapirus terrestris', sci: 'Tapirus terrestris', count: 2, cv: 2, ca: 0, co: 0, note: 'Pegadas e fezes recentes na picada', vestigio: 'Fezes' },
+        { id: 'msp3', name: 'Leopardus pardalis', sci: 'Leopardus pardalis', count: 1, cv: 1, ca: 0, co: 0, note: 'Registro fotográfico em câmera trap noturna', vestigio: 'Visual' }
+      ]
+    };
+
     S.lists['demo-snap-list'] = demoList;
-    S.curId = 'demo-snap-list';
-    if (snap === 'claro') { applyTheme('light'); go('list', 'demo-snap-list'); }
-    else if (snap === 'home') { go('home'); }
-    else if (snap === 'lista') { go('list', 'demo-snap-list'); }
-    else if (snap === 'mackinnon') { go('list', 'demo-snap-list'); setTimeout(function(){ openMackinnonAnalysis(demoList); }, 250); }
-    else if (snap === 'biometria') { go('list', 'demo-snap-list'); setTimeout(function(){ openBioModal('sp12', 0); }, 250); }
-    else if (snap === 'guia') { go('guide'); }
-    else if (snap === 'detalhes') { go('guide'); setTimeout(function(){ openSpecModal('Tangara seledon'); }, 350); }
-    else if (snap === 'vestigios') {
-      var mastoList = JSON.parse(JSON.stringify(demoList));
-      mastoList.id = 'demo-masto';
-      mastoList.grupo = 'Mastofauna';
-      mastoList.metodo = 'Vestígios';
-      mastoList.species = [{ id: 'msp1', name: 'Panthera onca', sci: 'Panthera onca', count: 1, cv: 1, ca: 0, co: 0, note: 'Pegada nítida em solo úmido à margem do riacho', vestigio: 'Pegada' }];
-      S.lists['demo-masto'] = mastoList;
-      S.curId = 'demo-masto';
-      go('list', 'demo-masto');
-      setTimeout(function(){ openSpEdit('msp1'); }, 250);
+    S.lists['demo-snap-masto'] = demoList2;
+    S.cur = 'demo-snap-list';
+
+    if (snap === 'capa') {
+      go('cover', null, true);
+      renderCover();
+    } else if (snap === 'home') {
+      go('home');
+      renderHome();
+    } else if (snap === 'lista') {
+      go('list', 'demo-snap-list');
+    } else if (snap === 'mackinnon') {
+      go('list', 'demo-snap-list');
+      setTimeout(function(){ openMackinnonAnalysis(demoList); }, 200);
+    } else if (snap === 'biometria') {
+      go('list', 'demo-snap-list');
+      setTimeout(function(){ openBioModal('sp12', 0); }, 200);
+    } else if (snap === 'guia' || snap === 'sugestoes') {
+      go('guide');
+    } else if (snap === 'detalhes' || snap === 'especie') {
+      go('guide');
+      setTimeout(function(){ openSpeciesDetail('Tangara seledon'); }, 300);
+    } else if (snap === 'vestigios') {
+      S.cur = 'demo-snap-masto';
+      go('list', 'demo-snap-masto');
+      setTimeout(function(){ openSpEdit('msp1'); }, 200);
+    } else if (snap === 'claro' || snap === 'modo-claro') {
+      applyTheme('light');
+      go('list', 'demo-snap-list');
     }
   } catch(e){}
 })();
