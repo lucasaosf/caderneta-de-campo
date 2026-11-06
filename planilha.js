@@ -47,7 +47,7 @@
   /* ===================== identidade visual ===================== */
   var C = { verde: '13301A', verde2: '173A1E', bronze: 'A88552', salvia: '8FA37F', creme: 'FBF8F1', creme2: 'EFE8D8', grupo: 'E2DCCB', linha: 'E2D6BC', texto: '3B3F3A', cinza: '899287', branco: 'FFFFFF', ouro: 'B08854' };
   var FONT = 'Century Gothic', SERIF = 'Garamond';
-  var CONTATO = '(12) 99182-1729  ·  lucasaosf@gmail.com  ·  @lucas_aosf  ·  CRBio 127233/01-D';
+  var CONTATO = '(12) 99182-1729  ·  lucasaosf@gmail.com  ·  @lucas_aosf';
   var SERIES_CORES = [C.verde, C.bronze, C.salvia, 'C9B48A', '5E6B57', 'D6C7A1', '2F5A3A', '7A5A2E'];
 
   /* ===================== estilos ===================== */
@@ -557,7 +557,7 @@
       ['Métodos', D.mets.map(function (m) { return m.nome; }).join(', ')],
       ['Grupos registrados', gruposTxt || '—'],
       ['Observadores (máx. por lista)', Math.max.apply(null, D.listas.map(function (L) { return L.observadores || 1; }).concat([1]))],
-      ['Responsável técnico', input.responsavel || 'Lucas Aøsf (CRBio 127233/01-D)']
+      ['Responsável técnico', input.responsavel || 'Lucas Aøsf']
     ];
     info.forEach(function (x) { R.set(r, 0, x[0], S.totl); R.set(r, 1, x[1], st('tdl', { wrap: true })); R.merge(r, 1, r, 5, st('tdl')); r++; });
     r++;
@@ -704,7 +704,7 @@
         ['Método', 'Pitfall (Armadilhas de Interceptação e Queda)'],
         ['Período', periodo],
         ['Unidades amostrais', D.uas.map(function (u) { return u.nome; }).join(', ')],
-        ['Responsável técnico', input.responsavel || 'Lucas Aøsf (CRBio 127233/01-D)']
+        ['Responsável técnico', input.responsavel || 'Lucas Aøsf']
       ];
       bInfo.forEach(function (x) {
         Bm.set(rB, 0, x[0], S.totl);

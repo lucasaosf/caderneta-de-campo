@@ -14,7 +14,7 @@
 
 <p align="center">
   <b>Caderneta digital de campo para inventários, resgates e monitoramento de fauna silvestre</b><br>
-  Desenvolvido por <b>Lucas Aøsf</b> (CRBio 127233/01-D) · <b>BIOKURI — Pesquisa e Soluções Ambientais</b>
+  Desenvolvido por <b>Lucas Aøsf</b> · <b>BIOKURI — Pesquisa e Soluções Ambientais</b>
 </p>
 
 <p align="center">
@@ -176,7 +176,6 @@ O **Lista de Campo** é um PWA leve que não consome espaço na memória do apar
 ## 👨‍🔬 Autoria & Responsabilidade Técnica
 
 - **Autor e Desenvolvedor:** Lucas Aøsf
-- **Registro Profissional:** CRBio 127233/01-D
 - **Empresa:** **BIOKURI — Pesquisa e Soluções Ambientais**
 - **Contato Direto:** `lucasaosf@gmail.com` · Cel/WhatsApp: `+55 (12) 99182-1729`
 - **Redes:** Instagram [@lucas_aosf](https://instagram.com/lucas_aosf)
