@@ -186,6 +186,26 @@ Enquanto a versão nativa para as lojas de aplicativos (**Google Play Store** e 
 
 ---
 
+## 📑 Citation
+
+Se você utilizar o **Lista de Campo** em pesquisas, inventários de fauna, consultorias ambientais ou relatórios técnicos, por favor cite como:
+
+```bibtex
+@misc{aosf2026listadecampo,
+  title={Lista de Campo: Aplicativo Offline-First e Automação de Inventários de Fauna},
+  author={Lucas Aøsf and BIOKURI Pesquisa e Soluções Ambientais},
+  year={2026},
+  howpublished={\url{https://github.com/lucasaosf/caderneta-de-campo}},
+  url={https://lucasaosf.github.io/caderneta-de-campo/}
+}
+```
+
+```text
+AØSF, L.; BIOKURI. Lista de Campo: Aplicativo Offline-First e Automação de Inventários de Fauna. 2026. Disponível em: <https://github.com/lucasaosf/caderneta-de-campo>.
+```
+
+---
+
 <p align="center">
   <sub>BIOKURI — Pesquisa e Soluções Ambientais · Todos os direitos reservados.</sub>
 </p>

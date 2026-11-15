@@ -1,0 +1,18 @@
+cff-version: 1.2.0
+message: "Se você utilizar este aplicativo em seus estudos, laudos ou inventários de fauna, por favor cite conforme abaixo."
+title: "Lista de Campo: Aplicativo Offline-First e Automação de Inventários de Fauna"
+authors:
+  - family-names: "Aøsf"
+    given-names: "Lucas"
+  - name: "BIOKURI Pesquisa e Soluções Ambientais"
+url: "https://lucasaosf.github.io/caderneta-de-campo/"
+repository-code: "https://github.com/lucasaosf/caderneta-de-campo"
+date-released: 2026-10-28
+keywords:
+  - fauna
+  - biodiversidade
+  - "inventario de fauna"
+  - biologia
+  - "consultoria ambiental"
+  - pwa
+  - offline-first
