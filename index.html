@@ -1,4 +1,7 @@
 <!doctype html><html lang="pt-BR"><head><meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https:; media-src 'self' data: blob: https:; connect-src 'self' https://*.googleapis.com https://*.firebaseio.com https://*.cloudfunctions.net wss://*.firebaseio.com https://api.inaturalist.org https://api.gbif.org https://xeno-canto.org https://pt.wikipedia.org https://wa.me https://api.whatsapp.com https://fonts.googleapis.com https://fonts.gstatic.com https://www.gstatic.com; frame-src https://*.firebaseapp.com; worker-src 'self'; object-src 'none'; base-uri 'self';">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Lista de Campo · BIOKURI</title>
 <meta name="theme-color" content="#0E2515">
@@ -1117,7 +1120,9 @@ body.selecting .wm{display:none}
 (function(){
 'use strict';
 var $ = function(s, r){ return (r||document).querySelector(s); };
-var esc = function(s){ return String(s == null ? '' : s).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); };
+var esc = function(s){ return String(s == null ? '' : s).replace(/[&<>"'`]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;','`':'&#96;'}[c]; }); };
+var isSafeKey = function(k){ return typeof k === 'string' && k !== '__proto__' && k !== 'constructor' && k !== 'prototype' && !/^[._]/.test(k); };
+var safeUrl = function(u){ if (!u) return ''; var s = String(u).trim(); return /^(?:https?:\/\/|data:image\/(?:png|jpeg|jpg|webp|gif);base64,|blob:|mailto:|tel:)/i.test(s) ? s : '#'; };
 var norm = function(s){ return String(s||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().replace(/\s+/g,' ').trim(); };
 var clean = function(s){ return String(s||'').replace(/\s+/g,' ').trim(); };
 var rid = function(p){ return p + Date.now().toString(36) + Math.random().toString(36).slice(2,7); };
@@ -1271,8 +1276,8 @@ function resolveSci(name){ var a = aliasOf(name); if (a) return a; var d = DB.n[
 function spLabel(s){ return s.name; }
 function spCount(s){ return s.count; }
 function spLegacy(s){ return Math.max(0, s.count - (s.cv || 0) - (s.ca || 0) - (s.co || 0)); }
-function setAlias(alias, sci){ alias = clean(alias); if (!alias) return; S.alias[norm(alias)] = {a:alias, n:sci}; touchNames(); }
-function delAlias(alias){ delete S.alias[norm(alias)]; touchNames(); }
+function setAlias(alias, sci){ alias = clean(alias); if (!alias) return; var k = norm(alias); if (!isSafeKey(k)) return; S.alias[k] = {a:alias, n:sci}; touchNames(); }
+function delAlias(alias){ var k = norm(alias); if (!isSafeKey(k)) return; delete S.alias[k]; touchNames(); }
 
 function fixList(c){
   c.species = Array.isArray(c.species) ? c.species : [];
@@ -1298,16 +1303,17 @@ function loadLocal(){
   var nm = LS.get('names', null);
   if (nm){ S.names = Array.isArray(nm.names) ? nm.names : []; S.alias = nm.alias && typeof nm.alias === 'object' ? nm.alias : {}; S.namesUpdated = nm.updated || 0; S.namesSynced = nm.synced || 0; }
   var idx = LS.get('index', []);
-  idx.forEach(function(id){ var c = LS.get('list.'+id, null); if (c && c.id) S.lists[id] = fixList(c); });
+  idx.forEach(function(id){ if (!isSafeKey(id)) return; var c = LS.get('list.'+id, null); if (c && c.id && isSafeKey(c.id)) S.lists[id] = fixList(c); });
   S.tomb = LS.get('tomb', []);
 }
 var localTimers = {};
 function saveLocal(id, delay){
-  if (localTimers[id]) return;
+  if (!isSafeKey(id) || localTimers[id]) return;
   localTimers[id] = setTimeout(function(){ delete localTimers[id]; writeLocal(id); }, delay);
 }
 function writeLocal(id){
   if (id === '__names'){ LS.set('names', {names:S.names, alias:S.alias, updated:S.namesUpdated, synced:S.namesSynced}); return; }
+  if (!isSafeKey(id)) return;
   var c = S.lists[id];
   if (!c) LS.del('list.'+id);
   else if (!LS.set('list.'+id, c) && !S.cloud) toast('O navegador ficou sem espaço. Baixe um backup e apague listas antigas.');
@@ -3454,9 +3460,9 @@ function openSpEdit(sid, focus){
         b.status ? ('Status: ' + (b.status === 'N' ? 'Novo (N)' : 'Recaptura (R)')) : '',
         b.sexo ? ('Sexo: ' + esc(b.sexo)) : '',
         b.idade && b.idade !== 'Ind' ? ('Idade: ' + esc(b.idade)) : '',
-        b.asa != null ? ('Asa: ' + b.asa + 'mm') : '',
-        b.crc != null ? ('CRC: ' + b.crc + 'mm') : (b.cp != null ? ('CP: ' + b.cp + 'mm') : ''),
-        b.peso != null ? ('Peso: ' + b.peso + 'g') : ''
+        b.asa != null ? ('Asa: ' + esc(b.asa) + 'mm') : '',
+        b.crc != null ? ('CRC: ' + esc(b.crc) + 'mm') : (b.cp != null ? ('CP: ' + esc(b.cp) + 'mm') : ''),
+        b.peso != null ? ('Peso: ' + esc(b.peso) + 'g') : ''
       ].filter(Boolean).join(' · ');
       return '<div class="bio-card">' +
         '<div class="bio-card-info">' +
@@ -3601,21 +3607,21 @@ function openBioModal(sid, bioIdx){
             '<option value="M"' + (sx === 'M' ? ' selected' : '') + '>M — Macho</option>' +
             '<option value="F"' + (sx === 'F' ? ' selected' : '') + '>F — Fêmea</option>' +
           '</select></label>' +
-          '<label class="field"><span>CP — Comp. Total (mm)</span><input id="bio-cp" type="number" step="0.1" inputmode="decimal" value="' + (b.cp != null ? b.cp : (b.crc != null ? b.crc : '')) + '" placeholder="Ex.: 145.0"></label>' +
+          '<label class="field"><span>CP — Comp. Total (mm)</span><input id="bio-cp" type="number" step="0.1" inputmode="decimal" value="' + esc(b.cp != null ? b.cp : (b.crc != null ? b.crc : '')) + '" placeholder="Ex.: 145.0"></label>' +
         '</div>' +
       '</div>' +
 
       '<div class="alias-box" style="margin-top:4px">' +
         '<b style="font-size:15px;color:var(--bronze)">Morfometria de Aves (mm e g)</b>' +
         '<div class="row2">' +
-          '<label class="field"><span>Asa / Corda máxima (mm)</span><input id="bio-asa" type="number" step="0.1" inputmode="decimal" value="' + (b.asa != null ? b.asa : '') + '" placeholder="Ex.: 78.5"></label>' +
-          '<label class="field"><span>Cauda (mm)</span><input id="bio-cauda" type="number" step="0.1" inputmode="decimal" value="' + (b.cauda != null ? b.cauda : '') + '" placeholder="Ex.: 62.0"></label>' +
+          '<label class="field"><span>Asa / Corda máxima (mm)</span><input id="bio-asa" type="number" step="0.1" inputmode="decimal" value="' + esc(b.asa != null ? b.asa : '') + '" placeholder="Ex.: 78.5"></label>' +
+          '<label class="field"><span>Cauda (mm)</span><input id="bio-cauda" type="number" step="0.1" inputmode="decimal" value="' + esc(b.cauda != null ? b.cauda : '') + '" placeholder="Ex.: 62.0"></label>' +
         '</div>' +
         '<div class="row2">' +
-          '<label class="field"><span>Cúlmen / Bico (mm)</span><input id="bio-culmen" type="number" step="0.1" inputmode="decimal" value="' + (b.culmen != null ? b.culmen : '') + '" placeholder="Ex.: 14.2"></label>' +
-          '<label class="field"><span>Tarso (mm)</span><input id="bio-tarso" type="number" step="0.1" inputmode="decimal" value="' + (b.tarso != null ? b.tarso : '') + '" placeholder="Ex.: 19.8"></label>' +
+          '<label class="field"><span>Cúlmen / Bico (mm)</span><input id="bio-culmen" type="number" step="0.1" inputmode="decimal" value="' + esc(b.culmen != null ? b.culmen : '') + '" placeholder="Ex.: 14.2"></label>' +
+          '<label class="field"><span>Tarso (mm)</span><input id="bio-tarso" type="number" step="0.1" inputmode="decimal" value="' + esc(b.tarso != null ? b.tarso : '') + '" placeholder="Ex.: 19.8"></label>' +
         '</div>' +
-        '<label class="field"><span>Peso corporal (g)</span><input id="bio-peso" type="number" step="0.1" inputmode="decimal" value="' + (b.peso != null ? b.peso : '') + '" placeholder="Ex.: 24.5"></label>' +
+        '<label class="field"><span>Peso corporal (g)</span><input id="bio-peso" type="number" step="0.1" inputmode="decimal" value="' + esc(b.peso != null ? b.peso : '') + '" placeholder="Ex.: 24.5"></label>' +
       '</div>' +
 
       '<div class="alias-box" style="margin-top:4px">' +
@@ -4900,12 +4906,12 @@ function importBackup(file){
     if (!data || !Array.isArray(data.lists)){ toast('Arquivo inválido. Use um backup .json desta caderneta.'); return; }
     var n = 0;
     data.lists.forEach(function(r){
-      if (!r || !r.id || !r.start) return;
+      if (!r || !r.id || !isSafeKey(r.id) || !r.start) return;
       var loc = S.lists[r.id];
       if (!loc || (r.updated || 0) > (loc.updated || 0)){ var c = fixList(clone(r)); delete c.synced; c.updated = Math.max(c.updated || 0, Date.now()); S.lists[c.id] = c; touch(c); n++; }
     });
-    (data.names || []).forEach(function(nm){ learnName(nm); });
-    if (data.alias && typeof data.alias === 'object'){ Object.keys(data.alias).forEach(function(k){ var a = data.alias[k]; if (a && a.a && a.n && !S.alias[k]) S.alias[k] = a; }); touchNames(); }
+    (data.names || []).forEach(function(nm){ if (typeof nm === 'string') learnName(nm); });
+    if (data.alias && typeof data.alias === 'object'){ Object.keys(data.alias).forEach(function(k){ if (!isSafeKey(k)) return; var a = data.alias[k]; if (a && a.a && a.n && !S.alias[k]) S.alias[k] = a; }); touchNames(); }
     closeSheet(); go('home'); toast(n ? plural(n, 'lista importada', 'listas importadas') : 'Nada novo para importar');
   };
   rd.readAsText(file);
@@ -7176,36 +7182,36 @@ function renderSpeciesPortalsHtml(r, sci){
     '<div class="spec-ext-portals">';
 
   if (isAve){
-    h += '<a class="spec-portal-card" href="https://www.wikiaves.com.br/wiki/' + encodeURIComponent(sci.replace(/\s+/g, '_')) + '" target="_blank" rel="noopener">' +
+    h += '<a class="spec-portal-card" href="https://www.wikiaves.com.br/wiki/' + encodeURIComponent(sci.replace(/\s+/g, '_')) + '" target="_blank" rel="noopener noreferrer">' +
       '<span style="font-size:18px">🪶</span><div><b>WikiAves</b><small style="display:block;font-size:10.5px;color:var(--muted)">Fotos &amp; Cantos no Brasil</small></div>' +
     '</a>';
-    h += '<a class="spec-portal-card" href="https://search.macaulaylibrary.org/catalog?searchField=species&q=' + encodeURIComponent(sci) + '" target="_blank" rel="noopener">' +
+    h += '<a class="spec-portal-card" href="https://search.macaulaylibrary.org/catalog?searchField=species&q=' + encodeURIComponent(sci) + '" target="_blank" rel="noopener noreferrer">' +
       '<span style="font-size:18px">🎧</span><div><b>Macaulay / eBird</b><small style="display:block;font-size:10.5px;color:var(--muted)">Áudios Cornell Lab</small></div>' +
     '</a>';
   }
 
-  h += '<a class="spec-portal-card" href="https://xeno-canto.org/explore?query=' + encodeURIComponent(sci) + '" target="_blank" rel="noopener">' +
+  h += '<a class="spec-portal-card" href="https://xeno-canto.org/explore?query=' + encodeURIComponent(sci) + '" target="_blank" rel="noopener noreferrer">' +
     '<span style="font-size:18px">🔊</span><div><b>Xeno-Canto</b><small style="display:block;font-size:10.5px;color:var(--muted)">Bioacústica Global</small></div>' +
   '</a>';
 
   if (isAnf){
-    h += '<a class="spec-portal-card" href="https://amphibiaweb.org/cgi/amphib_query?where-genus=' + encodeURIComponent(genus) + '&where-species=' + encodeURIComponent(spEpi) + '" target="_blank" rel="noopener">' +
+    h += '<a class="spec-portal-card" href="https://amphibiaweb.org/cgi/amphib_query?where-genus=' + encodeURIComponent(genus) + '&where-species=' + encodeURIComponent(spEpi) + '" target="_blank" rel="noopener noreferrer">' +
       '<span style="font-size:18px">🐸</span><div><b>AmphibiaWeb</b><small style="display:block;font-size:10.5px;color:var(--muted)">Monografia &amp; Fotos</small></div>' +
     '</a>';
-    h += '<a class="spec-portal-card" href="https://amphibiansoftheworld.amnh.org/search?q=' + encodeURIComponent(sci) + '" target="_blank" rel="noopener">' +
+    h += '<a class="spec-portal-card" href="https://amphibiansoftheworld.amnh.org/search?q=' + encodeURIComponent(sci) + '" target="_blank" rel="noopener noreferrer">' +
       '<span style="font-size:18px">🏛️</span><div><b>Amphibians of the World</b><small style="display:block;font-size:10.5px;color:var(--muted)">Taxonomia Oficial AMNH</small></div>' +
     '</a>';
   }
 
-  h += '<a class="spec-portal-card" href="https://www.google.com/search?q=site:biofaces.com+' + encodeURIComponent(sci) + '" target="_blank" rel="noopener">' +
+  h += '<a class="spec-portal-card" href="https://www.google.com/search?q=site:biofaces.com+' + encodeURIComponent(sci) + '" target="_blank" rel="noopener noreferrer">' +
     '<span style="font-size:18px">🐾</span><div><b>Biofaces</b><small style="display:block;font-size:10.5px;color:var(--muted)">Vida Selvagem Brasil</small></div>' +
   '</a>';
 
-  h += '<a class="spec-portal-card" href="https://www.inaturalist.org/taxa/search?q=' + encodeURIComponent(sci) + '" target="_blank" rel="noopener">' +
+  h += '<a class="spec-portal-card" href="https://www.inaturalist.org/taxa/search?q=' + encodeURIComponent(sci) + '" target="_blank" rel="noopener noreferrer">' +
     '<span style="font-size:18px">🌿</span><div><b>iNaturalist</b><small style="display:block;font-size:10.5px;color:var(--muted)">Fotos &amp; Observações</small></div>' +
   '</a>';
 
-  h += '<a class="spec-portal-card" href="https://www.gbif.org/species/search?q=' + encodeURIComponent(sci) + '" target="_blank" rel="noopener">' +
+  h += '<a class="spec-portal-card" href="https://www.gbif.org/species/search?q=' + encodeURIComponent(sci) + '" target="_blank" rel="noopener noreferrer">' +
     '<span style="font-size:18px">🔬</span><div><b>GBIF Global</b><small style="display:block;font-size:10.5px;color:var(--muted)">Museus &amp; Literatura</small></div>' +
   '</a>';
 
@@ -7391,7 +7397,7 @@ function applySpeciesMedia(media){
           (s.spectrogram ? '<div style="margin:4px 0 6px;background:#000;border-radius:6px;overflow:hidden;height:38px;display:flex;align-items:center;justify-content:center"><img src="' + esc(s.spectrogram) + '" alt="Espectrograma" loading="lazy" style="width:100%;height:100%;object-fit:cover;opacity:0.9" title="Espectrograma bioacústico Xeno-Canto"></div>' : '') +
           (s.desc ? '<div style="font-size:11px;color:var(--muted);margin-bottom:4px;font-style:italic">' + esc(s.desc) + '</div>' : '') +
           '<audio controls preload="none" src="' + esc(s.url) + '" style="width:100%;height:32px"></audio>' +
-          (s.externalUrl ? '<div style="text-align:right;margin-top:4px"><a href="' + esc(s.externalUrl) + '" target="_blank" rel="noopener" style="font-size:10.5px;color:var(--accent);text-decoration:none">🔗 Ver no ' + (isXeno ? 'Xeno-Canto' : 'iNaturalist') + ' &rarr;</a></div>' : '') +
+          (s.externalUrl ? '<div style="text-align:right;margin-top:4px"><a href="' + esc(s.externalUrl) + '" target="_blank" rel="noopener noreferrer" style="font-size:10.5px;color:var(--accent);text-decoration:none">🔗 Ver no ' + (isXeno ? 'Xeno-Canto' : 'iNaturalist') + ' &rarr;</a></div>' : '') +
         '</div>';
       });
 
@@ -7547,6 +7553,16 @@ function renderPhotoUploadModalView(r, pop, grp, fam){
     fileInput.addEventListener('change', function(e){
       var f = e.target.files && e.target.files[0];
       if (!f) return;
+      if (!f.type || !/^image\/(?:jpeg|jpg|png|webp|gif)/i.test(f.type)){
+        toast('Formato inválido. Por favor, selecione uma imagem (JPEG, PNG ou WebP).');
+        e.target.value = '';
+        return;
+      }
+      if (f.size > 8 * 1024 * 1024){
+        toast('Arquivo muito pesado. O limite máximo é de 8 MB.');
+        e.target.value = '';
+        return;
+      }
       var reader = new FileReader();
       reader.onload = function(evt){
         photoUploadDraft.dataUrl = evt.target.result;
@@ -7614,7 +7630,7 @@ function sendPhotoForModeration(method){
       '\nEstou enviando a foto a seguir nesta conversa para você confirmar se é esta espécie e validar a identificação!';
 
     var waUrl = 'https://wa.me/5512991821729?text=' + encodeURIComponent(waMsg);
-    window.open(waUrl, '_blank');
+    window.open(waUrl, '_blank', 'noopener,noreferrer');
     toast('✓ Foto salva no app e abrindo WhatsApp do desenvolvedor (12 99182-1729)! Anexe a imagem na conversa.');
     openSpeciesDetail(sci);
     return;

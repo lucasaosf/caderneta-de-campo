@@ -32,7 +32,7 @@
     all.forEach(function (a) { out.set(a, p); p += a.length; });
     return out;
   }
-  function xe(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }).replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g, ''); }
+  function xe(s) { return String(s == null ? '' : s).replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g, '').replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&apos;' }[c]; }); }
   function colL(c) { var s = ''; c++; while (c > 0) { var m = (c - 1) % 26; s = String.fromCharCode(65 + m) + s; c = Math.floor((c - 1) / 26); } return s; }
   function A1(r, c) { return colL(c) + (r + 1); }
   function absR(sheet, r1, c1, r2, c2) { var q = "'" + sheet.replace(/'/g, "''") + "'!"; return q + '$' + colL(c1) + '$' + (r1 + 1) + (r2 == null ? '' : ':$' + colL(c2) + '$' + (r2 + 1)); }
@@ -1165,7 +1165,13 @@
   }
 
   /* ===================== CSV ===================== */
-  function csvCell(v) { if (v == null) return ''; if (typeof v === 'number') return String(Math.round(v * 1e6) / 1e6).replace('.', ','); var s = String(v); return /[;"\n\r]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s; }
+  function csvCell(v) {
+    if (v == null) return '';
+    if (typeof v === 'number') return String(Math.round(v * 1e6) / 1e6).replace('.', ',');
+    var s = String(v);
+    if (/^[=+\-@\t\r]/.test(s)) s = "'" + s;
+    return /[;"\n\r]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s;
+  }
   function csvRows(rows) { return '﻿' + rows.map(function (r) { return r.map(csvCell).join(';'); }).join('\r\n') + '\r\n'; }
   function csvRegistros(input) {
     var D = preparar(input), rows = [['Data', 'Hora', 'Campanha', 'Unidade amostral', 'Método', 'Lista', 'Classe', 'Ordem', 'Família', 'Subfamília', 'Gênero', 'Espécie', 'Autor', 'Nome popular', 'Visual', 'Auditivo', 'Ocasional', 'Sem tipo', 'Total', 'Latitude', 'Longitude', 'Observação']];
